@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/tableButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/table"
+            android:background="@color/colorButton"
+            android:layout_margin="5dp"/>
+
+        <Button
+            android:id="@+id/statisticsButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/statistics"
+            android:background="@color/colorButton"
+            android:layout_margin="5dp"/>
+
+        <Button
+            android:id="@+id/customizationButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/customization"
+            android:background="@color/colorButton"
+            android:layout_margin="5dp"/>
+
+        <Button
+            android:id="@+id/adviceButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/advice"
+            android:background="@color/colorButton"
+            android:layout_margin="5dp"/>
+
+        <Button
+            android:id="@+id/donationButton"
+            android:layout_width="match_parent"
+            android:text="@string/donation"
+            android:layout_height="match_parent"
+            android:background="@color/colorButton"
+            android:layout_margin="5dp"/>
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

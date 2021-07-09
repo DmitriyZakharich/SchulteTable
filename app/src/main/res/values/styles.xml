@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+    <style name="stylesCellButton">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+<!--        <item name="android:textAlignment">center</item>-->
+<!--        <item name="android:textColor">@color/black</item>-->
+<!--        <item name="android:text">""+Build</item>-->
+
+
+        <item name="autoSizeTextType">uniform</item>
+        <item name="autoSizeMaxTextSize">100sp</item>
+        <item name="autoSizeMinTextSize">5sp</item>
+        <item name="autoSizeStepGranularity">2sp</item>
+        <item name="android:background">@color/black</item>
+    </style>
+</resources>
