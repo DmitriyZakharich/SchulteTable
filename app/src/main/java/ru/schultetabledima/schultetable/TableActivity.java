@@ -32,7 +32,7 @@ import static ru.schultetabledima.schultetable.ActivityCustomization.booleanSwit
 import static ru.schultetabledima.schultetable.ActivityCustomization.booleanSwitchTouchСells;
 import static ru.schultetabledima.schultetable.ActivityCustomization.sPrefSpinnerColumns;
 import static ru.schultetabledima.schultetable.ActivityCustomization.sPrefSpinnerRows;
-import static ru.schultetabledima.schultetable.ActivityCustomization.sPref;
+import static ru.schultetabledima.schultetable.ActivityCustomization.sPrefСustomization;
 
 public class TableActivity extends AppCompatActivity {
 
@@ -42,11 +42,11 @@ public class TableActivity extends AppCompatActivity {
     private Point size;
     private int width;
     private int height;
-    private AppCompatTextView[][] buttonCell;
+    private AppCompatTextView[][] CellOfTable;
     private Button buttonSettings;
     private TableRow []tableRow;
-    private int str;
-    private int columns;
+    private int stringsOfTable;
+    private int columnsOfTable;
     private int count;
     private int countSave;
     private int nextMove = 1;
@@ -67,6 +67,7 @@ public class TableActivity extends AppCompatActivity {
     private final String saveStringCellTextSize = "strStrCellTextSize";
     private final String saveColumnCellTextSize = "strColumnCellTextSize";
     private final String saveBooleanMoreTenCells = "saveBooleanMoreTenCells";
+    private TableRow tableRowForTable;
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -90,10 +91,14 @@ public class TableActivity extends AppCompatActivity {
         int navigationBarHeight = resources.getDimensionPixelSize(resourceId);
 
 
-
         tableRowMenu = (TableRow) findViewById(R.id.tablerowmenu);
         buttonSettings = (Button)findViewById(R.id.buttonSettings);
-        tableLayoutTable = (TableLayout)findViewById(R.id.tablelayouttable);
+        tableRowForTable = (TableRow) findViewById(R.id.TableRowForTable);
+
+//        tableLayoutTable = (TableLayout)findViewById(R.id.tablelayouttable);
+
+
+
 
 
         //секундомер
@@ -102,25 +107,28 @@ public class TableActivity extends AppCompatActivity {
 
 
         //Чтение настроек
-        sPref = getSharedPreferences(APP_PREFERENCES, MODE_PRIVATE);
-        int savedIntColumns = sPref.getInt(sPrefSpinnerColumns, 5);
-        int savedIntRows = sPref.getInt(sPrefSpinnerRows, 5);
-        bSavedAnim = sPref.getBoolean(booleanSwitchAnimation, false);
-        bSavedTouchСells = sPref.getBoolean(booleanSwitchTouchСells, false);
+        sPrefСustomization = getSharedPreferences(APP_PREFERENCES, MODE_PRIVATE);
+        int savedIntColumns = sPrefСustomization.getInt(sPrefSpinnerColumns, 5);
+        int savedIntRows = sPrefСustomization.getInt(sPrefSpinnerRows, 5);
+        bSavedAnim = sPrefСustomization.getBoolean(booleanSwitchAnimation, false);
+        bSavedTouchСells = sPrefСustomization.getBoolean(booleanSwitchTouchСells, false);
 
-        columns = savedIntColumns + 1;
-        str = savedIntRows + 1;
+        columnsOfTable = savedIntColumns + 1;
+        stringsOfTable = savedIntRows + 1;
 
-        count = columns*str;
+
+        count = columnsOfTable * stringsOfTable;
         countSave = count;
 
-        tableRow = new TableRow[str];
 
-        for (int i = 0; i < tableRow.length; i++) {
-            tableRow[i] = new TableRow(this);
-            tableRow[i].setLayoutParams(new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.MATCH_PARENT,1));
-            tableLayoutTable.addView(tableRow[i]);
-        }
+        TableCreator tableCreator = new TableCreator(stringsOfTable, columnsOfTable, this);
+        tableLayoutTable = tableCreator.getTableLayoutTable();
+        tableRow = tableCreator.getTableRow();
+        CellOfTable = tableCreator.getCellOfTable();
+
+        tableRowForTable.addView(tableLayoutTable);
+
+
 
         //получение размеров tableRowMenu
         //для вычитания из высоты экрана
@@ -142,7 +150,7 @@ public class TableActivity extends AppCompatActivity {
         //Рандом для анимации
         Random random = new Random();
 
-        int numberCellAnim = (columns*str)/2;
+        int numberCellAnim = (columnsOfTable * stringsOfTable)/2;
         Log.d("randAnim","numberCellAnim = " + numberCellAnim);
 
         hsRandCellAnim = new HashSet<Integer>();
@@ -150,7 +158,7 @@ public class TableActivity extends AppCompatActivity {
         hsRandCellAnim.add(10);
 
         for (int i = 0; i < numberCellAnim; i++) {
-            randAnimInt = random.nextInt(columns*str + 1); //????
+            randAnimInt = random.nextInt(columnsOfTable * stringsOfTable + 1); //????
             if (!hsRandCellAnim.add(Integer.valueOf(randAnimInt))){
                 i--;
             }
@@ -194,62 +202,10 @@ public class TableActivity extends AppCompatActivity {
 
 
 
-
-        //Создание кнопок
-        //и добавление в tableRow
-        //анимация
-        buttonCell = new AppCompatTextView[str][columns];
-        for (int i = 0 ; i < str; i++){
-            for (int j = 0 ; j < columns; j++) {
-                //создание кнопок через View и LayoutInflater
-//                LayoutInflater layoutInflater = getLayoutInflater();
-//                View viewButton = layoutInflater.inflate(R.layout.mycell, tableRow[i] ,false);
-//                buttonCell[i][j] = (Button) viewButton;
-//                buttonCell[i][j].setMaxLines(1);
-//                buttonCell[i][j].setPadding(100,100,100,100);
-
-
-                //Создание кнопок напрямую
-                buttonCell[i][j] = new AppCompatTextView(this);
-                buttonCell[i][j].setTextColor(Color.BLACK);
-                buttonCell[i][j].setBackgroundColor(Color.WHITE);
-//                buttonCell[i][j].setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-                buttonCell[i][j].setMaxLines(1);
-//                buttonCell[i][j].setPadding(2,2,2,2);
-                TableRow.LayoutParams lpButton = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.MATCH_PARENT, 1);
-                lpButton.setMargins(2,2,2,2);
-                buttonCell[i][j].setLayoutParams(lpButton);
-                buttonCell[i][j].setGravity(Gravity.CENTER);
-
-                if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-                    buttonCell[i][j].setPadding(20, 20, 20, 20);
-                }
-//                buttonCell[i][j].setEllipsize();
-
-
-//                ViewGroup.LayoutParams params = button[i][j].getLayoutParams();
-//                params.width = (width - columns - 1)/columns;
-//                params.height = (height - str - 1)/str;
-//                button[i][j].setLayoutParams(params);
-
-
-                TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(buttonCell[i][j],1, 100, 1, TypedValue.COMPLEX_UNIT_SP);
-//                TextViewCompat.setAutoSizeTextTypeWithDefaults(buttonCell[i][j], TextViewCompat.AUTO_SIZE_TEXT_TYPE_UNIFORM);
-
-
-                tableRow[i].addView(buttonCell[i][j]);
-                tableRow[i].setBackgroundColor(Color.BLACK);
-
-                buttonCell[i][j].setOnClickListener(cellClick);
-
-            }
-        }
-
-
         //Заполнение массива
         listNumber = new ArrayList();
         Log.d("listNumber", "size до ------------ " + listNumber.size());
-        for (int j = 1; j <= columns*str; j++ ) {
+        for (int j = 1; j <= columnsOfTable * stringsOfTable; j++ ) {
             listNumber.add( j );
             Log.d("listNumber", "listNumber ------------ " + j);
         }
@@ -260,25 +216,20 @@ public class TableActivity extends AppCompatActivity {
 
 
         /**
-        Установка текста
+        Установка обработчика кнопки
+        Текста
         Анимация
          */
-        for (int i = 0; i < str; i++) {
-            for (int j = 0; j < columns; j++) {
-                buttonCell[i][j].setText("" + listNumber.get(str*columns - count)); //может быть добавить просто счеткик i++?
+        for (int i = 0; i < stringsOfTable; i++) {
+            for (int j = 0; j < columnsOfTable; j++) {
+                CellOfTable[i][j].setOnClickListener(cellClick);
 
-                if (buttonCell[i][j].getText().toString().equals("10")){
+                CellOfTable[i][j].setText("" + listNumber.get(stringsOfTable * columnsOfTable - count)); //может быть добавить просто счеткик i++?
+
+                if (CellOfTable[i][j].getText().toString().equals("10")){
                     stringCellTenTextSize = i;
                     columnCellTenTextSize = j;
                     booleanMoreTenCells = true;
-
-                    Log.d("buttonCellTen", "TextSize ------------ " + getSP(buttonCell[i][j].getTextSize()));
-                    Log.d("buttonCellTen", "string + 1 ------------ " + (stringCellTenTextSize + 1));
-                    Log.d("buttonCellTen", "string реальный ------------ " + stringCellTenTextSize);
-                    Log.d("buttonCellTen", "column + 1 ------------ " + (columnCellTenTextSize + 1));
-                    Log.d("buttonCellTen", "column реальный ------------ " + columnCellTenTextSize);
-
-
                 }
                 count--;
 
@@ -289,24 +240,27 @@ public class TableActivity extends AppCompatActivity {
 
                 //Анимация
                 if (bSavedAnim){
-                    if (hsRandCellAnim.contains(Integer.parseInt(buttonCell[i][j].getText().toString()))) {
+                    if (hsRandCellAnim.contains(Integer.parseInt(CellOfTable[i][j].getText().toString()))) {
                         anim = AnimationUtils.loadAnimation(this, R.anim.myrotate);
-                        buttonCell[i][j].startAnimation(anim);
-                        Log.d("buttonstartAnimation",""+ buttonCell[i][j].getText().toString());
+                        CellOfTable[i][j].startAnimation(anim);
+                        Log.d("buttonstartAnimation",""+ CellOfTable[i][j].getText().toString());
                     }
                 }
             }
         }
 
-        //Ожидание отрисовки и получения размеров
-        buttonCell[0][0].post(new Runnable() {
+        /**
+         * Ожидание отрисовки таблицы для получения размеров
+         * корректировка размеров шрифта по 10й ячейке
+         */
+        CellOfTable[0][0].post(new Runnable() {
             @Override
             public void run() {
                 if(booleanMoreTenCells){
-                    int  tenCellTextSize = getSP(buttonCell[stringCellTenTextSize][columnCellTenTextSize].getTextSize());
-                    for (int i = 0; i < str; i++) {
-                        for (int j = 0; j < columns; j++) {
-                            TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(buttonCell[i][j],1,
+                    int  tenCellTextSize = getSP(CellOfTable[stringCellTenTextSize][columnCellTenTextSize].getTextSize());
+                    for (int i = 0; i < stringsOfTable; i++) {
+                        for (int j = 0; j < columnsOfTable; j++) {
+                            TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(CellOfTable[i][j],1,
                                     tenCellTextSize, 1, TypedValue.COMPLEX_UNIT_SP);
                         }
                     }
@@ -353,8 +307,6 @@ public class TableActivity extends AppCompatActivity {
         outState.putInt(saveColumnCellTextSize, columnCellTenTextSize);
         outState.putBoolean(saveBooleanMoreTenCells, booleanMoreTenCells);
 
-
-
         super.onSaveInstanceState(outState);
     }
     // получение ранее сохраненного состояния
@@ -369,22 +321,25 @@ public class TableActivity extends AppCompatActivity {
         booleanMoreTenCells = savedInstanceState.getBoolean(saveBooleanMoreTenCells);
 
 
-        for (int i = 0; i < str; i++) {
-            for (int j = 0; j < columns; j++) {
-                buttonCell[i][j].setText("" + listNumber.get(str*columns - count));
+        for (int i = 0; i < stringsOfTable; i++) {
+            for (int j = 0; j < columnsOfTable; j++) {
+                CellOfTable[i][j].setText("" + listNumber.get(stringsOfTable * columnsOfTable - count));
                 count--;
             }
         }
 
-        //Ожидание отрисовки и получения размеров
-        buttonCell[0][0].post(new Runnable() {
+        /**
+         * Ожидание отрисовки таблицы для получения размеров
+         * корректировка размеров шрифта по 10й ячейке
+         */
+        CellOfTable[0][0].post(new Runnable() {
             @Override
             public void run() {
                 if(booleanMoreTenCells){
-                    int  tenCellTextSize = getSP(buttonCell[stringCellTenTextSize][columnCellTenTextSize].getTextSize());
-                    for (int i = 0; i < str; i++) {
-                        for (int j = 0; j < columns; j++) {
-                            TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(buttonCell[i][j],1,
+                    int  tenCellTextSize = getSP(CellOfTable[stringCellTenTextSize][columnCellTenTextSize].getTextSize());
+                    for (int i = 0; i < stringsOfTable; i++) {
+                        for (int j = 0; j < columnsOfTable; j++) {
+                            TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(CellOfTable[i][j],1,
                                     tenCellTextSize, 1, TypedValue.COMPLEX_UNIT_SP);
                         }
                     }
@@ -392,12 +347,6 @@ public class TableActivity extends AppCompatActivity {
             }
         });
 
-
-
-//        name = savedInstanceState.getString(nameVariableKey);
-//        String textViewText= savedInstanceState.getString(textViewTexKey);
-//        TextView nameView = (TextView) findViewById(R.id.nameView);
-//        nameView.setText(textViewText);
     }
 
 

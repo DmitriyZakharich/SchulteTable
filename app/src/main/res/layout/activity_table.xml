@@ -34,15 +34,16 @@
     </TableRow>
 
     <TableRow
+        android:id="@+id/TableRowForTable"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1">
 
-        <TableLayout
-            android:id="@+id/tablelayouttable"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/red"></TableLayout>
+<!--        <TableLayout-->
+<!--            android:id="@+id/tablelayouttable"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:layout_weight="1"-->
+<!--            android:background="@color/red"></TableLayout>-->
     </TableRow>
 </LinearLayout>
