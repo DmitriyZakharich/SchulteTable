@@ -9,6 +9,7 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
@@ -68,22 +69,18 @@ public class TableActivity extends AppCompatActivity {
     private final String saveColumnCellTextSize = "strColumnCellTextSize";
     private final String saveBooleanMoreTenCells = "saveBooleanMoreTenCells";
     private TableRow tableRowForTable;
+    private final String saveChronometer = "saveChronometer";
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //Доделать
-    // Таймер при повороте
+    //
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_table);
-
-
-
-
-        Log.d("BundleS", "" + savedInstanceState);
 
 
         Resources resources = this.getResources();
@@ -100,10 +97,10 @@ public class TableActivity extends AppCompatActivity {
 
 
 
-
         //секундомер
         chronometer = (Chronometer) findViewById(R.id.chronometer);
         chronometer.start();
+
 
 
         //Чтение настроек
@@ -204,15 +201,10 @@ public class TableActivity extends AppCompatActivity {
 
         //Заполнение массива
         listNumber = new ArrayList();
-        Log.d("listNumber", "size до ------------ " + listNumber.size());
         for (int j = 1; j <= columnsOfTable * stringsOfTable; j++ ) {
             listNumber.add( j );
-            Log.d("listNumber", "listNumber ------------ " + j);
         }
         Collections.shuffle( listNumber );
-
-        Log.d("listNumber", "size после ------------ " + listNumber.size());
-
 
 
         /**
@@ -232,11 +224,6 @@ public class TableActivity extends AppCompatActivity {
                     booleanMoreTenCells = true;
                 }
                 count--;
-
-//                button[i][j].setTextSize(buttonTemplate.getTextSize());
-//                button[i][j].setLayoutParams(lp);
-//                button[i][j].setTextSize(textSize);
-
 
                 //Анимация
                 if (bSavedAnim){
@@ -290,7 +277,6 @@ public class TableActivity extends AppCompatActivity {
 
             }else {
                 chronometer.stop();
-                Log.d("EndGame","Конец игры без нажатия    " + chronometer.getText());
             }
         }
     };
@@ -307,6 +293,10 @@ public class TableActivity extends AppCompatActivity {
         outState.putInt(saveColumnCellTextSize, columnCellTenTextSize);
         outState.putBoolean(saveBooleanMoreTenCells, booleanMoreTenCells);
 
+        chronometer.stop();
+        outState.putLong(saveChronometer, chronometer.getBase() - SystemClock.elapsedRealtime());
+
+
         super.onSaveInstanceState(outState);
     }
     // получение ранее сохраненного состояния
@@ -319,6 +309,9 @@ public class TableActivity extends AppCompatActivity {
         stringCellTenTextSize = savedInstanceState.getInt(saveStringCellTextSize);
         columnCellTenTextSize = savedInstanceState.getInt(saveColumnCellTextSize);
         booleanMoreTenCells = savedInstanceState.getBoolean(saveBooleanMoreTenCells);
+
+        chronometer.setBase(SystemClock.elapsedRealtime() + savedInstanceState.getLong(saveChronometer));
+        chronometer.start();
 
 
         for (int i = 0; i < stringsOfTable; i++) {

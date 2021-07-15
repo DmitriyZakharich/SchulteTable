@@ -1,10 +1,12 @@
 package ru.schultetabledima.schultetable;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Switch;
 
@@ -17,6 +19,8 @@ public class ActivityCustomization extends AppCompatActivity implements AdapterV
     private Spinner spinnerRows;
     private Switch switchAnimation;
     private Switch switchTouchСells;
+    private Switch switchDoubleTable;
+    private Button buttonToTable;
 
     public static SharedPreferences sPrefСustomization;
     public static final String APP_PREFERENCES = "mysettings";
@@ -25,7 +29,7 @@ public class ActivityCustomization extends AppCompatActivity implements AdapterV
     static final String sPrefSpinnerRows = "SAVED spinnerRows";
     static final String booleanSwitchAnimation = "booleanSwitchAnimation";
     static final String booleanSwitchTouchСells = "booleanSwitchTouchСells";
-
+    private Intent intent;
 
 
     @Override
@@ -37,6 +41,8 @@ public class ActivityCustomization extends AppCompatActivity implements AdapterV
         spinnerRows = findViewById(R.id.spinnerRows);
         switchAnimation = findViewById(R.id.switchAnimation);
         switchTouchСells = findViewById(R.id.switchTouchСells);
+        switchDoubleTable = findViewById(R.id.switchDoubleTable);
+        buttonToTable = findViewById(R.id.buttonToTable);
 
         sPrefСustomization = getSharedPreferences(APP_PREFERENCES, MODE_PRIVATE);
 
@@ -55,6 +61,7 @@ public class ActivityCustomization extends AppCompatActivity implements AdapterV
         spinnerRows.setOnItemSelectedListener(this);
         switchAnimation.setOnClickListener(this);
         switchTouchСells.setOnClickListener(this);
+        buttonToTable.setOnClickListener(this);
 
     }
 
@@ -93,6 +100,10 @@ public class ActivityCustomization extends AppCompatActivity implements AdapterV
             case R.id.switchTouchСells:
                 ed.putBoolean(booleanSwitchTouchСells, ((Switch)v).isChecked());
                 ed.apply();
+                break;
+            case R.id.buttonToTable:
+                intent = new Intent(ActivityCustomization.this, TableActivity.class);
+                startActivity(intent);
                 break;
         }
 
