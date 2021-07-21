@@ -21,7 +21,6 @@ public class TableCreator {
         tableLayoutTable = new TableLayout(context);
         tableLayoutTable.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.MATCH_PARENT,1));
 
-
         tableRow = new TableRow[stringsOfTable];
 
         for (int i = 0; i < tableRow.length; i++) {
@@ -29,8 +28,6 @@ public class TableCreator {
             tableRow[i].setLayoutParams(new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.MATCH_PARENT,1));
             tableLayoutTable.addView(tableRow[i]);
         }
-
-
 
         /**Создание кнопок
          и добавление в tableRow

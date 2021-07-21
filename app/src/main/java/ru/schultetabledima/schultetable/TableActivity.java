@@ -272,22 +272,31 @@ public class TableActivity extends AppCompatActivity {
         public void onClick(View v) {
             if (booleanTouchСells){
 
-                if(nextMove == Integer.parseInt ("" + ((Button)v).getText())){
+                if(nextMove == Integer.parseInt ("" + ((AppCompatTextView)v).getText())){
                     nextMove++;
 
                     if (nextMove == (countSave+1)){
                         chronometer.stop();
-                        Log.d("EndGame","Победа " + chronometer.getText());
+                        EndGameDialogue endGameDialogue = new EndGameDialogue(TableActivity.this, chronometer, booleanTouchСells);
+                        endGameDialogue.start();
                     }
                 }
 
             }else {
                 chronometer.stop();
-                сreateDialog(TableActivity.this, chronometer.getText().toString());
+                EndGameDialogue endGameDialogue = new EndGameDialogue(TableActivity.this, chronometer, booleanTouchСells);
+                endGameDialogue.start();
             }
         }
     };
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Intent intent = getIntent();
+        finish();
+        startActivity(intent);
+    }
 
     //Сохранение информации при поворатах Активити
     // сохранение состояния
@@ -354,32 +363,4 @@ public class TableActivity extends AppCompatActivity {
         float sp = px / getResources().getDisplayMetrics().scaledDensity;
         return (int) sp;
     }
-
-
-
-    public void сreateDialog(Activity activity, String time) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-        builder.setTitle("Конец игры")
-                .setMessage("Ваше время " + time)
-                .setPositiveButton("Новая игра", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        Toast.makeText(activity,"Начать новую игру",Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .setNegativeButton("Продолжить текущую игру", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        Toast.makeText(activity,"Продолжить текущую игру",Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .setNeutralButton("Статистика", new DialogInterface.OnClickListener(){
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent(TableActivity.this, ActivityStatistics.class);
-                        startActivity(intent);
-                    }
-                }).setPositiveButtonIcon(getDrawable(R.drawable.ic_playbutton))
-                .setNegativeButtonIcon(getDrawable(R.drawable.ic_resume));
-        builder.create().show();
-    }
-
 }
