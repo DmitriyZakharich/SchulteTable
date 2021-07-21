@@ -63,6 +63,7 @@ public class ActivityCustomization extends AppCompatActivity implements AdapterV
         switchTouchСells.setOnClickListener(this);
         buttonToTable.setOnClickListener(this);
 
+
     }
 
 

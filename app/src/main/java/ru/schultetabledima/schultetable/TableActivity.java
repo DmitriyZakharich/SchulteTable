@@ -1,19 +1,20 @@
 package ru.schultetabledima.schultetable;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.widget.TextViewCompat;
 
-import android.content.res.Configuration;
+import android.app.Activity;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Resources;
-import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -22,6 +23,7 @@ import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.TableLayout;
 import android.widget.TableRow;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -55,9 +57,9 @@ public class TableActivity extends AppCompatActivity {
     private ArrayList<Integer> listNumber;
     private final String saveArrayOfNumbers ="ArrayOfNumbers";
     private final String saveCountSave ="strCountSave";
-    private boolean bSavedTouchСells;
+    private boolean booleanTouchСells;
     private HashSet <Integer> hsRandCellAnim;
-    private boolean bSavedAnim;
+    private boolean booleanAnim;
 
     private int randAnimInt;
     private Chronometer chronometer;
@@ -74,7 +76,7 @@ public class TableActivity extends AppCompatActivity {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //Доделать
-    //
+    //добавить кнопку паузы
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
@@ -91,9 +93,7 @@ public class TableActivity extends AppCompatActivity {
         tableRowMenu = (TableRow) findViewById(R.id.tablerowmenu);
         buttonSettings = (Button)findViewById(R.id.buttonSettings);
         tableRowForTable = (TableRow) findViewById(R.id.TableRowForTable);
-
-//        tableLayoutTable = (TableLayout)findViewById(R.id.tablelayouttable);
-
+        buttonSettings.setOnClickListener(openSettings);
 
 
 
@@ -103,12 +103,14 @@ public class TableActivity extends AppCompatActivity {
 
 
 
+
+
         //Чтение настроек
         sPrefСustomization = getSharedPreferences(APP_PREFERENCES, MODE_PRIVATE);
         int savedIntColumns = sPrefСustomization.getInt(sPrefSpinnerColumns, 5);
         int savedIntRows = sPrefСustomization.getInt(sPrefSpinnerRows, 5);
-        bSavedAnim = sPrefСustomization.getBoolean(booleanSwitchAnimation, false);
-        bSavedTouchСells = sPrefСustomization.getBoolean(booleanSwitchTouchСells, false);
+        booleanAnim = sPrefСustomization.getBoolean(booleanSwitchAnimation, false);
+        booleanTouchСells = sPrefСustomization.getBoolean(booleanSwitchTouchСells, false);
 
         columnsOfTable = savedIntColumns + 1;
         stringsOfTable = savedIntRows + 1;
@@ -226,7 +228,7 @@ public class TableActivity extends AppCompatActivity {
                 count--;
 
                 //Анимация
-                if (bSavedAnim){
+                if (booleanAnim){
                     if (hsRandCellAnim.contains(Integer.parseInt(CellOfTable[i][j].getText().toString()))) {
                         anim = AnimationUtils.loadAnimation(this, R.anim.myrotate);
                         CellOfTable[i][j].startAnimation(anim);
@@ -256,15 +258,19 @@ public class TableActivity extends AppCompatActivity {
         });
 }
 
+    View.OnClickListener openSettings = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            startActivity(new Intent(TableActivity.this, ActivityCustomization.class));
+        }
+    };
 
 
     //Обработчик для ячеек таблицы
     View.OnClickListener cellClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-//            ((Button)v).setTextSize(TypedValue.COMPLEX_UNIT_SP, 100);
-
-            if (bSavedTouchСells){
+            if (booleanTouchСells){
 
                 if(nextMove == Integer.parseInt ("" + ((Button)v).getText())){
                     nextMove++;
@@ -277,6 +283,7 @@ public class TableActivity extends AppCompatActivity {
 
             }else {
                 chronometer.stop();
+                сreateDialog(TableActivity.this, chronometer.getText().toString());
             }
         }
     };
@@ -346,6 +353,33 @@ public class TableActivity extends AppCompatActivity {
     public int getSP(float px){
         float sp = px / getResources().getDisplayMetrics().scaledDensity;
         return (int) sp;
+    }
+
+
+
+    public void сreateDialog(Activity activity, String time) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        builder.setTitle("Конец игры")
+                .setMessage("Ваше время " + time)
+                .setPositiveButton("Новая игра", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Toast.makeText(activity,"Начать новую игру",Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setNegativeButton("Продолжить текущую игру", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Toast.makeText(activity,"Продолжить текущую игру",Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setNeutralButton("Статистика", new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(TableActivity.this, ActivityStatistics.class);
+                        startActivity(intent);
+                    }
+                }).setPositiveButtonIcon(getDrawable(R.drawable.ic_playbutton))
+                .setNegativeButtonIcon(getDrawable(R.drawable.ic_resume));
+        builder.create().show();
     }
 
 }
