@@ -1,12 +1,9 @@
 package ru.schultetabledima.schultetable;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.widget.TextViewCompat;
 
-import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Point;
@@ -23,8 +20,6 @@ import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.TableLayout;
 import android.widget.TableRow;
-import android.widget.Toast;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -277,14 +272,14 @@ public class TableActivity extends AppCompatActivity {
 
                     if (nextMove == (countSave+1)){
                         chronometer.stop();
-                        EndGameDialogue endGameDialogue = new EndGameDialogue(TableActivity.this, chronometer, booleanTouchСells);
+                        EndGameDialogue endGameDialogue = new EndGameDialogue(TableActivity.this, chronometer, booleanTouchСells, chronometer.getBase() - SystemClock.elapsedRealtime());
                         endGameDialogue.start();
                     }
                 }
 
             }else {
                 chronometer.stop();
-                EndGameDialogue endGameDialogue = new EndGameDialogue(TableActivity.this, chronometer, booleanTouchСells);
+                EndGameDialogue endGameDialogue = new EndGameDialogue(TableActivity.this, chronometer, booleanTouchСells, chronometer.getBase()- SystemClock.elapsedRealtime());
                 endGameDialogue.start();
             }
         }

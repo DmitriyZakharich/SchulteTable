@@ -1,19 +1,17 @@
 package ru.schultetabledima.schultetable;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.SystemClock;
 import android.widget.Chronometer;
-
 import androidx.appcompat.app.AlertDialog;
 
 public class EndGameDialogue {
     AlertDialog.Builder builder;
 
 
-    public EndGameDialogue(Activity activity, Chronometer chronometer, Boolean booleanTouchСells) {
+    public EndGameDialogue(Activity activity, Chronometer chronometer, Boolean booleanTouchСells, long saveTime) {
         builder = new AlertDialog.Builder(activity);
         builder.setTitle("Конец игры")
                 .setMessage("Ваше время " + chronometer.getText())
@@ -40,14 +38,14 @@ public class EndGameDialogue {
             builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
                 @Override
                 public void onCancel(DialogInterface dialog) {
-                    chronometer.setBase(SystemClock.elapsedRealtime() + chronometer.getBase() - SystemClock.elapsedRealtime());
+                    chronometer.setBase(SystemClock.elapsedRealtime() + saveTime);
                     chronometer.start();
                 }
             });
             builder.setNegativeButtonIcon(activity.getDrawable(R.drawable.ic_resume));
             builder.setNegativeButton("Продолжить текущую игру", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
-                    chronometer.setBase(SystemClock.elapsedRealtime() + chronometer.getBase() - SystemClock.elapsedRealtime());
+                    chronometer.setBase(SystemClock.elapsedRealtime() + saveTime);
                     chronometer.start();
                 }
             });
