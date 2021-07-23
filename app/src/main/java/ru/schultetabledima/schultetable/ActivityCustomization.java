@@ -55,7 +55,7 @@ public class ActivityCustomization extends AppCompatActivity implements AdapterV
         spinnerColumns.setSelection(sPrefСustomization.getInt(sPrefSpinnerColumns, 4), false);
         spinnerRows.setSelection(sPrefСustomization.getInt(sPrefSpinnerRows, 4), false);
         switchAnimation.setChecked(sPrefСustomization.getBoolean(booleanSwitchAnimation, false));
-        switchTouchСells.setChecked(sPrefСustomization.getBoolean(booleanSwitchTouchСells, false));
+        switchTouchСells.setChecked(sPrefСustomization.getBoolean(booleanSwitchTouchСells, true));
 
         spinnerColumns.setOnItemSelectedListener(this);
         spinnerRows.setOnItemSelectedListener(this);

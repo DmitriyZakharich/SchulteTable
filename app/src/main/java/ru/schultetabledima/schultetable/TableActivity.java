@@ -272,14 +272,18 @@ public class TableActivity extends AppCompatActivity {
 
                     if (nextMove == (countSave+1)){
                         chronometer.stop();
-                        EndGameDialogue endGameDialogue = new EndGameDialogue(TableActivity.this, chronometer, booleanTouchСells, chronometer.getBase() - SystemClock.elapsedRealtime());
+                        EndGameDialogue endGameDialogue = new EndGameDialogue(TableActivity.this,
+                                chronometer, booleanTouchСells, chronometer.getBase() - SystemClock.elapsedRealtime(),
+                                columnsOfTable, stringsOfTable);
                         endGameDialogue.start();
                     }
                 }
 
             }else {
                 chronometer.stop();
-                EndGameDialogue endGameDialogue = new EndGameDialogue(TableActivity.this, chronometer, booleanTouchСells, chronometer.getBase()- SystemClock.elapsedRealtime());
+                EndGameDialogue endGameDialogue = new EndGameDialogue(TableActivity.this,
+                        chronometer, booleanTouchСells, chronometer.getBase()- SystemClock.elapsedRealtime(),
+                        columnsOfTable, stringsOfTable);
                 endGameDialogue.start();
             }
         }

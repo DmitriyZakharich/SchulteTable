@@ -4,19 +4,26 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.SystemClock;
+import android.util.Log;
 import android.widget.Chronometer;
 import androidx.appcompat.app.AlertDialog;
 
 public class EndGameDialogue {
     AlertDialog.Builder builder;
+    SaveResults saveResults;
 
 
-    public EndGameDialogue(Activity activity, Chronometer chronometer, Boolean booleanTouchСells, long saveTime) {
+    public EndGameDialogue(Activity activity, Chronometer chronometer, Boolean booleanTouchСells, long stopTime,
+                           int columnsOfTable, int stringsOfTable) {
         builder = new AlertDialog.Builder(activity);
         builder.setTitle("Конец игры")
                 .setMessage("Ваше время " + chronometer.getText())
                 .setPositiveButton("Новая игра", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
+                        Log.d("SaveResultsCheck","Новая игра");
+                        saveResults = new SaveResults(activity, chronometer.getText().toString(), columnsOfTable, stringsOfTable);
+                        saveResults.insert();
+
                         Intent intent = activity.getIntent();
                         activity.finish();
                         activity.startActivity(intent);
@@ -26,6 +33,10 @@ public class EndGameDialogue {
                 .setNeutralButton("Статистика", new DialogInterface.OnClickListener(){
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        saveResults = new SaveResults(activity, chronometer.getText().toString(), columnsOfTable, stringsOfTable);
+                        saveResults.insert();
+                        Log.d("SaveResultsCheck","Статистика");
+
                         Intent intent = new Intent(activity, ActivityStatistics.class);
                         activity.startActivity(intent);
                     }
@@ -38,14 +49,14 @@ public class EndGameDialogue {
             builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
                 @Override
                 public void onCancel(DialogInterface dialog) {
-                    chronometer.setBase(SystemClock.elapsedRealtime() + saveTime);
+                    chronometer.setBase(SystemClock.elapsedRealtime() + stopTime);
                     chronometer.start();
                 }
             });
             builder.setNegativeButtonIcon(activity.getDrawable(R.drawable.ic_resume));
             builder.setNegativeButton("Продолжить текущую игру", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
-                    chronometer.setBase(SystemClock.elapsedRealtime() + saveTime);
+                    chronometer.setBase(SystemClock.elapsedRealtime() + stopTime);
                     chronometer.start();
                 }
             });
