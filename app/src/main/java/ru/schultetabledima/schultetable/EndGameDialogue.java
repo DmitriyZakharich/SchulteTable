@@ -10,7 +10,7 @@ import androidx.appcompat.app.AlertDialog;
 
 public class EndGameDialogue {
     AlertDialog.Builder builder;
-    SaveResults saveResults;
+    DatabaseController databaseController;
 
 
     public EndGameDialogue(Activity activity, Chronometer chronometer, Boolean booleanTouchСells, long stopTime,
@@ -21,8 +21,8 @@ public class EndGameDialogue {
                 .setPositiveButton("Новая игра", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         Log.d("SaveResultsCheck","Новая игра");
-                        saveResults = new SaveResults(activity, chronometer.getText().toString(), columnsOfTable, stringsOfTable);
-                        saveResults.insert();
+                        databaseController = new DatabaseController(activity, chronometer.getText().toString(), columnsOfTable, stringsOfTable);
+                        databaseController.insert();
 
                         Intent intent = activity.getIntent();
                         activity.finish();
@@ -33,8 +33,8 @@ public class EndGameDialogue {
                 .setNeutralButton("Статистика", new DialogInterface.OnClickListener(){
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        saveResults = new SaveResults(activity, chronometer.getText().toString(), columnsOfTable, stringsOfTable);
-                        saveResults.insert();
+                        databaseController = new DatabaseController(activity, chronometer.getText().toString(), columnsOfTable, stringsOfTable);
+                        databaseController.insert();
                         Log.d("SaveResultsCheck","Статистика");
 
                         Intent intent = new Intent(activity, ActivityStatistics.class);

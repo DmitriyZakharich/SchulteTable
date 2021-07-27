@@ -2,21 +2,28 @@ package ru.schultetabledima.schultetable;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.loader.content.CursorLoader;
+import androidx.loader.content.Loader;
+import androidx.recyclerview.widget.RecyclerView;
 
-import android.graphics.Color;
+import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.util.TypedValue;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
-import static androidx.constraintlayout.widget.ConstraintLayout.*;
-
 public class ActivityStatistics extends AppCompatActivity {
+
+    DatabaseController dbController;
+    Cursor cursor;
+    StatisticsAdapter statisticsAdapter;
+
+    private static final int MOVIE_LOADER = 0;
+
+
+
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -24,52 +31,88 @@ public class ActivityStatistics extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_statistics);
 
-        //убрать навигационную панель
-//        getWindow().
-//                getDecorView().
-//                setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
-
         LinearLayout linearLayout = findViewById(R.id.linearLayout);
-        Button button1 = findViewById(R.id.button);
-
-
-        button1.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                button1.setText("123");
-                button1.setTextSize(10);
-            }
-        });
-
-
-        TextView textView = (TextView)findViewById(R.id.textView2);
-        Log.d("setTextSize","setTextSize = " + textView.getTextSize());
-        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 22);
-        Log.d("setTextSize","setTextSize = " + textView.getTextSize());
-
-
-        LayoutInflater layoutInflater = getLayoutInflater();
-        View view = layoutInflater.inflate(R.layout.mycell, linearLayout ,false);
-        linearLayout.addView(view);
-
-
-        ((Button)view).setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((Button)v).setTextSize(1);
-                ((Button)v).setText("Агась");
-                LinearLayout linearLayout2 = (LinearLayout) ((Button)v).getParent();
-                linearLayout2.updateViewLayout((Button)v, v.getLayoutParams());
-                Log.d("buttonOnClick", "buttonOnClick");
-
-            }
-        });
+        TextView textView = (TextView)findViewById(R.id.textView);
+        RecyclerView recyclerView = (RecyclerView)findViewById(R.id.recyclerview);
 
 
 
+        dbController = new DatabaseController(this);
+        cursor =  dbController.getCursor();
+        cursor.moveToFirst();
+        Log.d("RecyclerView","onCreate");
 
+//        if (cursor.moveToFirst()) {
+//            int idColumnIndex = cursor.getColumnIndex("_id");
+//            int sizeFieldColumnIndex = cursor.getColumnIndex("size_field");
+//            int timeColumnIndex = cursor.getColumnIndex("time");
+//            int dateColumnIndex = cursor.getColumnIndex("date");
+//
+//            do {
+//                textView.setText("" + textView.getText() + cursor.getInt(idColumnIndex) + "  "
+//                                + cursor.getString(sizeFieldColumnIndex) + "  "
+//                                + cursor.getString(timeColumnIndex) + "  "
+//                                + cursor.getString(dateColumnIndex) + "\n");
+//            } while (cursor.moveToNext());
+//        } else
+//            textView.setText("0 rows");
+
+        statisticsAdapter = new StatisticsAdapter(this);
+        recyclerView.setAdapter(statisticsAdapter);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Initialize Movie Loader
+        getSupportLoaderManager().initLoader(MOVIE_LOADER, null, this);
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        switch(id) {
+            case MOVIE_LOADER:
+                return new CursorLoader(
+                        this,
+                        MovieContract.MovieEntry.CONTENT_URI,
+                        statisticsAdapter.MOVIE_COLUMNS,
+                        null,
+                        null,
+                        null
+                );
+            default:
+                throw new UnsupportedOperationException("Unknown loader id: " + id);
+        }
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        switch(loader.getId()) {
+            case MOVIE_LOADER:
+                statisticsAdapter.swapCursor(data);
+                break;
+            default:
+                throw new UnsupportedOperationException("Unknown loader id: " + loader.getId());
+        }
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        switch(loader.getId()) {
+            case MOVIE_LOADER:
+                statisticsAdapter.swapCursor(null);
+                break;
+            default:
+                throw new UnsupportedOperationException("Unknown loader id: " + loader.getId());
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        cursor.close();
+        dbController.closeDataBase();
+    }
 }
 
 
