@@ -16,7 +16,8 @@
         android:text="TextView"
         android:textColor="@color/black"
         android:textSize="20sp"
-        android:layout_margin="2dp"/>
+        android:layout_margin="2dp"
+        android:gravity="center"/>
 
     <TextView
         android:id="@+id/textViewSize"
@@ -27,7 +28,8 @@
         android:text="TextView"
         android:textColor="@color/black"
         android:textSize="20sp"
-        android:layout_margin="2dp"/>
+        android:layout_margin="2dp"
+        android:gravity="center"/>
 
     <TextView
         android:id="@+id/textViewTime"
@@ -38,5 +40,6 @@
         android:text="TextView"
         android:textColor="@color/black"
         android:textSize="20sp"
-        android:layout_margin="2dp"/>
+        android:layout_margin="2dp"
+        android:gravity="center"/>
 </LinearLayout>

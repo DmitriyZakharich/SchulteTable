@@ -16,12 +16,14 @@ public class DatabaseController {
     int columnsOfTable;
     int stringsOfTable;
     private DatabaseHelper databaseHelper;
+    String currentDate;
 
-    public DatabaseController(Activity activity, String time, int columnsOfTable, int stringsOfTable) {
+    public DatabaseController(Activity activity, String time, int columnsOfTable, int stringsOfTable, String currentDate) {
         this.activity = activity;
         this.time = time;
         this.columnsOfTable = columnsOfTable;
         this.stringsOfTable = stringsOfTable;
+        this.currentDate = currentDate;
     }
 
     public DatabaseController(Activity activity) {
@@ -34,7 +36,7 @@ public class DatabaseController {
         ContentValues cv = new ContentValues();
         cv.put(DatabaseHelper.COLUMN_SIZE_FIELD, "" + columnsOfTable + "x" + stringsOfTable);
         cv.put(DatabaseHelper.COLUMN_TIME, time);
-        cv.put(DatabaseHelper.COLUMN_DATE, "Check"); //нужна дата
+        cv.put(DatabaseHelper.COLUMN_DATE, currentDate);
         long id = db.insert(DatabaseHelper.TABLE_RESULTS, null, cv);
         databaseHelper.close();
     }

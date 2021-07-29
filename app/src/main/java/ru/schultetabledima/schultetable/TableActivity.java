@@ -20,9 +20,14 @@ import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.TableLayout;
 import android.widget.TableRow;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Random;
 
 import static ru.schultetabledima.schultetable.ActivityCustomization.APP_PREFERENCES;
@@ -272,22 +277,27 @@ public class TableActivity extends AppCompatActivity {
 
                     if (nextMove == (countSave+1)){
                         chronometer.stop();
-                        EndGameDialogue endGameDialogue = new EndGameDialogue(TableActivity.this,
-                                chronometer, booleanTouchСells, chronometer.getBase() - SystemClock.elapsedRealtime(),
-                                columnsOfTable, stringsOfTable);
-                        endGameDialogue.start();
+                        endGameDialogueStart();
                     }
                 }
-
             }else {
                 chronometer.stop();
-                EndGameDialogue endGameDialogue = new EndGameDialogue(TableActivity.this,
-                        chronometer, booleanTouchСells, chronometer.getBase()- SystemClock.elapsedRealtime(),
-                        columnsOfTable, stringsOfTable);
-                endGameDialogue.start();
+                endGameDialogueStart();
             }
         }
     };
+
+    void endGameDialogueStart(){
+        Date currentDate = new Date();
+        DateFormat dateFormat = new SimpleDateFormat("HH:mm dd.MM.yy", Locale.getDefault());
+        String dateText = dateFormat.format(currentDate);
+
+        EndGameDialogue endGameDialogue = new EndGameDialogue(TableActivity.this,
+                chronometer, booleanTouchСells, chronometer.getBase()- SystemClock.elapsedRealtime(),
+                columnsOfTable, stringsOfTable, dateText);
+        endGameDialogue.start();
+    }
+
 
     @Override
     protected void onRestart() {

@@ -14,14 +14,13 @@ public class EndGameDialogue {
 
 
     public EndGameDialogue(Activity activity, Chronometer chronometer, Boolean booleanTouchСells, long stopTime,
-                           int columnsOfTable, int stringsOfTable) {
+                           int columnsOfTable, int stringsOfTable, String currentDate) {
         builder = new AlertDialog.Builder(activity);
         builder.setTitle("Конец игры")
                 .setMessage("Ваше время " + chronometer.getText())
                 .setPositiveButton("Новая игра", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        Log.d("SaveResultsCheck","Новая игра");
-                        databaseController = new DatabaseController(activity, chronometer.getText().toString(), columnsOfTable, stringsOfTable);
+                        databaseController = new DatabaseController(activity, chronometer.getText().toString(), columnsOfTable, stringsOfTable, currentDate);
                         databaseController.insert();
 
                         Intent intent = activity.getIntent();
@@ -33,9 +32,8 @@ public class EndGameDialogue {
                 .setNeutralButton("Статистика", new DialogInterface.OnClickListener(){
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        databaseController = new DatabaseController(activity, chronometer.getText().toString(), columnsOfTable, stringsOfTable);
+                        databaseController = new DatabaseController(activity, chronometer.getText().toString(), columnsOfTable, stringsOfTable, currentDate);
                         databaseController.insert();
-                        Log.d("SaveResultsCheck","Статистика");
 
                         Intent intent = new Intent(activity, ActivityStatistics.class);
                         activity.startActivity(intent);
