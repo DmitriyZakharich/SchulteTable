@@ -26,6 +26,8 @@ public class ActivityStatistics extends AppCompatActivity {
         TextView textView = (TextView)findViewById(R.id.textView);
         RecyclerView recyclerView = (RecyclerView)findViewById(R.id.recyclerview);
 
+        
+
         dbController = new DatabaseController(this);
         cursor =  dbController.getCursor();
 

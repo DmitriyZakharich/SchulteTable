@@ -25,10 +25,10 @@ public class ActivityCustomization extends AppCompatActivity implements AdapterV
     public static SharedPreferences sPrefСustomization;
     public static final String APP_PREFERENCES = "mysettings";
 
-    static final String sPrefSpinnerColumns = "SAVED spinnerColumns";
-    static final String sPrefSpinnerRows = "SAVED spinnerRows";
-    static final String booleanSwitchAnimation = "booleanSwitchAnimation";
-    static final String booleanSwitchTouchСells = "booleanSwitchTouchСells";
+    static final String PREFERENCES_KEY_NUMBER_COLUMNS = "SAVED spinnerColumns";
+    static final String PREFERENCES_KEY_NUMBER_ROWS = "SAVED spinnerRows";
+    static final String PREFERENCES_KEY_ANIMATION = "booleanSwitchAnimation";
+    static final String PREFERENCES_KEY_TOUCH_СELLS = "booleanSwitchTouchСells";
     private Intent intent;
 
 
@@ -52,10 +52,10 @@ public class ActivityCustomization extends AppCompatActivity implements AdapterV
         spinnerColumns.setAdapter(adapter);
         spinnerRows.setAdapter(adapter);
 
-        spinnerColumns.setSelection(sPrefСustomization.getInt(sPrefSpinnerColumns, 4), false);
-        spinnerRows.setSelection(sPrefСustomization.getInt(sPrefSpinnerRows, 4), false);
-        switchAnimation.setChecked(sPrefСustomization.getBoolean(booleanSwitchAnimation, false));
-        switchTouchСells.setChecked(sPrefСustomization.getBoolean(booleanSwitchTouchСells, true));
+        spinnerColumns.setSelection(sPrefСustomization.getInt(PREFERENCES_KEY_NUMBER_COLUMNS, 4), false);
+        spinnerRows.setSelection(sPrefСustomization.getInt(PREFERENCES_KEY_NUMBER_ROWS, 4), false);
+        switchAnimation.setChecked(sPrefСustomization.getBoolean(PREFERENCES_KEY_ANIMATION, false));
+        switchTouchСells.setChecked(sPrefСustomization.getBoolean(PREFERENCES_KEY_TOUCH_СELLS, true));
 
         spinnerColumns.setOnItemSelectedListener(this);
         spinnerRows.setOnItemSelectedListener(this);
@@ -73,11 +73,11 @@ public class ActivityCustomization extends AppCompatActivity implements AdapterV
         ed = sPrefСustomization.edit();
         switch (parent.getId()) {
             case R.id.spinnerColumns:
-                ed.putInt(sPrefSpinnerColumns, position);
+                ed.putInt(PREFERENCES_KEY_NUMBER_COLUMNS, position);
                 ed.apply();
                 break;
             case R.id.spinnerRows:
-                ed.putInt(sPrefSpinnerRows, position);
+                ed.putInt(PREFERENCES_KEY_NUMBER_ROWS, position);
                 ed.apply();
                 break;
         }
@@ -95,11 +95,11 @@ public class ActivityCustomization extends AppCompatActivity implements AdapterV
 
         switch (v.getId()){
             case R.id.switchAnimation:
-                ed.putBoolean(booleanSwitchAnimation, ((Switch)v).isChecked());
+                ed.putBoolean(PREFERENCES_KEY_ANIMATION, ((Switch)v).isChecked());
                 ed.apply();
             break;
             case R.id.switchTouchСells:
-                ed.putBoolean(booleanSwitchTouchСells, ((Switch)v).isChecked());
+                ed.putBoolean(PREFERENCES_KEY_TOUCH_СELLS, ((Switch)v).isChecked());
                 ed.apply();
                 break;
             case R.id.buttonToTable:

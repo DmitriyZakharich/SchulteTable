@@ -2,9 +2,11 @@ package ru.schultetabledima.schultetable;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatTextView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.widget.TextViewCompat;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Point;
 import android.os.Bundle;
@@ -16,8 +18,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.Chronometer;
+import android.widget.ImageButton;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 
@@ -31,23 +33,22 @@ import java.util.Locale;
 import java.util.Random;
 
 import static ru.schultetabledima.schultetable.ActivityCustomization.APP_PREFERENCES;
-import static ru.schultetabledima.schultetable.ActivityCustomization.booleanSwitchAnimation;
-import static ru.schultetabledima.schultetable.ActivityCustomization.booleanSwitchTouchСells;
-import static ru.schultetabledima.schultetable.ActivityCustomization.sPrefSpinnerColumns;
-import static ru.schultetabledima.schultetable.ActivityCustomization.sPrefSpinnerRows;
+import static ru.schultetabledima.schultetable.ActivityCustomization.PREFERENCES_KEY_ANIMATION;
+import static ru.schultetabledima.schultetable.ActivityCustomization.PREFERENCES_KEY_TOUCH_СELLS;
+import static ru.schultetabledima.schultetable.ActivityCustomization.PREFERENCES_KEY_NUMBER_COLUMNS;
+import static ru.schultetabledima.schultetable.ActivityCustomization.PREFERENCES_KEY_NUMBER_ROWS;
 import static ru.schultetabledima.schultetable.ActivityCustomization.sPrefСustomization;
 
 public class TableActivity extends AppCompatActivity {
 
-    private TableRow tableRowMenu;
+    private TableRow tableRowMenuShow, tableRowMenuHide;
     private TableLayout tableLayoutTable;
     private Display display;
     private Point size;
     private int width;
     private int height;
     private AppCompatTextView[][] CellOfTable;
-    private Button buttonSettings;
-    private TableRow []tableRow;
+    private ImageButton imageButtonSettings, imageButtonStatistics;
     private int stringsOfTable;
     private int columnsOfTable;
     private int count;
@@ -72,6 +73,16 @@ public class TableActivity extends AppCompatActivity {
     private final String saveBooleanMoreTenCells = "saveBooleanMoreTenCells";
     private TableRow tableRowForTable;
     private final String saveChronometer = "saveChronometer";
+    private ImageButton imageButtonToShowMenu, imageButtonToHideMenu;
+    ConstraintLayout constraintLayoutForMenu;
+
+    public static SharedPreferences sharedPreferencesMenu;
+    public static final String MENU_PREFERENCES = "PreferencesMenu";
+    static final String KEY_MENU_VISIBILITY = "Saved Menu Visibility";
+    private boolean isMenuShow;
+
+
+
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -90,10 +101,19 @@ public class TableActivity extends AppCompatActivity {
         int navigationBarHeight = resources.getDimensionPixelSize(resourceId);
 
 
-        tableRowMenu = (TableRow) findViewById(R.id.tablerowmenu);
-        buttonSettings = (Button)findViewById(R.id.buttonSettings);
+        constraintLayoutForMenu = (ConstraintLayout)findViewById(R.id.constraintLayout_for_menu);
+        tableRowMenuShow = (TableRow) findViewById(R.id.tablerow_menu_show);
+        tableRowMenuHide = (TableRow) findViewById(R.id.tablerowmenu_hide);
+        imageButtonToShowMenu = (ImageButton)findViewById(R.id.image_Button_To_Show);
+        imageButtonToHideMenu = (ImageButton)findViewById(R.id.image_Button_To_Hide);
+
+
+        imageButtonSettings = (ImageButton) findViewById(R.id.image_button_settings);
+        imageButtonStatistics = (ImageButton) findViewById(R.id.image_button_statistics);
         tableRowForTable = (TableRow) findViewById(R.id.TableRowForTable);
-        buttonSettings.setOnClickListener(openSettings);
+
+        imageButtonSettings.setOnClickListener(openActivity);
+        imageButtonStatistics.setOnClickListener(openActivity);
 
 
 
@@ -103,14 +123,21 @@ public class TableActivity extends AppCompatActivity {
 
 
 
-
-
-        //Чтение настроек
+        //Чтение настроек таблицы
         sPrefСustomization = getSharedPreferences(APP_PREFERENCES, MODE_PRIVATE);
-        int savedIntColumns = sPrefСustomization.getInt(sPrefSpinnerColumns, 5);
-        int savedIntRows = sPrefСustomization.getInt(sPrefSpinnerRows, 5);
-        booleanAnim = sPrefСustomization.getBoolean(booleanSwitchAnimation, false);
-        booleanTouchСells = sPrefСustomization.getBoolean(booleanSwitchTouchСells, false);
+        int savedIntColumns = sPrefСustomization.getInt(PREFERENCES_KEY_NUMBER_COLUMNS, 4);
+        int savedIntRows = sPrefСustomization.getInt(PREFERENCES_KEY_NUMBER_ROWS, 4);
+        booleanAnim = sPrefСustomization.getBoolean(PREFERENCES_KEY_ANIMATION, false);
+        booleanTouchСells = sPrefСustomization.getBoolean(PREFERENCES_KEY_TOUCH_СELLS, false);
+
+        //Чтение настроек строки меню
+        sharedPreferencesMenu = getSharedPreferences(MENU_PREFERENCES, MODE_PRIVATE);
+        isMenuShow = sharedPreferencesMenu.getBoolean(KEY_MENU_VISIBILITY, true);
+
+
+
+
+
 
         columnsOfTable = savedIntColumns + 1;
         stringsOfTable = savedIntRows + 1;
@@ -122,7 +149,6 @@ public class TableActivity extends AppCompatActivity {
 
         TableCreator tableCreator = new TableCreator(stringsOfTable, columnsOfTable, this);
         tableLayoutTable = tableCreator.getTableLayoutTable();
-        tableRow = tableCreator.getTableRow();
         CellOfTable = tableCreator.getCellOfTable();
 
         tableRowForTable.addView(tableLayoutTable);
@@ -131,7 +157,7 @@ public class TableActivity extends AppCompatActivity {
 
         //получение размеров tableRowMenu
         //для вычитания из высоты экрана
-        tableRowMenu.measure(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        tableRowMenuShow.measure(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
 ////Возможно удалить
 //        //Попытка узнать ширину экрана
@@ -218,6 +244,7 @@ public class TableActivity extends AppCompatActivity {
             for (int j = 0; j < columnsOfTable; j++) {
                 CellOfTable[i][j].setOnClickListener(cellClick);
 
+
                 CellOfTable[i][j].setText("" + listNumber.get(stringsOfTable * columnsOfTable - count)); //может быть добавить просто счеткик i++?
 
                 if (CellOfTable[i][j].getText().toString().equals("10")){
@@ -242,26 +269,102 @@ public class TableActivity extends AppCompatActivity {
          * Ожидание отрисовки таблицы для получения размеров
          * корректировка размеров шрифта по 10й ячейке
          */
-        CellOfTable[0][0].post(new Runnable() {
-            @Override
-            public void run() {
-                if(booleanMoreTenCells){
-                    int  tenCellTextSize = getSP(CellOfTable[stringCellTenTextSize][columnCellTenTextSize].getTextSize());
+        if(booleanMoreTenCells) {
+            CellOfTable[0][0].post(new Runnable() {
+                @Override
+                public void run() {
+                    int tenCellTextSize = getSP(CellOfTable[stringCellTenTextSize][columnCellTenTextSize].getTextSize());
                     for (int i = 0; i < stringsOfTable; i++) {
                         for (int j = 0; j < columnsOfTable; j++) {
-                            TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(CellOfTable[i][j],1,
+                            TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(CellOfTable[i][j], 1,
                                     tenCellTextSize, 1, TypedValue.COMPLEX_UNIT_SP);
                         }
                     }
                 }
-            }
-        });
+            });
+        }
+
+
+
+        if(isMenuShow){
+            tableRowMenuShow.setVisibility(View.VISIBLE);
+            tableRowMenuHide.setVisibility(View.GONE);
+        }else{
+            tableRowMenuShow.setVisibility(View.GONE);
+            tableRowMenuHide.setVisibility(View.VISIBLE);
+        }
+        imageButtonToHideMenu.setOnClickListener(methodShowHideMenu);
+        imageButtonToShowMenu.setOnClickListener(methodShowHideMenu);
+
+
+
+
+
 }
 
-    View.OnClickListener openSettings = new View.OnClickListener() {
+    View.OnClickListener methodShowHideMenu = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            startActivity(new Intent(TableActivity.this, ActivityCustomization.class));
+            Animation animation;
+            SharedPreferences.Editor ed;
+            ed = sharedPreferencesMenu.edit();
+
+            switch (v.getId()){
+                case R.id.image_Button_To_Show:
+                    animation = AnimationUtils.loadAnimation(TableActivity.this, R.anim.scale_menu_show);
+                    constraintLayoutForMenu.startAnimation(animation);
+
+//                    constraintLayoutForMenu.postDelayed(new Runnable() {
+//                                                            @Override
+//                                                            public void run() {
+//
+//                                                            }
+//                                                        }
+//                            , 500);
+
+                    tableRowMenuShow.setVisibility(View.VISIBLE);
+                    tableRowMenuHide.setVisibility(View.GONE);
+
+
+                    isMenuShow = true;
+                    ed.putBoolean(KEY_MENU_VISIBILITY, isMenuShow);
+                    ed.apply();
+                    break;
+
+                case R.id.image_Button_To_Hide:
+                    animation = AnimationUtils.loadAnimation(TableActivity.this, R.anim.scale_menu_hide);
+                    constraintLayoutForMenu.startAnimation(animation);
+
+                    constraintLayoutForMenu.postDelayed(new Runnable() {
+                                                            @Override
+                                                            public void run() {
+                                                                tableRowMenuShow.setVisibility(View.GONE);
+                                                                tableRowMenuHide.setVisibility(View.VISIBLE);
+                                                            }
+                                                        }
+                            , 500);
+
+
+                    isMenuShow = false;
+                    ed.putBoolean(KEY_MENU_VISIBILITY, isMenuShow);
+                    ed.apply();
+                    break;
+            }
+        }
+    };
+
+
+    View.OnClickListener openActivity = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()){
+                case R.id.image_button_settings:
+                    startActivity(new Intent(TableActivity.this, ActivityCustomization.class));
+                    break;
+                case R.id.image_button_statistics:
+                    startActivity(new Intent(TableActivity.this, ActivityStatistics.class));
+                    break;
+            }
         }
     };
 
@@ -350,20 +453,20 @@ public class TableActivity extends AppCompatActivity {
          * Ожидание отрисовки таблицы для получения размеров
          * корректировка размеров шрифта по 10й ячейке
          */
-        CellOfTable[0][0].post(new Runnable() {
-            @Override
-            public void run() {
-                if(booleanMoreTenCells){
-                    int  tenCellTextSize = getSP(CellOfTable[stringCellTenTextSize][columnCellTenTextSize].getTextSize());
+        if(booleanMoreTenCells) {
+            CellOfTable[0][0].post(new Runnable() {
+                @Override
+                public void run() {
+                    int tenCellTextSize = getSP(CellOfTable[stringCellTenTextSize][columnCellTenTextSize].getTextSize());
                     for (int i = 0; i < stringsOfTable; i++) {
                         for (int j = 0; j < columnsOfTable; j++) {
-                            TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(CellOfTable[i][j],1,
+                            TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(CellOfTable[i][j], 1,
                                     tenCellTextSize, 1, TypedValue.COMPLEX_UNIT_SP);
                         }
                     }
                 }
-            }
-        });
+            });
+        }
 
     }
 
