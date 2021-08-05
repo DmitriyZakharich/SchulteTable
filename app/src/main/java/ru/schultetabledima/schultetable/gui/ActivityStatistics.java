@@ -1,4 +1,4 @@
-package ru.schultetabledima.schultetable;
+package ru.schultetabledima.schultetable.gui;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -11,9 +11,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import ru.schultetabledima.schultetable.R;
+import ru.schultetabledima.schultetable.database.Database;
+import ru.schultetabledima.schultetable.database.StatisticAdapter;
 
 public class ActivityStatistics extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
 
@@ -61,7 +64,7 @@ public class ActivityStatistics extends AppCompatActivity implements LoaderManag
     public void onLoaderReset(@NonNull Loader<Cursor> loader) {
     }
 
-    static class MyCursorLoader extends CursorLoader{
+    private static class MyCursorLoader extends CursorLoader{
         Database db;
 
         public MyCursorLoader(@NonNull Context context, Database db) {

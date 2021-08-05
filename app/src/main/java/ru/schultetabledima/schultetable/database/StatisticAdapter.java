@@ -1,8 +1,7 @@
-package ru.schultetabledima.schultetable;
+package ru.schultetabledima.schultetable.database;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +12,9 @@ import org.jetbrains.annotations.NotNull;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class StatisticAdapter extends CursorRecyclerAdapter{
+import ru.schultetabledima.schultetable.R;
+
+public class StatisticAdapter extends CursorRecyclerAdapter {
     private LayoutInflater inflater ;
 
     public StatisticAdapter(Cursor cursor, Context context) {
@@ -36,8 +37,6 @@ public class StatisticAdapter extends CursorRecyclerAdapter{
         ((ViewHolder)holder).textViewSize.setText(cursor.getString(cursor.getColumnIndex("size_field")));
         ((ViewHolder)holder).textViewTime.setText(cursor.getString(cursor.getColumnIndex("time")));
     }
-
-
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView textViewDate, textViewSize, textViewTime;

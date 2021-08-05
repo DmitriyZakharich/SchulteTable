@@ -1,4 +1,4 @@
-package ru.schultetabledima.schultetable;
+package ru.schultetabledima.schultetable.gui;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatTextView;
@@ -32,12 +32,8 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Random;
 
-import static ru.schultetabledima.schultetable.ActivityCustomization.APP_PREFERENCES;
-import static ru.schultetabledima.schultetable.ActivityCustomization.PREFERENCES_KEY_ANIMATION;
-import static ru.schultetabledima.schultetable.ActivityCustomization.PREFERENCES_KEY_TOUCH_СELLS;
-import static ru.schultetabledima.schultetable.ActivityCustomization.PREFERENCES_KEY_NUMBER_COLUMNS;
-import static ru.schultetabledima.schultetable.ActivityCustomization.PREFERENCES_KEY_NUMBER_ROWS;
-import static ru.schultetabledima.schultetable.ActivityCustomization.sPrefСustomization;
+import ru.schultetabledima.schultetable.R;
+import ru.schultetabledima.schultetable.TableCreator;
 
 public class TableActivity extends AppCompatActivity {
 
@@ -74,27 +70,19 @@ public class TableActivity extends AppCompatActivity {
     private TableRow tableRowForTable;
     private final String saveChronometer = "saveChronometer";
     private ImageButton imageButtonToShowMenu, imageButtonToHideMenu;
-    ConstraintLayout constraintLayoutForMenu;
+    private ConstraintLayout constraintLayoutForMenu;
 
-    public static SharedPreferences sharedPreferencesMenu;
-    public static final String MENU_PREFERENCES = "PreferencesMenu";
+    private static SharedPreferences sharedPreferencesMenu;
+    private static final String MENU_PREFERENCES = "PreferencesMenu";
     static final String KEY_MENU_VISIBILITY = "Saved Menu Visibility";
     private boolean isMenuShow;
 
-
-
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    //Доделать
-    //добавить кнопку паузы
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    private SharedPreferences sPrefCustomization;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_table);
-
 
         Resources resources = this.getResources();
         int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
@@ -107,14 +95,12 @@ public class TableActivity extends AppCompatActivity {
         imageButtonToShowMenu = (ImageButton)findViewById(R.id.image_Button_To_Show);
         imageButtonToHideMenu = (ImageButton)findViewById(R.id.image_Button_To_Hide);
 
-
         imageButtonSettings = (ImageButton) findViewById(R.id.image_button_settings);
         imageButtonStatistics = (ImageButton) findViewById(R.id.image_button_statistics);
         tableRowForTable = (TableRow) findViewById(R.id.TableRowForTable);
 
-        imageButtonSettings.setOnClickListener(openActivity);
-        imageButtonStatistics.setOnClickListener(openActivity);
-
+        imageButtonSettings.setOnClickListener(moveAnotherActivity);
+        imageButtonStatistics.setOnClickListener(moveAnotherActivity);
 
 
         //секундомер
@@ -124,19 +110,15 @@ public class TableActivity extends AppCompatActivity {
 
 
         //Чтение настроек таблицы
-        sPrefСustomization = getSharedPreferences(APP_PREFERENCES, MODE_PRIVATE);
-        int savedIntColumns = sPrefСustomization.getInt(PREFERENCES_KEY_NUMBER_COLUMNS, 4);
-        int savedIntRows = sPrefСustomization.getInt(PREFERENCES_KEY_NUMBER_ROWS, 4);
-        booleanAnim = sPrefСustomization.getBoolean(PREFERENCES_KEY_ANIMATION, false);
-        booleanTouchСells = sPrefСustomization.getBoolean(PREFERENCES_KEY_TOUCH_СELLS, false);
+        sPrefCustomization = getSharedPreferences(ActivityCustomization.getAppPreferences(), MODE_PRIVATE);
+        int savedIntColumns = sPrefCustomization.getInt(ActivityCustomization.getPreferencesKeyNumberColumns(), 4);
+        int savedIntRows = sPrefCustomization.getInt(ActivityCustomization.getPreferencesKeyNumberRows(), 4);
+        booleanAnim = sPrefCustomization.getBoolean(ActivityCustomization.getPreferencesKeyAnimation(), false);
+        booleanTouchСells = sPrefCustomization.getBoolean(ActivityCustomization.getPreferencesKeyTouchCells(), true);
 
         //Чтение настроек строки меню
         sharedPreferencesMenu = getSharedPreferences(MENU_PREFERENCES, MODE_PRIVATE);
         isMenuShow = sharedPreferencesMenu.getBoolean(KEY_MENU_VISIBILITY, true);
-
-
-
-
 
 
         columnsOfTable = savedIntColumns + 1;
@@ -154,7 +136,6 @@ public class TableActivity extends AppCompatActivity {
         tableRowForTable.addView(tableLayoutTable);
 
 
-
         //получение размеров tableRowMenu
         //для вычитания из высоты экрана
         tableRowMenuShow.measure(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -168,7 +149,6 @@ public class TableActivity extends AppCompatActivity {
 //        width = size.x;
 //        //высота экрана - высота панели настроек
 //        height = size.y - tableRowMenu.getMeasuredHeight() - navigationBarHeight;
-//
 //        Log.d("tableRowMen","-" + buttonSettings.getMeasuredHeight());
 
 
@@ -226,7 +206,6 @@ public class TableActivity extends AppCompatActivity {
 //        tableRow[0].removeAllViews();
 
 
-
         //Заполнение массива
         listNumber = new ArrayList();
         for (int j = 1; j <= columnsOfTable * stringsOfTable; j++ ) {
@@ -235,7 +214,7 @@ public class TableActivity extends AppCompatActivity {
         Collections.shuffle( listNumber );
 
 
-        /**
+        /*
         Установка обработчика кнопки
         Текста
         Анимация
@@ -244,8 +223,7 @@ public class TableActivity extends AppCompatActivity {
             for (int j = 0; j < columnsOfTable; j++) {
                 CellOfTable[i][j].setOnClickListener(cellClick);
 
-
-                CellOfTable[i][j].setText("" + listNumber.get(stringsOfTable * columnsOfTable - count)); //может быть добавить просто счеткик i++?
+                CellOfTable[i][j].setText("" + listNumber.get(stringsOfTable * columnsOfTable - count));
 
                 if (CellOfTable[i][j].getText().toString().equals("10")){
                     stringCellTenTextSize = i;
@@ -265,7 +243,7 @@ public class TableActivity extends AppCompatActivity {
             }
         }
 
-        /**
+        /*
          * Ожидание отрисовки таблицы для получения размеров
          * корректировка размеров шрифта по 10й ячейке
          */
@@ -295,10 +273,6 @@ public class TableActivity extends AppCompatActivity {
         }
         imageButtonToHideMenu.setOnClickListener(methodShowHideMenu);
         imageButtonToShowMenu.setOnClickListener(methodShowHideMenu);
-
-
-
-
 
 }
 
@@ -354,7 +328,7 @@ public class TableActivity extends AppCompatActivity {
     };
 
 
-    View.OnClickListener openActivity = new View.OnClickListener() {
+    View.OnClickListener moveAnotherActivity = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             switch (v.getId()){
@@ -449,7 +423,7 @@ public class TableActivity extends AppCompatActivity {
             }
         }
 
-        /**
+        /*
          * Ожидание отрисовки таблицы для получения размеров
          * корректировка размеров шрифта по 10й ячейке
          */

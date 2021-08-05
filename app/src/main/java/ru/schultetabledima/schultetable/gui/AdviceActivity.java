@@ -1,8 +1,10 @@
-package ru.schultetabledima.schultetable;
+package ru.schultetabledima.schultetable.gui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import ru.schultetabledima.schultetable.R;
 
 public class AdviceActivity extends AppCompatActivity {
 

@@ -9,11 +9,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
-        <activity android:name=".AdviceActivity"></activity>
-        <activity android:name=".ActivityCustomization" />
-        <activity android:name=".ActivityStatistics" />
-        <activity android:name=".TableActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".gui.AdviceActivity"></activity>
+        <activity android:name=".gui.ActivityCustomization" />
+        <activity android:name=".gui.ActivityStatistics" />
+        <activity android:name=".gui.TableActivity" />
+        <activity android:name=".gui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
