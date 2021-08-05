@@ -70,9 +70,6 @@ public class TableCreator {
         return tableLayoutTable;
     }
 
-    public TableRow[] getTableRow() {
-        return tableRow;
-    }
 
     public AppCompatTextView[][] getCellOfTable() {
         return CellOfTable;

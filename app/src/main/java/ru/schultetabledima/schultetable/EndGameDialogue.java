@@ -4,13 +4,12 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.SystemClock;
-import android.util.Log;
 import android.widget.Chronometer;
 import androidx.appcompat.app.AlertDialog;
 
 public class EndGameDialogue {
     AlertDialog.Builder builder;
-    DatabaseController databaseController;
+    Database database;
 
 
     public EndGameDialogue(Activity activity, Chronometer chronometer, Boolean booleanTouchСells, long stopTime,
@@ -20,8 +19,8 @@ public class EndGameDialogue {
                 .setMessage("Ваше время " + chronometer.getText())
                 .setPositiveButton("Новая игра", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        databaseController = new DatabaseController(activity, chronometer.getText().toString(), columnsOfTable, stringsOfTable, currentDate);
-                        databaseController.insert();
+                        database = new Database(activity, chronometer.getText().toString(), columnsOfTable, stringsOfTable, currentDate);
+                        database.insert();
 
                         Intent intent = activity.getIntent();
                         activity.finish();
@@ -32,8 +31,8 @@ public class EndGameDialogue {
                 .setNeutralButton("Статистика", new DialogInterface.OnClickListener(){
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        databaseController = new DatabaseController(activity, chronometer.getText().toString(), columnsOfTable, stringsOfTable, currentDate);
-                        databaseController.insert();
+                        database = new Database(activity, chronometer.getText().toString(), columnsOfTable, stringsOfTable, currentDate);
+                        database.insert();
 
                         Intent intent = new Intent(activity, ActivityStatistics.class);
                         activity.startActivity(intent);

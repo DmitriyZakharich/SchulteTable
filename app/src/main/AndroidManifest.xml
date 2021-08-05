@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
-        <activity android:name=".ActivityCustomization"></activity>
+        <activity android:name=".AdviceActivity"></activity>
+        <activity android:name=".ActivityCustomization" />
         <activity android:name=".ActivityStatistics" />
         <activity android:name=".TableActivity" />
         <activity android:name=".MainActivity">

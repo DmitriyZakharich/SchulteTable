@@ -10,15 +10,16 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
-public class DatabaseController {
+public class Database {
     Activity activity;
     String time;
     int columnsOfTable;
     int stringsOfTable;
     private DatabaseHelper databaseHelper;
     String currentDate;
+    SQLiteDatabase db;
 
-    public DatabaseController(Activity activity, String time, int columnsOfTable, int stringsOfTable, String currentDate) {
+    public Database(Activity activity, String time, int columnsOfTable, int stringsOfTable, String currentDate) {
         this.activity = activity;
         this.time = time;
         this.columnsOfTable = columnsOfTable;
@@ -26,7 +27,7 @@ public class DatabaseController {
         this.currentDate = currentDate;
     }
 
-    public DatabaseController(Activity activity) {
+    public Database(Activity activity) {
         this.activity = activity;
     }
 
@@ -41,10 +42,14 @@ public class DatabaseController {
         databaseHelper.close();
     }
 
-    Cursor getCursor(){
+    public void open() {
         databaseHelper = new DatabaseHelper(activity);
-        SQLiteDatabase db = databaseHelper.getWritableDatabase();
-        Cursor cursor = db.query(DatabaseHelper.TABLE_RESULTS, null, null, null, null, null, null);
+        db = databaseHelper.getWritableDatabase();
+    }
+
+    Cursor getCursor(){
+        Cursor cursor = db.query(DatabaseHelper.TABLE_RESULTS,
+                null, null, null, null, null, DatabaseHelper.COLUMN_ID + " DESC");
         return cursor;
     }
 
