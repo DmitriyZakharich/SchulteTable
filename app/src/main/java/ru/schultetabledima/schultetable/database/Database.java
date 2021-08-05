@@ -1,4 +1,4 @@
-package ru.schultetabledima.schultetable;
+package ru.schultetabledima.schultetable.database;
 
 import android.app.Activity;
 import android.content.ContentValues;
@@ -6,7 +6,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -31,7 +30,7 @@ public class Database {
         this.activity = activity;
     }
 
-    void insert(){
+    public void insert(){
         databaseHelper = new DatabaseHelper(activity);
         SQLiteDatabase db = databaseHelper.getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -47,13 +46,13 @@ public class Database {
         db = databaseHelper.getWritableDatabase();
     }
 
-    Cursor getCursor(){
+    public Cursor getCursor(){
         Cursor cursor = db.query(DatabaseHelper.TABLE_RESULTS,
                 null, null, null, null, null, DatabaseHelper.COLUMN_ID + " DESC");
         return cursor;
     }
 
-    void closeDataBase(){
+    public void closeDataBase(){
         databaseHelper.close();
     }
 

@@ -1,4 +1,4 @@
-package ru.schultetabledima.schultetable;
+package ru.schultetabledima.schultetable.gui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+
+import ru.schultetabledima.schultetable.R;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 

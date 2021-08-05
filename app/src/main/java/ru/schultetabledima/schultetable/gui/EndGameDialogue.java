@@ -1,4 +1,4 @@
-package ru.schultetabledima.schultetable;
+package ru.schultetabledima.schultetable.gui;
 
 import android.app.Activity;
 import android.content.DialogInterface;
@@ -6,6 +6,9 @@ import android.content.Intent;
 import android.os.SystemClock;
 import android.widget.Chronometer;
 import androidx.appcompat.app.AlertDialog;
+
+import ru.schultetabledima.schultetable.R;
+import ru.schultetabledima.schultetable.database.Database;
 
 public class EndGameDialogue {
     AlertDialog.Builder builder;
@@ -60,7 +63,7 @@ public class EndGameDialogue {
         }
     }
 
-    void start(){
+    public void start(){
         builder.create().show();
     }
 
