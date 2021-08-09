@@ -1,27 +1,25 @@
-package ru.schultetabledima.schultetable.gui;
+package ru.schultetabledima.schultetable.ui;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatTextView;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.widget.TextViewCompat;
-
+import android.animation.LayoutTransition;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.graphics.Point;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.util.Log;
 import android.util.TypedValue;
-import android.view.Display;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Chronometer;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TableLayout;
-import android.widget.TableRow;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatTextView;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.widget.TextViewCompat;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -35,14 +33,10 @@ import java.util.Random;
 import ru.schultetabledima.schultetable.R;
 import ru.schultetabledima.schultetable.TableCreator;
 
-public class TableActivity extends AppCompatActivity {
+public class TableActivity extends AppCompatActivity{
 
-    private TableRow tableRowMenuShow, tableRowMenuHide;
+    private Toolbar toolbar;
     private TableLayout tableLayoutTable;
-    private Display display;
-    private Point size;
-    private int width;
-    private int height;
     private AppCompatTextView[][] CellOfTable;
     private ImageButton imageButtonSettings, imageButtonStatistics;
     private int stringsOfTable;
@@ -54,7 +48,7 @@ public class TableActivity extends AppCompatActivity {
     private ArrayList<Integer> listNumber;
     private final String saveArrayOfNumbers ="ArrayOfNumbers";
     private final String saveCountSave ="strCountSave";
-    private boolean booleanTouchСells;
+    private boolean booleanTouchCells;
     private HashSet <Integer> hsRandCellAnim;
     private boolean booleanAnim;
 
@@ -67,15 +61,15 @@ public class TableActivity extends AppCompatActivity {
     private final String saveStringCellTextSize = "strStrCellTextSize";
     private final String saveColumnCellTextSize = "strColumnCellTextSize";
     private final String saveBooleanMoreTenCells = "saveBooleanMoreTenCells";
-    private TableRow tableRowForTable;
+    private LinearLayout LinearLayoutForTable;
     private final String saveChronometer = "saveChronometer";
-    private ImageButton imageButtonToShowMenu, imageButtonToHideMenu;
-    private ConstraintLayout constraintLayoutForMenu;
+    private ImageButton imageButtonShowHideMenu;
 
     private static SharedPreferences sharedPreferencesMenu;
     private static final String MENU_PREFERENCES = "PreferencesMenu";
     static final String KEY_MENU_VISIBILITY = "Saved Menu Visibility";
     private boolean isMenuShow;
+
 
     private SharedPreferences sPrefCustomization;
 
@@ -89,18 +83,18 @@ public class TableActivity extends AppCompatActivity {
         int navigationBarHeight = resources.getDimensionPixelSize(resourceId);
 
 
-        constraintLayoutForMenu = (ConstraintLayout)findViewById(R.id.constraintLayout_for_menu);
-        tableRowMenuShow = (TableRow) findViewById(R.id.tablerow_menu_show);
-        tableRowMenuHide = (TableRow) findViewById(R.id.tablerowmenu_hide);
-        imageButtonToShowMenu = (ImageButton)findViewById(R.id.image_Button_To_Show);
-        imageButtonToHideMenu = (ImageButton)findViewById(R.id.image_Button_To_Hide);
-
+        imageButtonShowHideMenu = (ImageButton)findViewById(R.id.image_Button_Show_Hide_Menu);
         imageButtonSettings = (ImageButton) findViewById(R.id.image_button_settings);
         imageButtonStatistics = (ImageButton) findViewById(R.id.image_button_statistics);
-        tableRowForTable = (TableRow) findViewById(R.id.TableRowForTable);
+        LinearLayoutForTable = (LinearLayout) findViewById(R.id.LinearLayoutForTable);
+
+        toolbar = (Toolbar)findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
 
         imageButtonSettings.setOnClickListener(moveAnotherActivity);
         imageButtonStatistics.setOnClickListener(moveAnotherActivity);
+        imageButtonShowHideMenu.setOnClickListener(methodShowHideMenu);
 
 
         //секундомер
@@ -108,13 +102,12 @@ public class TableActivity extends AppCompatActivity {
         chronometer.start();
 
 
-
         //Чтение настроек таблицы
-        sPrefCustomization = getSharedPreferences(ActivityCustomization.getAppPreferences(), MODE_PRIVATE);
-        int savedIntColumns = sPrefCustomization.getInt(ActivityCustomization.getPreferencesKeyNumberColumns(), 4);
-        int savedIntRows = sPrefCustomization.getInt(ActivityCustomization.getPreferencesKeyNumberRows(), 4);
-        booleanAnim = sPrefCustomization.getBoolean(ActivityCustomization.getPreferencesKeyAnimation(), false);
-        booleanTouchСells = sPrefCustomization.getBoolean(ActivityCustomization.getPreferencesKeyTouchCells(), true);
+        sPrefCustomization = getSharedPreferences(CustomizationActivity.getAppPreferences(), MODE_PRIVATE);
+        int savedIntColumns = sPrefCustomization.getInt(CustomizationActivity.getPreferencesKeyNumberColumns(), 4);
+        int savedIntRows = sPrefCustomization.getInt(CustomizationActivity.getPreferencesKeyNumberRows(), 4);
+        booleanAnim = sPrefCustomization.getBoolean(CustomizationActivity.getPreferencesKeyAnimation(), false);
+        booleanTouchCells = sPrefCustomization.getBoolean(CustomizationActivity.getPreferencesKeyTouchCells(), true);
 
         //Чтение настроек строки меню
         sharedPreferencesMenu = getSharedPreferences(MENU_PREFERENCES, MODE_PRIVATE);
@@ -124,7 +117,6 @@ public class TableActivity extends AppCompatActivity {
         columnsOfTable = savedIntColumns + 1;
         stringsOfTable = savedIntRows + 1;
 
-
         count = columnsOfTable * stringsOfTable;
         countSave = count;
 
@@ -133,23 +125,16 @@ public class TableActivity extends AppCompatActivity {
         tableLayoutTable = tableCreator.getTableLayoutTable();
         CellOfTable = tableCreator.getCellOfTable();
 
-        tableRowForTable.addView(tableLayoutTable);
 
+        LinearLayoutForTable.addView(tableLayoutTable);
 
-        //получение размеров tableRowMenu
-        //для вычитания из высоты экрана
-        tableRowMenuShow.measure(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        //Анимация показать-скрыть меню навигации
+        LayoutTransition layoutTransitionToolbar = toolbar.getLayoutTransition();
+        layoutTransitionToolbar.enableTransitionType(LayoutTransition.CHANGING);
 
-////Возможно удалить
-//        //Попытка узнать ширину экрана
-//        //для установки ширины кнопок
-//        display = getWindowManager().getDefaultDisplay();
-//        size = new Point();
-//        display.getSize(size);
-//        width = size.x;
-//        //высота экрана - высота панели настроек
-//        height = size.y - tableRowMenu.getMeasuredHeight() - navigationBarHeight;
-//        Log.d("tableRowMen","-" + buttonSettings.getMeasuredHeight());
+        LayoutTransition layoutTransitionTable = new LayoutTransition();
+        tableLayoutTable.setLayoutTransition(layoutTransitionTable);
+        layoutTransitionTable.enableTransitionType(LayoutTransition.CHANGING);
 
 
         //Рандом для анимации
@@ -168,42 +153,6 @@ public class TableActivity extends AppCompatActivity {
                 i--;
             }
         }
-
-
-
-
-//        Log.d("randAnim","randAnimInt = " + randAnimInt);
-//        Log.d("randAnim","columns = " + columns);
-//        Log.d("randAnimstr","str = " + str);
-//
-//        int[] randAnimX = new int[randAnimInt];
-//        int[] randAnimY = new int[randAnimInt];
-//
-//        for (int i = 0; i < randAnimInt; i++) {
-//            randAnimX [i] = random.nextInt(columns);
-//            randAnimY [i] = random.nextInt(str);
-//
-//            if ((Arrays.asList(randAnimX).contains(randAnimX [i]))  &
-//                    (Arrays.asList(randAnimY).contains(randAnimY [i])) ) {
-//                        i--;
-//            }
-//        }
-//
-//        for (int i = 0; i < randAnimInt; i++) {
-//            Log.d("randAnim","x = " + randAnimX [i] + " " + randAnimY [i]);
-//        }
-
-//        LayoutInflater layoutInflaterButton = getLayoutInflater();
-//        Button buttonTemplate = (Button) layoutInflaterButton.inflate(R.layout.mybutton, tableRow[0] ,false);
-//
-//        tableRow[0].removeAllView();
-//        for (int i = 0; i < columns; i++) {
-//            tableRow[0].addView(buttonTemplate);
-//            buttonTemplate.setText(""+ columns*str);
-//        }
-//        ViewGroup.LayoutParams lp= buttonTemplate.getLayoutParams();
-//        int textSize = (int) buttonTemplate.getTextSize();
-//        tableRow[0].removeAllViews();
 
 
         //Заполнение массива
@@ -263,67 +212,54 @@ public class TableActivity extends AppCompatActivity {
         }
 
 
-
         if(isMenuShow){
-            tableRowMenuShow.setVisibility(View.VISIBLE);
-            tableRowMenuHide.setVisibility(View.GONE);
+            toolbar.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, getPx(40)));
+
+            chronometer.setVisibility(View.VISIBLE);
+            imageButtonSettings.setVisibility(View.VISIBLE);
+            imageButtonStatistics.setVisibility(View.VISIBLE);
+            imageButtonShowHideMenu.setImageResource(R.drawable.ic_arrow_down);
+
+
         }else{
-            tableRowMenuShow.setVisibility(View.GONE);
-            tableRowMenuHide.setVisibility(View.VISIBLE);
+            toolbar.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, getPx(20)));
+
+            chronometer.setVisibility(View.INVISIBLE);
+            imageButtonSettings.setVisibility(View.INVISIBLE);
+            imageButtonStatistics.setVisibility(View.INVISIBLE);
+            imageButtonShowHideMenu.setImageResource(R.drawable.ic_arrow_up);
+
         }
-        imageButtonToHideMenu.setOnClickListener(methodShowHideMenu);
-        imageButtonToShowMenu.setOnClickListener(methodShowHideMenu);
+
 
 }
 
     View.OnClickListener methodShowHideMenu = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Animation animation;
             SharedPreferences.Editor ed;
             ed = sharedPreferencesMenu.edit();
 
-            switch (v.getId()){
-                case R.id.image_Button_To_Show:
-                    animation = AnimationUtils.loadAnimation(TableActivity.this, R.anim.scale_menu_show);
-                    constraintLayoutForMenu.startAnimation(animation);
+            if (isMenuShow){
+                isMenuShow = false;
+                chronometer.setVisibility(View.INVISIBLE);
+                imageButtonSettings.setVisibility(View.INVISIBLE);
+                imageButtonStatistics.setVisibility(View.INVISIBLE);
 
-//                    constraintLayoutForMenu.postDelayed(new Runnable() {
-//                                                            @Override
-//                                                            public void run() {
-//
-//                                                            }
-//                                                        }
-//                            , 500);
+                toolbar.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, getPx(20)));
+                imageButtonShowHideMenu.setImageResource(R.drawable.ic_arrow_up);
 
-                    tableRowMenuShow.setVisibility(View.VISIBLE);
-                    tableRowMenuHide.setVisibility(View.GONE);
+            }else{
+                isMenuShow = true;
+                chronometer.setVisibility(View.VISIBLE);
+                imageButtonSettings.setVisibility(View.VISIBLE);
+                imageButtonStatistics.setVisibility(View.VISIBLE);
 
-
-                    isMenuShow = true;
-                    ed.putBoolean(KEY_MENU_VISIBILITY, isMenuShow);
-                    ed.apply();
-                    break;
-
-                case R.id.image_Button_To_Hide:
-                    animation = AnimationUtils.loadAnimation(TableActivity.this, R.anim.scale_menu_hide);
-                    constraintLayoutForMenu.startAnimation(animation);
-
-                    constraintLayoutForMenu.postDelayed(new Runnable() {
-                                                            @Override
-                                                            public void run() {
-                                                                tableRowMenuShow.setVisibility(View.GONE);
-                                                                tableRowMenuHide.setVisibility(View.VISIBLE);
-                                                            }
-                                                        }
-                            , 500);
-
-
-                    isMenuShow = false;
-                    ed.putBoolean(KEY_MENU_VISIBILITY, isMenuShow);
-                    ed.apply();
-                    break;
+                toolbar.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, getPx(40)));
+                imageButtonShowHideMenu.setImageResource(R.drawable.ic_arrow_down);
             }
+            ed.putBoolean(KEY_MENU_VISIBILITY, isMenuShow);
+            ed.apply();
         }
     };
 
@@ -333,10 +269,10 @@ public class TableActivity extends AppCompatActivity {
         public void onClick(View v) {
             switch (v.getId()){
                 case R.id.image_button_settings:
-                    startActivity(new Intent(TableActivity.this, ActivityCustomization.class));
+                    startActivity(new Intent(TableActivity.this, CustomizationActivity.class));
                     break;
                 case R.id.image_button_statistics:
-                    startActivity(new Intent(TableActivity.this, ActivityStatistics.class));
+                    startActivity(new Intent(TableActivity.this, StatisticsActivity.class));
                     break;
             }
         }
@@ -347,7 +283,7 @@ public class TableActivity extends AppCompatActivity {
     View.OnClickListener cellClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if (booleanTouchСells){
+            if (booleanTouchCells){
 
                 if(nextMove == Integer.parseInt ("" + ((AppCompatTextView)v).getText())){
                     nextMove++;
@@ -370,7 +306,7 @@ public class TableActivity extends AppCompatActivity {
         String dateText = dateFormat.format(currentDate);
 
         EndGameDialogue endGameDialogue = new EndGameDialogue(TableActivity.this,
-                chronometer, booleanTouchСells, chronometer.getBase()- SystemClock.elapsedRealtime(),
+                chronometer, booleanTouchCells, chronometer.getBase()- SystemClock.elapsedRealtime(),
                 columnsOfTable, stringsOfTable, dateText);
         endGameDialogue.start();
     }
@@ -448,5 +384,10 @@ public class TableActivity extends AppCompatActivity {
     public int getSP(float px){
         float sp = px / getResources().getDisplayMetrics().scaledDensity;
         return (int) sp;
+    }
+
+    public int getPx(int dp){
+        float scale = getResources().getDisplayMetrics().density;
+        return((int) (dp * scale + 0.5f));
     }
 }

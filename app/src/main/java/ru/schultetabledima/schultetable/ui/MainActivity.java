@@ -1,4 +1,4 @@
-package ru.schultetabledima.schultetable.gui;
+package ru.schultetabledima.schultetable.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -42,11 +42,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(intent);
                 break;
             case R.id.statisticsButton:
-                intent = new Intent(MainActivity.this, ActivityStatistics.class);
+                intent = new Intent(MainActivity.this, StatisticsActivity.class);
                 startActivity(intent);
                 break;
             case R.id.customizationButton:
-                intent = new Intent(MainActivity.this, ActivityCustomization.class);
+                intent = new Intent(MainActivity.this, CustomizationActivity.class);
                 startActivity(intent);
                 break;
         }

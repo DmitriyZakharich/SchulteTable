@@ -1,4 +1,4 @@
-package ru.schultetabledima.schultetable.gui;
+package ru.schultetabledima.schultetable.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 

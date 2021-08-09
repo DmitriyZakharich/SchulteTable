@@ -13,6 +13,7 @@ import android.widget.TableRow;
 
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.widget.TextViewCompat;
+import androidx.lifecycle.ViewModel;
 
 public class TableCreator {
     private TableLayout tableLayoutTable;

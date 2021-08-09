@@ -1,4 +1,4 @@
-package ru.schultetabledima.schultetable.gui;
+package ru.schultetabledima.schultetable.ui;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -14,7 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import ru.schultetabledima.schultetable.R;
 
-public class ActivityCustomization extends AppCompatActivity implements AdapterView.OnItemSelectedListener, View.OnClickListener {
+public class CustomizationActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, View.OnClickListener {
 
     private final String [] valueSpinner = {"1","2","3","4","5","6","7","8","9","10"};
     private Spinner spinnerColumns;
@@ -101,7 +101,7 @@ public class ActivityCustomization extends AppCompatActivity implements AdapterV
                 ed.apply();
                 break;
             case R.id.buttonToTable:
-                startActivity(new Intent(ActivityCustomization.this, TableActivity.class));
+                startActivity(new Intent(CustomizationActivity.this, TableActivity.class));
                 break;
         }
     }

@@ -8,12 +8,12 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.NoActionBar">
-        <activity android:name=".gui.AdviceActivity"></activity>
-        <activity android:name=".gui.ActivityCustomization" />
-        <activity android:name=".gui.ActivityStatistics" />
-        <activity android:name=".gui.TableActivity" />
-        <activity android:name=".gui.MainActivity">
+        android:theme="@style/AppTheme">
+        <activity android:name=".ui.AdviceActivity"></activity>
+        <activity android:name=".ui.CustomizationActivity" />
+        <activity android:name=".ui.StatisticsActivity" />
+        <activity android:name=".ui.TableActivity" />
+        <activity android:name=".ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
