@@ -1,4 +1,4 @@
-package ru.schultetabledima.schultetable.gui;
+package ru.schultetabledima.schultetable.ui;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -11,14 +11,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import ru.schultetabledima.schultetable.R;
 import ru.schultetabledima.schultetable.database.Database;
 import ru.schultetabledima.schultetable.database.StatisticAdapter;
 
-public class ActivityStatistics extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
+public class StatisticsActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
 
     private Database dbController;
     private StatisticAdapter statisticAdapter;
@@ -28,8 +26,6 @@ public class ActivityStatistics extends AppCompatActivity implements LoaderManag
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_statistics);
 
-        LinearLayout linearLayout = findViewById(R.id.linearLayout);
-        TextView textView = (TextView)findViewById(R.id.textView);
         RecyclerView recyclerView = (RecyclerView)findViewById(R.id.recyclerview);
 
         dbController = new Database(this);

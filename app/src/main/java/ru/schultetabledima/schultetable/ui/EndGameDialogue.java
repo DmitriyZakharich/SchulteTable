@@ -1,4 +1,4 @@
-package ru.schultetabledima.schultetable.gui;
+package ru.schultetabledima.schultetable.ui;
 
 import android.app.Activity;
 import android.content.DialogInterface;
@@ -37,7 +37,7 @@ public class EndGameDialogue {
                         database = new Database(activity, chronometer.getText().toString(), columnsOfTable, stringsOfTable, currentDate);
                         database.insert();
 
-                        Intent intent = new Intent(activity, ActivityStatistics.class);
+                        Intent intent = new Intent(activity, StatisticsActivity.class);
                         activity.startActivity(intent);
                     }
                 }).setPositiveButtonIcon(activity.getDrawable(R.drawable.ic_playbutton))

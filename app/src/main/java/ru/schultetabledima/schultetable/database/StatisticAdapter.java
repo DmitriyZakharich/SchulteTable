@@ -2,6 +2,7 @@ package ru.schultetabledima.schultetable.database;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,11 @@ import org.jetbrains.annotations.NotNull;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import ru.schultetabledima.schultetable.R;
 
@@ -33,12 +39,15 @@ public class StatisticAdapter extends CursorRecyclerAdapter {
 
     @Override
     public void onBindViewHolderCursor(RecyclerView.ViewHolder holder, Cursor cursor) {
-        ((ViewHolder)holder).textViewDate.setText(cursor.getString(cursor.getColumnIndex("date")));
         ((ViewHolder)holder).textViewSize.setText(cursor.getString(cursor.getColumnIndex("size_field")));
         ((ViewHolder)holder).textViewTime.setText(cursor.getString(cursor.getColumnIndex("time")));
+
+        String newDate = TimeAdjustment.getTime(cursor.getString(cursor.getColumnIndex("date")));
+
+        ((ViewHolder)holder).textViewDate.setText(newDate);
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    private static class ViewHolder extends RecyclerView.ViewHolder {
         TextView textViewDate, textViewSize, textViewTime;
 
         public ViewHolder(@NonNull @NotNull View itemView) {
@@ -49,4 +58,20 @@ public class StatisticAdapter extends CursorRecyclerAdapter {
         }
     }
 
+    private static class TimeAdjustment{
+
+        public static String getTime(String timeDataBase){
+            Date currentDate = new Date();
+            DateFormat dateFormat = new SimpleDateFormat("HH:mm dd.MM.yy", Locale.getDefault());
+            String currentDateText = dateFormat.format(currentDate);
+
+            String dayTimeDataBase = timeDataBase.substring(6);
+            String dayCurrentDateText = currentDateText.substring(6);
+
+            if (dayTimeDataBase.equals(dayCurrentDateText)){
+                return timeDataBase.substring(0 , 5);
+            } else
+                return dayTimeDataBase;
+        }
+    }
 }

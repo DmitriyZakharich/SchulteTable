@@ -8,64 +8,64 @@
     android:background="@color/white"
     android:orientation="vertical"
     android:showDividers="middle|beginning|end|none"
-    tools:context=".gui.ActivityStatistics">
+    tools:context=".ui.StatisticsActivity">
 
     <!--    style="@style/stylesCellButton"-->
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/headlineResults"
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorButton"
         android:gravity="center"
-        android:text="Результаты"
+        android:text="@string/headlineResults"
         android:textColor="@color/black"
         android:textSize="34sp" />
 
-    <TableLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:divider="@color/black"
-        android:dividerPadding="1sp"
-        android:showDividers="middle|beginning|end">
+        android:background="@color/black"
+        android:orientation="horizontal">
 
-        <TableRow
+        <TextView
+            android:id="@+id/headlineData"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:divider="@color/black"
-            android:dividerPadding="2sp"
-            android:showDividers="middle|beginning|end">
+            android:layout_height="wrap_content"
+            android:layout_margin="1dp"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:text="@string/headlineData"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="25sp" />
 
-            <TextView
-                android:id="@+id/textView1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Дата"
-                android:textColor="@color/black"
-                android:textSize="30sp" />
+        <TextView
+            android:id="@+id/headlineSize"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="1dp"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:text="@string/headlineSize"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="25sp" />
 
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Размер"
-                android:textColor="@color/black"
-                android:textSize="30sp" />
+        <TextView
+            android:id="@+id/headlineTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="1dp"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:text="@string/headlineTime"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="25sp" />
 
-            <TextView
-                android:id="@+id/textView3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Время"
-                android:textColor="@color/black"
-                android:textSize="30sp" />
-        </TableRow>
-
-    </TableLayout>
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview"

@@ -12,35 +12,35 @@
         android:id="@+id/textViewDate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="2dp"
+        android:layout_margin="1dp"
         android:layout_weight="1"
         android:background="@color/white"
         android:gravity="center"
-        android:text="TextView"
+        android:text=""
         android:textColor="@color/black"
         android:textSize="20sp" />
 
     <TextView
         android:id="@+id/textViewSize"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="2dp"
+        android:layout_height="match_parent"
+        android:layout_margin="1dp"
         android:layout_weight="1"
         android:background="@color/white"
         android:gravity="center"
-        android:text="TextView"
+        android:text=""
         android:textColor="@color/black"
         android:textSize="20sp" />
 
     <TextView
         android:id="@+id/textViewTime"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="2dp"
+        android:layout_height="match_parent"
+        android:layout_margin="1dp"
         android:layout_weight="1"
         android:background="@color/white"
         android:gravity="center"
-        android:text="TextView"
+        android:text=""
         android:textColor="@color/black"
         android:textSize="20sp" />
 </LinearLayout>
