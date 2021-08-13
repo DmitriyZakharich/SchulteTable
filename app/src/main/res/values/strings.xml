@@ -5,8 +5,10 @@
     <string name="customization">Настройки</string>
     <string name="statistics">Статистика</string>
     <string name="table">Таблица</string>
-    <string name="headlineData">Дата</string>
-    <string name="headlineSize">Размер</string>
-    <string name="headlineTime">Время</string>
-    <string name="headlineResults">Результаты</string>
+    <string name="headline_data">Дата</string>
+    <string name="headline_size">Размер</string>
+    <string name="headline_time">Время</string>
+    <string name="headline_results">Результаты</string>
+    <string name="end_game">Конец игры</string>
+
 </resources>

@@ -26,11 +26,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         statisticsButton = (Button) findViewById(R.id.statisticsButton);
         customizationButton = (Button) findViewById(R.id.customizationButton);
 
-
         tableButton.setOnClickListener(this);
         statisticsButton.setOnClickListener(this);
         customizationButton.setOnClickListener(this);
-        Log.d("Logd", "onCreateMainActivity");
     }
 
 
