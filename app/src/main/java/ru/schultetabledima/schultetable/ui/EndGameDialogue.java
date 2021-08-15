@@ -16,25 +16,23 @@ import java.util.Locale;
 import ru.schultetabledima.schultetable.R;
 import ru.schultetabledima.schultetable.database.Database;
 
-public class EndGameDialogue {
-    AlertDialog.Builder builder;
-    Database database;
-    Activity activity;
-    Boolean booleanTouchCells;
-    long stopTime;
-    int columnsOfTable;
-    int rowsOfTable;
+public class EndGameDialogue implements Serializable{
+    private AlertDialog.Builder builder;
+    private Database database;
+    private Activity activity;
+    private Boolean booleanTouchCells;
+    private long stopTime;
+    private String tableSize;
 
-    public EndGameDialogue(Activity activity, Boolean booleanTouchCells, int columnsOfTable, int rowsOfTable) {
+    public EndGameDialogue(Activity activity, Boolean booleanTouchCells, String tableSize) {
         this.activity = activity;
         this.booleanTouchCells = booleanTouchCells;
-        this.columnsOfTable = columnsOfTable;
-        this.rowsOfTable = rowsOfTable;
+        this.tableSize = tableSize;
         stopTime = ((TableActivity)activity).getBaseChronometer()- SystemClock.elapsedRealtime();
         init();
     }
 
-     void init(){
+     private void init(){
          Date currentDate = new Date();
          DateFormat dateFormat = new SimpleDateFormat("HH:mm dd.MM.yy", Locale.getDefault());
          String dateText = dateFormat.format(currentDate);
@@ -44,7 +42,7 @@ public class EndGameDialogue {
                 .setMessage("Ваше время " +  ((TableActivity)activity).getTextChronometer())
                 .setPositiveButton("Новая игра", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        database = new Database(activity, ((TableActivity) activity).getTextChronometer(), columnsOfTable, rowsOfTable, dateText);
+                        database = new Database(activity, ((TableActivity) activity).getTextChronometer(), tableSize, dateText);
                         database.insert();
 
                         Intent intent = activity.getIntent();
@@ -55,7 +53,7 @@ public class EndGameDialogue {
                 .setNeutralButton("Статистика", new DialogInterface.OnClickListener(){
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        database = new Database(activity, ((TableActivity) activity).getTextChronometer(), columnsOfTable, rowsOfTable, dateText);
+                        database = new Database(activity, ((TableActivity) activity).getTextChronometer(), tableSize, dateText);
                         database.insert();
 
                         Intent intent = new Intent(activity, StatisticsActivity.class);

@@ -1,6 +1,7 @@
 package ru.schultetabledima.schultetable.ui;
 
 import android.animation.LayoutTransition;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -18,6 +19,14 @@ import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.widget.TextViewCompat;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import ru.schultetabledima.schultetable.R;
@@ -26,24 +35,13 @@ import ru.schultetabledima.schultetable.contracts.TableContract;
 import ru.schultetabledima.schultetable.presenters.TablePresenter;
 import ru.schultetabledima.schultetable.utils.Converter;
 
-public class TableActivity extends AppCompatActivity implements TableContract.View {
+public class TableActivity extends AppCompatActivity implements TableContract.View{
 
 
-    private AppCompatTextView[][] CellsOfTable;
+    private static final String KEY_GSON_TABLE_PRESENTER = "key_table_presenter";
     private ImageButton ibSettings, ibStatistics;
-    private int rowsOfTable;
-    private int columnsOfTable;
-    private ArrayList<Integer> listNumber;
-    private final String KEY_FOR_LIST_NUMBER ="ArrayOfNumbers";
-    private final String KEY_FOR_SAVE_COUNT ="strCountSave";
 
     private Chronometer chronometer;
-    private int rowCellTenForTextSize;
-    private int columnCellTenForTextSize;
-    private boolean booleanMoreTenCells = false;
-    private final String KEY_ROW_TEN_CELL_TEXTSIZE = "keyRowTenCellTextSize";
-    private final String KEY_COLUMN_TEN_CELL_TEXTSIZE = "keyColumnTenCellTextSize";
-    private final String KEY_BOOLEAN_MORE_TEN_CELLS = "keyBooleanMoreTenCells";
     private LinearLayout llForTable;
     private final String saveChronometer = "saveChronometer";
 
@@ -61,6 +59,8 @@ public class TableActivity extends AppCompatActivity implements TableContract.Vi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_table);
 
+        Log.d("Logssss", "onCreate");
+
 
         ibShowHideMenu = (ImageButton)findViewById(R.id.image_Button_Show_Hide_Menu);
         ibSettings = (ImageButton) findViewById(R.id.image_button_settings);
@@ -76,7 +76,6 @@ public class TableActivity extends AppCompatActivity implements TableContract.Vi
 
         //секундомер
         chronometer = (Chronometer) findViewById(R.id.chronometer);
-        chronometer.start();
 
         //Чтение настроек строки меню
         sharedPreferencesMenu = getSharedPreferences(MENU_PREFERENCES, MODE_PRIVATE);
@@ -159,31 +158,26 @@ public class TableActivity extends AppCompatActivity implements TableContract.Vi
         }
     };
 
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        Intent intent = getIntent();
-        finish();
-        startActivity(intent);
-    }
-
     //Сохранение информации при поворатах Активити
     // сохранение состояния
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-//        outState.putIntegerArrayList(KEY_FOR_LIST_NUMBER, listNumber);
-//        outState.putInt(KEY_FOR_SAVE_COUNT, countSave);
-
-//        outState.putInt(KEY_ROW_TEN_CELL_TEXTSIZE, rowCellTenForTextSize);
-//        outState.putInt(KEY_COLUMN_TEN_CELL_TEXTSIZE, columnCellTenForTextSize);
-//        outState.putBoolean(KEY_BOOLEAN_MORE_TEN_CELLS, booleanMoreTenCells);
-
-        outState.putSerializable("key_table_presenter", tablePresenter);
-        llForTable.removeAllViews();
-
+        //Сохранить. Нужно разобраться с Json
+//        tablePresenter.saveInstanceState();
         chronometer.stop();
         outState.putLong(saveChronometer, chronometer.getBase() - SystemClock.elapsedRealtime());
+
+        tablePresenter.detachView();
+        outState.putSerializable("tablePresenterputSerializable", tablePresenter);
+        llForTable.removeAllViews();
+
+        Log.d("Logssss", "onSaveInstanceState");
+
+
+//        GsonBuilder builder = new GsonBuilder();
+//        Gson gson = builder.create();
+//        String gsonTablePresenter = gson.toJson(tablePresenter);
+//        outState.putString(KEY_GSON_TABLE_PRESENTER, gsonTablePresenter);
 
 
         super.onSaveInstanceState(outState);
@@ -193,39 +187,22 @@ public class TableActivity extends AppCompatActivity implements TableContract.Vi
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
 
+        //Сохранить. Нужно разобраться с Json
+//        tablePresenter.restoreInstanceState();
         chronometer.setBase(SystemClock.elapsedRealtime() + savedInstanceState.getLong(saveChronometer));
         chronometer.start();
+        Log.d("Logssss", "onRestoreInstanceState");
 
-        tablePresenter = (TablePresenter)savedInstanceState.getSerializable("key_table_presenter");
+
+//        GsonBuilder builder = new GsonBuilder();
+//        Gson gson = builder.create();
+//        tablePresenter = gson.fromJson(savedInstanceState.getString(KEY_GSON_TABLE_PRESENTER), TablePresenter.class);
+//        llForTable.addView(tablePresenter.getTable());
+
+        tablePresenter = (TablePresenter)savedInstanceState.getSerializable("tablePresenterputSerializable");
+        tablePresenter.attachView(this);
         llForTable.addView(tablePresenter.getTable());
 
-
-//        for (int i = 0; i < rowsOfTable; i++) {
-//            for (int j = 0; j < columnsOfTable; j++) {
-//                CellsOfTable[i][j].setText("" + listNumber.get(rowsOfTable * columnsOfTable - count));
-//                count--;
-//            }
-//        }
-
-        /*
-         * Ожидание отрисовки таблицы для получения размеров
-         * корректировка размеров шрифта по 10й ячейке
-         */
-        if(booleanMoreTenCells) {
-            CellsOfTable[0][0].post(new Runnable() {
-                @Override
-                public void run() {
-                    int tenCellTextSize = new Converter().getSP(TableActivity.this,
-                            CellsOfTable[rowCellTenForTextSize][columnCellTenForTextSize].getTextSize());
-                    for (int i = 0; i < rowsOfTable; i++) {
-                        for (int j = 0; j < columnsOfTable; j++) {
-                            TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(CellsOfTable[i][j], 1,
-                                    tenCellTextSize, 1, TypedValue.COMPLEX_UNIT_SP);
-                        }
-                    }
-                }
-            });
-        }
 
     }
 
@@ -251,5 +228,40 @@ public class TableActivity extends AppCompatActivity implements TableContract.Vi
     public int getPx(int dp){
         float scale = getResources().getDisplayMetrics().density;
         return((int) (dp * scale + 0.5f));
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        tablePresenter.detachView();
+        Log.d("Logssss", "onDestroy");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d("Logssss", "onResume");
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d("Logssss", "onPause");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d("Logssss", "onStop");
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Intent intent = getIntent();
+        finish();
+        startActivity(intent);
+        Log.d("Logssss", "onRestart");
     }
 }

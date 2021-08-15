@@ -11,20 +11,18 @@ import androidx.annotation.Nullable;
 
 import java.io.Serializable;
 
-public class Database {
-    Activity activity;
-    String time;
-    int columnsOfTable;
-    int stringsOfTable;
+public class Database implements Serializable{
+    private Activity activity;
+    private String time;
+    private String tableSize;
     private DatabaseHelper databaseHelper;
-    String currentDate;
-    SQLiteDatabase db;
+    private String currentDate;
+    private SQLiteDatabase db;
 
-    public Database(Activity activity, String time, int columnsOfTable, int stringsOfTable, String currentDate) {
+    public Database(Activity activity, String time, String tableSize, String currentDate) {
         this.activity = activity;
         this.time = time;
-        this.columnsOfTable = columnsOfTable;
-        this.stringsOfTable = stringsOfTable;
+        this.tableSize = tableSize;
         this.currentDate = currentDate;
     }
 
@@ -36,7 +34,7 @@ public class Database {
         databaseHelper = new DatabaseHelper(activity);
         SQLiteDatabase db = databaseHelper.getWritableDatabase();
         ContentValues cv = new ContentValues();
-        cv.put(DatabaseHelper.COLUMN_SIZE_FIELD, "" + columnsOfTable + "x" + stringsOfTable);
+        cv.put(DatabaseHelper.COLUMN_SIZE_FIELD, tableSize);
         cv.put(DatabaseHelper.COLUMN_TIME, time);
         cv.put(DatabaseHelper.COLUMN_DATE, currentDate);
         long id = db.insert(DatabaseHelper.TABLE_RESULTS, null, cv);
@@ -59,7 +57,7 @@ public class Database {
     }
 
 
-    static class DatabaseHelper extends SQLiteOpenHelper {
+    static class DatabaseHelper extends SQLiteOpenHelper implements Serializable{
 
         private static final String DATABASE_NAME = "gamestatistics.db"; // название бд
         private static final int DB_VERSION = 1; // версия базы данных

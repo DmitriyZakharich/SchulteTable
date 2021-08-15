@@ -5,6 +5,7 @@ import static android.content.Context.MODE_PRIVATE;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
 import android.widget.TableLayout;
@@ -20,13 +21,14 @@ import ru.schultetabledima.schultetable.ui.EndGameDialogue;
 import ru.schultetabledima.schultetable.ui.StatisticsActivity;
 import ru.schultetabledima.schultetable.ui.TableActivity;
 
-public class TablePresenter {
-    Context context;
-    Boolean booleanTouchCells;
-    int nextMove = 1;
+public class TablePresenter implements Serializable{
+    private Context context;
+    private Boolean booleanTouchCells;
+    private int nextMove = 1;
     private int columnsOfTable;
     private int rowsOfTable;
-    TableLayout tlTable;
+    private long saveTime;
+    private TableCreator tableCreator;
 
 
     public TablePresenter(Context context) {
@@ -55,13 +57,22 @@ public class TablePresenter {
     }
 
     public void callTableCreator() {
-        TableCreator tableCreator = new TableCreator(context, this);
-        tlTable = tableCreator.getTable();
-        ((TableActivity)context).showTable(tlTable);
+        tableCreator = new TableCreator(context, this);
+        ((TableActivity)context).showTable(tableCreator.getTable());
+        ((TableActivity)context).startChronometer();
+
     }
 
     public TableLayout getTable(){
-        return tlTable;
+        return tableCreator.getTable();
+    }
+
+    public void attachView (Context context){
+        this.context = context;
+    }
+
+    public void detachView(){
+        context = null;
     }
 
     public void checkMove(View v){
@@ -81,8 +92,19 @@ public class TablePresenter {
 
     void endGameDialogue(){
         ((TableActivity)context).stopChronometer();
+        String tableSize = "" + columnsOfTable + "x" + rowsOfTable;
         EndGameDialogue endGameDialogue = new EndGameDialogue((TableActivity)context,
-                booleanTouchCells, columnsOfTable, rowsOfTable);
+                booleanTouchCells, tableSize);
         endGameDialogue.start();
+    }
+
+    public void saveInstanceState(){
+        ((TableActivity)context).stopChronometer();
+        saveTime = ((TableActivity)context).getBaseChronometer() - SystemClock.elapsedRealtime();
+    }
+
+    public void restoreInstanceState(){
+        ((TableActivity)context).setBaseChronometer(SystemClock.elapsedRealtime() + saveTime);
+        ((TableActivity)context).startChronometer();
     }
 }

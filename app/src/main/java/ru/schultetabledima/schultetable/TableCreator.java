@@ -28,7 +28,7 @@ import ru.schultetabledima.schultetable.presenters.TablePresenter;
 import ru.schultetabledima.schultetable.utils.Converter;
 import ru.schultetabledima.schultetable.ui.CustomizationActivity;
 
-public class TableCreator {
+public class TableCreator implements Serializable{
     private TableLayout tlTable;
     private TableRow[] tableRow;
     private AppCompatTextView[][] cellsOfTable;
@@ -41,8 +41,6 @@ public class TableCreator {
     HashSet <Integer> hsRandomForCellAnim;
     private int randAnimInt;
     private boolean booleanAnim;
-    private SharedPreferences spCustomization;
-    private Animation anim;
     TablePresenter tablePresenter;
     private boolean amountIsMoreTen = false;
 
@@ -67,7 +65,7 @@ public class TableCreator {
 
 
     private void readSharedPreferences() {
-        spCustomization = context.getSharedPreferences(CustomizationActivity.getAppPreferences(), MODE_PRIVATE);
+        SharedPreferences spCustomization = context.getSharedPreferences(CustomizationActivity.getAppPreferences(), MODE_PRIVATE);
         booleanAnim = spCustomization.getBoolean(CustomizationActivity.getPreferencesKeyAnimation(), false);
         columnsOfTable = spCustomization.getInt(CustomizationActivity.getPreferencesKeyNumberColumns(), 4) + 1;
         rowsOfTable = spCustomization.getInt(CustomizationActivity.getPreferencesKeyNumberRows(), 4) + 1;
@@ -165,7 +163,7 @@ public class TableCreator {
         for (int i = 0; i < rowsOfTable; i++) {
             for (int j = 0; j < columnsOfTable; j++) {
                 if (hsRandomForCellAnim.contains(Integer.parseInt(cellsOfTable[i][j].getText().toString()))) {
-                    anim = AnimationUtils.loadAnimation(context, R.anim.myrotate);
+                    Animation anim = AnimationUtils.loadAnimation(context, R.anim.myrotate);
                     cellsOfTable[i][j].startAnimation(anim);
                 }
             }
@@ -185,7 +183,7 @@ public class TableCreator {
 
 
     //Корректировка размера шрифта в таблице
-    //При количестве ячеек больше 10 авторазмер делает 1-9 больше.
+    //При количестве ячеек больше 9 авторазмер делает 1-9 больше.
     void correctionTextSizeCells(){
         cellsOfTable[0][0].post(new Runnable() {
             @Override
