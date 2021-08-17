@@ -11,7 +11,7 @@ import androidx.annotation.Nullable;
 
 import java.io.Serializable;
 
-public class Database implements Serializable{
+public class Database {
     private Activity activity;
     private String time;
     private String tableSize;
@@ -57,7 +57,7 @@ public class Database implements Serializable{
     }
 
 
-    static class DatabaseHelper extends SQLiteOpenHelper implements Serializable{
+    static class DatabaseHelper extends SQLiteOpenHelper {
 
         private static final String DATABASE_NAME = "gamestatistics.db"; // название бд
         private static final int DB_VERSION = 1; // версия базы данных

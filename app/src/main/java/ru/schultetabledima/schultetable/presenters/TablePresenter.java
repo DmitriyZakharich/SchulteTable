@@ -22,19 +22,21 @@ import ru.schultetabledima.schultetable.ui.StatisticsActivity;
 import ru.schultetabledima.schultetable.ui.TableActivity;
 
 public class TablePresenter implements Serializable{
-    private Context context;
+    private transient Context context;
     private Boolean booleanTouchCells;
     private int nextMove = 1;
     private int columnsOfTable;
     private int rowsOfTable;
     private long saveTime;
-    private TableCreator tableCreator;
+    private transient TableCreator tableCreator;
+    private transient EndGameDialogue endGameDialogue;
 
 
     public TablePresenter(Context context) {
         this.context = context;
         readSharedPreferences();
         callTableCreator();
+        Log.d("ContextContext", "TablePresenter Context " + context);
     }
 
     private void readSharedPreferences() {
@@ -57,7 +59,7 @@ public class TablePresenter implements Serializable{
     }
 
     public void callTableCreator() {
-        tableCreator = new TableCreator(context, this);
+        tableCreator = new TableCreator(context.getApplicationContext(), this);
         ((TableActivity)context).showTable(tableCreator.getTable());
         ((TableActivity)context).startChronometer();
 
@@ -73,6 +75,8 @@ public class TablePresenter implements Serializable{
 
     public void detachView(){
         context = null;
+        endGameDialogue = null;
+        tableCreator.detachView();
     }
 
     public void checkMove(View v){
@@ -93,7 +97,7 @@ public class TablePresenter implements Serializable{
     void endGameDialogue(){
         ((TableActivity)context).stopChronometer();
         String tableSize = "" + columnsOfTable + "x" + rowsOfTable;
-        EndGameDialogue endGameDialogue = new EndGameDialogue((TableActivity)context,
+        endGameDialogue = new EndGameDialogue((TableActivity)context,
                 booleanTouchCells, tableSize);
         endGameDialogue.start();
     }

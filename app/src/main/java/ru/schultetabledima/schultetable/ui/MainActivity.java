@@ -15,6 +15,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button tableButton;
     private Button statisticsButton;
     private Button customizationButton;
+    private Button adviceButton;
     private Intent intent;
 
 
@@ -25,10 +26,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tableButton = (Button) findViewById(R.id.tableButton);
         statisticsButton = (Button) findViewById(R.id.statisticsButton);
         customizationButton = (Button) findViewById(R.id.customizationButton);
+        adviceButton = (Button) findViewById(R.id.adviceButton);
 
         tableButton.setOnClickListener(this);
         statisticsButton.setOnClickListener(this);
         customizationButton.setOnClickListener(this);
+        adviceButton.setOnClickListener(this);
     }
 
 
@@ -45,6 +48,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.customizationButton:
                 intent = new Intent(MainActivity.this, CustomizationActivity.class);
+                startActivity(intent);
+                break;
+                case R.id.adviceButton:
+                intent = new Intent(MainActivity.this, AdviceActivity.class);
                 startActivity(intent);
                 break;
         }

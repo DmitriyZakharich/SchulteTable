@@ -16,7 +16,7 @@ import java.util.Locale;
 import ru.schultetabledima.schultetable.R;
 import ru.schultetabledima.schultetable.database.Database;
 
-public class EndGameDialogue implements Serializable{
+public class EndGameDialogue {
     private AlertDialog.Builder builder;
     private Database database;
     private Activity activity;

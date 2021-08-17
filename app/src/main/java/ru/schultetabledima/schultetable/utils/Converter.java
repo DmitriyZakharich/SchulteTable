@@ -5,7 +5,7 @@ import android.content.Context;
 import java.io.Serializable;
 
 public class Converter {
-    public int getSP(Context context, float px){
+    public static int getSP(Context context, float px){
         float sp = px / context.getResources().getDisplayMetrics().scaledDensity;
         return (int) sp;
     }

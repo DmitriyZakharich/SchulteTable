@@ -28,22 +28,18 @@ import ru.schultetabledima.schultetable.presenters.TablePresenter;
 import ru.schultetabledima.schultetable.utils.Converter;
 import ru.schultetabledima.schultetable.ui.CustomizationActivity;
 
-public class TableCreator implements Serializable{
+public class TableCreator{
     private TableLayout tlTable;
-    private TableRow[] tableRow;
     private AppCompatTextView[][] cellsOfTable;
     private int rowsOfTable;
     private int columnsOfTable;
-    private Context context;
-    private ArrayList<Integer> listNumber;
+    private transient Context context;
     private int rowCellTen;
     private int columnCellTen;
     HashSet <Integer> hsRandomForCellAnim;
-    private int randAnimInt;
     private boolean booleanAnim;
-    TablePresenter tablePresenter;
+    private transient TablePresenter tablePresenter;
     private boolean amountIsMoreTen = false;
-
 
 
     public TableCreator(Context context, TablePresenter tablePresenter) {
@@ -59,7 +55,7 @@ public class TableCreator implements Serializable{
         if (booleanAnim)
                 addAnimation();
 
-        if(10 <= rowsOfTable*columnsOfTable)
+        if(amountIsMoreTen)
             correctionTextSizeCells();
     }
 
@@ -73,7 +69,8 @@ public class TableCreator implements Serializable{
 
     private void creator(){
         tlTable = new TableLayout(context);
-        tlTable.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.MATCH_PARENT,1));
+        TableRow.LayoutParams trLayoutParams = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.MATCH_PARENT,1);
+        tlTable.setLayoutParams(trLayoutParams);
 
         //Создание разделительных полос
         GradientDrawable drawable = new GradientDrawable();
@@ -85,10 +82,12 @@ public class TableCreator implements Serializable{
         tlTable.setDividerDrawable(drawable);
 
         //создание рядов
-        tableRow = new TableRow[rowsOfTable];
+        TableRow[] tableRow = new TableRow[rowsOfTable];
         for (int i = 0; i < tableRow.length; i++) {
             tableRow[i] = new TableRow(context);
-            tableRow[i].setLayoutParams(new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.MATCH_PARENT,1));
+            TableLayout.LayoutParams tlLayoutParams = new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT,
+                                                                                    TableLayout.LayoutParams.MATCH_PARENT,1);
+            tableRow[i].setLayoutParams(tlLayoutParams);
             tlTable.addView(tableRow[i]);
         }
 
@@ -118,11 +117,11 @@ public class TableCreator implements Serializable{
 
     private void fillingCells(){
         //Массива для заполнения ячеек
-        listNumber = new ArrayList();
+        ArrayList<Integer> listNumber = new ArrayList();
         for (int j = 1; j <= columnsOfTable * rowsOfTable; j++ ) {
             listNumber.add( j );
         }
-        Collections.shuffle( listNumber );
+        Collections.shuffle(listNumber);
 
         /*
         Установка текста.
@@ -132,7 +131,7 @@ public class TableCreator implements Serializable{
         int count = 0;
         for (int i = 0; i < rowsOfTable; i++) {
             for (int j = 0; j < columnsOfTable; j++) {
-                cellsOfTable[i][j].setOnClickListener(cellClick);
+                cellsOfTable[i][j].setOnClickListener(new CellClick(tablePresenter));
 
                 cellsOfTable[i][j].setText("" + listNumber.get(count));
                 count++;
@@ -154,7 +153,7 @@ public class TableCreator implements Serializable{
         hsRandomForCellAnim = new HashSet<Integer>();
 
         for (int i = 0; i < amountCellAnim; i++) {
-            randAnimInt = random.nextInt(columnsOfTable * rowsOfTable + 1); //????
+            int randAnimInt = random.nextInt(columnsOfTable * rowsOfTable + 1); //????
             if (!hsRandomForCellAnim.add(Integer.valueOf(randAnimInt))){
                 i--;
             }
@@ -170,12 +169,12 @@ public class TableCreator implements Serializable{
         }
     }
 
-    View.OnClickListener cellClick = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            tablePresenter.checkMove(v);
-        }
-    };
+//    View.OnClickListener cellClick = new View.OnClickListener() {
+//        @Override
+//        public void onClick(View v) {
+//            tablePresenter.checkMove(v);
+//        }
+//    };
 
     public TableLayout getTable() {
         return tlTable;
@@ -188,11 +187,13 @@ public class TableCreator implements Serializable{
         cellsOfTable[0][0].post(new Runnable() {
             @Override
             public void run() {
-                int tenCellTextSize = new Converter().getSP(context, cellsOfTable[rowCellTen][columnCellTen].getTextSize());
+                int tenthCellTextSize = Converter.getSP(context, cellsOfTable[rowCellTen][columnCellTen].getTextSize());
+                Log.d("tenthCellTextSize", "" + tenthCellTextSize);
+
                 for (int i = 0; i < rowsOfTable; i++) {
                     for (int j = 0; j < columnsOfTable; j++) {
                         TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(cellsOfTable[i][j], 1,
-                                tenCellTextSize, 1, TypedValue.COMPLEX_UNIT_SP);
+                                tenthCellTextSize, 1, TypedValue.COMPLEX_UNIT_SP);
                     }
                 }
             }
@@ -200,4 +201,20 @@ public class TableCreator implements Serializable{
     }
 
 
+    public void detachView() {
+        context = null;
+    }
+
+    class CellClick implements View.OnClickListener{
+        TablePresenter tablePresenter;
+
+        public CellClick(TablePresenter tablePresenter) {
+            this.tablePresenter = tablePresenter;
+        }
+
+        @Override
+        public void onClick(View v) {
+            tablePresenter.checkMove(v);
+        }
+    }
 }
