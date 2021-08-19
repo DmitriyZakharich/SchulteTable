@@ -4,14 +4,12 @@ import android.animation.LayoutTransition;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.TableLayout;
+import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -23,15 +21,12 @@ import ru.schultetabledima.schultetable.presenters.TablePresenter;
 public class TableActivity extends AppCompatActivity implements TableContract.View{
 
 
-    private static final String KEY_GSON_TABLE_PRESENTER = "key_table_presenter";
-    private ImageButton ibSettings, ibStatistics;
-
+    private static final String KEY_SERIALIZABLE_TABLE_PRESENTER = "tablePresenterPutSerializable";
+    private ImageButton settings, statistics;
     private Chronometer chronometer;
-    private LinearLayout llForTable;
-    private final String saveChronometer = "saveChronometer";
-
-    private Toolbar tbMenu;
-    private ImageButton ibShowHideMenu;
+    private RelativeLayout placeForTable;
+    private Toolbar menu;
+    private ImageButton selectShowHideMenu;
     private static SharedPreferences sharedPreferencesMenu;
     private static final String MENU_PREFERENCES = "PreferencesMenu";
     static final String KEY_MENU_VISIBILITY = "Saved Menu Visibility";
@@ -43,66 +38,60 @@ public class TableActivity extends AppCompatActivity implements TableContract.Vi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_table);
+        Log.d("OnPausesss","onCreate");
 
-        Log.d("Logssss", "onCreate");
-
-        ibShowHideMenu = (ImageButton)findViewById(R.id.image_Button_Show_Hide_Menu);
-        ibSettings = (ImageButton) findViewById(R.id.image_button_settings);
-        ibStatistics = (ImageButton) findViewById(R.id.image_button_statistics);
-        llForTable = (LinearLayout) findViewById(R.id.LinearLayoutForTable);
+        selectShowHideMenu = (ImageButton)findViewById(R.id.image_Button_Show_Hide_Menu);
+        settings = (ImageButton) findViewById(R.id.image_button_settings);
+        statistics = (ImageButton) findViewById(R.id.image_button_statistics);
+        placeForTable = (RelativeLayout) findViewById(R.id.placeForTable);
         chronometer = (Chronometer) findViewById(R.id.chronometer);
 
-        tbMenu = (Toolbar)findViewById(R.id.toolbar);
-        setSupportActionBar(tbMenu);
+        menu = (Toolbar)findViewById(R.id.toolbar);
+        setSupportActionBar(menu);
 
-        ibSettings.setOnClickListener(moveAnotherActivity);
-        ibStatistics.setOnClickListener(moveAnotherActivity);
-        ibShowHideMenu.setOnClickListener(methodShowHideMenu);
+        settings.setOnClickListener(moveAnotherActivity);
+        statistics.setOnClickListener(moveAnotherActivity);
+        selectShowHideMenu.setOnClickListener(methodShowHideMenu);
 
 
         //Чтение настроек строки меню
         sharedPreferencesMenu = getSharedPreferences(MENU_PREFERENCES, MODE_PRIVATE);
         isMenuShow = sharedPreferencesMenu.getBoolean(KEY_MENU_VISIBILITY, true);
 
-
         if (savedInstanceState == null)
             tablePresenter = new TablePresenter(this);
 
 
         //Анимация показать-скрыть меню навигации
-        LayoutTransition layoutTransitionToolbar = tbMenu.getLayoutTransition();
+        LayoutTransition layoutTransitionToolbar = menu.getLayoutTransition();
         layoutTransitionToolbar.enableTransitionType(LayoutTransition.CHANGING);
 
-        Log.d("ContextContext", "this " + this);
-        Log.d("ContextContext", "getApplicationContext " + getApplicationContext());
-
-
         if(isMenuShow){
-            tbMenu.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, getPx(40)));
+            menu.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, getPx(40)));
 
             chronometer.setVisibility(View.VISIBLE);
-            ibSettings.setVisibility(View.VISIBLE);
-            ibStatistics.setVisibility(View.VISIBLE);
-            ibShowHideMenu.setImageResource(R.drawable.ic_arrow_down);
+            settings.setVisibility(View.VISIBLE);
+            statistics.setVisibility(View.VISIBLE);
+            selectShowHideMenu.setImageResource(R.drawable.ic_arrow_down);
         }else{
-            tbMenu.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, getPx(20)));
+            menu.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, getPx(20)));
 
             chronometer.setVisibility(View.INVISIBLE);
-            ibSettings.setVisibility(View.INVISIBLE);
-            ibStatistics.setVisibility(View.INVISIBLE);
-            ibShowHideMenu.setImageResource(R.drawable.ic_arrow_up);
+            settings.setVisibility(View.INVISIBLE);
+            statistics.setVisibility(View.INVISIBLE);
+            selectShowHideMenu.setImageResource(R.drawable.ic_arrow_up);
         }
 }
 
     @Override
-    public void showTable(TableLayout tlTable) {
-        llForTable.addView(tlTable);
-        addAnim(tlTable);
+    public void showTable(LinearLayout table) {
+        placeForTable.addView(table);
+        addAnim(table);
     }
 
-    void addAnim(TableLayout tlTable){
+    void addAnim(LinearLayout table){
         LayoutTransition layoutTransitionTable = new LayoutTransition();
-        tlTable.setLayoutTransition(layoutTransitionTable);
+        table.setLayoutTransition(layoutTransitionTable);
         layoutTransitionTable.enableTransitionType(LayoutTransition.CHANGING);
     }
 
@@ -115,20 +104,20 @@ public class TableActivity extends AppCompatActivity implements TableContract.Vi
             if (isMenuShow){
                 isMenuShow = false;
                 chronometer.setVisibility(View.INVISIBLE);
-                ibSettings.setVisibility(View.INVISIBLE);
-                ibStatistics.setVisibility(View.INVISIBLE);
+                settings.setVisibility(View.INVISIBLE);
+                statistics.setVisibility(View.INVISIBLE);
 
-                tbMenu.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, getPx(20)));
-                ibShowHideMenu.setImageResource(R.drawable.ic_arrow_up);
+                menu.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, getPx(20)));
+                selectShowHideMenu.setImageResource(R.drawable.ic_arrow_up);
 
             }else{
                 isMenuShow = true;
                 chronometer.setVisibility(View.VISIBLE);
-                ibSettings.setVisibility(View.VISIBLE);
-                ibStatistics.setVisibility(View.VISIBLE);
+                settings.setVisibility(View.VISIBLE);
+                statistics.setVisibility(View.VISIBLE);
 
-                tbMenu.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, getPx(40)));
-                ibShowHideMenu.setImageResource(R.drawable.ic_arrow_down);
+                menu.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, getPx(40)));
+                selectShowHideMenu.setImageResource(R.drawable.ic_arrow_down);
             }
             ed.putBoolean(KEY_MENU_VISIBILITY, isMenuShow);
             ed.apply();
@@ -139,7 +128,7 @@ public class TableActivity extends AppCompatActivity implements TableContract.Vi
     View.OnClickListener moveAnotherActivity = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            tablePresenter.moveAnotherActivity(v);
+            tablePresenter.moveAnotherActivity(v.getId());
         }
     };
 
@@ -147,23 +136,10 @@ public class TableActivity extends AppCompatActivity implements TableContract.Vi
     // сохранение состояния
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        //Сохранить. Нужно разобраться с Json
-//        tablePresenter.saveInstanceState();
-        chronometer.stop();
-        outState.putLong(saveChronometer, chronometer.getBase() - SystemClock.elapsedRealtime());
-
+        tablePresenter.saveInstanceState();
         tablePresenter.detachView();
-        outState.putSerializable("tablePresenterputSerializable", tablePresenter);
-        llForTable.removeAllViews();
-
-        Log.d("Logssss", "onSaveInstanceState");
-
-
-//        GsonBuilder builder = new GsonBuilder();
-//        Gson gson = builder.create();
-//        String gsonTablePresenter = gson.toJson(tablePresenter);
-//        outState.putString(KEY_GSON_TABLE_PRESENTER, gsonTablePresenter);
-
+        outState.putSerializable(KEY_SERIALIZABLE_TABLE_PRESENTER, tablePresenter);
+        Log.d("Трасировка", "Активити onSave");
 
         super.onSaveInstanceState(outState);
     }
@@ -171,21 +147,16 @@ public class TableActivity extends AppCompatActivity implements TableContract.Vi
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
+        tablePresenter = (TablePresenter)savedInstanceState.getSerializable(KEY_SERIALIZABLE_TABLE_PRESENTER);
+        tablePresenter.attachView(this);
+        tablePresenter.restoreInstanceState();
+        placeForTable.addView(tablePresenter.getTable());
+        Log.d("Трасировка", "Активити onRestore");
 
-        //Сохранить. Нужно разобраться с Json
-//        tablePresenter.restoreInstanceState();
-        chronometer.setBase(SystemClock.elapsedRealtime() + savedInstanceState.getLong(saveChronometer));
-        chronometer.start();
+    }
 
-
-//        GsonBuilder builder = new GsonBuilder();
-//        Gson gson = builder.create();
-//        tablePresenter = gson.fromJson(savedInstanceState.getString(KEY_GSON_TABLE_PRESENTER), TablePresenter.class);
-//        llForTable.addView(tablePresenter.getTable());
-
-        tablePresenter = (TablePresenter)savedInstanceState.getSerializable("tablePresenterputSerializable");
-        tablePresenter.attachView(getApplicationContext());
-        llForTable.addView(tablePresenter.getTable());
+    public void removeTable() {
+        placeForTable.removeAllViews();
     }
 
     public void startChronometer(){
@@ -206,43 +177,9 @@ public class TableActivity extends AppCompatActivity implements TableContract.Vi
         chronometer.setBase(base);
     }
 
-
     public int getPx(int dp){
         float scale = getResources().getDisplayMetrics().density;
         return((int) (dp * scale + 0.5f));
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        tablePresenter.detachView();
-        Log.d("Logssss", "onDestroy " + this.hashCode());
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.d("Logssss", "onResume " + this.hashCode());
-
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Log.d("Logssss", "onPause " + this.hashCode());
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Log.d("Logssss", "onStop " + this.hashCode());
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Log.d("Logssss", "onStart " + this.hashCode());
-
     }
 
     @Override
@@ -251,6 +188,5 @@ public class TableActivity extends AppCompatActivity implements TableContract.Vi
         Intent intent = getIntent();
         finish();
         startActivity(intent);
-        Log.d("Logssss", "onRestart " + this.hashCode());
     }
 }

@@ -7,14 +7,12 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical"
-    android:showDividers="middle|beginning|end|none"
+    android:showDividers="middle|beginning|end"
+    android:divider="@drawable/statistic_separator"
     tools:context=".ui.StatisticsActivity">
-
-    <!--    style="@style/stylesCellButton"-->
 
     <TextView
         android:id="@+id/headlineResults"
-
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorButton"
@@ -27,13 +25,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/black"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:showDividers="middle|beginning|end"
+        android:divider="@drawable/statistic_separator">
 
         <TextView
             android:id="@+id/headlineData"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="1dp"
             android:layout_weight="1"
             android:background="@color/white"
             android:text="@string/headline_data"
@@ -43,9 +42,8 @@
 
         <TextView
             android:id="@+id/headlineSize"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="1dp"
             android:layout_weight="1"
             android:background="@color/white"
             android:text="@string/headline_size"
@@ -55,9 +53,8 @@
 
         <TextView
             android:id="@+id/headlineTime"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="1dp"
             android:layout_weight="1"
             android:background="@color/white"
             android:text="@string/headline_time"

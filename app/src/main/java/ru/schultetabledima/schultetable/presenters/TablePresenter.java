@@ -7,66 +7,78 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.SystemClock;
 import android.util.Log;
-import android.view.View;
-import android.widget.TableLayout;
-
-import androidx.appcompat.widget.AppCompatTextView;
+import android.widget.LinearLayout;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
 
 import ru.schultetabledima.schultetable.R;
-import ru.schultetabledima.schultetable.TableCreator;
+import ru.schultetabledima.schultetable.tablecreation.TableCreator;
 import ru.schultetabledima.schultetable.ui.CustomizationActivity;
 import ru.schultetabledima.schultetable.ui.EndGameDialogue;
 import ru.schultetabledima.schultetable.ui.StatisticsActivity;
 import ru.schultetabledima.schultetable.ui.TableActivity;
 
 public class TablePresenter implements Serializable{
-    private transient Context context;
-    private Boolean booleanTouchCells;
-    private int nextMove = 1;
+    private Boolean isPressButtons;
+    private int nextMoveNumber = 1;
+    private char nextMoveLetter = 'А';
+    private int count = 1;
     private int columnsOfTable;
     private int rowsOfTable;
     private long saveTime;
+    private transient Context context;
     private transient TableCreator tableCreator;
     private transient EndGameDialogue endGameDialogue;
+    private transient LinearLayout table;
+    private boolean isLetters;
+    private boolean isTwoTables;
+    ArrayList<Character> listLetters1, listLetters2;
+    ArrayList<Integer> listNumbers1, listNumbers2;
 
 
     public TablePresenter(Context context) {
         this.context = context;
         readSharedPreferences();
         callTableCreator();
-        Log.d("ContextContext", "TablePresenter Context " + context);
+        showTable();
+        Log.d("Трасировка", "TablePresenter");
     }
+
+
 
     private void readSharedPreferences() {
         SharedPreferences spCustomization = context.getSharedPreferences(CustomizationActivity.getAppPreferences(), MODE_PRIVATE);
-        booleanTouchCells = spCustomization.getBoolean(CustomizationActivity.getPreferencesKeyTouchCells(), true);
-        columnsOfTable = spCustomization.getInt(CustomizationActivity.getPreferencesKeyNumberColumns(), 4) + 1;
-        rowsOfTable = spCustomization.getInt(CustomizationActivity.getPreferencesKeyNumberRows(), 4) + 1;
+        isPressButtons = spCustomization.getBoolean(CustomizationActivity.getKeyTouchCells(), true);
+        columnsOfTable = spCustomization.getInt(CustomizationActivity.getKeyNumberColumns(), 4) + 1;
+        rowsOfTable = spCustomization.getInt(CustomizationActivity.getKeyNumberRows(), 4) + 1;
+        isLetters = spCustomization.getBoolean(CustomizationActivity.getKeyNumbersLetters(), false);
+        isTwoTables = spCustomization.getBoolean(CustomizationActivity.getKeyTwoTables(), false);
     }
 
 
-    public void moveAnotherActivity(View v){
-        switch (v.getId()){
-            case R.id.image_button_settings:
-                context.startActivity(new Intent(context, CustomizationActivity.class));
-                break;
-            case R.id.image_button_statistics:
-                context.startActivity(new Intent(context, StatisticsActivity.class));
-                break;
+    public void moveAnotherActivity(int viewID){
+        if (viewID == R.id.image_button_settings) {
+            context.startActivity(new Intent(context, CustomizationActivity.class));
+
+        } else if (viewID == R.id.image_button_statistics) {
+            context.startActivity(new Intent(context, StatisticsActivity.class));
         }
     }
 
     public void callTableCreator() {
-        tableCreator = new TableCreator(context.getApplicationContext(), this);
-        ((TableActivity)context).showTable(tableCreator.getTable());
-        ((TableActivity)context).startChronometer();
-
+        tableCreator = new TableCreator(context, this);
+        table = tableCreator.getTable();
     }
 
-    public TableLayout getTable(){
-        return tableCreator.getTable();
+    private void showTable() {
+        ((TableActivity)context).showTable(table);
+        ((TableActivity)context).startChronometer();
+    }
+
+    public LinearLayout getTable(){
+        return table;
     }
 
     public void attachView (Context context){
@@ -75,39 +87,79 @@ public class TablePresenter implements Serializable{
 
     public void detachView(){
         context = null;
-        endGameDialogue = null;
-        tableCreator.detachView();
     }
 
-    public void checkMove(View v){
-        if (booleanTouchCells){
-
-            if(nextMove == Integer.parseInt ("" + ((AppCompatTextView)v).getText())){
-
-                if (nextMove == ((rowsOfTable*columnsOfTable))){
-                    endGameDialogue();
-                }
-                nextMove++;
-            }
-        }else {
+    public void checkMove(String cellText){
+        if (!isPressButtons)
             endGameDialogue();
+
+        if (isPressButtons){
+
+            if (isLetters) {
+                if (cellText.equals(String.valueOf(nextMoveLetter)));{
+                    if (count == rowsOfTable*columnsOfTable) {
+                        endGameDialogue();
+                    }
+                }
+                count++;
+                nextMoveLetter++;
+            }
+
+            if (!isLetters) {
+                if (nextMoveNumber == Integer.parseInt(cellText)) {
+
+                    if (nextMoveNumber == ((rowsOfTable * columnsOfTable))) {
+                        endGameDialogue();
+                    }
+                    nextMoveNumber++;
+                }
+            }
         }
     }
 
     void endGameDialogue(){
         ((TableActivity)context).stopChronometer();
-        String tableSize = "" + columnsOfTable + "x" + rowsOfTable;
+        String tableSize = columnsOfTable + "x" + rowsOfTable;
         endGameDialogue = new EndGameDialogue((TableActivity)context,
-                booleanTouchCells, tableSize);
+                isPressButtons, tableSize);
         endGameDialogue.start();
     }
 
     public void saveInstanceState(){
+        Log.d("Трасировка", "TablePresenter save");
+
         ((TableActivity)context).stopChronometer();
         saveTime = ((TableActivity)context).getBaseChronometer() - SystemClock.elapsedRealtime();
+        ((TableActivity)context).removeTable();
+
+        if (isLetters){
+            listLetters1 = new ArrayList<>(tableCreator.getListLetters1());
+            if (isTwoTables){
+                listLetters2 = new ArrayList<>(tableCreator.getListLetters2());
+            }
+        }
+
+        if (!isLetters){
+            listNumbers1 = new ArrayList<>(tableCreator.getListNumbers1());
+            if (isTwoTables){
+                listNumbers2 = new ArrayList<>(tableCreator.getListNumbers2());
+            }
+        }
+
     }
 
     public void restoreInstanceState(){
+        Log.d("Трасировка", "TablePresenter restore");
+
+        if (isLetters){
+            tableCreator = new TableCreator(context, this, listLetters1, listLetters2);
+        }else {
+            tableCreator = new TableCreator(context,  listNumbers1, listNumbers2, this);
+
+        }
+        tableCreator.getTable();
+
+
         ((TableActivity)context).setBaseChronometer(SystemClock.elapsedRealtime() + saveTime);
         ((TableActivity)context).startChronometer();
     }
