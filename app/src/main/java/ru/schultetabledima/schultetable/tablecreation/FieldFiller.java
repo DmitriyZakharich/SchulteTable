@@ -25,7 +25,7 @@ import ru.schultetabledima.schultetable.utils.Converter;
 
 
 public class FieldFiller {
-    private AppCompatTextView[][] cellsOfTable;
+    private AppCompatTextView[][] cells;
     private Context context;
     private int columnsOfTable;
     private int rowsOfTable;
@@ -41,32 +41,44 @@ public class FieldFiller {
     private boolean isNewFilling = true;
 
 
-    public FieldFiller(Context context, AppCompatTextView[][] cellsOfTable, TablePresenter tablePresenter) {
+    public FieldFiller(Context context, AppCompatTextView[][] cells, TablePresenter tablePresenter) {
+        Log.d("Трасировка", "FieldFiller");
         this.context = context;
-        this.cellsOfTable = cellsOfTable;
+        this.cells = cells;
         this.tablePresenter = tablePresenter;
         init();
-        Log.d("Трасировка", "FieldFiller");
     }
 
     //Конструктор для восстановления активити с буквами
-    public FieldFiller(Context context, TablePresenter tablePresenter, ArrayList<Character> listLetters, AppCompatTextView[][] cellsOfTable) {
+    public FieldFiller(Context context, TablePresenter tablePresenter, ArrayList<Character> listLetters, AppCompatTextView[][] cells) {
+        Log.d("Трасировка", "FieldFiller восстановление с буквами");
         this.context = context;
-        this.cellsOfTable = cellsOfTable;
+        this.cells = cells;
         this.tablePresenter = tablePresenter;
         this.listLetters = listLetters;
         isNewFilling = false;
-        Log.d("Трасировка", "FieldFiller восстановление с буквами");
+        init();
+
+
+
+        for (char i:
+                listLetters) {
+            Log.d("isLetters", "" + i);
+
+        }
+
     }
 
     //Конструктор для восстановления активити c цифрами
-    public FieldFiller(AppCompatTextView[][] cellsOfTable, TablePresenter tablePresenter, ArrayList<Integer> listNumbers, Context context) {
+    public FieldFiller(AppCompatTextView[][] cells, TablePresenter tablePresenter, ArrayList<Integer> listNumbers, Context context) {
+        Log.d("Трасировка", "FieldFiller восстановление с цифрами");
         this.context = context;
-        this.cellsOfTable = cellsOfTable;
+        this.cells = cells;
         this.tablePresenter = tablePresenter;
         this.listNumbers = listNumbers;
         isNewFilling = false;
-        Log.d("Трасировка", "FieldFiller восстановление с цифрами");
+        init();
+
     }
 
 
@@ -79,7 +91,7 @@ public class FieldFiller {
             fillingNumbers();
 
         if (booleanAnim)
-            addAnimation(cellsOfTable);
+            addAnimation(cells);
 
     }
 
@@ -112,17 +124,14 @@ public class FieldFiller {
         int count = 0;
         for (int i = 0; i < rowsOfTable; i++) {
             for (int j = 0; j < columnsOfTable; j++) {
-                cellsOfTable[i][j].setText(String.valueOf(listLetters.get(count)));
+                cells[i][j].setText(String.valueOf(listLetters.get(count)));
                 count++;
-                cellsOfTable[i][j].setOnClickListener(cellClick);
+                cells[i][j].setOnClickListener(cellClick);
 
-                TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(cellsOfTable[i][j], 1,
+                TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(cells[i][j], 1,
                         100, 1, TypedValue.COMPLEX_UNIT_SP);
-
             }
         }
-
-
     }
 
     private void fillingNumbers(){
@@ -140,21 +149,22 @@ public class FieldFiller {
         int count = 0;
         for (int i = 0; i < rowsOfTable; i++) {
             for (int j = 0; j < columnsOfTable; j++) {
-                cellsOfTable[i][j].setOnClickListener(cellClick);
-                cellsOfTable[i][j].setText(String.valueOf(listNumbers.get(count)));
+                cells[i][j].setOnClickListener(cellClick);
+                cells[i][j].setText(String.valueOf(listNumbers.get(count)));
                 count++;
 
-                //Запоминание координат ячейки с "10",
-                //для корректировки размера текста в ячейках.
-                if (cellsOfTable[i][j].getText().toString().equals("10")){
+                /*Запоминание координат ячейки с "10",
+                для корректировки размера текста в ячейках
+                в методе correctionTextSizeCells()
+                */
+                if (cells[i][j].getText().toString().equals("10")){
                     rowCellTen = i;
                     columnCellTen = j;
                     amountIsMoreTen = true;
-
                 }
 
 //                cellsOfTable[i][j].setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
-                TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(cellsOfTable[i][j], 1,
+                TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(cells[i][j], 1,
                         100, 1, TypedValue.COMPLEX_UNIT_SP);
 
             }
@@ -164,28 +174,28 @@ public class FieldFiller {
 
     }
 
-    //Корректировка размера шрифта в таблице
-    //При количестве ячеек больше 9 авторазмер делает 1-9 больше, чем нужно.
+    /*Корректировка размера шрифта в таблице
+    При количестве ячеек больше 9 авторазмер делает 1-9 больше, чем нужно.*/
     private void correctionTextSizeCells(){
-        cellsOfTable[0][0].post(new Runnable() {
+        cells[0][0].post(new Runnable() {
             @Override
             public void run() {
 
-                int padding = cellsOfTable[0][0].getHeight() /5;
+                int padding = cells[0][0].getHeight() /5;
 
                 for (int i = 0; i < rowsOfTable; i++) {
                     for (int j = 0; j < columnsOfTable; j++) {
-                        cellsOfTable[i][j].setPadding(0,padding,0,padding);
+                        cells[i][j].setPadding(0,padding,0,padding);
                     }
                 }
 
-                int tenthCellTextSize = Converter.getSP(context, cellsOfTable[rowCellTen][columnCellTen].getTextSize());
+                int tenthCellTextSize = Converter.getSP(context, cells[rowCellTen][columnCellTen].getTextSize());
                 for (int i = 0; i < rowsOfTable; i++) {
                     for (int j = 0; j < columnsOfTable; j++) {
 
-                        TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(cellsOfTable[i][j], 1,
+                        TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(cells[i][j], 1,
                                 tenthCellTextSize, 1, TypedValue.COMPLEX_UNIT_SP);
-                        Log.d("Отступы", "" + cellsOfTable[i][j].getText() + " - " + cellsOfTable[i][j].getTextSize());
+                        Log.d("Отступы", "" + cells[i][j].getText() + " - " + cells[i][j].getTextSize());
 
                     }
                 }
@@ -232,8 +242,4 @@ public class FieldFiller {
             }
         }
     }
-
-
-
-
 }

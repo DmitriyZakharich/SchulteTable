@@ -41,7 +41,6 @@ public class TableCreator{
         this.context = context;
         this.tablePresenter = tablePresenter;
         init();
-        Log.d("Трасировка", "TableCreator");
     }
 
     //Конструктор для восстановления активити с буквами
@@ -51,7 +50,6 @@ public class TableCreator{
         this.listLetters1 = listLetters1;
         this.listLetters2 = listLetters2;
         restoreTable();
-        Log.d("Трасировка", "TableCreator Восстановление с буквами");
     }
 
     //Конструктор для восстановления активити с цифрами
@@ -61,7 +59,6 @@ public class TableCreator{
         this.listNumbers1 = listNumbers1;
         this.listNumbers2 = listNumbers2;
         restoreTable();
-        Log.d("Трасировка", "TableCreator Восстановление с цифрами");
     }
 
 
@@ -114,42 +111,39 @@ public class TableCreator{
     }
 
     private void fillingTable(){
-        AppCompatTextView[][] cellsOfTable1 = fieldCreator1.getCellsOfTable();
-        fieldFiller1 = new FieldFiller(context, cellsOfTable1, tablePresenter);
+        AppCompatTextView[][] cells1 = fieldCreator1.getCells();
+        fieldFiller1 = new FieldFiller(context, cells1, tablePresenter);
 
         if (isTwoTables){
-            AppCompatTextView[][] cellsOfTable2 = fieldCreator2.getCellsOfTable();
-            fieldFiller2 = new FieldFiller(context, cellsOfTable2, tablePresenter);
+            AppCompatTextView[][] cells2 = fieldCreator2.getCells();
+            fieldFiller2 = new FieldFiller(context, cells2, tablePresenter);
         }
     }
 
     private void restoreFillingTable(){
 
         if (isLetters){
-            AppCompatTextView[][] cellsOfTable1 = fieldCreator1.getCellsOfTable();
-            fieldFiller1 = new FieldFiller(context, tablePresenter, listLetters1, cellsOfTable1);
+            AppCompatTextView[][] cells1 = fieldCreator1.getCells();
+            fieldFiller1 = new FieldFiller(context, tablePresenter, listLetters1, cells1);
 
             if (isTwoTables){
-                AppCompatTextView[][] cellsOfTable2 = fieldCreator2.getCellsOfTable();
-                fieldFiller2 = new FieldFiller(context, tablePresenter, listLetters2, cellsOfTable2);
+                AppCompatTextView[][] cells2 = fieldCreator2.getCells();
+                fieldFiller2 = new FieldFiller(context, tablePresenter, listLetters2, cells2);
             }
         }
 
         if(!isLetters){
-            AppCompatTextView[][] cellsOfTable1 = fieldCreator1.getCellsOfTable();
-            fieldFiller1 = new FieldFiller(cellsOfTable1, tablePresenter, listNumbers1, context);
+            AppCompatTextView[][] cells1 = fieldCreator1.getCells();
+            fieldFiller1 = new FieldFiller(cells1, tablePresenter, listNumbers1, context);
 
             if (isTwoTables){
-                AppCompatTextView[][] cellsOfTable2 = fieldCreator2.getCellsOfTable();
-                fieldFiller2 = new FieldFiller(cellsOfTable2, tablePresenter, listNumbers2, context);
+                AppCompatTextView[][] cells2 = fieldCreator2.getCells();
+                fieldFiller2 = new FieldFiller(cells2, tablePresenter, listNumbers2, context);
             }
         }
 
 
     }
-
-
-
 
     private void restoreTable() {
         readSharedPreferences();

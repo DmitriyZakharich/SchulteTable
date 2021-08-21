@@ -121,23 +121,18 @@ public class CustomizationActivity extends AppCompatActivity implements AdapterV
     public static SharedPreferences getsPrefCustomization() {
         return sPrefCustomization;
     }
-
     public static String getAppPreferences() {
         return APP_PREFERENCES;
     }
-
     public static String getKeyNumberColumns() {
         return KEY_NUMBER_COLUMNS;
     }
-
     public static String getKeyNumberRows() {
         return KEY_NUMBER_ROWS;
     }
-
     public static String getKeyAnimation() {
         return KEY_ANIMATION;
     }
-
     public static String getKeyTouchCells() {
         return KEY_TOUCH_CELLS;
     }

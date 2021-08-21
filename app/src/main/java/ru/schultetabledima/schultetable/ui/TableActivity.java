@@ -136,10 +136,10 @@ public class TableActivity extends AppCompatActivity implements TableContract.Vi
     // сохранение состояния
     @Override
     protected void onSaveInstanceState(Bundle outState) {
+        Log.d("Трасировка", "Активити onSave");
         tablePresenter.saveInstanceState();
         tablePresenter.detachView();
         outState.putSerializable(KEY_SERIALIZABLE_TABLE_PRESENTER, tablePresenter);
-        Log.d("Трасировка", "Активити onSave");
 
         super.onSaveInstanceState(outState);
     }
@@ -147,12 +147,10 @@ public class TableActivity extends AppCompatActivity implements TableContract.Vi
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
+        Log.d("Трасировка", "Активити onRestore");
         tablePresenter = (TablePresenter)savedInstanceState.getSerializable(KEY_SERIALIZABLE_TABLE_PRESENTER);
         tablePresenter.attachView(this);
         tablePresenter.restoreInstanceState();
-        placeForTable.addView(tablePresenter.getTable());
-        Log.d("Трасировка", "Активити onRestore");
-
     }
 
     public void removeTable() {

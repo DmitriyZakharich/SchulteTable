@@ -20,13 +20,12 @@ public class FieldCreator {
     private Context context;
     private int rowsOfTable;
     private int columnsOfTable;
-    private AppCompatTextView [][] cellsOfTable;
+    private AppCompatTextView [][] cells;
 
 
     public FieldCreator(Context context) {
         this.context = context;
         init();
-        Log.d("Трасировка", "FieldCreator");
     }
 
     private void init() {
@@ -66,18 +65,18 @@ public class FieldCreator {
         }
 
         //Создание кнопок
-        cellsOfTable = new AppCompatTextView[rowsOfTable][columnsOfTable];
+        cells = new AppCompatTextView[rowsOfTable][columnsOfTable];
         for (int i = 0; i < rowsOfTable; i++){
             for (int j = 0; j < columnsOfTable; j++) {
-                cellsOfTable[i][j] = new AppCompatTextView(context);
-                cellsOfTable[i][j].setTextColor(Color.BLACK);
-                cellsOfTable[i][j].setBackgroundColor(Color.WHITE);
-                cellsOfTable[i][j].setMaxLines(1);
+                cells[i][j] = new AppCompatTextView(context);
+                cells[i][j].setTextColor(Color.BLACK);
+                cells[i][j].setBackgroundColor(Color.WHITE);
+                cells[i][j].setMaxLines(1);
                 TableRow.LayoutParams lpButton = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.MATCH_PARENT, 1);
-                cellsOfTable[i][j].setLayoutParams(lpButton);
-                cellsOfTable[i][j].setGravity(Gravity.CENTER);
+                cells[i][j].setLayoutParams(lpButton);
+                cells[i][j].setGravity(Gravity.CENTER);
 
-                tableRow[i].addView(cellsOfTable[i][j]);
+                tableRow[i].addView(cells[i][j]);
                 tableRow[i].setDividerDrawable(drawable);
                 tableRow[i].setDividerPadding(2);
                 tableRow[i].setShowDividers(TableRow.SHOW_DIVIDER_MIDDLE);
@@ -90,7 +89,7 @@ public class FieldCreator {
         return field;
     }
 
-    public AppCompatTextView[][] getCellsOfTable() {
-        return cellsOfTable;
+    public AppCompatTextView[][] getCells() {
+        return cells;
     }
 }

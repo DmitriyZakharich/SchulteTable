@@ -19,16 +19,17 @@ import ru.schultetabledima.schultetable.ui.CustomizationActivity;
 import ru.schultetabledima.schultetable.ui.EndGameDialogue;
 import ru.schultetabledima.schultetable.ui.StatisticsActivity;
 import ru.schultetabledima.schultetable.ui.TableActivity;
+import ru.schultetabledima.schultetable.utils.SettingsReader;
 
 public class TablePresenter implements Serializable{
-    private Boolean isPressButtons;
+    private boolean isPressButtons;
     private int nextMoveNumber = 1;
     private char nextMoveLetter = 'А';
     private int count = 1;
     private int columnsOfTable;
     private int rowsOfTable;
     private long saveTime;
-    private transient Context context;
+    private Context context;
     private transient TableCreator tableCreator;
     private transient EndGameDialogue endGameDialogue;
     private transient LinearLayout table;
@@ -43,10 +44,8 @@ public class TablePresenter implements Serializable{
         readSharedPreferences();
         callTableCreator();
         showTable();
-        Log.d("Трасировка", "TablePresenter");
+        startChronometer();
     }
-
-
 
     private void readSharedPreferences() {
         SharedPreferences spCustomization = context.getSharedPreferences(CustomizationActivity.getAppPreferences(), MODE_PRIVATE);
@@ -68,14 +67,19 @@ public class TablePresenter implements Serializable{
     }
 
     public void callTableCreator() {
+        Log.d("Трассировка", "Первый вызов callTableCreator");
         tableCreator = new TableCreator(context, this);
         table = tableCreator.getTable();
     }
 
     private void showTable() {
         ((TableActivity)context).showTable(table);
+    }
+
+    private void startChronometer(){
         ((TableActivity)context).startChronometer();
     }
+
 
     public LinearLayout getTable(){
         return table;
@@ -126,14 +130,13 @@ public class TablePresenter implements Serializable{
     }
 
     public void saveInstanceState(){
-        Log.d("Трасировка", "TablePresenter save");
-
         ((TableActivity)context).stopChronometer();
         saveTime = ((TableActivity)context).getBaseChronometer() - SystemClock.elapsedRealtime();
         ((TableActivity)context).removeTable();
 
         if (isLetters){
             listLetters1 = new ArrayList<>(tableCreator.getListLetters1());
+
             if (isTwoTables){
                 listLetters2 = new ArrayList<>(tableCreator.getListLetters2());
             }
@@ -145,22 +148,22 @@ public class TablePresenter implements Serializable{
                 listNumbers2 = new ArrayList<>(tableCreator.getListNumbers2());
             }
         }
-
     }
 
     public void restoreInstanceState(){
-        Log.d("Трасировка", "TablePresenter restore");
-
         if (isLetters){
             tableCreator = new TableCreator(context, this, listLetters1, listLetters2);
         }else {
             tableCreator = new TableCreator(context,  listNumbers1, listNumbers2, this);
 
         }
-        tableCreator.getTable();
-
+        table = tableCreator.getTable();
+        showTable();
 
         ((TableActivity)context).setBaseChronometer(SystemClock.elapsedRealtime() + saveTime);
         ((TableActivity)context).startChronometer();
+
+
+
     }
 }
