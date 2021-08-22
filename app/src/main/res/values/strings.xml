@@ -5,8 +5,24 @@
     <string name="customization">Настройки</string>
     <string name="statistics">Статистика</string>
     <string name="table">Таблица</string>
-    <string name="headlineData">Дата</string>
-    <string name="headlineSize">Размер</string>
-    <string name="headlineTime">Время</string>
-    <string name="headlineResults">Результаты</string>
+    <string name="headline_data">Дата</string>
+    <string name="headline_size">Размер</string>
+    <string name="headline_time">Время</string>
+    <string name="headline_results">Результаты</string>
+    <string name="end_game">Конец игры</string>
+    <string name="letters">Буквы</string>
+    <string name="numbers">Числа</string>
+    <string name="NumbersLetters">Числа\\Буквы</string>
+    <string name="Table">Таблица</string>
+    <string name="TwoTables">Две таблицы</string>
+    <string name="Animation">Анимация</string>
+    <string name="TouchFoundCells">Касаться найденных ячеек</string>
+    <string name="OtherSettings">Другие настройки</string>
+    <string name="NumberOfRows">Количество рядов</string>
+    <string name="NumberOfColumns">Количество столбцов</string>
+    <string name="TableSize">Размер таблицы</string>
+    <string name="russian">Рус</string>
+    <string name="english">Анг</string>
+    <string name="choiceOfLetterLanguage">Русские\\Английские буквы</string>
+
 </resources>

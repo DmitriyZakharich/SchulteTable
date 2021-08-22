@@ -7,14 +7,16 @@
     android:orientation="vertical"
     tools:context=".ui.TableActivity">
 
-    <LinearLayout
-        android:id="@+id/LinearLayoutForTable"
+    <RelativeLayout
+        android:id="@+id/placeForTable"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         android:layout_weight="1"
-        android:orientation="horizontal"
-        android:animateLayoutChanges="true">
-    </LinearLayout>
+        android:animateLayoutChanges="true"
+        android:divider="@drawable/table_separator">
+
+    </RelativeLayout>
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"

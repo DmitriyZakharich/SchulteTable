@@ -34,6 +34,8 @@ import android.widget.Filterable;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.Serializable;
+
 /**
  * Provide a {@link android.support.v7.widget.RecyclerView.Adapter} implementation with cursor
  * support.
@@ -54,7 +56,7 @@ import androidx.recyclerview.widget.RecyclerView;
  */
 public abstract class CursorRecyclerAdapter<VH
         extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH>
-        implements Filterable, CursorFilter.CursorFilterClient {
+        implements Filterable, CursorFilter.CursorFilterClient, Serializable{
     private boolean mDataValid;
     private int mRowIDColumn;
     private Cursor mCursor;
@@ -323,7 +325,7 @@ public abstract class CursorRecyclerAdapter<VH
 
 }
 
-class CursorFilter extends Filter {
+class CursorFilter extends Filter implements Serializable {
 
     CursorFilterClient mClient;
 

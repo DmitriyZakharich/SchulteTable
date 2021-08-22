@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="ordinaryTextSize">19sp</dimen>
+    <dimen name="headerTextSize">26sp</dimen>
+    <dimen name="switchSize">87dp</dimen>
+</resources>

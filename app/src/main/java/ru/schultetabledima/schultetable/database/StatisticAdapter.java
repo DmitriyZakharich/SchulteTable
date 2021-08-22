@@ -13,6 +13,7 @@ import org.jetbrains.annotations.NotNull;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -20,7 +21,7 @@ import java.util.Locale;
 
 import ru.schultetabledima.schultetable.R;
 
-public class StatisticAdapter extends CursorRecyclerAdapter {
+public class StatisticAdapter extends CursorRecyclerAdapter implements Serializable {
     private LayoutInflater inflater ;
 
     public StatisticAdapter(Cursor cursor, Context context) {
@@ -47,7 +48,7 @@ public class StatisticAdapter extends CursorRecyclerAdapter {
         ((ViewHolder)holder).textViewDate.setText(newDate);
     }
 
-    private static class ViewHolder extends RecyclerView.ViewHolder {
+    private static class ViewHolder extends RecyclerView.ViewHolder implements Serializable{
         TextView textViewDate, textViewSize, textViewTime;
 
         public ViewHolder(@NonNull @NotNull View itemView) {
@@ -58,7 +59,7 @@ public class StatisticAdapter extends CursorRecyclerAdapter {
         }
     }
 
-    private static class TimeAdjustment{
+    private static class TimeAdjustment implements Serializable{
 
         public static String getTime(String timeDataBase){
             Date currentDate = new Date();

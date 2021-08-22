@@ -11,9 +11,9 @@
         android:id="@+id/tvTableSize"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Размер таблицы"
+        android:text="@string/TableSize"
         android:textColor="@color/black"
-        android:textSize="24sp" />
+        android:textSize="@dimen/headerTextSize" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -28,16 +28,17 @@
                 android:id="@+id/headlineTime"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Количество столбцов"
+                android:text="@string/NumberOfColumns"
                 android:textColor="@color/black"
-                android:textSize="18sp" />
+                android:textSize="@dimen/ordinaryTextSize" />
 
             <Spinner
                 android:id="@+id/spinnerColumns"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="2"
-                android:textAlignment="viewEnd" />
+                android:textAlignment="viewEnd"
+                android:textSize="@dimen/ordinaryTextSize"/>
 
         </TableRow>
 
@@ -51,16 +52,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Количество рядов"
+                android:text="@string/NumberOfRows"
                 android:textColor="@color/black"
-                android:textSize="18sp" />
+                android:textSize="@dimen/ordinaryTextSize" />
 
             <Spinner
                 android:id="@+id/spinnerRows"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="2"
-                android:textAlignment="textEnd" />
+                android:textAlignment="textEnd"
+                android:scrollbarSize="90dp"/>
 
         </TableRow>
 
@@ -75,45 +77,68 @@
             android:id="@+id/headlineResults"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Другие настройки"
-            android:textSize="24sp"
+            android:text="@string/OtherSettings"
+            android:textSize="@dimen/headerTextSize"
             android:textColor="@color/black"/>
 
-        <Switch
+        <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/switchTouchСells"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Касаться найденных ячеек"
-            android:textSize="18sp"
-            android:textColor="@color/black"/>
+            android:text="@string/TouchFoundCells"
+            android:textSize="@dimen/ordinaryTextSize"
+            android:textColor="@color/black"
+            app:switchMinWidth="@dimen/switchSize"/>
 
-        <Switch
+        <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/switchAnimation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Анимация"
-            android:textSize="18sp"
-            android:textColor="@color/black"/>
+            android:text="@string/Animation"
+            android:textSize="@dimen/ordinaryTextSize"
+            android:textColor="@color/black"
+            app:switchMinWidth="@dimen/switchSize"/>
 
-        <Switch
-            android:id="@+id/switchDoubleTable"
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/switchTwoTables"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Анимация"
-            android:textSize="18sp"
-            android:textColor="@color/black"/>
+            android:text="@string/TwoTables"
+            android:textColor="@color/black"
+            android:textSize="@dimen/ordinaryTextSize"
+            app:switchMinWidth="@dimen/switchSize"/>
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/switchNumbersLetters"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/NumbersLetters"
+            app:showText="true"
+            android:textOff="@string/numbers"
+            android:textOn="@string/letters"
+            app:switchMinWidth="@dimen/switchSize"
+            android:textColor="@color/black"
+            android:textSize="@dimen/ordinaryTextSize"/>
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/switchRussianOrEnglish"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/choiceOfLetterLanguage"
+            app:showText="true"
+            android:textOff="@string/russian"
+            android:textOn="@string/english"
+            app:switchMinWidth="@dimen/switchSize"
+            android:textColor="@color/black"
+            android:textSize="@dimen/ordinaryTextSize"
+            android:backgroundTint="@color/black"/>
 
         <Button
             android:id="@+id/buttonToTable"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Таблица" />
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:srcCompat="@drawable/ic_resume" />
+            android:text="@string/Table"
+            android:textSize="@dimen/ordinaryTextSize"/>
 
     </LinearLayout>
 

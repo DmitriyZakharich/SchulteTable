@@ -7,19 +7,17 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical"
-    android:showDividers="middle|beginning|end|none"
+    android:showDividers="middle|beginning|end"
+    android:divider="@drawable/statistic_separator"
     tools:context=".ui.StatisticsActivity">
-
-    <!--    style="@style/stylesCellButton"-->
 
     <TextView
         android:id="@+id/headlineResults"
-
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorButton"
         android:gravity="center"
-        android:text="@string/headlineResults"
+        android:text="@string/headline_results"
         android:textColor="@color/black"
         android:textSize="34sp" />
 
@@ -27,40 +25,39 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/black"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:showDividers="middle|beginning|end"
+        android:divider="@drawable/statistic_separator">
 
         <TextView
             android:id="@+id/headlineData"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="1dp"
             android:layout_weight="1"
             android:background="@color/white"
-            android:text="@string/headlineData"
+            android:text="@string/headline_data"
             android:textAlignment="center"
             android:textColor="@color/black"
             android:textSize="25sp" />
 
         <TextView
             android:id="@+id/headlineSize"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="1dp"
             android:layout_weight="1"
             android:background="@color/white"
-            android:text="@string/headlineSize"
+            android:text="@string/headline_size"
             android:textAlignment="center"
             android:textColor="@color/black"
             android:textSize="25sp" />
 
         <TextView
             android:id="@+id/headlineTime"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="1dp"
             android:layout_weight="1"
             android:background="@color/white"
-            android:text="@string/headlineTime"
+            android:text="@string/headline_time"
             android:textAlignment="center"
             android:textColor="@color/black"
             android:textSize="25sp" />

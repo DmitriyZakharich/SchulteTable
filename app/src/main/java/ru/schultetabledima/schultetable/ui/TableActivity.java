@@ -3,236 +3,101 @@ package ru.schultetabledima.schultetable.ui;
 import android.animation.LayoutTransition;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Chronometer;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.TableLayout;
+import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.widget.TextViewCompat;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.Random;
 
 import ru.schultetabledima.schultetable.R;
-import ru.schultetabledima.schultetable.TableCreator;
+import ru.schultetabledima.schultetable.contracts.TableContract;
+import ru.schultetabledima.schultetable.presenters.TablePresenter;
 
-public class TableActivity extends AppCompatActivity{
+public class TableActivity extends AppCompatActivity implements TableContract.View{
 
-    private Toolbar toolbar;
-    private TableLayout tableLayoutTable;
-    private AppCompatTextView[][] CellOfTable;
-    private ImageButton imageButtonSettings, imageButtonStatistics;
-    private int stringsOfTable;
-    private int columnsOfTable;
-    private int count;
-    private int countSave;
-    private int nextMove = 1;
-    private Animation anim;
-    private ArrayList<Integer> listNumber;
-    private final String saveArrayOfNumbers ="ArrayOfNumbers";
-    private final String saveCountSave ="strCountSave";
-    private boolean booleanTouchCells;
-    private HashSet <Integer> hsRandCellAnim;
-    private boolean booleanAnim;
 
-    private int randAnimInt;
+    private static final String KEY_SERIALIZABLE_TABLE_PRESENTER = "tablePresenterPutSerializable";
+    private ImageButton settings, statistics;
     private Chronometer chronometer;
-
-    private int stringCellTenTextSize;
-    private int columnCellTenTextSize;
-    private boolean booleanMoreTenCells = false;
-    private final String saveStringCellTextSize = "strStrCellTextSize";
-    private final String saveColumnCellTextSize = "strColumnCellTextSize";
-    private final String saveBooleanMoreTenCells = "saveBooleanMoreTenCells";
-    private LinearLayout LinearLayoutForTable;
-    private final String saveChronometer = "saveChronometer";
-    private ImageButton imageButtonShowHideMenu;
-
+    private RelativeLayout placeForTable;
+    private Toolbar menu;
+    private ImageButton selectShowHideMenu;
     private static SharedPreferences sharedPreferencesMenu;
     private static final String MENU_PREFERENCES = "PreferencesMenu";
     static final String KEY_MENU_VISIBILITY = "Saved Menu Visibility";
     private boolean isMenuShow;
+    private TablePresenter tablePresenter;
 
-
-    private SharedPreferences sPrefCustomization;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_table);
 
-        Resources resources = this.getResources();
-        int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
-        int navigationBarHeight = resources.getDimensionPixelSize(resourceId);
-
-
-        imageButtonShowHideMenu = (ImageButton)findViewById(R.id.image_Button_Show_Hide_Menu);
-        imageButtonSettings = (ImageButton) findViewById(R.id.image_button_settings);
-        imageButtonStatistics = (ImageButton) findViewById(R.id.image_button_statistics);
-        LinearLayoutForTable = (LinearLayout) findViewById(R.id.LinearLayoutForTable);
-
-        toolbar = (Toolbar)findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-
-        imageButtonSettings.setOnClickListener(moveAnotherActivity);
-        imageButtonStatistics.setOnClickListener(moveAnotherActivity);
-        imageButtonShowHideMenu.setOnClickListener(methodShowHideMenu);
-
-
-        //секундомер
+        selectShowHideMenu = (ImageButton)findViewById(R.id.image_Button_Show_Hide_Menu);
+        settings = (ImageButton) findViewById(R.id.image_button_settings);
+        statistics = (ImageButton) findViewById(R.id.image_button_statistics);
+        placeForTable = (RelativeLayout) findViewById(R.id.placeForTable);
         chronometer = (Chronometer) findViewById(R.id.chronometer);
-        chronometer.start();
 
+        menu = (Toolbar)findViewById(R.id.toolbar);
+        setSupportActionBar(menu);
 
-        //Чтение настроек таблицы
-        sPrefCustomization = getSharedPreferences(CustomizationActivity.getAppPreferences(), MODE_PRIVATE);
-        int savedIntColumns = sPrefCustomization.getInt(CustomizationActivity.getPreferencesKeyNumberColumns(), 4);
-        int savedIntRows = sPrefCustomization.getInt(CustomizationActivity.getPreferencesKeyNumberRows(), 4);
-        booleanAnim = sPrefCustomization.getBoolean(CustomizationActivity.getPreferencesKeyAnimation(), false);
-        booleanTouchCells = sPrefCustomization.getBoolean(CustomizationActivity.getPreferencesKeyTouchCells(), true);
+        settings.setOnClickListener(moveAnotherActivity);
+        statistics.setOnClickListener(moveAnotherActivity);
+        selectShowHideMenu.setOnClickListener(methodShowHideMenu);
+
 
         //Чтение настроек строки меню
         sharedPreferencesMenu = getSharedPreferences(MENU_PREFERENCES, MODE_PRIVATE);
         isMenuShow = sharedPreferencesMenu.getBoolean(KEY_MENU_VISIBILITY, true);
 
-
-        columnsOfTable = savedIntColumns + 1;
-        stringsOfTable = savedIntRows + 1;
-
-        count = columnsOfTable * stringsOfTable;
-        countSave = count;
+        if (savedInstanceState == null)
+            tablePresenter = new TablePresenter(this);
 
 
-        TableCreator tableCreator = new TableCreator(stringsOfTable, columnsOfTable, this);
-        tableLayoutTable = tableCreator.getTableLayoutTable();
-        CellOfTable = tableCreator.getCellOfTable();
+        Log.d("nextMoveNumber", "placeForTable---------------           " + placeForTable.getId());
 
-
-        LinearLayoutForTable.addView(tableLayoutTable);
 
         //Анимация показать-скрыть меню навигации
-        LayoutTransition layoutTransitionToolbar = toolbar.getLayoutTransition();
+        LayoutTransition layoutTransitionToolbar = menu.getLayoutTransition();
         layoutTransitionToolbar.enableTransitionType(LayoutTransition.CHANGING);
 
-        LayoutTransition layoutTransitionTable = new LayoutTransition();
-        tableLayoutTable.setLayoutTransition(layoutTransitionTable);
-        layoutTransitionTable.enableTransitionType(LayoutTransition.CHANGING);
-
-
-        //Рандом для анимации
-        Random random = new Random();
-
-        int numberCellAnim = (columnsOfTable * stringsOfTable)/2;
-        Log.d("randAnim","numberCellAnim = " + numberCellAnim);
-
-        hsRandCellAnim = new HashSet<Integer>();
-
-        hsRandCellAnim.add(10);
-
-        for (int i = 0; i < numberCellAnim; i++) {
-            randAnimInt = random.nextInt(columnsOfTable * stringsOfTable + 1); //????
-            if (!hsRandCellAnim.add(Integer.valueOf(randAnimInt))){
-                i--;
-            }
-        }
-
-
-        //Заполнение массива
-        listNumber = new ArrayList();
-        for (int j = 1; j <= columnsOfTable * stringsOfTable; j++ ) {
-            listNumber.add( j );
-        }
-        Collections.shuffle( listNumber );
-
-
-        /*
-        Установка обработчика кнопки
-        Текста
-        Анимация
-         */
-        for (int i = 0; i < stringsOfTable; i++) {
-            for (int j = 0; j < columnsOfTable; j++) {
-                CellOfTable[i][j].setOnClickListener(cellClick);
-
-                CellOfTable[i][j].setText("" + listNumber.get(stringsOfTable * columnsOfTable - count));
-
-                if (CellOfTable[i][j].getText().toString().equals("10")){
-                    stringCellTenTextSize = i;
-                    columnCellTenTextSize = j;
-                    booleanMoreTenCells = true;
-                }
-                count--;
-
-                //Анимация
-                if (booleanAnim){
-                    if (hsRandCellAnim.contains(Integer.parseInt(CellOfTable[i][j].getText().toString()))) {
-                        anim = AnimationUtils.loadAnimation(this, R.anim.myrotate);
-                        CellOfTable[i][j].startAnimation(anim);
-                        Log.d("buttonstartAnimation",""+ CellOfTable[i][j].getText().toString());
-                    }
-                }
-            }
-        }
-
-        /*
-         * Ожидание отрисовки таблицы для получения размеров
-         * корректировка размеров шрифта по 10й ячейке
-         */
-        if(booleanMoreTenCells) {
-            CellOfTable[0][0].post(new Runnable() {
-                @Override
-                public void run() {
-                    int tenCellTextSize = getSP(CellOfTable[stringCellTenTextSize][columnCellTenTextSize].getTextSize());
-                    for (int i = 0; i < stringsOfTable; i++) {
-                        for (int j = 0; j < columnsOfTable; j++) {
-                            TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(CellOfTable[i][j], 1,
-                                    tenCellTextSize, 1, TypedValue.COMPLEX_UNIT_SP);
-                        }
-                    }
-                }
-            });
-        }
-
-
         if(isMenuShow){
-            toolbar.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, getPx(40)));
+            menu.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, getPx(40)));
 
             chronometer.setVisibility(View.VISIBLE);
-            imageButtonSettings.setVisibility(View.VISIBLE);
-            imageButtonStatistics.setVisibility(View.VISIBLE);
-            imageButtonShowHideMenu.setImageResource(R.drawable.ic_arrow_down);
-
-
+            settings.setVisibility(View.VISIBLE);
+            statistics.setVisibility(View.VISIBLE);
+            selectShowHideMenu.setImageResource(R.drawable.ic_arrow_down);
         }else{
-            toolbar.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, getPx(20)));
+            menu.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, getPx(20)));
 
             chronometer.setVisibility(View.INVISIBLE);
-            imageButtonSettings.setVisibility(View.INVISIBLE);
-            imageButtonStatistics.setVisibility(View.INVISIBLE);
-            imageButtonShowHideMenu.setImageResource(R.drawable.ic_arrow_up);
-
+            settings.setVisibility(View.INVISIBLE);
+            statistics.setVisibility(View.INVISIBLE);
+            selectShowHideMenu.setImageResource(R.drawable.ic_arrow_up);
         }
-
-
 }
+
+    @Override
+    public void showTable(LinearLayout table) {
+        placeForTable.addView(table);
+        addAnim(table);
+        Log.d("nextMoveNumber", "---------------           " + table.getId());
+
+    }
+
+    void addAnim(LinearLayout table){
+        LayoutTransition layoutTransitionTable = new LayoutTransition();
+        table.setLayoutTransition(layoutTransitionTable);
+        layoutTransitionTable.enableTransitionType(LayoutTransition.CHANGING);
+    }
 
     View.OnClickListener methodShowHideMenu = new View.OnClickListener() {
         @Override
@@ -243,20 +108,20 @@ public class TableActivity extends AppCompatActivity{
             if (isMenuShow){
                 isMenuShow = false;
                 chronometer.setVisibility(View.INVISIBLE);
-                imageButtonSettings.setVisibility(View.INVISIBLE);
-                imageButtonStatistics.setVisibility(View.INVISIBLE);
+                settings.setVisibility(View.INVISIBLE);
+                statistics.setVisibility(View.INVISIBLE);
 
-                toolbar.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, getPx(20)));
-                imageButtonShowHideMenu.setImageResource(R.drawable.ic_arrow_up);
+                menu.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, getPx(20)));
+                selectShowHideMenu.setImageResource(R.drawable.ic_arrow_up);
 
             }else{
                 isMenuShow = true;
                 chronometer.setVisibility(View.VISIBLE);
-                imageButtonSettings.setVisibility(View.VISIBLE);
-                imageButtonStatistics.setVisibility(View.VISIBLE);
+                settings.setVisibility(View.VISIBLE);
+                statistics.setVisibility(View.VISIBLE);
 
-                toolbar.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, getPx(40)));
-                imageButtonShowHideMenu.setImageResource(R.drawable.ic_arrow_down);
+                menu.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, getPx(40)));
+                selectShowHideMenu.setImageResource(R.drawable.ic_arrow_down);
             }
             ed.putBoolean(KEY_MENU_VISIBILITY, isMenuShow);
             ed.apply();
@@ -267,73 +132,18 @@ public class TableActivity extends AppCompatActivity{
     View.OnClickListener moveAnotherActivity = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            switch (v.getId()){
-                case R.id.image_button_settings:
-                    startActivity(new Intent(TableActivity.this, CustomizationActivity.class));
-                    break;
-                case R.id.image_button_statistics:
-                    startActivity(new Intent(TableActivity.this, StatisticsActivity.class));
-                    break;
-            }
+            tablePresenter.moveAnotherActivity(v.getId());
         }
     };
-
-
-    //Обработчик для ячеек таблицы
-    View.OnClickListener cellClick = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            if (booleanTouchCells){
-
-                if(nextMove == Integer.parseInt ("" + ((AppCompatTextView)v).getText())){
-                    nextMove++;
-
-                    if (nextMove == (countSave+1)){
-                        chronometer.stop();
-                        endGameDialogueStart();
-                    }
-                }
-            }else {
-                chronometer.stop();
-                endGameDialogueStart();
-            }
-        }
-    };
-
-    void endGameDialogueStart(){
-        Date currentDate = new Date();
-        DateFormat dateFormat = new SimpleDateFormat("HH:mm dd.MM.yy", Locale.getDefault());
-        String dateText = dateFormat.format(currentDate);
-
-        EndGameDialogue endGameDialogue = new EndGameDialogue(TableActivity.this,
-                chronometer, booleanTouchCells, chronometer.getBase()- SystemClock.elapsedRealtime(),
-                columnsOfTable, stringsOfTable, dateText);
-        endGameDialogue.start();
-    }
-
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        Intent intent = getIntent();
-        finish();
-        startActivity(intent);
-    }
 
     //Сохранение информации при поворатах Активити
     // сохранение состояния
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        outState.putIntegerArrayList(saveArrayOfNumbers, listNumber);
-        outState.putInt(saveCountSave, countSave);
-
-        outState.putInt(saveStringCellTextSize, stringCellTenTextSize);
-        outState.putInt(saveColumnCellTextSize, columnCellTenTextSize);
-        outState.putBoolean(saveBooleanMoreTenCells, booleanMoreTenCells);
-
-        chronometer.stop();
-        outState.putLong(saveChronometer, chronometer.getBase() - SystemClock.elapsedRealtime());
-
+        Log.d("Трасировка", "Активити onSave");
+        tablePresenter.saveInstanceState();
+        tablePresenter.detachView();
+        outState.putSerializable(KEY_SERIALIZABLE_TABLE_PRESENTER, tablePresenter);
 
         super.onSaveInstanceState(outState);
     }
@@ -341,53 +151,44 @@ public class TableActivity extends AppCompatActivity{
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-
-        listNumber = savedInstanceState.getIntegerArrayList(saveArrayOfNumbers);
-        count = savedInstanceState.getInt(saveCountSave);
-        stringCellTenTextSize = savedInstanceState.getInt(saveStringCellTextSize);
-        columnCellTenTextSize = savedInstanceState.getInt(saveColumnCellTextSize);
-        booleanMoreTenCells = savedInstanceState.getBoolean(saveBooleanMoreTenCells);
-
-        chronometer.setBase(SystemClock.elapsedRealtime() + savedInstanceState.getLong(saveChronometer));
-        chronometer.start();
-
-
-        for (int i = 0; i < stringsOfTable; i++) {
-            for (int j = 0; j < columnsOfTable; j++) {
-                CellOfTable[i][j].setText("" + listNumber.get(stringsOfTable * columnsOfTable - count));
-                count--;
-            }
-        }
-
-        /*
-         * Ожидание отрисовки таблицы для получения размеров
-         * корректировка размеров шрифта по 10й ячейке
-         */
-        if(booleanMoreTenCells) {
-            CellOfTable[0][0].post(new Runnable() {
-                @Override
-                public void run() {
-                    int tenCellTextSize = getSP(CellOfTable[stringCellTenTextSize][columnCellTenTextSize].getTextSize());
-                    for (int i = 0; i < stringsOfTable; i++) {
-                        for (int j = 0; j < columnsOfTable; j++) {
-                            TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(CellOfTable[i][j], 1,
-                                    tenCellTextSize, 1, TypedValue.COMPLEX_UNIT_SP);
-                        }
-                    }
-                }
-            });
-        }
-
+        Log.d("Трасировка", "Активити onRestore");
+        tablePresenter = (TablePresenter)savedInstanceState.getSerializable(KEY_SERIALIZABLE_TABLE_PRESENTER);
+        tablePresenter.attachView(this);
+        tablePresenter.restoreInstanceState();
     }
 
+    public void removeTable() {
+        placeForTable.removeAllViews();
+    }
 
-    public int getSP(float px){
-        float sp = px / getResources().getDisplayMetrics().scaledDensity;
-        return (int) sp;
+    public void startChronometer(){
+        chronometer.start();
+    }
+    public void stopChronometer(){
+        chronometer.stop();
+    }
+
+    public String getTextChronometer(){
+        return (String) chronometer.getText();
+    }
+
+    public long getBaseChronometer(){
+        return chronometer.getBase();
+    }
+    public void setBaseChronometer(long base){
+        chronometer.setBase(base);
     }
 
     public int getPx(int dp){
         float scale = getResources().getDisplayMetrics().density;
         return((int) (dp * scale + 0.5f));
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Intent intent = getIntent();
+        finish();
+        startActivity(intent);
     }
 }

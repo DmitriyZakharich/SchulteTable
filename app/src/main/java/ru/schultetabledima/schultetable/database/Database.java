@@ -9,20 +9,20 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
-public class Database {
-    Activity activity;
-    String time;
-    int columnsOfTable;
-    int stringsOfTable;
-    private DatabaseHelper databaseHelper;
-    String currentDate;
-    SQLiteDatabase db;
+import java.io.Serializable;
 
-    public Database(Activity activity, String time, int columnsOfTable, int stringsOfTable, String currentDate) {
+public class Database {
+    private Activity activity;
+    private String time;
+    private String tableSize;
+    private DatabaseHelper databaseHelper;
+    private String currentDate;
+    private SQLiteDatabase db;
+
+    public Database(Activity activity, String time, String tableSize, String currentDate) {
         this.activity = activity;
         this.time = time;
-        this.columnsOfTable = columnsOfTable;
-        this.stringsOfTable = stringsOfTable;
+        this.tableSize = tableSize;
         this.currentDate = currentDate;
     }
 
@@ -34,7 +34,7 @@ public class Database {
         databaseHelper = new DatabaseHelper(activity);
         SQLiteDatabase db = databaseHelper.getWritableDatabase();
         ContentValues cv = new ContentValues();
-        cv.put(DatabaseHelper.COLUMN_SIZE_FIELD, "" + columnsOfTable + "x" + stringsOfTable);
+        cv.put(DatabaseHelper.COLUMN_SIZE_FIELD, tableSize);
         cv.put(DatabaseHelper.COLUMN_TIME, time);
         cv.put(DatabaseHelper.COLUMN_DATE, currentDate);
         long id = db.insert(DatabaseHelper.TABLE_RESULTS, null, cv);

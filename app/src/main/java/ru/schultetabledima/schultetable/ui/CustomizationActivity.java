@@ -8,29 +8,29 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
-import android.widget.Switch;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.material.switchmaterial.SwitchMaterial;
 
 import ru.schultetabledima.schultetable.R;
 
 public class CustomizationActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, View.OnClickListener {
 
     private final String [] valueSpinner = {"1","2","3","4","5","6","7","8","9","10"};
-    private Spinner spinnerColumns;
-    private Spinner spinnerRows;
-    private Switch switchAnimation;
-    private Switch switchTouchCells;
-    private Switch switchDoubleTable;
-    private Button buttonToTable;
 
-    public static SharedPreferences sPrefCustomization;
-    public static final String APP_PREFERENCES = "my_settings";
+    private static SharedPreferences sPrefCustomization;
+    private static final String APP_PREFERENCES = "my_settings";
 
-    static final String PREFERENCES_KEY_NUMBER_COLUMNS = "SAVED spinnerColumns";
-    static final String PREFERENCES_KEY_NUMBER_ROWS = "SAVED spinnerRows";
-    static final String PREFERENCES_KEY_ANIMATION = "booleanSwitchAnimation";
-    static final String PREFERENCES_KEY_TOUCH_CELLS = "booleanSwitchTouchCells";
+    private static final String KEY_NUMBER_COLUMNS = "SAVED spinnerColumns";
+    private static final String KEY_NUMBER_ROWS = "SAVED spinnerRows";
+    private static final String KEY_ANIMATION = "switchAnimation";
+    private static final String KEY_TOUCH_CELLS = "switchTouchCells";
+    private static final String KEY_NUMBERS_LETTERS = "switchNumbersLetters";
+    private static final String KEY_RUSSIAN_OR_ENGLISH = "switchRussianOrEnglish";
+
+
+    private static final String KEY_TWO_TABLES = "switchTwoTables";
 
 
     @Override
@@ -38,12 +38,14 @@ public class CustomizationActivity extends AppCompatActivity implements AdapterV
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customization);
 
-        spinnerColumns = findViewById(R.id.spinnerColumns);
-        spinnerRows = findViewById(R.id.spinnerRows);
-        switchAnimation = findViewById(R.id.switchAnimation);
-        switchTouchCells = findViewById(R.id.switchTouchСells);
-        switchDoubleTable = findViewById(R.id.switchDoubleTable);
-        buttonToTable = findViewById(R.id.buttonToTable);
+        Spinner spinnerColumns = findViewById(R.id.spinnerColumns);
+        Spinner spinnerRows = findViewById(R.id.spinnerRows);
+        SwitchMaterial switchAnimation = findViewById(R.id.switchAnimation);
+        SwitchMaterial switchTouchCells = findViewById(R.id.switchTouchСells);
+        SwitchMaterial switchTwoTableS = findViewById(R.id.switchTwoTables);
+        SwitchMaterial switchNumbersLetters = findViewById(R.id.switchNumbersLetters);
+        SwitchMaterial switchRussianOrEnglish = findViewById(R.id.switchRussianOrEnglish);
+        Button buttonToTable = findViewById(R.id.buttonToTable);
 
         sPrefCustomization = getSharedPreferences(APP_PREFERENCES, MODE_PRIVATE);
 
@@ -53,16 +55,22 @@ public class CustomizationActivity extends AppCompatActivity implements AdapterV
         spinnerColumns.setAdapter(adapter);
         spinnerRows.setAdapter(adapter);
 
-        spinnerColumns.setSelection(sPrefCustomization.getInt(PREFERENCES_KEY_NUMBER_COLUMNS, 4), false);
-        spinnerRows.setSelection(sPrefCustomization.getInt(PREFERENCES_KEY_NUMBER_ROWS, 4), false);
-        switchAnimation.setChecked(sPrefCustomization.getBoolean(PREFERENCES_KEY_ANIMATION, false));
-        switchTouchCells.setChecked(sPrefCustomization.getBoolean(PREFERENCES_KEY_TOUCH_CELLS, true));
+        spinnerColumns.setSelection(sPrefCustomization.getInt(KEY_NUMBER_COLUMNS, 4), false);
+        spinnerRows.setSelection(sPrefCustomization.getInt(KEY_NUMBER_ROWS, 4), false);
+        switchAnimation.setChecked(sPrefCustomization.getBoolean(KEY_ANIMATION, false));
+        switchTouchCells.setChecked(sPrefCustomization.getBoolean(KEY_TOUCH_CELLS, true));
+        switchNumbersLetters.setChecked(sPrefCustomization.getBoolean(KEY_NUMBERS_LETTERS, false));
+        switchTwoTableS.setChecked(sPrefCustomization.getBoolean(KEY_TWO_TABLES, false));
+        switchRussianOrEnglish.setChecked(sPrefCustomization.getBoolean(KEY_RUSSIAN_OR_ENGLISH, false));
 
         spinnerColumns.setOnItemSelectedListener(this);
         spinnerRows.setOnItemSelectedListener(this);
         switchAnimation.setOnClickListener(this);
         switchTouchCells.setOnClickListener(this);
+        switchNumbersLetters.setOnClickListener(this);
+        switchTwoTableS.setOnClickListener(this);
         buttonToTable.setOnClickListener(this);
+        switchRussianOrEnglish.setOnClickListener(this);
 
     }
 
@@ -73,11 +81,11 @@ public class CustomizationActivity extends AppCompatActivity implements AdapterV
         ed = sPrefCustomization.edit();
         switch (parent.getId()) {
             case R.id.spinnerColumns:
-                ed.putInt(PREFERENCES_KEY_NUMBER_COLUMNS, position);
+                ed.putInt(KEY_NUMBER_COLUMNS, position);
                 ed.apply();
                 break;
             case R.id.spinnerRows:
-                ed.putInt(PREFERENCES_KEY_NUMBER_ROWS, position);
+                ed.putInt(KEY_NUMBER_ROWS, position);
                 ed.apply();
                 break;
         }
@@ -91,42 +99,58 @@ public class CustomizationActivity extends AppCompatActivity implements AdapterV
         SharedPreferences.Editor ed;
         ed = sPrefCustomization.edit();
 
-        switch (v.getId()){
-            case R.id.switchAnimation:
-                ed.putBoolean(PREFERENCES_KEY_ANIMATION, ((Switch)v).isChecked());
-                ed.apply();
-            break;
-            case R.id.switchTouchСells:
-                ed.putBoolean(PREFERENCES_KEY_TOUCH_CELLS, ((Switch)v).isChecked());
-                ed.apply();
-                break;
-            case R.id.buttonToTable:
-                startActivity(new Intent(CustomizationActivity.this, TableActivity.class));
-                break;
+        int id = v.getId();
+
+        if (id == R.id.switchAnimation) {
+            ed.putBoolean(KEY_ANIMATION, ((SwitchMaterial) v).isChecked());
+            ed.apply();
+
+        } else if (id == R.id.switchTouchСells) {
+            ed.putBoolean(KEY_TOUCH_CELLS, ((SwitchMaterial) v).isChecked());
+            ed.apply();
+
+        } else if (id == R.id.buttonToTable) {
+            startActivity(new Intent(CustomizationActivity.this, TableActivity.class));
+
+        } else if (id == R.id.switchTwoTables) {
+            ed.putBoolean(KEY_TWO_TABLES, ((SwitchMaterial) v).isChecked());
+            ed.apply();
+
+        } else if (id == R.id.switchNumbersLetters) {
+            ed.putBoolean(KEY_NUMBERS_LETTERS, ((SwitchMaterial) v).isChecked());
+            ed.apply();
+
+        } else if (id == R.id.switchRussianOrEnglish) {
+            ed.putBoolean(KEY_RUSSIAN_OR_ENGLISH, ((SwitchMaterial) v).isChecked());
+            ed.apply();
         }
     }
 
     public static SharedPreferences getsPrefCustomization() {
         return sPrefCustomization;
     }
-
     public static String getAppPreferences() {
         return APP_PREFERENCES;
     }
-
-    public static String getPreferencesKeyNumberColumns() {
-        return PREFERENCES_KEY_NUMBER_COLUMNS;
+    public static String getKeyNumberColumns() {
+        return KEY_NUMBER_COLUMNS;
     }
-
-    public static String getPreferencesKeyNumberRows() {
-        return PREFERENCES_KEY_NUMBER_ROWS;
+    public static String getKeyNumberRows() {
+        return KEY_NUMBER_ROWS;
     }
-
-    public static String getPreferencesKeyAnimation() {
-        return PREFERENCES_KEY_ANIMATION;
+    public static String getKeyAnimation() {
+        return KEY_ANIMATION;
     }
-
-    public static String getPreferencesKeyTouchCells() {
-        return PREFERENCES_KEY_TOUCH_CELLS;
+    public static String getKeyTouchCells() {
+        return KEY_TOUCH_CELLS;
+    }
+    public static String getKeyNumbersLetters() {
+        return KEY_NUMBERS_LETTERS;
+    }
+    public static String getKeyTwoTables() {
+        return KEY_TWO_TABLES;
+    }
+    public static String getKeyRussianOrEnglish() {
+        return KEY_RUSSIAN_OR_ENGLISH;
     }
 }
