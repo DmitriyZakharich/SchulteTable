@@ -4,7 +4,6 @@ import android.animation.LayoutTransition;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Chronometer;
 import android.widget.ImageButton;
@@ -29,8 +28,7 @@ public class TableActivity extends AppCompatActivity implements TableContract.Vi
     private ImageButton selectShowHideMenu;
     private static SharedPreferences sharedPreferencesMenu;
     private static final String MENU_PREFERENCES = "PreferencesMenu";
-    static final String KEY_MENU_VISIBILITY = "Saved Menu Visibility";
-    private boolean isMenuShow;
+    private static final String KEY_MENU_VISIBILITY = "Saved Menu Visibility";
     private TablePresenter tablePresenter;
 
 
@@ -48,49 +46,24 @@ public class TableActivity extends AppCompatActivity implements TableContract.Vi
         menu = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(menu);
 
-        settings.setOnClickListener(moveAnotherActivity);
-        statistics.setOnClickListener(moveAnotherActivity);
-        selectShowHideMenu.setOnClickListener(methodShowHideMenu);
-
-
-        //Чтение настроек строки меню
-        sharedPreferencesMenu = getSharedPreferences(MENU_PREFERENCES, MODE_PRIVATE);
-        isMenuShow = sharedPreferencesMenu.getBoolean(KEY_MENU_VISIBILITY, true);
+        settings.setOnClickListener(processingMenuButtons);
+        statistics.setOnClickListener(processingMenuButtons);
+        selectShowHideMenu.setOnClickListener(processingMenuButtons);
 
         if (savedInstanceState == null)
             tablePresenter = new TablePresenter(this);
-
-
-        Log.d("nextMoveNumber", "placeForTable---------------           " + placeForTable.getId());
 
 
         //Анимация показать-скрыть меню навигации
         LayoutTransition layoutTransitionToolbar = menu.getLayoutTransition();
         layoutTransitionToolbar.enableTransitionType(LayoutTransition.CHANGING);
 
-        if(isMenuShow){
-            menu.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, getPx(40)));
-
-            chronometer.setVisibility(View.VISIBLE);
-            settings.setVisibility(View.VISIBLE);
-            statistics.setVisibility(View.VISIBLE);
-            selectShowHideMenu.setImageResource(R.drawable.ic_arrow_down);
-        }else{
-            menu.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, getPx(20)));
-
-            chronometer.setVisibility(View.INVISIBLE);
-            settings.setVisibility(View.INVISIBLE);
-            statistics.setVisibility(View.INVISIBLE);
-            selectShowHideMenu.setImageResource(R.drawable.ic_arrow_up);
-        }
 }
 
     @Override
     public void showTable(LinearLayout table) {
         placeForTable.addView(table);
         addAnim(table);
-        Log.d("nextMoveNumber", "---------------           " + table.getId());
-
     }
 
     void addAnim(LinearLayout table){
@@ -99,40 +72,11 @@ public class TableActivity extends AppCompatActivity implements TableContract.Vi
         layoutTransitionTable.enableTransitionType(LayoutTransition.CHANGING);
     }
 
-    View.OnClickListener methodShowHideMenu = new View.OnClickListener() {
+
+    View.OnClickListener processingMenuButtons = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            SharedPreferences.Editor ed;
-            ed = sharedPreferencesMenu.edit();
-
-            if (isMenuShow){
-                isMenuShow = false;
-                chronometer.setVisibility(View.INVISIBLE);
-                settings.setVisibility(View.INVISIBLE);
-                statistics.setVisibility(View.INVISIBLE);
-
-                menu.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, getPx(20)));
-                selectShowHideMenu.setImageResource(R.drawable.ic_arrow_up);
-
-            }else{
-                isMenuShow = true;
-                chronometer.setVisibility(View.VISIBLE);
-                settings.setVisibility(View.VISIBLE);
-                statistics.setVisibility(View.VISIBLE);
-
-                menu.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, getPx(40)));
-                selectShowHideMenu.setImageResource(R.drawable.ic_arrow_down);
-            }
-            ed.putBoolean(KEY_MENU_VISIBILITY, isMenuShow);
-            ed.apply();
-        }
-    };
-
-
-    View.OnClickListener moveAnotherActivity = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            tablePresenter.moveAnotherActivity(v.getId());
+            tablePresenter.processingMenuButtons(v.getId());
         }
     };
 
@@ -140,7 +84,6 @@ public class TableActivity extends AppCompatActivity implements TableContract.Vi
     // сохранение состояния
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        Log.d("Трасировка", "Активити onSave");
         tablePresenter.saveInstanceState();
         tablePresenter.detachView();
         outState.putSerializable(KEY_SERIALIZABLE_TABLE_PRESENTER, tablePresenter);
@@ -151,11 +94,30 @@ public class TableActivity extends AppCompatActivity implements TableContract.Vi
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        Log.d("Трасировка", "Активити onRestore");
         tablePresenter = (TablePresenter)savedInstanceState.getSerializable(KEY_SERIALIZABLE_TABLE_PRESENTER);
         tablePresenter.attachView(this);
         tablePresenter.restoreInstanceState();
     }
+
+
+    public void showMenu(LinearLayout.LayoutParams layoutParams){
+        chronometer.setVisibility(View.VISIBLE);
+        settings.setVisibility(View.VISIBLE);
+        statistics.setVisibility(View.VISIBLE);
+
+        menu.setLayoutParams(layoutParams);
+        selectShowHideMenu.setImageResource(R.drawable.ic_arrow_down);
+    }
+
+    public void hideMenu(LinearLayout.LayoutParams layoutParams){
+        chronometer.setVisibility(View.INVISIBLE);
+        settings.setVisibility(View.INVISIBLE);
+        statistics.setVisibility(View.INVISIBLE);
+
+        menu.setLayoutParams(layoutParams);
+        selectShowHideMenu.setImageResource(R.drawable.ic_arrow_up);
+    }
+
 
     public void removeTable() {
         placeForTable.removeAllViews();
@@ -178,10 +140,11 @@ public class TableActivity extends AppCompatActivity implements TableContract.Vi
     public void setBaseChronometer(long base){
         chronometer.setBase(base);
     }
-
-    public int getPx(int dp){
-        float scale = getResources().getDisplayMetrics().density;
-        return((int) (dp * scale + 0.5f));
+    public static String getKeyMenuVisibility() {
+        return KEY_MENU_VISIBILITY;
+    }
+    public static String getMenuPreferences() {
+        return MENU_PREFERENCES;
     }
 
     @Override

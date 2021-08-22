@@ -15,7 +15,7 @@ import com.google.android.material.switchmaterial.SwitchMaterial;
 
 import ru.schultetabledima.schultetable.R;
 
-public class CustomizationActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, View.OnClickListener {
+public class SettingsActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, View.OnClickListener {
 
     private final String [] valueSpinner = {"1","2","3","4","5","6","7","8","9","10"};
 
@@ -110,7 +110,7 @@ public class CustomizationActivity extends AppCompatActivity implements AdapterV
             ed.apply();
 
         } else if (id == R.id.buttonToTable) {
-            startActivity(new Intent(CustomizationActivity.this, TableActivity.class));
+            startActivity(new Intent(SettingsActivity.this, TableActivity.class));
 
         } else if (id == R.id.switchTwoTables) {
             ed.putBoolean(KEY_TWO_TABLES, ((SwitchMaterial) v).isChecked());

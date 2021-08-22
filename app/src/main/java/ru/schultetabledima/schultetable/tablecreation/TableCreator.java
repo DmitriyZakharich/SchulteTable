@@ -17,7 +17,7 @@ import androidx.appcompat.widget.AppCompatTextView;
 import java.util.ArrayList;
 
 import ru.schultetabledima.schultetable.presenters.TablePresenter;
-import ru.schultetabledima.schultetable.ui.CustomizationActivity;
+import ru.schultetabledima.schultetable.ui.SettingsActivity;
 
 public class TableCreator{
     private ArrayList<Integer> listNumbers2;
@@ -65,16 +65,16 @@ public class TableCreator{
     void init(){
         readSharedPreferences();
         creatingContainerForTable();
-        creatingTable();
+        creatingField();
         fillingTable();
     }
 
     private void readSharedPreferences() {
-        SharedPreferences spCustomization = context.getSharedPreferences(CustomizationActivity.getAppPreferences(), MODE_PRIVATE);
-        columnsOfTable = spCustomization.getInt(CustomizationActivity.getKeyNumberColumns(), 4) + 1;
-        rowsOfTable = spCustomization.getInt(CustomizationActivity.getKeyNumberRows(), 4) + 1;
-        isTwoTables = spCustomization.getBoolean(CustomizationActivity.getKeyTwoTables(), false);
-        isLetters = spCustomization.getBoolean(CustomizationActivity.getKeyNumbersLetters(), false);
+        SharedPreferences spCustomization = context.getSharedPreferences(SettingsActivity.getAppPreferences(), MODE_PRIVATE);
+        columnsOfTable = spCustomization.getInt(SettingsActivity.getKeyNumberColumns(), 4) + 1;
+        rowsOfTable = spCustomization.getInt(SettingsActivity.getKeyNumberRows(), 4) + 1;
+        isTwoTables = spCustomization.getBoolean(SettingsActivity.getKeyTwoTables(), false);
+        isLetters = spCustomization.getBoolean(SettingsActivity.getKeyNumbersLetters(), false);
     }
 
     private void creatingContainerForTable() {
@@ -99,7 +99,7 @@ public class TableCreator{
         }
     }
 
-    private void creatingTable() {
+    private void creatingField() {
             fieldCreator1 = new FieldCreator(context, Color.GREEN);
             table.addView(fieldCreator1.getField());
 
@@ -148,7 +148,7 @@ public class TableCreator{
     private void restoreTable() {
         readSharedPreferences();
         creatingContainerForTable();
-        creatingTable();
+        creatingField();
         restoreFillingTable();
     }
 

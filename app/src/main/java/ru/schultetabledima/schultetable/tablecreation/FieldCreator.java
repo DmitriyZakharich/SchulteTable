@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.TableLayout;
@@ -16,7 +15,7 @@ import androidx.appcompat.widget.AppCompatTextView;
 
 import java.util.ArrayList;
 
-import ru.schultetabledima.schultetable.ui.CustomizationActivity;
+import ru.schultetabledima.schultetable.ui.SettingsActivity;
 
 public class FieldCreator {
     private TableLayout field;
@@ -41,9 +40,9 @@ public class FieldCreator {
 
 
     private void readSharedPreferences() {
-        SharedPreferences spCustomization = context.getSharedPreferences(CustomizationActivity.getAppPreferences(), MODE_PRIVATE);
-        columnsOfTable = spCustomization.getInt(CustomizationActivity.getKeyNumberColumns(), 4) + 1;
-        rowsOfTable = spCustomization.getInt(CustomizationActivity.getKeyNumberRows(), 4) + 1;
+        SharedPreferences spCustomization = context.getSharedPreferences(SettingsActivity.getAppPreferences(), MODE_PRIVATE);
+        columnsOfTable = spCustomization.getInt(SettingsActivity.getKeyNumberColumns(), 4) + 1;
+        rowsOfTable = spCustomization.getInt(SettingsActivity.getKeyNumberRows(), 4) + 1;
     }
 
     private void creator(){

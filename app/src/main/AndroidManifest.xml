@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".ui.AdviceActivity"></activity>
-        <activity android:name=".ui.CustomizationActivity" />
+        <activity android:name=".ui.SettingsActivity" />
         <activity android:name=".ui.StatisticsActivity" />
         <activity android:name=".ui.TableActivity" />
         <activity android:name=".ui.MainActivity">

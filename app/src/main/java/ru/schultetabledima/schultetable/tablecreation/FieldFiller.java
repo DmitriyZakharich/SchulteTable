@@ -21,7 +21,7 @@ import java.util.Random;
 
 import ru.schultetabledima.schultetable.R;
 import ru.schultetabledima.schultetable.presenters.TablePresenter;
-import ru.schultetabledima.schultetable.ui.CustomizationActivity;
+import ru.schultetabledima.schultetable.ui.SettingsActivity;
 import ru.schultetabledima.schultetable.utils.Converter;
 
 
@@ -86,12 +86,12 @@ public class FieldFiller {
 
 
     private void readSharedPreferences() {
-        SharedPreferences spCustomization = context.getSharedPreferences(CustomizationActivity.getAppPreferences(), MODE_PRIVATE);
-        columnsOfTable = spCustomization.getInt(CustomizationActivity.getKeyNumberColumns(), 4) + 1;
-        rowsOfTable = spCustomization.getInt(CustomizationActivity.getKeyNumberRows(), 4) + 1;
-        isLetters = spCustomization.getBoolean(CustomizationActivity.getKeyNumbersLetters(), false);
-        booleanAnim = spCustomization.getBoolean(CustomizationActivity.getKeyAnimation(), false);
-        isEnglish = spCustomization.getBoolean(CustomizationActivity.getKeyRussianOrEnglish(), false);
+        SharedPreferences spCustomization = context.getSharedPreferences(SettingsActivity.getAppPreferences(), MODE_PRIVATE);
+        columnsOfTable = spCustomization.getInt(SettingsActivity.getKeyNumberColumns(), 4) + 1;
+        rowsOfTable = spCustomization.getInt(SettingsActivity.getKeyNumberRows(), 4) + 1;
+        isLetters = spCustomization.getBoolean(SettingsActivity.getKeyNumbersLetters(), false);
+        booleanAnim = spCustomization.getBoolean(SettingsActivity.getKeyAnimation(), false);
+        isEnglish = spCustomization.getBoolean(SettingsActivity.getKeyRussianOrEnglish(), false);
 
     }
 

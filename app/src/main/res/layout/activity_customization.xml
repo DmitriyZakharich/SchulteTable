@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.CustomizationActivity">
+    tools:context=".ui.SettingsActivity">
 
     <TextView
         android:id="@+id/tvTableSize"
