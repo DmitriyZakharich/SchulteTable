@@ -23,6 +23,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
         tableButton = (Button) findViewById(R.id.tableButton);
         statisticsButton = (Button) findViewById(R.id.statisticsButton);
         customizationButton = (Button) findViewById(R.id.customizationButton);

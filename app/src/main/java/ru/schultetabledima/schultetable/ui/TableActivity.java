@@ -38,7 +38,6 @@ public class TableActivity extends AppCompatActivity implements TableContract.Vi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_table);
-        Log.d("OnPausesss","onCreate");
 
         selectShowHideMenu = (ImageButton)findViewById(R.id.image_Button_Show_Hide_Menu);
         settings = (ImageButton) findViewById(R.id.image_button_settings);
@@ -60,6 +59,9 @@ public class TableActivity extends AppCompatActivity implements TableContract.Vi
 
         if (savedInstanceState == null)
             tablePresenter = new TablePresenter(this);
+
+
+        Log.d("nextMoveNumber", "placeForTable---------------           " + placeForTable.getId());
 
 
         //Анимация показать-скрыть меню навигации
@@ -87,6 +89,8 @@ public class TableActivity extends AppCompatActivity implements TableContract.Vi
     public void showTable(LinearLayout table) {
         placeForTable.addView(table);
         addAnim(table);
+        Log.d("nextMoveNumber", "---------------           " + table.getId());
+
     }
 
     void addAnim(LinearLayout table){

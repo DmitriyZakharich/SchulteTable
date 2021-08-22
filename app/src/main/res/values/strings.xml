@@ -21,5 +21,8 @@
     <string name="NumberOfRows">Количество рядов</string>
     <string name="NumberOfColumns">Количество столбцов</string>
     <string name="TableSize">Размер таблицы</string>
+    <string name="russian">Рус</string>
+    <string name="english">Анг</string>
+    <string name="choiceOfLetterLanguage">Русские\\Английские буквы</string>
 
 </resources>

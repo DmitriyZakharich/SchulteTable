@@ -27,6 +27,7 @@ public class CustomizationActivity extends AppCompatActivity implements AdapterV
     private static final String KEY_ANIMATION = "switchAnimation";
     private static final String KEY_TOUCH_CELLS = "switchTouchCells";
     private static final String KEY_NUMBERS_LETTERS = "switchNumbersLetters";
+    private static final String KEY_RUSSIAN_OR_ENGLISH = "switchRussianOrEnglish";
 
 
     private static final String KEY_TWO_TABLES = "switchTwoTables";
@@ -43,6 +44,7 @@ public class CustomizationActivity extends AppCompatActivity implements AdapterV
         SwitchMaterial switchTouchCells = findViewById(R.id.switchTouchСells);
         SwitchMaterial switchTwoTableS = findViewById(R.id.switchTwoTables);
         SwitchMaterial switchNumbersLetters = findViewById(R.id.switchNumbersLetters);
+        SwitchMaterial switchRussianOrEnglish = findViewById(R.id.switchRussianOrEnglish);
         Button buttonToTable = findViewById(R.id.buttonToTable);
 
         sPrefCustomization = getSharedPreferences(APP_PREFERENCES, MODE_PRIVATE);
@@ -59,6 +61,7 @@ public class CustomizationActivity extends AppCompatActivity implements AdapterV
         switchTouchCells.setChecked(sPrefCustomization.getBoolean(KEY_TOUCH_CELLS, true));
         switchNumbersLetters.setChecked(sPrefCustomization.getBoolean(KEY_NUMBERS_LETTERS, false));
         switchTwoTableS.setChecked(sPrefCustomization.getBoolean(KEY_TWO_TABLES, false));
+        switchRussianOrEnglish.setChecked(sPrefCustomization.getBoolean(KEY_RUSSIAN_OR_ENGLISH, false));
 
         spinnerColumns.setOnItemSelectedListener(this);
         spinnerRows.setOnItemSelectedListener(this);
@@ -67,6 +70,7 @@ public class CustomizationActivity extends AppCompatActivity implements AdapterV
         switchNumbersLetters.setOnClickListener(this);
         switchTwoTableS.setOnClickListener(this);
         buttonToTable.setOnClickListener(this);
+        switchRussianOrEnglish.setOnClickListener(this);
 
     }
 
@@ -95,26 +99,30 @@ public class CustomizationActivity extends AppCompatActivity implements AdapterV
         SharedPreferences.Editor ed;
         ed = sPrefCustomization.edit();
 
-        switch (v.getId()){
-            case R.id.switchAnimation:
-                ed.putBoolean(KEY_ANIMATION, ((SwitchMaterial)v).isChecked());
-                ed.apply();
-            break;
-            case R.id.switchTouchСells:
-                ed.putBoolean(KEY_TOUCH_CELLS, ((SwitchMaterial)v).isChecked());
-                ed.apply();
-                break;
-            case R.id.buttonToTable:
-                startActivity(new Intent(CustomizationActivity.this, TableActivity.class));
-                break;
-            case R.id.switchTwoTables:
-                ed.putBoolean(KEY_TWO_TABLES, ((SwitchMaterial)v).isChecked());
-                ed.apply();
-                break;
-            case R.id.switchNumbersLetters:
-                ed.putBoolean(KEY_NUMBERS_LETTERS, ((SwitchMaterial)v).isChecked());
-                ed.apply();
-                break;
+        int id = v.getId();
+
+        if (id == R.id.switchAnimation) {
+            ed.putBoolean(KEY_ANIMATION, ((SwitchMaterial) v).isChecked());
+            ed.apply();
+
+        } else if (id == R.id.switchTouchСells) {
+            ed.putBoolean(KEY_TOUCH_CELLS, ((SwitchMaterial) v).isChecked());
+            ed.apply();
+
+        } else if (id == R.id.buttonToTable) {
+            startActivity(new Intent(CustomizationActivity.this, TableActivity.class));
+
+        } else if (id == R.id.switchTwoTables) {
+            ed.putBoolean(KEY_TWO_TABLES, ((SwitchMaterial) v).isChecked());
+            ed.apply();
+
+        } else if (id == R.id.switchNumbersLetters) {
+            ed.putBoolean(KEY_NUMBERS_LETTERS, ((SwitchMaterial) v).isChecked());
+            ed.apply();
+
+        } else if (id == R.id.switchRussianOrEnglish) {
+            ed.putBoolean(KEY_RUSSIAN_OR_ENGLISH, ((SwitchMaterial) v).isChecked());
+            ed.apply();
         }
     }
 
@@ -141,5 +149,8 @@ public class CustomizationActivity extends AppCompatActivity implements AdapterV
     }
     public static String getKeyTwoTables() {
         return KEY_TWO_TABLES;
+    }
+    public static String getKeyRussianOrEnglish() {
+        return KEY_RUSSIAN_OR_ENGLISH;
     }
 }

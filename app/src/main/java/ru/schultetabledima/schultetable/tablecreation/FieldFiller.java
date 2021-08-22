@@ -4,6 +4,7 @@ import static android.content.Context.MODE_PRIVATE;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.ArrayMap;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
@@ -39,10 +40,11 @@ public class FieldFiller {
     private boolean booleanAnim;
     private boolean isEnglish;
     private boolean isNewFilling = true;
+    private ArrayMap<Integer, Integer> cellsId;
+
 
 
     public FieldFiller(Context context, AppCompatTextView[][] cells, TablePresenter tablePresenter) {
-        Log.d("Трасировка", "FieldFiller");
         this.context = context;
         this.cells = cells;
         this.tablePresenter = tablePresenter;
@@ -51,36 +53,23 @@ public class FieldFiller {
 
     //Конструктор для восстановления активити с буквами
     public FieldFiller(Context context, TablePresenter tablePresenter, ArrayList<Character> listLetters, AppCompatTextView[][] cells) {
-        Log.d("Трасировка", "FieldFiller восстановление с буквами");
         this.context = context;
         this.cells = cells;
         this.tablePresenter = tablePresenter;
         this.listLetters = listLetters;
         isNewFilling = false;
         init();
-
-
-
-        for (char i:
-                listLetters) {
-            Log.d("isLetters", "" + i);
-
-        }
-
     }
 
     //Конструктор для восстановления активити c цифрами
     public FieldFiller(AppCompatTextView[][] cells, TablePresenter tablePresenter, ArrayList<Integer> listNumbers, Context context) {
-        Log.d("Трасировка", "FieldFiller восстановление с цифрами");
         this.context = context;
         this.cells = cells;
         this.tablePresenter = tablePresenter;
         this.listNumbers = listNumbers;
         isNewFilling = false;
         init();
-
     }
-
 
 
     private void init() {
@@ -96,21 +85,21 @@ public class FieldFiller {
     }
 
 
-
     private void readSharedPreferences() {
         SharedPreferences spCustomization = context.getSharedPreferences(CustomizationActivity.getAppPreferences(), MODE_PRIVATE);
         columnsOfTable = spCustomization.getInt(CustomizationActivity.getKeyNumberColumns(), 4) + 1;
         rowsOfTable = spCustomization.getInt(CustomizationActivity.getKeyNumberRows(), 4) + 1;
         isLetters = spCustomization.getBoolean(CustomizationActivity.getKeyNumbersLetters(), false);
         booleanAnim = spCustomization.getBoolean(CustomizationActivity.getKeyAnimation(), false);
-//        isEnglish = spCustomization.getBoolean();
+        isEnglish = spCustomization.getBoolean(CustomizationActivity.getKeyRussianOrEnglish(), false);
 
     }
 
     private void fillingLetters() {
         //Новое заполнение. Если иначе, то получение данных из конструктора
         if (isNewFilling){
-            char firstLetter = (isEnglish)? 'A': 'А'; // анг/рус
+            char firstLetter = (isEnglish)? 'A' : 'А'; // eng/rus
+
             //Массив для заполнения ячеек
             listLetters = new ArrayList();
             for (int j = 1; j <= columnsOfTable * rowsOfTable; j++ ) {
@@ -120,6 +109,7 @@ public class FieldFiller {
             Collections.shuffle(listLetters);
         }
 
+        cellsId = new ArrayMap<>();
 
         int count = 0;
         for (int i = 0; i < rowsOfTable; i++) {
@@ -127,6 +117,11 @@ public class FieldFiller {
                 cells[i][j].setText(String.valueOf(listLetters.get(count)));
                 count++;
                 cells[i][j].setOnClickListener(cellClick);
+
+
+                char c = cells[i][j].getText().toString().charAt(0);
+                cellsId.put((int)c, cells[i][j].getId());
+
 
                 TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(cells[i][j], 1,
                         100, 1, TypedValue.COMPLEX_UNIT_SP);
@@ -145,6 +140,7 @@ public class FieldFiller {
             Collections.shuffle(listNumbers);
         }
 
+        cellsId = new ArrayMap<>();
 
         int count = 0;
         for (int i = 0; i < rowsOfTable; i++) {
@@ -152,6 +148,9 @@ public class FieldFiller {
                 cells[i][j].setOnClickListener(cellClick);
                 cells[i][j].setText(String.valueOf(listNumbers.get(count)));
                 count++;
+
+                cellsId.put(Integer.valueOf(cells[i][j].getText().toString()), cells[i][j].getId());
+
 
                 /*Запоминание координат ячейки с "10",
                 для корректировки размера текста в ячейках
@@ -206,7 +205,7 @@ public class FieldFiller {
     View.OnClickListener cellClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            tablePresenter.checkMove(((AppCompatTextView)v).getText().toString());
+            tablePresenter.checkMove(v.getId());
         }
     };
 
@@ -218,7 +217,9 @@ public class FieldFiller {
         return listLetters;
     }
 
-
+    public ArrayMap<Integer, Integer> getCellsId(){
+        return cellsId;
+    }
 
     private void addAnimation(AppCompatTextView[][] cellsOfTable) {
         Random random = new Random();

@@ -7,7 +7,7 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
-import android.util.Log;
+import android.util.ArrayMap;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
@@ -82,7 +82,7 @@ public class TableCreator{
         table.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
 
         if (isTwoTables) {
-            //Создание разделительных полос
+            //Создание разделительной полосы между таблицами
             GradientDrawable drawable = new GradientDrawable();
             drawable.setColor(Color.BLACK);
             drawable.setSize(30, 30);
@@ -100,11 +100,11 @@ public class TableCreator{
     }
 
     private void creatingTable() {
-            fieldCreator1 = new FieldCreator(context);
+            fieldCreator1 = new FieldCreator(context, Color.GREEN);
             table.addView(fieldCreator1.getField());
 
             if (isTwoTables){
-                    fieldCreator2 = new FieldCreator(context);
+                    fieldCreator2 = new FieldCreator(context, Color.BLACK);
                     table.addView(fieldCreator2.getField());
 
             }
@@ -172,6 +172,15 @@ public class TableCreator{
         return fieldFiller2.getListLetters();
     }
 
+
+
+    public ArrayMap<Integer, Integer> getCellsIdFirstTable(){
+        return fieldFiller1.getCellsId();
+    }
+
+    public ArrayMap<Integer, Integer> getCellsIdSecondTable(){
+        return fieldFiller2.getCellsId();
+    }
 
 
     public void detachView() {

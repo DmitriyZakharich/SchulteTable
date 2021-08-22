@@ -8,10 +8,13 @@ import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 
 import androidx.appcompat.widget.AppCompatTextView;
+
+import java.util.ArrayList;
 
 import ru.schultetabledima.schultetable.ui.CustomizationActivity;
 
@@ -21,10 +24,13 @@ public class FieldCreator {
     private int rowsOfTable;
     private int columnsOfTable;
     private AppCompatTextView [][] cells;
+    private int dividerColor;
+    private ArrayList<Integer> cellsId;
 
 
-    public FieldCreator(Context context) {
+    public FieldCreator(Context context, int dividerColor) {
         this.context = context;
+        this.dividerColor = dividerColor;
         init();
     }
 
@@ -45,10 +51,13 @@ public class FieldCreator {
         TableRow.LayoutParams trLayoutParams = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.MATCH_PARENT,1);
         field.setLayoutParams(trLayoutParams);
 
-        //Создание разделительных полос
+        field.setId(View.generateViewId());
+
+
+//        Создание разделительных полос
         GradientDrawable drawable = new GradientDrawable();
-        drawable.setColor(Color.BLACK);
-        drawable.setSize(2, 2);
+        drawable.setColor(dividerColor);
+        drawable.setSize(3, 3);
 
         field.setDividerPadding(2);
         field.setShowDividers(TableLayout.SHOW_DIVIDER_MIDDLE);
@@ -64,6 +73,7 @@ public class FieldCreator {
             field.addView(tableRow[i]);
         }
 
+
         //Создание кнопок
         cells = new AppCompatTextView[rowsOfTable][columnsOfTable];
         for (int i = 0; i < rowsOfTable; i++){
@@ -75,6 +85,9 @@ public class FieldCreator {
                 TableRow.LayoutParams lpButton = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.MATCH_PARENT, 1);
                 cells[i][j].setLayoutParams(lpButton);
                 cells[i][j].setGravity(Gravity.CENTER);
+
+                cells[i][j].setId(View.generateViewId());
+
 
                 tableRow[i].addView(cells[i][j]);
                 tableRow[i].setDividerDrawable(drawable);
@@ -92,4 +105,6 @@ public class FieldCreator {
     public AppCompatTextView[][] getCells() {
         return cells;
     }
+
+
 }
