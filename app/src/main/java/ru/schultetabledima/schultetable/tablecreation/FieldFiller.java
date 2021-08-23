@@ -86,12 +86,12 @@ public class FieldFiller {
 
 
     private void readSharedPreferences() {
-        SharedPreferences spCustomization = context.getSharedPreferences(SettingsActivity.getAppPreferences(), MODE_PRIVATE);
-        columnsOfTable = spCustomization.getInt(SettingsActivity.getKeyNumberColumns(), 4) + 1;
-        rowsOfTable = spCustomization.getInt(SettingsActivity.getKeyNumberRows(), 4) + 1;
-        isLetters = spCustomization.getBoolean(SettingsActivity.getKeyNumbersLetters(), false);
-        booleanAnim = spCustomization.getBoolean(SettingsActivity.getKeyAnimation(), false);
-        isEnglish = spCustomization.getBoolean(SettingsActivity.getKeyRussianOrEnglish(), false);
+        SharedPreferences settings = context.getSharedPreferences(SettingsActivity.getAppPreferences(), MODE_PRIVATE);
+        columnsOfTable = settings.getInt(SettingsActivity.getKeyNumberColumns(), 4) + 1;
+        rowsOfTable = settings.getInt(SettingsActivity.getKeyNumberRows(), 4) + 1;
+        isLetters = settings.getBoolean(SettingsActivity.getKeyNumbersLetters(), false);
+        booleanAnim = settings.getBoolean(SettingsActivity.getKeyAnimation(), false);
+        isEnglish = settings.getBoolean(SettingsActivity.getKeyRussianOrEnglish(), false);
 
     }
 
@@ -225,7 +225,7 @@ public class FieldFiller {
         Random random = new Random();
 
         int amountCellAnim = (columnsOfTable * rowsOfTable)/2;
-        HashSet<Integer> hsRandomForCellAnim = new HashSet<Integer>();
+        HashSet<Integer> hsRandomForCellAnim = new HashSet<>();
 
         for (int i = 0; i < amountCellAnim; i++) {
             int randAnimInt = random.nextInt(columnsOfTable * rowsOfTable + 1); //????

@@ -10,7 +10,7 @@
     <RelativeLayout
         android:id="@+id/placeForTable"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:orientation="vertical"
         android:layout_weight="1"
         android:animateLayoutChanges="true"

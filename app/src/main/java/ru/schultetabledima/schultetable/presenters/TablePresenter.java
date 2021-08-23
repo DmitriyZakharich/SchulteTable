@@ -6,11 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.graphics.drawable.GradientDrawable;
 import android.os.SystemClock;
 import android.util.ArrayMap;
-import android.util.Log;
-import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
 
@@ -18,10 +15,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import ru.schultetabledima.schultetable.R;
-import ru.schultetabledima.schultetable.contracts.TableContract;
 import ru.schultetabledima.schultetable.tablecreation.TableCreator;
-import ru.schultetabledima.schultetable.ui.SettingsActivity;
 import ru.schultetabledima.schultetable.ui.EndGameDialogue;
+import ru.schultetabledima.schultetable.ui.SettingsActivity;
 import ru.schultetabledima.schultetable.ui.StatisticsActivity;
 import ru.schultetabledima.schultetable.ui.TableActivity;
 import ru.schultetabledima.schultetable.utils.Converter;
@@ -34,7 +30,6 @@ public class TablePresenter implements Serializable{
     private long saveTime;
     private Context context;
     private transient TableCreator tableCreator;
-    private transient EndGameDialogue endGameDialogue;
     private transient LinearLayout table;
     private boolean isLetters;
     private boolean isTwoTables;
@@ -43,7 +38,6 @@ public class TablePresenter implements Serializable{
     private ArrayList<Integer> listNumbers1, listNumbers2;
     private int whichTable;
     private transient TableLayout firstTable, secondTable;
-    private transient GradientDrawable drawableActiveTable, drawablePassiveTable;
     private transient ArrayMap<Integer, Integer> cellsIdFirstTable, cellsIdSecondTable;
     private int nextMoveFirstTable, nextMoveSecondTableCountdown;
     private static SharedPreferences sharedPreferencesMenu;
@@ -70,15 +64,14 @@ public class TablePresenter implements Serializable{
     }
 
 
-
     private void readSharedPreferences() {
-        SharedPreferences spCustomization = context.getSharedPreferences(SettingsActivity.getAppPreferences(), MODE_PRIVATE);
-        isPressButtons = spCustomization.getBoolean(SettingsActivity.getKeyTouchCells(), true);
-        columnsOfTable = spCustomization.getInt(SettingsActivity.getKeyNumberColumns(), 4) + 1;
-        rowsOfTable = spCustomization.getInt(SettingsActivity.getKeyNumberRows(), 4) + 1;
-        isLetters = spCustomization.getBoolean(SettingsActivity.getKeyNumbersLetters(), false);
-        isTwoTables = spCustomization.getBoolean(SettingsActivity.getKeyTwoTables(), false);
-        isEnglish = spCustomization.getBoolean(SettingsActivity.getKeyRussianOrEnglish(), false);
+        SharedPreferences settings = context.getSharedPreferences(SettingsActivity.getAppPreferences(), MODE_PRIVATE);
+        isPressButtons = settings.getBoolean(SettingsActivity.getKeyTouchCells(), true);
+        columnsOfTable = settings.getInt(SettingsActivity.getKeyNumberColumns(), 4) + 1;
+        rowsOfTable = settings.getInt(SettingsActivity.getKeyNumberRows(), 4) + 1;
+        isLetters = settings.getBoolean(SettingsActivity.getKeyNumbersLetters(), false);
+        isTwoTables = settings.getBoolean(SettingsActivity.getKeyTwoTables(), false);
+        isEnglish = settings.getBoolean(SettingsActivity.getKeyRussianOrEnglish(), false);
     }
 
 
@@ -87,15 +80,6 @@ public class TablePresenter implements Serializable{
         secondTable = (TableLayout)table.getChildAt(1);
 
         whichTable = firstTable.getId();
-
-        drawableActiveTable = new GradientDrawable();
-        drawableActiveTable.setColor(Color.GREEN);
-        drawableActiveTable.setSize(3, 3);
-
-        drawablePassiveTable = new GradientDrawable();
-        drawablePassiveTable.setColor(Color.BLACK);
-        drawablePassiveTable.setSize(3, 3);
-
     }
 
     private void settingForMenu() {
@@ -144,11 +128,11 @@ public class TablePresenter implements Serializable{
 
 
     private void settingForCheckMove() {
-        cellsIdFirstTable = new ArrayMap<Integer, Integer>();
+        cellsIdFirstTable = new ArrayMap<>();
         cellsIdFirstTable = tableCreator.getCellsIdFirstTable();
 
         if (isTwoTables) {
-            cellsIdSecondTable = new ArrayMap<Integer, Integer>();
+            cellsIdSecondTable = new ArrayMap<>();
             cellsIdSecondTable = tableCreator.getCellsIdSecondTable();
         }
 
@@ -204,8 +188,9 @@ public class TablePresenter implements Serializable{
 
                     whichTable = secondTable.getId();
 
-                    firstTable.setDividerDrawable(drawablePassiveTable);
-                    secondTable.setDividerDrawable(drawableActiveTable);
+                    firstTable.setBackgroundColor(Color.BLACK);
+                    secondTable.setBackgroundColor(Color.GREEN);
+
                 }
 
         } else if (whichTable == secondTable.getId()) {
@@ -216,8 +201,8 @@ public class TablePresenter implements Serializable{
 
                     whichTable = firstTable.getId();
 
-                    firstTable.setDividerDrawable(drawableActiveTable);
-                    secondTable.setDividerDrawable(drawablePassiveTable);
+                    firstTable.setBackgroundColor(Color.GREEN);
+                    secondTable.setBackgroundColor(Color.BLACK);
                 }
         }
 
@@ -230,7 +215,7 @@ public class TablePresenter implements Serializable{
     void endGameDialogue(){
         ((TableActivity)context).stopChronometer();
         String tableSize = columnsOfTable + "x" + rowsOfTable;
-        endGameDialogue = new EndGameDialogue((TableActivity)context,
+        EndGameDialogue endGameDialogue = new EndGameDialogue((TableActivity) context,
                 isPressButtons, tableSize);
         endGameDialogue.start();
     }

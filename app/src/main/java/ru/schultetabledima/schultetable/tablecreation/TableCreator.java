@@ -70,11 +70,11 @@ public class TableCreator{
     }
 
     private void readSharedPreferences() {
-        SharedPreferences spCustomization = context.getSharedPreferences(SettingsActivity.getAppPreferences(), MODE_PRIVATE);
-        columnsOfTable = spCustomization.getInt(SettingsActivity.getKeyNumberColumns(), 4) + 1;
-        rowsOfTable = spCustomization.getInt(SettingsActivity.getKeyNumberRows(), 4) + 1;
-        isTwoTables = spCustomization.getBoolean(SettingsActivity.getKeyTwoTables(), false);
-        isLetters = spCustomization.getBoolean(SettingsActivity.getKeyNumbersLetters(), false);
+        SharedPreferences settings = context.getSharedPreferences(SettingsActivity.getAppPreferences(), MODE_PRIVATE);
+        columnsOfTable = settings.getInt(SettingsActivity.getKeyNumberColumns(), 4) + 1;
+        rowsOfTable = settings.getInt(SettingsActivity.getKeyNumberRows(), 4) + 1;
+        isTwoTables = settings.getBoolean(SettingsActivity.getKeyTwoTables(), false);
+        isLetters = settings.getBoolean(SettingsActivity.getKeyNumbersLetters(), false);
     }
 
     private void creatingContainerForTable() {
@@ -86,7 +86,6 @@ public class TableCreator{
             GradientDrawable drawable = new GradientDrawable();
             drawable.setColor(Color.BLACK);
             drawable.setSize(30, 30);
-//        table.setDividerPadding(40);
             table.setShowDividers(TableLayout.SHOW_DIVIDER_MIDDLE);
             table.setDividerDrawable(drawable);
 

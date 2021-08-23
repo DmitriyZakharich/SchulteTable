@@ -4,8 +4,8 @@ import static android.content.Context.MODE_PRIVATE;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.Color;
-import android.graphics.drawable.GradientDrawable;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.TableLayout;
@@ -16,6 +16,7 @@ import androidx.appcompat.widget.AppCompatTextView;
 import java.util.ArrayList;
 
 import ru.schultetabledima.schultetable.ui.SettingsActivity;
+import ru.schultetabledima.schultetable.utils.Converter;
 
 public class FieldCreator {
     private TableLayout field;
@@ -23,13 +24,13 @@ public class FieldCreator {
     private int rowsOfTable;
     private int columnsOfTable;
     private AppCompatTextView [][] cells;
-    private int dividerColor;
+    private int backgroundColor;
     private ArrayList<Integer> cellsId;
 
 
-    public FieldCreator(Context context, int dividerColor) {
+    public FieldCreator(Context context, int backgroundColor) {
         this.context = context;
-        this.dividerColor = dividerColor;
+        this.backgroundColor = backgroundColor;
         init();
     }
 
@@ -40,9 +41,9 @@ public class FieldCreator {
 
 
     private void readSharedPreferences() {
-        SharedPreferences spCustomization = context.getSharedPreferences(SettingsActivity.getAppPreferences(), MODE_PRIVATE);
-        columnsOfTable = spCustomization.getInt(SettingsActivity.getKeyNumberColumns(), 4) + 1;
-        rowsOfTable = spCustomization.getInt(SettingsActivity.getKeyNumberRows(), 4) + 1;
+        SharedPreferences settings = context.getSharedPreferences(SettingsActivity.getAppPreferences(), MODE_PRIVATE);
+        columnsOfTable = settings.getInt(SettingsActivity.getKeyNumberColumns(), 4) + 1;
+        rowsOfTable = settings.getInt(SettingsActivity.getKeyNumberRows(), 4) + 1;
     }
 
     private void creator(){
@@ -51,16 +52,17 @@ public class FieldCreator {
         field.setLayoutParams(trLayoutParams);
 
         field.setId(View.generateViewId());
+        field.setBackgroundColor(backgroundColor);
 
 
 //        Создание разделительных полос
-        GradientDrawable drawable = new GradientDrawable();
-        drawable.setColor(dividerColor);
-        drawable.setSize(3, 3);
+//        GradientDrawable drawable = new GradientDrawable();
+//        drawable.setColor(dividerColor);
+//        drawable.setSize(3, 3);
 
-        field.setDividerPadding(2);
-        field.setShowDividers(TableLayout.SHOW_DIVIDER_MIDDLE);
-        field.setDividerDrawable(drawable);
+//        field.setDividerPadding(2);
+//        field.setShowDividers(TableLayout.SHOW_DIVIDER_MIDDLE);
+//        field.setDividerDrawable(drawable);
 
         //создание рядов
         TableRow[] tableRow = new TableRow[rowsOfTable];
@@ -81,17 +83,19 @@ public class FieldCreator {
                 cells[i][j].setTextColor(Color.BLACK);
                 cells[i][j].setBackgroundColor(Color.WHITE);
                 cells[i][j].setMaxLines(1);
-                TableRow.LayoutParams lpButton = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.MATCH_PARENT, 1);
-                cells[i][j].setLayoutParams(lpButton);
                 cells[i][j].setGravity(Gravity.CENTER);
 
+                TableRow.LayoutParams layoutParamsCell = new TableRow.LayoutParams(0, TableRow.LayoutParams.MATCH_PARENT, 1);
+                layoutParamsCell.setMargins(1,1,1,1);
+                cells[i][j].setLayoutParams(layoutParamsCell);
+
+                if ((context).getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+                    int padding = Converter.getPx(context, 6);
+                    cells[i][j].setPadding(padding, padding, padding, padding);
+                }
+
                 cells[i][j].setId(View.generateViewId());
-
-
                 tableRow[i].addView(cells[i][j]);
-                tableRow[i].setDividerDrawable(drawable);
-                tableRow[i].setDividerPadding(2);
-                tableRow[i].setShowDividers(TableRow.SHOW_DIVIDER_MIDDLE);
             }
         }
     }

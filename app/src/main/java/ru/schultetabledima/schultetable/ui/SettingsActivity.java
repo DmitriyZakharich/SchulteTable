@@ -19,7 +19,7 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
 
     private final String [] valueSpinner = {"1","2","3","4","5","6","7","8","9","10"};
 
-    private static SharedPreferences sPrefCustomization;
+    private static SharedPreferences settings;
     private static final String APP_PREFERENCES = "my_settings";
 
     private static final String KEY_NUMBER_COLUMNS = "SAVED spinnerColumns";
@@ -28,8 +28,6 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
     private static final String KEY_TOUCH_CELLS = "switchTouchCells";
     private static final String KEY_NUMBERS_LETTERS = "switchNumbersLetters";
     private static final String KEY_RUSSIAN_OR_ENGLISH = "switchRussianOrEnglish";
-
-
     private static final String KEY_TWO_TABLES = "switchTwoTables";
 
 
@@ -47,7 +45,7 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
         SwitchMaterial switchRussianOrEnglish = findViewById(R.id.switchRussianOrEnglish);
         Button buttonToTable = findViewById(R.id.buttonToTable);
 
-        sPrefCustomization = getSharedPreferences(APP_PREFERENCES, MODE_PRIVATE);
+        settings = getSharedPreferences(APP_PREFERENCES, MODE_PRIVATE);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, valueSpinner);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -55,13 +53,13 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
         spinnerColumns.setAdapter(adapter);
         spinnerRows.setAdapter(adapter);
 
-        spinnerColumns.setSelection(sPrefCustomization.getInt(KEY_NUMBER_COLUMNS, 4), false);
-        spinnerRows.setSelection(sPrefCustomization.getInt(KEY_NUMBER_ROWS, 4), false);
-        switchAnimation.setChecked(sPrefCustomization.getBoolean(KEY_ANIMATION, false));
-        switchTouchCells.setChecked(sPrefCustomization.getBoolean(KEY_TOUCH_CELLS, true));
-        switchNumbersLetters.setChecked(sPrefCustomization.getBoolean(KEY_NUMBERS_LETTERS, false));
-        switchTwoTableS.setChecked(sPrefCustomization.getBoolean(KEY_TWO_TABLES, false));
-        switchRussianOrEnglish.setChecked(sPrefCustomization.getBoolean(KEY_RUSSIAN_OR_ENGLISH, false));
+        spinnerColumns.setSelection(settings.getInt(KEY_NUMBER_COLUMNS, 4), false);
+        spinnerRows.setSelection(settings.getInt(KEY_NUMBER_ROWS, 4), false);
+        switchAnimation.setChecked(settings.getBoolean(KEY_ANIMATION, false));
+        switchTouchCells.setChecked(settings.getBoolean(KEY_TOUCH_CELLS, true));
+        switchNumbersLetters.setChecked(settings.getBoolean(KEY_NUMBERS_LETTERS, false));
+        switchTwoTableS.setChecked(settings.getBoolean(KEY_TWO_TABLES, false));
+        switchRussianOrEnglish.setChecked(settings.getBoolean(KEY_RUSSIAN_OR_ENGLISH, false));
 
         spinnerColumns.setOnItemSelectedListener(this);
         spinnerRows.setOnItemSelectedListener(this);
@@ -78,16 +76,16 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         SharedPreferences.Editor ed;
-        ed = sPrefCustomization.edit();
-        switch (parent.getId()) {
-            case R.id.spinnerColumns:
-                ed.putInt(KEY_NUMBER_COLUMNS, position);
-                ed.apply();
-                break;
-            case R.id.spinnerRows:
-                ed.putInt(KEY_NUMBER_ROWS, position);
-                ed.apply();
-                break;
+        ed = settings.edit();
+
+        int parentId = parent.getId();
+
+        if (parentId == R.id.spinnerColumns) {
+            ed.putInt(KEY_NUMBER_COLUMNS, position);
+            ed.apply();
+        } else if (parentId == R.id.spinnerRows) {
+            ed.putInt(KEY_NUMBER_ROWS, position);
+            ed.apply();
         }
     }
 
@@ -97,7 +95,7 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
     @Override
     public void onClick(View v) {
         SharedPreferences.Editor ed;
-        ed = sPrefCustomization.edit();
+        ed = settings.edit();
 
         int id = v.getId();
 
@@ -126,9 +124,6 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
         }
     }
 
-    public static SharedPreferences getsPrefCustomization() {
-        return sPrefCustomization;
-    }
     public static String getAppPreferences() {
         return APP_PREFERENCES;
     }
