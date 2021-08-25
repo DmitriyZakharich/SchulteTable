@@ -26,7 +26,6 @@ public class TableActivity extends AppCompatActivity implements TableContract.Vi
     private RelativeLayout placeForTable;
     private Toolbar menu;
     private ImageButton selectShowHideMenu;
-    private static SharedPreferences sharedPreferencesMenu;
     private static final String MENU_PREFERENCES = "PreferencesMenu";
     private static final String KEY_MENU_VISIBILITY = "Saved Menu Visibility";
     private TablePresenter tablePresenter;

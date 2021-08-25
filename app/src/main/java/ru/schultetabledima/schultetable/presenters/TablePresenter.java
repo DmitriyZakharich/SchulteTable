@@ -5,11 +5,12 @@ import static android.content.Context.MODE_PRIVATE;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.SystemClock;
 import android.util.ArrayMap;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
+
+import androidx.core.content.ContextCompat;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -36,7 +37,7 @@ public class TablePresenter implements Serializable{
     private boolean isEnglish;
     private ArrayList<Character> listLetters1, listLetters2;
     private ArrayList<Integer> listNumbers1, listNumbers2;
-    private int whichTable;
+    private int activeTable;
     private transient TableLayout firstTable, secondTable;
     private transient ArrayMap<Integer, Integer> cellsIdFirstTable, cellsIdSecondTable;
     private int nextMoveFirstTable, nextMoveSecondTableCountdown;
@@ -67,9 +68,9 @@ public class TablePresenter implements Serializable{
     private void readSharedPreferences() {
         SharedPreferences settings = context.getSharedPreferences(SettingsActivity.getAppPreferences(), MODE_PRIVATE);
         isPressButtons = settings.getBoolean(SettingsActivity.getKeyTouchCells(), true);
-        columnsOfTable = settings.getInt(SettingsActivity.getKeyNumberColumns(), 4) + 1;
-        rowsOfTable = settings.getInt(SettingsActivity.getKeyNumberRows(), 4) + 1;
-        isLetters = settings.getBoolean(SettingsActivity.getKeyNumbersLetters(), false);
+        columnsOfTable = settings.getInt(SettingsActivity.getKeyColumnsNumbers(), 4) + 1;
+        rowsOfTable = settings.getInt(SettingsActivity.getKeyRowsNumbers(), 4) + 1;
+        isLetters = settings.getBoolean(SettingsActivity.getKeyNumbersOrLetters(), false);
         isTwoTables = settings.getBoolean(SettingsActivity.getKeyTwoTables(), false);
         isEnglish = settings.getBoolean(SettingsActivity.getKeyRussianOrEnglish(), false);
     }
@@ -79,7 +80,7 @@ public class TablePresenter implements Serializable{
         firstTable = (TableLayout) table.getChildAt(0);
         secondTable = (TableLayout)table.getChildAt(1);
 
-        whichTable = firstTable.getId();
+        activeTable = firstTable.getId();
     }
 
     private void settingForMenu() {
@@ -180,29 +181,29 @@ public class TablePresenter implements Serializable{
 
 
     private void checkMoveInTwoTables(int cellId) {
-        if (whichTable == firstTable.getId()) {
+        if (activeTable == firstTable.getId()) {
 
                 if (cellId == cellsIdFirstTable.get(nextMoveFirstTable)){
                     nextMoveFirstTable++;
                     count++;
 
-                    whichTable = secondTable.getId();
+                    activeTable = secondTable.getId();
 
-                    firstTable.setBackgroundColor(Color.BLACK);
-                    secondTable.setBackgroundColor(Color.GREEN);
+                    firstTable.setBackgroundColor(ContextCompat.getColor(context, R.color.passiveTable));
+                    secondTable.setBackgroundColor(ContextCompat.getColor(context, R.color.activeTable));
 
                 }
 
-        } else if (whichTable == secondTable.getId()) {
+        } else if (activeTable == secondTable.getId()) {
 
                 if (cellId == cellsIdSecondTable.get(nextMoveSecondTableCountdown)){
                     nextMoveSecondTableCountdown--;
                     count++;
 
-                    whichTable = firstTable.getId();
+                    activeTable = firstTable.getId();
 
-                    firstTable.setBackgroundColor(Color.GREEN);
-                    secondTable.setBackgroundColor(Color.BLACK);
+                    firstTable.setBackgroundColor(ContextCompat.getColor(context, R.color.activeTable));
+                    secondTable.setBackgroundColor(ContextCompat.getColor(context, R.color.passiveTable));
                 }
         }
 

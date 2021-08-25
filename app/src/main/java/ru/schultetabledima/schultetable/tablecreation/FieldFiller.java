@@ -87,12 +87,17 @@ public class FieldFiller {
 
     private void readSharedPreferences() {
         SharedPreferences settings = context.getSharedPreferences(SettingsActivity.getAppPreferences(), MODE_PRIVATE);
-        columnsOfTable = settings.getInt(SettingsActivity.getKeyNumberColumns(), 4) + 1;
-        rowsOfTable = settings.getInt(SettingsActivity.getKeyNumberRows(), 4) + 1;
-        isLetters = settings.getBoolean(SettingsActivity.getKeyNumbersLetters(), false);
         booleanAnim = settings.getBoolean(SettingsActivity.getKeyAnimation(), false);
         isEnglish = settings.getBoolean(SettingsActivity.getKeyRussianOrEnglish(), false);
+        isLetters = settings.getBoolean(SettingsActivity.getKeyNumbersOrLetters(), false);
 
+        if (isLetters){
+            columnsOfTable = settings.getInt(SettingsActivity.getKeyColumnsLetters(), 4) + 1;
+            rowsOfTable = settings.getInt(SettingsActivity.getKeyRowsLetters(), 4) + 1;
+        } else{
+            columnsOfTable = settings.getInt(SettingsActivity.getKeyColumnsNumbers(), 4) + 1;
+            rowsOfTable = settings.getInt(SettingsActivity.getKeyRowsNumbers(), 4) + 1;
+        }
     }
 
     private void fillingLetters() {

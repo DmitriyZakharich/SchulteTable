@@ -13,9 +13,11 @@ import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 
 import androidx.appcompat.widget.AppCompatTextView;
+import androidx.core.content.ContextCompat;
 
 import java.util.ArrayList;
 
+import ru.schultetabledima.schultetable.R;
 import ru.schultetabledima.schultetable.presenters.TablePresenter;
 import ru.schultetabledima.schultetable.ui.SettingsActivity;
 
@@ -23,8 +25,6 @@ public class TableCreator{
     private ArrayList<Integer> listNumbers2;
     private ArrayList<Integer> listNumbers1;
     private LinearLayout table;
-    private int rowsOfTable;
-    private int columnsOfTable;
     private Context context;
     private TablePresenter tablePresenter;
     private boolean isTwoTables;
@@ -71,10 +71,8 @@ public class TableCreator{
 
     private void readSharedPreferences() {
         SharedPreferences settings = context.getSharedPreferences(SettingsActivity.getAppPreferences(), MODE_PRIVATE);
-        columnsOfTable = settings.getInt(SettingsActivity.getKeyNumberColumns(), 4) + 1;
-        rowsOfTable = settings.getInt(SettingsActivity.getKeyNumberRows(), 4) + 1;
         isTwoTables = settings.getBoolean(SettingsActivity.getKeyTwoTables(), false);
-        isLetters = settings.getBoolean(SettingsActivity.getKeyNumbersLetters(), false);
+        isLetters = settings.getBoolean(SettingsActivity.getKeyNumbersOrLetters(), false);
     }
 
     private void creatingContainerForTable() {
@@ -99,11 +97,11 @@ public class TableCreator{
     }
 
     private void creatingField() {
-            fieldCreator1 = new FieldCreator(context, Color.GREEN);
+            fieldCreator1 = new FieldCreator(context, ContextCompat.getColor(context, R.color.activeTable));
             table.addView(fieldCreator1.getField());
 
             if (isTwoTables){
-                    fieldCreator2 = new FieldCreator(context, Color.BLACK);
+                    fieldCreator2 = new FieldCreator(context, ContextCompat.getColor(context, R.color.passiveTable));
                     table.addView(fieldCreator2.getField());
 
             }

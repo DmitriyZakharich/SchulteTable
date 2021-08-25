@@ -2,7 +2,7 @@
     <string name="app_name">SchulteTableDima</string>
     <string name="donation">Пожертвование</string>
     <string name="advice">Советы</string>
-    <string name="customization">Настройки</string>
+    <string name="settings">Настройки</string>
     <string name="statistics">Статистика</string>
     <string name="table">Таблица</string>
     <string name="headline_data">Дата</string>

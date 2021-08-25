@@ -12,9 +12,9 @@ public class SettingsReader {
 
     private final SharedPreferences spCustomization = context.getSharedPreferences(SettingsActivity.getAppPreferences(), MODE_PRIVATE);
     private final boolean isPressButtons = spCustomization.getBoolean(SettingsActivity.getKeyTouchCells(), true);
-    private final int columnsOfTable = spCustomization.getInt(SettingsActivity.getKeyNumberColumns(), 4) + 1;
-    private final int rowsOfTable = spCustomization.getInt(SettingsActivity.getKeyNumberRows(), 4) + 1;
-    private final boolean isLetters = spCustomization.getBoolean(SettingsActivity.getKeyNumbersLetters(), false);
+    private final int columnsOfTable = spCustomization.getInt(SettingsActivity.getKeyColumnsNumbers(), 4) + 1;
+    private final int rowsOfTable = spCustomization.getInt(SettingsActivity.getKeyRowsNumbers(), 4) + 1;
+    private final boolean isLetters = spCustomization.getBoolean(SettingsActivity.getKeyNumbersOrLetters(), false);
     private final boolean isTwoTables = spCustomization.getBoolean(SettingsActivity.getKeyTwoTables(), false);
 
     public SettingsReader(Context context) {

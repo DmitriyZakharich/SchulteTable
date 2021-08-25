@@ -26,6 +26,8 @@ public class FieldCreator {
     private AppCompatTextView [][] cells;
     private int backgroundColor;
     private ArrayList<Integer> cellsId;
+    private boolean isLetters;
+
 
 
     public FieldCreator(Context context, int backgroundColor) {
@@ -42,8 +44,15 @@ public class FieldCreator {
 
     private void readSharedPreferences() {
         SharedPreferences settings = context.getSharedPreferences(SettingsActivity.getAppPreferences(), MODE_PRIVATE);
-        columnsOfTable = settings.getInt(SettingsActivity.getKeyNumberColumns(), 4) + 1;
-        rowsOfTable = settings.getInt(SettingsActivity.getKeyNumberRows(), 4) + 1;
+        isLetters = settings.getBoolean(SettingsActivity.getKeyNumbersOrLetters(), false);
+
+        if (isLetters){
+            columnsOfTable = settings.getInt(SettingsActivity.getKeyColumnsLetters(), 4) + 1;
+            rowsOfTable = settings.getInt(SettingsActivity.getKeyRowsLetters(), 4) + 1;
+        } else{
+            columnsOfTable = settings.getInt(SettingsActivity.getKeyColumnsNumbers(), 4) + 1;
+            rowsOfTable = settings.getInt(SettingsActivity.getKeyRowsNumbers(), 4) + 1;
+        }
     }
 
     private void creator(){
@@ -55,14 +64,6 @@ public class FieldCreator {
         field.setBackgroundColor(backgroundColor);
 
 
-//        Создание разделительных полос
-//        GradientDrawable drawable = new GradientDrawable();
-//        drawable.setColor(dividerColor);
-//        drawable.setSize(3, 3);
-
-//        field.setDividerPadding(2);
-//        field.setShowDividers(TableLayout.SHOW_DIVIDER_MIDDLE);
-//        field.setDividerDrawable(drawable);
 
         //создание рядов
         TableRow[] tableRow = new TableRow[rowsOfTable];
