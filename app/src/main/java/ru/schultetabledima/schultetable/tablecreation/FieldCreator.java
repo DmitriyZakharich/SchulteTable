@@ -8,12 +8,11 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 
 import androidx.appcompat.widget.AppCompatTextView;
-
-import java.util.ArrayList;
 
 import ru.schultetabledima.schultetable.ui.SettingsActivity;
 import ru.schultetabledima.schultetable.utils.Converter;
@@ -25,7 +24,6 @@ public class FieldCreator {
     private int columnsOfTable;
     private AppCompatTextView [][] cells;
     private int backgroundColor;
-    private ArrayList<Integer> cellsId;
     private boolean isLetters;
 
 
@@ -33,10 +31,10 @@ public class FieldCreator {
     public FieldCreator(Context context, int backgroundColor) {
         this.context = context;
         this.backgroundColor = backgroundColor;
-        init();
+        main();
     }
 
-    private void init() {
+    private void main() {
         readSharedPreferences();
         creator();
     }
@@ -57,8 +55,9 @@ public class FieldCreator {
 
     private void creator(){
         field = new TableLayout(context);
-        TableRow.LayoutParams trLayoutParams = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.MATCH_PARENT,1);
-        field.setLayoutParams(trLayoutParams);
+        LinearLayout.LayoutParams llLayoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT, 1);
+        field.setLayoutParams(llLayoutParams);
 
         field.setId(View.generateViewId());
         field.setBackgroundColor(backgroundColor);
@@ -66,13 +65,14 @@ public class FieldCreator {
 
 
         //создание рядов
-        TableRow[] tableRow = new TableRow[rowsOfTable];
-        for (int i = 0; i < tableRow.length; i++) {
-            tableRow[i] = new TableRow(context);
+        LinearLayout[] rows = new LinearLayout[rowsOfTable];
+        for (int i = 0; i < rows.length; i++) {
+            rows[i] = new LinearLayout(context);
             TableLayout.LayoutParams tlLayoutParams = new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT,
-                    TableLayout.LayoutParams.MATCH_PARENT,1);
-            tableRow[i].setLayoutParams(tlLayoutParams);
-            field.addView(tableRow[i]);
+                    0,1);
+            tlLayoutParams.setLayoutDirection(LinearLayout.HORIZONTAL);
+            rows[i].setLayoutParams(tlLayoutParams);
+            field.addView(rows[i]);
         }
 
 
@@ -86,7 +86,9 @@ public class FieldCreator {
                 cells[i][j].setMaxLines(1);
                 cells[i][j].setGravity(Gravity.CENTER);
 
-                TableRow.LayoutParams layoutParamsCell = new TableRow.LayoutParams(0, TableRow.LayoutParams.MATCH_PARENT, 1);
+                LinearLayout.LayoutParams layoutParamsCell = new LinearLayout.LayoutParams(0,
+                        TableLayout.LayoutParams.MATCH_PARENT, 1);
+
                 layoutParamsCell.setMargins(1,1,1,1);
                 cells[i][j].setLayoutParams(layoutParamsCell);
 
@@ -96,7 +98,7 @@ public class FieldCreator {
                 }
 
                 cells[i][j].setId(View.generateViewId());
-                tableRow[i].addView(cells[i][j]);
+                rows[i].addView(cells[i][j]);
             }
         }
     }

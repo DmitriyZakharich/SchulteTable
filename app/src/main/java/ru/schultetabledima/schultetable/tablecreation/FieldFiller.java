@@ -126,12 +126,26 @@ public class FieldFiller {
 
                 char c = cells[i][j].getText().toString().charAt(0);
                 cellsId.put((int)c, cells[i][j].getId());
-
-
-                TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(cells[i][j], 1,
-                        100, 1, TypedValue.COMPLEX_UNIT_SP);
             }
         }
+
+
+
+        cells[0][0].post(new Runnable() {
+            @Override
+            public void run() {
+                int size = Math.min(cells[0][0].getHeight(), cells[0][0].getWidth());
+                size = size * 65 / 100;
+                for (int i = 0; i < rowsOfTable; i++) {
+                    for (int j = 0; j < columnsOfTable; j++) {
+                        cells[i][j].setTextSize(TypedValue.COMPLEX_UNIT_PX , size);
+                    }
+                }
+            }
+        });
+
+
+
     }
 
     private void fillingNumbers(){
@@ -156,7 +170,6 @@ public class FieldFiller {
 
                 cellsId.put(Integer.valueOf(cells[i][j].getText().toString()), cells[i][j].getId());
 
-
                 /*Запоминание координат ячейки с "10",
                 для корректировки размера текста в ячейках
                 в методе correctionTextSizeCells()
@@ -167,13 +180,12 @@ public class FieldFiller {
                     amountIsMoreTen = true;
                 }
 
-//                cellsOfTable[i][j].setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
                 TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(cells[i][j], 1,
                         100, 1, TypedValue.COMPLEX_UNIT_SP);
 
             }
         }
-        if(amountIsMoreTen)
+        if (amountIsMoreTen)
             correctionTextSizeCells();
 
     }
@@ -185,13 +197,25 @@ public class FieldFiller {
             @Override
             public void run() {
 
-                int padding = cells[0][0].getHeight() /5;
+//                int size = Math.min(cells[0][0].getHeight(), cells[0][0].getWidth());
+//                Log.d("checkTextSize", "size " + size);
+//                size = size * 55 / 100;
+//                Log.d("checkTextSize", "size " + size);
+//                for (int i = 0; i < rowsOfTable; i++) {
+//                    for (int j = 0; j < columnsOfTable; j++) {
+//                        cells[i][j].setTextSize(TypedValue.COMPLEX_UNIT_PX , size);
+//                        Log.d("checkTextSize", "cells[i][j] " + cells[i][j].getTextSize());
+//
+//                    }
+//                }
 
-                for (int i = 0; i < rowsOfTable; i++) {
-                    for (int j = 0; j < columnsOfTable; j++) {
-                        cells[i][j].setPadding(0,padding,0,padding);
-                    }
-                }
+
+//                int padding = cells[0][0].getHeight() /5;
+//                for (int i = 0; i < rowsOfTable; i++) {
+//                    for (int j = 0; j < columnsOfTable; j++) {
+//                        cells[i][j].setPadding(0,padding,0,padding);
+//                    }
+//                }
 
                 int tenthCellTextSize = Converter.getSP(context, cells[rowCellTen][columnCellTen].getTextSize());
                 for (int i = 0; i < rowsOfTable; i++) {
@@ -200,7 +224,6 @@ public class FieldFiller {
                         TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(cells[i][j], 1,
                                 tenthCellTextSize, 1, TypedValue.COMPLEX_UNIT_SP);
                         Log.d("Отступы", "" + cells[i][j].getText() + " - " + cells[i][j].getTextSize());
-
                     }
                 }
             }

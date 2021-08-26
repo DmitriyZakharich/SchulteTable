@@ -5,9 +5,9 @@ import static android.content.Context.MODE_PRIVATE;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Handler;
 import android.os.SystemClock;
 import android.util.ArrayMap;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
@@ -57,9 +57,9 @@ public class TablePresenter implements Serializable{
         settingForCheckMove();
         settingForMenu();
 
-        if (isTwoTables) {
-            settingForTwoTables();
-        }
+//        if (isTwoTables) {
+//            settingForTwoTables();
+//        }
     }
 
 
@@ -75,13 +75,13 @@ public class TablePresenter implements Serializable{
     }
 
 
-    private void settingForTwoTables() {
-        firstTable = (TableLayout) table.getChildAt(0);
-        if (isTwoTables)
-            secondTable = (TableLayout)table.getChildAt(1);
-
-        activeTable = firstTable.getId();
-    }
+//    private void settingForTwoTables() {
+//        firstTable = (TableLayout) table.getChildAt(0);
+//        if (isTwoTables)
+//            secondTable = (TableLayout)table.getChildAt(1);
+//
+//        activeTable = firstTable.getId();
+//    }
 
 
     private void settingForMenu() {
@@ -105,7 +105,7 @@ public class TablePresenter implements Serializable{
 
         }
 
-        if (!isMoveHint || !isPressButtons){
+        if (!isMoveHint || !isPressButtons || !isMenuShow){
             visibilityHint = View.INVISIBLE;
 
         } else if (isMoveHint){
@@ -163,7 +163,7 @@ public class TablePresenter implements Serializable{
 
     private void callTableCreator() {
         tableCreator = new TableCreator(context, this);
-        table = tableCreator.getTable();
+        table = tableCreator.getContainerForTable();
     }
 
 
@@ -192,6 +192,14 @@ public class TablePresenter implements Serializable{
             if(isTwoTables)
                 nextMoveSecondTableCountdown = cellsIdSecondTable.size();
         }
+
+
+        firstTable = (TableLayout) table.getChildAt(0);
+        if (isTwoTables)
+            secondTable = (TableLayout)table.getChildAt(1);
+
+        activeTable = firstTable.getId();
+
     }
 
 
@@ -233,13 +241,13 @@ public class TablePresenter implements Serializable{
         //Проверка активной таблицы
         //Если id из другой таблицы, то
         //Нужно выполнять до смены значения activeTable
+
          if (activeTable == firstTable.getId() && cellsIdSecondTable.containsValue(cellId)){
-             Toast.makeText(context, R.string.wrongTable, Toast.LENGTH_SHORT).show();
+             showToastWrongTable();
          }
          if (activeTable == secondTable.getId() && cellsIdFirstTable.containsValue(cellId)){
-             Toast.makeText(context, R.string.wrongTable, Toast.LENGTH_SHORT).show();
+             showToastWrongTable();
          }
-
 
         if (activeTable == firstTable.getId()) {
 
@@ -288,6 +296,7 @@ public class TablePresenter implements Serializable{
     }
 
 
+
     private void endGameDialogue(){
         ((TableActivity)context).stopChronometer();
         String tableSize = columnsOfTable + "x" + rowsOfTable;
@@ -302,11 +311,6 @@ public class TablePresenter implements Serializable{
         saveTime = ((TableActivity)context).getBaseChronometer() - SystemClock.elapsedRealtime();
         ((TableActivity)context).removeTable();
 
-        Log.d("fjdfurgubthgbfbhf", "nextMoveFirstTable " + nextMoveFirstTable);
-        Log.d("fjdfurgubthgbfbhf", "nextMoveSecondTableCountdown " + nextMoveSecondTableCountdown);
-        Log.d("fjdfurgubthgbfbhf", "activeTable " + activeTable);
-        Log.d("fjdfurgubthgbfbhf", "firstTable " + firstTable.getId());
-        Log.d("fjdfurgubthgbfbhf", "secondTable " + secondTable.getId());
 
         if (isLetters){
             listLetters1 = new ArrayList<>(tableCreator.getListLetters1());
@@ -326,25 +330,17 @@ public class TablePresenter implements Serializable{
     }
 
     public void restoreInstanceState(){
-        restoreTableCreator();
+        refreshTableCreator();
         showTable();
         ((TableActivity)context).setBaseChronometer(SystemClock.elapsedRealtime() + saveTime);
         startChronometer();
         settingForMenu();
         restoreSettingForCheckMove();
-
-
-        Log.d("fjdfurgubthgbfbhf", "nextMoveFirstTable " + nextMoveFirstTable);
-        Log.d("fjdfurgubthgbfbhf", "nextMoveSecondTableCountdown " + nextMoveSecondTableCountdown);
-        Log.d("fjdfurgubthgbfbhf", "activeTable " + activeTable);
-        Log.d("fjdfurgubthgbfbhf", "firstTable " + firstTable.getId());
-        Log.d("fjdfurgubthgbfbhf", "secondTable " + secondTable.getId());
-
     }
 
 
 
-    private void restoreTableCreator(){
+    private void refreshTableCreator(){
         if (isLetters){
             tableCreator = new TableCreator(context, this, listLetters1, listLetters2);
 
@@ -352,7 +348,7 @@ public class TablePresenter implements Serializable{
             tableCreator = new TableCreator(context,  listNumbers1, listNumbers2, this);
         }
 
-        table = tableCreator.getTable();
+        table = tableCreator.getContainerForTable();
         cellsIdFirstTable = tableCreator.getCellsIdFirstTable();
 
         if (isTwoTables){
@@ -369,6 +365,7 @@ public class TablePresenter implements Serializable{
             cellsIdSecondTable = new ArrayMap<>();
             cellsIdSecondTable = tableCreator.getCellsIdSecondTable();
         }
+
 
         if (!isLetters) {
             if (activeTable == firstTable.getId()) {
@@ -388,8 +385,7 @@ public class TablePresenter implements Serializable{
 
     private void restoreSettingForTwoTables() {
         firstTable = (TableLayout) table.getChildAt(0);
-        if (isTwoTables)
-            secondTable = (TableLayout)table.getChildAt(1);
+        secondTable = (TableLayout) table.getChildAt(1);
 
 
         if (saveNumberActiveTable == 0){
@@ -402,9 +398,6 @@ public class TablePresenter implements Serializable{
             firstTable.setBackgroundColor(ContextCompat.getColor(context, R.color.passiveTable));
             secondTable.setBackgroundColor(ContextCompat.getColor(context, R.color.activeTable));
         }
-
-
-
     }
 
 
@@ -423,4 +416,18 @@ public class TablePresenter implements Serializable{
     public void detachView(){
         context = null;
     }
+
+    private void showToastWrongTable() {
+        Toast toast = Toast.makeText(context, R.string.wrongTable, Toast.LENGTH_SHORT);
+        toast.show();
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                toast.cancel();
+            }
+        }, 500);
+    }
+
 }

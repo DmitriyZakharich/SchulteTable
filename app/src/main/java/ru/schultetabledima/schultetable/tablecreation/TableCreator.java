@@ -9,7 +9,6 @@ import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.util.ArrayMap;
 import android.util.Log;
-import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
@@ -26,7 +25,7 @@ import ru.schultetabledima.schultetable.ui.SettingsActivity;
 public class TableCreator{
     private ArrayList<Integer> listNumbers2;
     private ArrayList<Integer> listNumbers1;
-    private LinearLayout table;
+    private LinearLayout containerForTable;
     private Context context;
     private TablePresenter tablePresenter;
     private boolean isTwoTables;
@@ -78,8 +77,8 @@ public class TableCreator{
     }
 
     private void creatingContainerForTable() {
-        table = new LinearLayout(context);
-        table.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
+        containerForTable = new LinearLayout(context);
+        containerForTable.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
 
 
         if (isTwoTables) {
@@ -87,13 +86,13 @@ public class TableCreator{
             GradientDrawable drawable = new GradientDrawable();
             drawable.setColor(Color.BLACK);
             drawable.setSize(30, 30);
-            table.setShowDividers(TableLayout.SHOW_DIVIDER_MIDDLE);
-            table.setDividerDrawable(drawable);
+            containerForTable.setShowDividers(TableLayout.SHOW_DIVIDER_MIDDLE);
+            containerForTable.setDividerDrawable(drawable);
 
             if ((context).getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                table.setOrientation(LinearLayout.HORIZONTAL);
+                containerForTable.setOrientation(LinearLayout.HORIZONTAL);
             } else {
-                table.setOrientation(LinearLayout.VERTICAL);
+                containerForTable.setOrientation(LinearLayout.VERTICAL);
             }
 
         }
@@ -101,11 +100,12 @@ public class TableCreator{
 
     private void creatingField() {
             fieldCreator1 = new FieldCreator(context, ContextCompat.getColor(context, R.color.activeTable));
-            table.addView(fieldCreator1.getField());
+            containerForTable.addView(fieldCreator1.getField());
 
             if (isTwoTables){
                     fieldCreator2 = new FieldCreator(context, ContextCompat.getColor(context, R.color.passiveTable));
-                    table.addView(fieldCreator2.getField());
+                    containerForTable.addView(fieldCreator2.getField());
+                Log.d("creatingFieldisT", "fieldCreator2");
             }
     }
 
@@ -155,8 +155,8 @@ public class TableCreator{
 
 
 
-    public LinearLayout getTable() {
-        return table;
+    public LinearLayout getContainerForTable() {
+        return containerForTable;
     }
 
     public ArrayList<Integer> getListNumbers1(){

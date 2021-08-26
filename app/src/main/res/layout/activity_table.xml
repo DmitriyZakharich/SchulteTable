@@ -66,7 +66,7 @@
                 android:textSize="30sp"
                 android:gravity="center"
                 android:textColor="@color/activeTable"
-                android:text="10"/>
+                android:text=""/>
 
 
             <Chronometer
