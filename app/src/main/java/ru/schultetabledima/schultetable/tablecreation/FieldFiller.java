@@ -48,7 +48,7 @@ public class FieldFiller {
         this.context = context;
         this.cells = cells;
         this.tablePresenter = tablePresenter;
-        init();
+        main();
     }
 
     //Конструктор для восстановления активити с буквами
@@ -58,7 +58,7 @@ public class FieldFiller {
         this.tablePresenter = tablePresenter;
         this.listLetters = listLetters;
         isNewFilling = false;
-        init();
+        main();
     }
 
     //Конструктор для восстановления активити c цифрами
@@ -68,11 +68,11 @@ public class FieldFiller {
         this.tablePresenter = tablePresenter;
         this.listNumbers = listNumbers;
         isNewFilling = false;
-        init();
+        main();
     }
 
 
-    private void init() {
+    private void main() {
         readSharedPreferences();
         if (isLetters)
             fillingLetters();
@@ -225,6 +225,9 @@ public class FieldFiller {
     public ArrayMap<Integer, Integer> getCellsId(){
         return cellsId;
     }
+
+
+
 
     private void addAnimation(AppCompatTextView[][] cellsOfTable) {
         Random random = new Random();

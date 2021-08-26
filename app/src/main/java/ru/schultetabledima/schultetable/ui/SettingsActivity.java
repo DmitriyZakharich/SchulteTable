@@ -16,14 +16,13 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 
 import ru.schultetabledima.schultetable.R;
 
 public class SettingsActivity extends AppCompatActivity implements View.OnClickListener {
 
 
-  private static SharedPreferences settings;
+    private static SharedPreferences settings;
     private static final String APP_PREFERENCES = "my_settings";
 
     private static final String KEY_ANIMATION = "switchAnimation";
@@ -31,10 +30,13 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     private static final String KEY_NUMBERS_OR_LETTERS = "switchNumbersLetters";
     private static final String KEY_RUSSIAN_OR_ENGLISH = "switchRussianOrEnglish";
     private static final String KEY_TWO_TABLES = "switchTwoTables";
+    private static final String KEY_MOVE_HINT = "switchMoveHint";
     private static final String KEY_ROWS_NUMBERS = "saveSpinnerRowsNumbers";
     private static final String KEY_COLUMNS_NUMBERS = "saveSpinnerColumnsNumbers";
     private static final String KEY_ROWS_LETTERS = "saveSpinnerRowsLetters";
     private static final String KEY_COLUMNS_LETTERS = "saveSpinnerColumnsLetters";
+
+    SwitchMaterial switchMoveHint;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +44,9 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.activity_settings);
 
         SwitchMaterial switchAnimation = findViewById(R.id.switchAnimation);
-        SwitchMaterial switchTouchCells = findViewById(R.id.switchTouchСells);
+        SwitchMaterial switchTouchCells = findViewById(R.id.switchPressButtons);
         SwitchMaterial switchTwoTableS = findViewById(R.id.switchTwoTables);
+        switchMoveHint = findViewById(R.id.switchMoveHint);
         Button buttonToTable = findViewById(R.id.buttonToTable);
 
         settings = getSharedPreferences(APP_PREFERENCES, MODE_PRIVATE);
@@ -54,10 +57,21 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         switchTwoTableS.setChecked(settings.getBoolean(KEY_TWO_TABLES, false));
         boolean isLetters = settings.getBoolean(KEY_NUMBERS_OR_LETTERS, false);
 
+        if (switchTouchCells.isChecked()){
+            switchMoveHint.setEnabled(true);
+            switchMoveHint.setChecked(settings.getBoolean(KEY_MOVE_HINT, true));
+        }
+        else{
+            switchMoveHint.setChecked(false);
+            switchMoveHint.setEnabled(false);
+        }
+
+
 
         switchAnimation.setOnClickListener(this);
         switchTouchCells.setOnClickListener(this);
         switchTwoTableS.setOnClickListener(this);
+        switchMoveHint.setOnClickListener(this);
         buttonToTable.setOnClickListener(this);
 
 
@@ -130,23 +144,40 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         int id = v.getId();
         if (id == R.id.switchAnimation) {
             ed.putBoolean(KEY_ANIMATION, ((SwitchMaterial) v).isChecked());
-            ed.apply();
 
-        } else if (id == R.id.switchTouchСells) {
-            ed.putBoolean(KEY_TOUCH_CELLS, ((SwitchMaterial) v).isChecked());
-            ed.apply();
+        } else if (id == R.id.switchPressButtons) {
+                boolean isPressButtons = ((SwitchMaterial) v).isChecked();
+                ed.putBoolean(KEY_TOUCH_CELLS, isPressButtons);
 
-        } else if (id == R.id.buttonToTable) {
-            startActivity(new Intent(SettingsActivity.this, TableActivity.class));
+                if (isPressButtons){
+                    switchMoveHint.setEnabled(true);
+                    switchMoveHint.setChecked(settings.getBoolean(KEY_MOVE_HINT, true));
+                }
+
+                else{
+                    switchMoveHint.setChecked(false);
+                    switchMoveHint.setEnabled(false);
+                }
+
 
         } else if (id == R.id.switchTwoTables) {
             ed.putBoolean(KEY_TWO_TABLES, ((SwitchMaterial) v).isChecked());
-            ed.apply();
 
         } else if (id == R.id.switchRussianOrEnglish) {
             ed.putBoolean(KEY_RUSSIAN_OR_ENGLISH, ((SwitchMaterial) v).isChecked());
-            ed.apply();
+
+        } else if (id == R.id.switchMoveHint) {
+            ed.putBoolean(KEY_MOVE_HINT, ((SwitchMaterial) v).isChecked());
+
         }
+        ed.apply();
+
+
+         if (id == R.id.buttonToTable) {
+            startActivity(new Intent(SettingsActivity.this, TableActivity.class));
+        }
+
+
     }
 
     public static String getAppPreferences() {
@@ -167,9 +198,6 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     public static String getKeyRussianOrEnglish() {
         return KEY_RUSSIAN_OR_ENGLISH;
     }
-
-
-
     public static String getKeyRowsLetters() {
         return KEY_ROWS_LETTERS;
     }
@@ -181,5 +209,8 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     }
     public static String getKeyRowsNumbers() {
         return KEY_ROWS_NUMBERS;
+    }
+    public static String getKeyMoveHint() {
+        return KEY_MOVE_HINT;
     }
 }

@@ -23,11 +23,20 @@
             android:textSize="@dimen/headerTextSize" />
 
         <com.google.android.material.switchmaterial.SwitchMaterial
-            android:id="@+id/switchTouchСells"
+            android:id="@+id/switchPressButtons"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/TouchFoundCells"
             android:textColor="@color/mainTextColor"
+            android:textSize="@dimen/ordinaryTextSize"
+            app:switchMinWidth="@dimen/switchSize" />
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/switchMoveHint"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/moveHint"
+            android:textColor="@color/checkable_switch"
             android:textSize="@dimen/ordinaryTextSize"
             app:switchMinWidth="@dimen/switchSize" />
 
@@ -75,7 +84,8 @@
         android:layout_height="wrap_content"
         android:text="@string/Table"
         android:textSize="@dimen/ordinaryTextSize"
-        android:background="@color/colorButton"/>
+        android:background="@color/colorButton"
+        android:textColor="@color/mainTextColor"/>
 </LinearLayout>
 
 

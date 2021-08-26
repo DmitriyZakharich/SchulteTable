@@ -24,5 +24,8 @@
     <string name="russian">Рус</string>
     <string name="english">Анг</string>
     <string name="choiceOfLetterLanguage">Русские\\Английские буквы</string>
+    <string name="moveHint">Подсказка хода</string>
+    <string name="MoveHint">Найдите:</string>
+    <string name="wrongTable">Другая таблица</string>
 
 </resources>

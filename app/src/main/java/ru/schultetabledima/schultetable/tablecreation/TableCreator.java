@@ -8,6 +8,8 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.util.ArrayMap;
+import android.util.Log;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
@@ -40,10 +42,10 @@ public class TableCreator{
     public TableCreator(Context context, TablePresenter tablePresenter) {
         this.context = context;
         this.tablePresenter = tablePresenter;
-        init();
+        main();
     }
 
-    //Конструктор для восстановления активити с буквами
+    //Constructor to restore activity with letters
     public TableCreator(Context context, TablePresenter tablePresenter, ArrayList<Character> listLetters1, ArrayList<Character> listLetters2) {
         this.context = context;
         this.tablePresenter = tablePresenter;
@@ -52,7 +54,7 @@ public class TableCreator{
         restoreTable();
     }
 
-    //Конструктор для восстановления активити с цифрами
+    //Constructor to restore activity with numbers
     public TableCreator(Context context, ArrayList<Integer> listNumbers1, ArrayList<Integer> listNumbers2, TablePresenter tablePresenter) {
         this.context = context;
         this.tablePresenter = tablePresenter;
@@ -62,7 +64,7 @@ public class TableCreator{
     }
 
 
-    void init(){
+    void main(){
         readSharedPreferences();
         creatingContainerForTable();
         creatingField();
@@ -78,6 +80,7 @@ public class TableCreator{
     private void creatingContainerForTable() {
         table = new LinearLayout(context);
         table.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
+
 
         if (isTwoTables) {
             //Создание разделительной полосы между таблицами
@@ -103,7 +106,6 @@ public class TableCreator{
             if (isTwoTables){
                     fieldCreator2 = new FieldCreator(context, ContextCompat.getColor(context, R.color.passiveTable));
                     table.addView(fieldCreator2.getField());
-
             }
     }
 
@@ -115,6 +117,14 @@ public class TableCreator{
             AppCompatTextView[][] cells2 = fieldCreator2.getCells();
             fieldFiller2 = new FieldFiller(context, cells2, tablePresenter);
         }
+    }
+
+
+    private void restoreTable() {
+        readSharedPreferences();
+        creatingContainerForTable();
+        creatingField();
+        restoreFillingTable();
     }
 
     private void restoreFillingTable(){
@@ -142,12 +152,7 @@ public class TableCreator{
 
     }
 
-    private void restoreTable() {
-        readSharedPreferences();
-        creatingContainerForTable();
-        creatingField();
-        restoreFillingTable();
-    }
+
 
 
     public LinearLayout getTable() {
@@ -170,17 +175,10 @@ public class TableCreator{
     }
 
 
-
     public ArrayMap<Integer, Integer> getCellsIdFirstTable(){
         return fieldFiller1.getCellsId();
     }
-
     public ArrayMap<Integer, Integer> getCellsIdSecondTable(){
         return fieldFiller2.getCellsId();
-    }
-
-
-    public void detachView() {
-        context = null;
     }
 }

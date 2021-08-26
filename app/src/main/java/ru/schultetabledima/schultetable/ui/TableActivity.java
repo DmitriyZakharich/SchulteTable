@@ -2,14 +2,15 @@ package ru.schultetabledima.schultetable.ui;
 
 import android.animation.LayoutTransition;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Chronometer;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -29,6 +30,7 @@ public class TableActivity extends AppCompatActivity implements TableContract.Vi
     private static final String MENU_PREFERENCES = "PreferencesMenu";
     private static final String KEY_MENU_VISIBILITY = "Saved Menu Visibility";
     private TablePresenter tablePresenter;
+    TextView moveHint, textMoveHint;
 
 
     @Override
@@ -41,13 +43,15 @@ public class TableActivity extends AppCompatActivity implements TableContract.Vi
         statistics = (ImageButton) findViewById(R.id.image_button_statistics);
         placeForTable = (RelativeLayout) findViewById(R.id.placeForTable);
         chronometer = (Chronometer) findViewById(R.id.chronometer);
+        moveHint = (TextView) findViewById(R.id.moveHint);
+        textMoveHint = (TextView) findViewById(R.id.textMoveHint);
 
         menu = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(menu);
 
-        settings.setOnClickListener(processingMenuButtons);
-        statistics.setOnClickListener(processingMenuButtons);
-        selectShowHideMenu.setOnClickListener(processingMenuButtons);
+        settings.setOnClickListener(onClickMenuButtonsListener);
+        statistics.setOnClickListener(onClickMenuButtonsListener);
+        selectShowHideMenu.setOnClickListener(onClickMenuButtonsListener);
 
         if (savedInstanceState == null)
             tablePresenter = new TablePresenter(this);
@@ -56,7 +60,6 @@ public class TableActivity extends AppCompatActivity implements TableContract.Vi
         //Анимация показать-скрыть меню навигации
         LayoutTransition layoutTransitionToolbar = menu.getLayoutTransition();
         layoutTransitionToolbar.enableTransitionType(LayoutTransition.CHANGING);
-
 }
 
     @Override
@@ -65,22 +68,21 @@ public class TableActivity extends AppCompatActivity implements TableContract.Vi
         addAnim(table);
     }
 
-    void addAnim(LinearLayout table){
+    void addAnim(@NonNull LinearLayout table){
         LayoutTransition layoutTransitionTable = new LayoutTransition();
         table.setLayoutTransition(layoutTransitionTable);
         layoutTransitionTable.enableTransitionType(LayoutTransition.CHANGING);
     }
 
 
-    View.OnClickListener processingMenuButtons = new View.OnClickListener() {
+    View.OnClickListener onClickMenuButtonsListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            tablePresenter.processingMenuButtons(v.getId());
+            tablePresenter.onClickMenuButtonsListener(v.getId());
         }
     };
 
-    //Сохранение информации при поворатах Активити
-    // сохранение состояния
+
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         tablePresenter.saveInstanceState();
@@ -89,7 +91,7 @@ public class TableActivity extends AppCompatActivity implements TableContract.Vi
 
         super.onSaveInstanceState(outState);
     }
-    // получение ранее сохраненного состояния
+
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
@@ -99,25 +101,25 @@ public class TableActivity extends AppCompatActivity implements TableContract.Vi
     }
 
 
-    public void showMenu(LinearLayout.LayoutParams layoutParams){
-        chronometer.setVisibility(View.VISIBLE);
-        settings.setVisibility(View.VISIBLE);
-        statistics.setVisibility(View.VISIBLE);
+    public void showHideMenu(int visibility,int visibilityHint, int imageResource, LinearLayout.LayoutParams layoutParams){
+        chronometer.setVisibility(visibility);
+        settings.setVisibility(visibility);
+        statistics.setVisibility(visibility);
+
+        textMoveHint.setVisibility(visibilityHint);
+        moveHint.setVisibility(visibilityHint);
 
         menu.setLayoutParams(layoutParams);
-        selectShowHideMenu.setImageResource(R.drawable.ic_arrow_down);
-    }
-
-    public void hideMenu(LinearLayout.LayoutParams layoutParams){
-        chronometer.setVisibility(View.INVISIBLE);
-        settings.setVisibility(View.INVISIBLE);
-        statistics.setVisibility(View.INVISIBLE);
-
-        menu.setLayoutParams(layoutParams);
-        selectShowHideMenu.setImageResource(R.drawable.ic_arrow_up);
+        selectShowHideMenu.setImageResource(imageResource);
     }
 
 
+    public void setMoveHint(int nextMoveFirstTable) {
+        moveHint.setText(String.valueOf(nextMoveFirstTable));
+    }
+    public void setMoveHint(char nextMoveFirstTable) {
+        moveHint.setText(String.valueOf(nextMoveFirstTable));
+    }
     public void removeTable() {
         placeForTable.removeAllViews();
     }
@@ -125,6 +127,7 @@ public class TableActivity extends AppCompatActivity implements TableContract.Vi
     public void startChronometer(){
         chronometer.start();
     }
+
     public void stopChronometer(){
         chronometer.stop();
     }
@@ -136,12 +139,14 @@ public class TableActivity extends AppCompatActivity implements TableContract.Vi
     public long getBaseChronometer(){
         return chronometer.getBase();
     }
+
     public void setBaseChronometer(long base){
         chronometer.setBase(base);
     }
     public static String getKeyMenuVisibility() {
         return KEY_MENU_VISIBILITY;
     }
+
     public static String getMenuPreferences() {
         return MENU_PREFERENCES;
     }

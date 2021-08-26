@@ -7,8 +7,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.SystemClock;
 import android.util.ArrayMap;
+import android.util.Log;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
+import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
 
@@ -26,42 +29,37 @@ import ru.schultetabledima.schultetable.utils.Converter;
 public class TablePresenter implements Serializable{
     private boolean isPressButtons;
     private int count = 0;
-    private int columnsOfTable;
-    private int rowsOfTable;
+    private int columnsOfTable, rowsOfTable;
     private long saveTime;
     private Context context;
     private transient TableCreator tableCreator;
     private transient LinearLayout table;
-    private boolean isLetters;
-    private boolean isTwoTables;
-    private boolean isEnglish;
+    private boolean isLetters, isTwoTables, isEnglish, isMenuShow, isMoveHint;
     private ArrayList<Character> listLetters1, listLetters2;
     private ArrayList<Integer> listNumbers1, listNumbers2;
-    private int activeTable;
+    private int activeTable, saveNumberActiveTable;
     private transient TableLayout firstTable, secondTable;
     private transient ArrayMap<Integer, Integer> cellsIdFirstTable, cellsIdSecondTable;
     private int nextMoveFirstTable, nextMoveSecondTableCountdown;
     private static SharedPreferences sharedPreferencesMenu;
-    private boolean isMenuShow;
 
 
     public TablePresenter(Context context) {
         this.context = context;
-        init();
+        main();
     }
 
-    private void init(){
+    private void main(){
         readSharedPreferences();
         callTableCreator();
+        showTable();
+        startChronometer();
+        settingForCheckMove();
+        settingForMenu();
 
         if (isTwoTables) {
             settingForTwoTables();
         }
-
-        showTable();
-        startChronometer();
-        settingForMenu();
-        settingForCheckMove();
     }
 
 
@@ -73,55 +71,97 @@ public class TablePresenter implements Serializable{
         isLetters = settings.getBoolean(SettingsActivity.getKeyNumbersOrLetters(), false);
         isTwoTables = settings.getBoolean(SettingsActivity.getKeyTwoTables(), false);
         isEnglish = settings.getBoolean(SettingsActivity.getKeyRussianOrEnglish(), false);
+        isMoveHint = settings.getBoolean(SettingsActivity.getKeyMoveHint(), true);
     }
 
 
     private void settingForTwoTables() {
         firstTable = (TableLayout) table.getChildAt(0);
-        secondTable = (TableLayout)table.getChildAt(1);
+        if (isTwoTables)
+            secondTable = (TableLayout)table.getChildAt(1);
 
         activeTable = firstTable.getId();
     }
+
 
     private void settingForMenu() {
         sharedPreferencesMenu = context.getSharedPreferences(TableActivity.getMenuPreferences(), MODE_PRIVATE);
         isMenuShow = sharedPreferencesMenu.getBoolean(TableActivity.getKeyMenuVisibility(), true);
 
+        int visibility, imageResource;
+        int visibilityHint = View.VISIBLE;
+        LinearLayout.LayoutParams layoutParams;
+
         if(isMenuShow){
-            ((TableActivity)context).showMenu(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Converter.getPx(context, 40)));
+            visibility = View.VISIBLE;
+            imageResource = R.drawable.ic_arrow_down;
+            layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Converter.getPx(context, 40));
+
 
         }else{
-            ((TableActivity)context).hideMenu(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Converter.getPx(context,20)));
+            visibility = View.INVISIBLE;
+            imageResource = R.drawable.ic_arrow_up;
+            layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Converter.getPx(context,20));
+
         }
+
+        if (!isMoveHint || !isPressButtons){
+            visibilityHint = View.INVISIBLE;
+
+        } else if (isMoveHint){
+            visibilityHint = View.VISIBLE;
+        }
+        ((TableActivity)context).showHideMenu(visibility, visibilityHint, imageResource, layoutParams);
     }
 
-    public void processingMenuButtons(int viewID){
+
+
+    public void onClickMenuButtonsListener(int viewID){
         if (viewID == R.id.image_button_settings) {
             context.startActivity(new Intent(context, SettingsActivity.class));
+
 
         } else if (viewID == R.id.image_button_statistics) {
             context.startActivity(new Intent(context, StatisticsActivity.class));
 
+
+
         } else if (viewID == R.id.image_Button_Show_Hide_Menu) {
-            SharedPreferences.Editor ed = sharedPreferencesMenu.edit();
+                SharedPreferences.Editor ed = sharedPreferencesMenu.edit();
 
-            if (isMenuShow){
-                ((TableActivity)context).hideMenu(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Converter.getPx(context, 20)));
-                isMenuShow = false;
+                int visibility, visibilityHint, imageResource;
+                LinearLayout.LayoutParams layoutParams;
 
-            }else{
-                ((TableActivity)context).showMenu(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Converter.getPx(context,40)));
-                isMenuShow = true;
+                if (isMenuShow){
+                    visibility = View.INVISIBLE;
+                    imageResource = R.drawable.ic_arrow_up;
+                    layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Converter.getPx(context, 20));
+                    isMenuShow = false;
 
-            }
-            ed.putBoolean(TableActivity.getKeyMenuVisibility(), isMenuShow);
-            ed.apply();
+                }else{
+                    visibility = View.VISIBLE;
+                    imageResource = R.drawable.ic_arrow_down;
+                    layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Converter.getPx(context,40));
+                    isMenuShow = true;
 
+                }
+
+                if (isMoveHint && isMenuShow){
+                    visibilityHint = View.VISIBLE;
+
+                } else {
+                    visibilityHint = View.INVISIBLE;
+                }
+
+                ((TableActivity)context).showHideMenu(visibility, visibilityHint, imageResource, layoutParams);
+
+                ed.putBoolean(TableActivity.getKeyMenuVisibility(), isMenuShow);
+                ed.apply();
         }
     }
 
 
-    public void callTableCreator() {
+    private void callTableCreator() {
         tableCreator = new TableCreator(context, this);
         table = tableCreator.getTable();
     }
@@ -139,12 +179,15 @@ public class TablePresenter implements Serializable{
 
         if (isLetters) {
             nextMoveFirstTable = (isEnglish) ? (int) 'A': (int) 'А'; // eng / rus
+            ((TableActivity)context).setMoveHint((char)nextMoveFirstTable);
 
             if(isTwoTables)
                 nextMoveSecondTableCountdown = (isEnglish) ? (int)'A' +  cellsIdFirstTable.size() - 1 : (int)'А' +  cellsIdFirstTable.size() - 1;
 
-        } else{
+
+        } else {
             nextMoveFirstTable = 1;
+            ((TableActivity)context).setMoveHint(nextMoveFirstTable);
 
             if(isTwoTables)
                 nextMoveSecondTableCountdown = cellsIdSecondTable.size();
@@ -172,6 +215,11 @@ public class TablePresenter implements Serializable{
         if (cellId == cellsIdFirstTable.get(nextMoveFirstTable)){
             nextMoveFirstTable++;
             count++;
+            if (isLetters)
+                ((TableActivity)context).setMoveHint((char)nextMoveFirstTable);
+
+            else
+                ((TableActivity)context).setMoveHint(nextMoveFirstTable);
         }
 
         if (count == cellsIdFirstTable.size()){
@@ -181,6 +229,18 @@ public class TablePresenter implements Serializable{
 
 
     private void checkMoveInTwoTables(int cellId) {
+
+        //Проверка активной таблицы
+        //Если id из другой таблицы, то
+        //Нужно выполнять до смены значения activeTable
+         if (activeTable == firstTable.getId() && cellsIdSecondTable.containsValue(cellId)){
+             Toast.makeText(context, R.string.wrongTable, Toast.LENGTH_SHORT).show();
+         }
+         if (activeTable == secondTable.getId() && cellsIdFirstTable.containsValue(cellId)){
+             Toast.makeText(context, R.string.wrongTable, Toast.LENGTH_SHORT).show();
+         }
+
+
         if (activeTable == firstTable.getId()) {
 
                 if (cellId == cellsIdFirstTable.get(nextMoveFirstTable)){
@@ -188,11 +248,17 @@ public class TablePresenter implements Serializable{
                     count++;
 
                     activeTable = secondTable.getId();
+                    saveNumberActiveTable = 1;
 
                     firstTable.setBackgroundColor(ContextCompat.getColor(context, R.color.passiveTable));
                     secondTable.setBackgroundColor(ContextCompat.getColor(context, R.color.activeTable));
 
+                    if (isLetters)
+                        ((TableActivity)context).setMoveHint((char)nextMoveSecondTableCountdown);
+                    else
+                        ((TableActivity)context).setMoveHint(nextMoveSecondTableCountdown);
                 }
+
 
         } else if (activeTable == secondTable.getId()) {
 
@@ -201,19 +267,28 @@ public class TablePresenter implements Serializable{
                     count++;
 
                     activeTable = firstTable.getId();
+                    saveNumberActiveTable = 0;
 
                     firstTable.setBackgroundColor(ContextCompat.getColor(context, R.color.activeTable));
                     secondTable.setBackgroundColor(ContextCompat.getColor(context, R.color.passiveTable));
+
+                    if (isLetters)
+                        ((TableActivity)context).setMoveHint((char)nextMoveFirstTable);
+                    else
+                        ((TableActivity)context).setMoveHint(nextMoveFirstTable);
+
                 }
         }
 
+
         if (count == (cellsIdFirstTable.size() + cellsIdSecondTable.size())){
             endGameDialogue();
+            ((TableActivity)context).setMoveHint(' ');
         }
     }
 
 
-    void endGameDialogue(){
+    private void endGameDialogue(){
         ((TableActivity)context).stopChronometer();
         String tableSize = columnsOfTable + "x" + rowsOfTable;
         EndGameDialogue endGameDialogue = new EndGameDialogue((TableActivity) context,
@@ -226,6 +301,12 @@ public class TablePresenter implements Serializable{
         ((TableActivity)context).stopChronometer();
         saveTime = ((TableActivity)context).getBaseChronometer() - SystemClock.elapsedRealtime();
         ((TableActivity)context).removeTable();
+
+        Log.d("fjdfurgubthgbfbhf", "nextMoveFirstTable " + nextMoveFirstTable);
+        Log.d("fjdfurgubthgbfbhf", "nextMoveSecondTableCountdown " + nextMoveSecondTableCountdown);
+        Log.d("fjdfurgubthgbfbhf", "activeTable " + activeTable);
+        Log.d("fjdfurgubthgbfbhf", "firstTable " + firstTable.getId());
+        Log.d("fjdfurgubthgbfbhf", "secondTable " + secondTable.getId());
 
         if (isLetters){
             listLetters1 = new ArrayList<>(tableCreator.getListLetters1());
@@ -245,6 +326,25 @@ public class TablePresenter implements Serializable{
     }
 
     public void restoreInstanceState(){
+        restoreTableCreator();
+        showTable();
+        ((TableActivity)context).setBaseChronometer(SystemClock.elapsedRealtime() + saveTime);
+        startChronometer();
+        settingForMenu();
+        restoreSettingForCheckMove();
+
+
+        Log.d("fjdfurgubthgbfbhf", "nextMoveFirstTable " + nextMoveFirstTable);
+        Log.d("fjdfurgubthgbfbhf", "nextMoveSecondTableCountdown " + nextMoveSecondTableCountdown);
+        Log.d("fjdfurgubthgbfbhf", "activeTable " + activeTable);
+        Log.d("fjdfurgubthgbfbhf", "firstTable " + firstTable.getId());
+        Log.d("fjdfurgubthgbfbhf", "secondTable " + secondTable.getId());
+
+    }
+
+
+
+    private void restoreTableCreator(){
         if (isLetters){
             tableCreator = new TableCreator(context, this, listLetters1, listLetters2);
 
@@ -257,13 +357,54 @@ public class TablePresenter implements Serializable{
 
         if (isTwoTables){
             cellsIdSecondTable = tableCreator.getCellsIdSecondTable();
-            settingForTwoTables();
+            restoreSettingForTwoTables();
+        }
+    }
+
+    private void restoreSettingForCheckMove() {
+        cellsIdFirstTable = new ArrayMap<>();
+        cellsIdFirstTable = tableCreator.getCellsIdFirstTable();
+
+        if (isTwoTables) {
+            cellsIdSecondTable = new ArrayMap<>();
+            cellsIdSecondTable = tableCreator.getCellsIdSecondTable();
         }
 
-        showTable();
-        ((TableActivity)context).setBaseChronometer(SystemClock.elapsedRealtime() + saveTime);
-        startChronometer();
-        settingForMenu();
+        if (!isLetters) {
+            if (activeTable == firstTable.getId()) {
+                ((TableActivity) context).setMoveHint(nextMoveFirstTable);
+            } else if (activeTable == secondTable.getId())
+                ((TableActivity) context).setMoveHint(nextMoveSecondTableCountdown);
+
+
+        } else if(isLetters){
+            if (activeTable == firstTable.getId()) {
+                ((TableActivity) context).setMoveHint((char) nextMoveFirstTable);
+            } else if (activeTable == secondTable.getId())
+                ((TableActivity) context).setMoveHint((char) nextMoveSecondTableCountdown);
+        }
+    }
+
+
+    private void restoreSettingForTwoTables() {
+        firstTable = (TableLayout) table.getChildAt(0);
+        if (isTwoTables)
+            secondTable = (TableLayout)table.getChildAt(1);
+
+
+        if (saveNumberActiveTable == 0){
+            activeTable = firstTable.getId();
+            firstTable.setBackgroundColor(ContextCompat.getColor(context, R.color.activeTable));
+            secondTable.setBackgroundColor(ContextCompat.getColor(context, R.color.passiveTable));
+
+        }else if (saveNumberActiveTable == 1){
+            activeTable = secondTable.getId();
+            firstTable.setBackgroundColor(ContextCompat.getColor(context, R.color.passiveTable));
+            secondTable.setBackgroundColor(ContextCompat.getColor(context, R.color.activeTable));
+        }
+
+
+
     }
 
 

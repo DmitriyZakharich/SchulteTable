@@ -20,7 +20,7 @@
     <color name="passiveTable">#000000</color>
     <color name="mainTextColor">#FFFFFF</color>
     <color name="mainBackgroundColor">#344987</color>
-
+    <color name="enableTextColor">#33000000</color>
 
 
 </resources>
