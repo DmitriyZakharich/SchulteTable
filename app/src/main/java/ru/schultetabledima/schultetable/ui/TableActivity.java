@@ -2,15 +2,15 @@ package ru.schultetabledima.schultetable.ui;
 
 import android.animation.LayoutTransition;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Chronometer;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -27,11 +27,10 @@ public class TableActivity extends AppCompatActivity implements TableContract.Vi
     private RelativeLayout placeForTable;
     private Toolbar menu;
     private ImageButton selectShowHideMenu;
-    private static SharedPreferences sharedPreferencesMenu;
     private static final String MENU_PREFERENCES = "PreferencesMenu";
-    static final String KEY_MENU_VISIBILITY = "Saved Menu Visibility";
-    private boolean isMenuShow;
+    private static final String KEY_MENU_VISIBILITY = "Saved Menu Visibility";
     private TablePresenter tablePresenter;
+    TextView moveHint, textMoveHint;
 
 
     @Override
@@ -44,119 +43,83 @@ public class TableActivity extends AppCompatActivity implements TableContract.Vi
         statistics = (ImageButton) findViewById(R.id.image_button_statistics);
         placeForTable = (RelativeLayout) findViewById(R.id.placeForTable);
         chronometer = (Chronometer) findViewById(R.id.chronometer);
+        moveHint = (TextView) findViewById(R.id.moveHint);
+        textMoveHint = (TextView) findViewById(R.id.textMoveHint);
 
         menu = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(menu);
 
-        settings.setOnClickListener(moveAnotherActivity);
-        statistics.setOnClickListener(moveAnotherActivity);
-        selectShowHideMenu.setOnClickListener(methodShowHideMenu);
-
-
-        //Чтение настроек строки меню
-        sharedPreferencesMenu = getSharedPreferences(MENU_PREFERENCES, MODE_PRIVATE);
-        isMenuShow = sharedPreferencesMenu.getBoolean(KEY_MENU_VISIBILITY, true);
+        settings.setOnClickListener(onClickMenuButtonsListener);
+        statistics.setOnClickListener(onClickMenuButtonsListener);
+        selectShowHideMenu.setOnClickListener(onClickMenuButtonsListener);
 
         if (savedInstanceState == null)
             tablePresenter = new TablePresenter(this);
 
 
-        Log.d("nextMoveNumber", "placeForTable---------------           " + placeForTable.getId());
-
-
         //Анимация показать-скрыть меню навигации
         LayoutTransition layoutTransitionToolbar = menu.getLayoutTransition();
         layoutTransitionToolbar.enableTransitionType(LayoutTransition.CHANGING);
-
-        if(isMenuShow){
-            menu.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, getPx(40)));
-
-            chronometer.setVisibility(View.VISIBLE);
-            settings.setVisibility(View.VISIBLE);
-            statistics.setVisibility(View.VISIBLE);
-            selectShowHideMenu.setImageResource(R.drawable.ic_arrow_down);
-        }else{
-            menu.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, getPx(20)));
-
-            chronometer.setVisibility(View.INVISIBLE);
-            settings.setVisibility(View.INVISIBLE);
-            statistics.setVisibility(View.INVISIBLE);
-            selectShowHideMenu.setImageResource(R.drawable.ic_arrow_up);
-        }
 }
 
     @Override
     public void showTable(LinearLayout table) {
         placeForTable.addView(table);
         addAnim(table);
-        Log.d("nextMoveNumber", "---------------           " + table.getId());
-
     }
 
-    void addAnim(LinearLayout table){
+    void addAnim(@NonNull LinearLayout table){
         LayoutTransition layoutTransitionTable = new LayoutTransition();
         table.setLayoutTransition(layoutTransitionTable);
         layoutTransitionTable.enableTransitionType(LayoutTransition.CHANGING);
     }
 
-    View.OnClickListener methodShowHideMenu = new View.OnClickListener() {
+
+    View.OnClickListener onClickMenuButtonsListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            SharedPreferences.Editor ed;
-            ed = sharedPreferencesMenu.edit();
-
-            if (isMenuShow){
-                isMenuShow = false;
-                chronometer.setVisibility(View.INVISIBLE);
-                settings.setVisibility(View.INVISIBLE);
-                statistics.setVisibility(View.INVISIBLE);
-
-                menu.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, getPx(20)));
-                selectShowHideMenu.setImageResource(R.drawable.ic_arrow_up);
-
-            }else{
-                isMenuShow = true;
-                chronometer.setVisibility(View.VISIBLE);
-                settings.setVisibility(View.VISIBLE);
-                statistics.setVisibility(View.VISIBLE);
-
-                menu.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, getPx(40)));
-                selectShowHideMenu.setImageResource(R.drawable.ic_arrow_down);
-            }
-            ed.putBoolean(KEY_MENU_VISIBILITY, isMenuShow);
-            ed.apply();
+            tablePresenter.onClickMenuButtonsListener(v.getId());
         }
     };
 
 
-    View.OnClickListener moveAnotherActivity = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            tablePresenter.moveAnotherActivity(v.getId());
-        }
-    };
-
-    //Сохранение информации при поворатах Активити
-    // сохранение состояния
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        Log.d("Трасировка", "Активити onSave");
         tablePresenter.saveInstanceState();
         tablePresenter.detachView();
         outState.putSerializable(KEY_SERIALIZABLE_TABLE_PRESENTER, tablePresenter);
 
         super.onSaveInstanceState(outState);
     }
-    // получение ранее сохраненного состояния
+
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        Log.d("Трасировка", "Активити onRestore");
         tablePresenter = (TablePresenter)savedInstanceState.getSerializable(KEY_SERIALIZABLE_TABLE_PRESENTER);
         tablePresenter.attachView(this);
         tablePresenter.restoreInstanceState();
     }
 
+
+    public void showHideMenu(int visibility,int visibilityHint, int imageResource, LinearLayout.LayoutParams layoutParams){
+        chronometer.setVisibility(visibility);
+        settings.setVisibility(visibility);
+        statistics.setVisibility(visibility);
+
+        textMoveHint.setVisibility(visibilityHint);
+        moveHint.setVisibility(visibilityHint);
+
+        menu.setLayoutParams(layoutParams);
+        selectShowHideMenu.setImageResource(imageResource);
+    }
+
+
+    public void setMoveHint(int nextMoveFirstTable) {
+        moveHint.setText(String.valueOf(nextMoveFirstTable));
+    }
+    public void setMoveHint(char nextMoveFirstTable) {
+        moveHint.setText(String.valueOf(nextMoveFirstTable));
+    }
     public void removeTable() {
         placeForTable.removeAllViews();
     }
@@ -164,6 +127,7 @@ public class TableActivity extends AppCompatActivity implements TableContract.Vi
     public void startChronometer(){
         chronometer.start();
     }
+
     public void stopChronometer(){
         chronometer.stop();
     }
@@ -175,13 +139,16 @@ public class TableActivity extends AppCompatActivity implements TableContract.Vi
     public long getBaseChronometer(){
         return chronometer.getBase();
     }
+
     public void setBaseChronometer(long base){
         chronometer.setBase(base);
     }
+    public static String getKeyMenuVisibility() {
+        return KEY_MENU_VISIBILITY;
+    }
 
-    public int getPx(int dp){
-        float scale = getResources().getDisplayMetrics().density;
-        return((int) (dp * scale + 0.5f));
+    public static String getMenuPreferences() {
+        return MENU_PREFERENCES;
     }
 
     @Override

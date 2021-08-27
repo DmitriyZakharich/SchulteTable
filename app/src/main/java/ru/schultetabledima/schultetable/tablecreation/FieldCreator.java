@@ -4,19 +4,18 @@ import static android.content.Context.MODE_PRIVATE;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.Color;
-import android.graphics.drawable.GradientDrawable;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 
 import androidx.appcompat.widget.AppCompatTextView;
 
-import java.util.ArrayList;
-
-import ru.schultetabledima.schultetable.ui.CustomizationActivity;
+import ru.schultetabledima.schultetable.ui.SettingsActivity;
+import ru.schultetabledima.schultetable.utils.Converter;
 
 public class FieldCreator {
     private TableLayout field;
@@ -24,53 +23,56 @@ public class FieldCreator {
     private int rowsOfTable;
     private int columnsOfTable;
     private AppCompatTextView [][] cells;
-    private int dividerColor;
-    private ArrayList<Integer> cellsId;
+    private int backgroundColor;
+    private boolean isLetters;
 
 
-    public FieldCreator(Context context, int dividerColor) {
+
+    public FieldCreator(Context context, int backgroundColor) {
         this.context = context;
-        this.dividerColor = dividerColor;
-        init();
+        this.backgroundColor = backgroundColor;
+        main();
     }
 
-    private void init() {
+    private void main() {
         readSharedPreferences();
         creator();
     }
 
 
     private void readSharedPreferences() {
-        SharedPreferences spCustomization = context.getSharedPreferences(CustomizationActivity.getAppPreferences(), MODE_PRIVATE);
-        columnsOfTable = spCustomization.getInt(CustomizationActivity.getKeyNumberColumns(), 4) + 1;
-        rowsOfTable = spCustomization.getInt(CustomizationActivity.getKeyNumberRows(), 4) + 1;
+        SharedPreferences settings = context.getSharedPreferences(SettingsActivity.getAppPreferences(), MODE_PRIVATE);
+        isLetters = settings.getBoolean(SettingsActivity.getKeyNumbersOrLetters(), false);
+
+        if (isLetters){
+            columnsOfTable = settings.getInt(SettingsActivity.getKeyColumnsLetters(), 4) + 1;
+            rowsOfTable = settings.getInt(SettingsActivity.getKeyRowsLetters(), 4) + 1;
+        } else{
+            columnsOfTable = settings.getInt(SettingsActivity.getKeyColumnsNumbers(), 4) + 1;
+            rowsOfTable = settings.getInt(SettingsActivity.getKeyRowsNumbers(), 4) + 1;
+        }
     }
 
     private void creator(){
         field = new TableLayout(context);
-        TableRow.LayoutParams trLayoutParams = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.MATCH_PARENT,1);
-        field.setLayoutParams(trLayoutParams);
+        LinearLayout.LayoutParams llLayoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT, 1);
+        field.setLayoutParams(llLayoutParams);
 
         field.setId(View.generateViewId());
+        field.setBackgroundColor(backgroundColor);
 
 
-//        Создание разделительных полос
-        GradientDrawable drawable = new GradientDrawable();
-        drawable.setColor(dividerColor);
-        drawable.setSize(3, 3);
-
-        field.setDividerPadding(2);
-        field.setShowDividers(TableLayout.SHOW_DIVIDER_MIDDLE);
-        field.setDividerDrawable(drawable);
 
         //создание рядов
-        TableRow[] tableRow = new TableRow[rowsOfTable];
-        for (int i = 0; i < tableRow.length; i++) {
-            tableRow[i] = new TableRow(context);
+        LinearLayout[] rows = new LinearLayout[rowsOfTable];
+        for (int i = 0; i < rows.length; i++) {
+            rows[i] = new LinearLayout(context);
             TableLayout.LayoutParams tlLayoutParams = new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT,
-                    TableLayout.LayoutParams.MATCH_PARENT,1);
-            tableRow[i].setLayoutParams(tlLayoutParams);
-            field.addView(tableRow[i]);
+                    0,1);
+            tlLayoutParams.setLayoutDirection(LinearLayout.HORIZONTAL);
+            rows[i].setLayoutParams(tlLayoutParams);
+            field.addView(rows[i]);
         }
 
 
@@ -82,17 +84,21 @@ public class FieldCreator {
                 cells[i][j].setTextColor(Color.BLACK);
                 cells[i][j].setBackgroundColor(Color.WHITE);
                 cells[i][j].setMaxLines(1);
-                TableRow.LayoutParams lpButton = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.MATCH_PARENT, 1);
-                cells[i][j].setLayoutParams(lpButton);
                 cells[i][j].setGravity(Gravity.CENTER);
 
+                LinearLayout.LayoutParams layoutParamsCell = new LinearLayout.LayoutParams(0,
+                        TableLayout.LayoutParams.MATCH_PARENT, 1);
+
+                layoutParamsCell.setMargins(1,1,1,1);
+                cells[i][j].setLayoutParams(layoutParamsCell);
+
+                if ((context).getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+                    int padding = Converter.getPx(context, 6);
+                    cells[i][j].setPadding(padding, padding, padding, padding);
+                }
+
                 cells[i][j].setId(View.generateViewId());
-
-
-                tableRow[i].addView(cells[i][j]);
-                tableRow[i].setDividerDrawable(drawable);
-                tableRow[i].setDividerPadding(2);
-                tableRow[i].setShowDividers(TableRow.SHOW_DIVIDER_MIDDLE);
+                rows[i].addView(cells[i][j]);
             }
         }
     }

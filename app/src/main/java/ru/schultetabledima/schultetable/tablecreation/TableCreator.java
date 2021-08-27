@@ -8,23 +8,24 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.util.ArrayMap;
+import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 
 import androidx.appcompat.widget.AppCompatTextView;
+import androidx.core.content.ContextCompat;
 
 import java.util.ArrayList;
 
+import ru.schultetabledima.schultetable.R;
 import ru.schultetabledima.schultetable.presenters.TablePresenter;
-import ru.schultetabledima.schultetable.ui.CustomizationActivity;
+import ru.schultetabledima.schultetable.ui.SettingsActivity;
 
 public class TableCreator{
     private ArrayList<Integer> listNumbers2;
     private ArrayList<Integer> listNumbers1;
-    private LinearLayout table;
-    private int rowsOfTable;
-    private int columnsOfTable;
+    private LinearLayout containerForTable;
     private Context context;
     private TablePresenter tablePresenter;
     private boolean isTwoTables;
@@ -40,10 +41,10 @@ public class TableCreator{
     public TableCreator(Context context, TablePresenter tablePresenter) {
         this.context = context;
         this.tablePresenter = tablePresenter;
-        init();
+        main();
     }
 
-    //Конструктор для восстановления активити с буквами
+    //Constructor to restore activity with letters
     public TableCreator(Context context, TablePresenter tablePresenter, ArrayList<Character> listLetters1, ArrayList<Character> listLetters2) {
         this.context = context;
         this.tablePresenter = tablePresenter;
@@ -52,7 +53,7 @@ public class TableCreator{
         restoreTable();
     }
 
-    //Конструктор для восстановления активити с цифрами
+    //Constructor to restore activity with numbers
     public TableCreator(Context context, ArrayList<Integer> listNumbers1, ArrayList<Integer> listNumbers2, TablePresenter tablePresenter) {
         this.context = context;
         this.tablePresenter = tablePresenter;
@@ -62,51 +63,49 @@ public class TableCreator{
     }
 
 
-    void init(){
+    void main(){
         readSharedPreferences();
         creatingContainerForTable();
-        creatingTable();
+        creatingField();
         fillingTable();
     }
 
     private void readSharedPreferences() {
-        SharedPreferences spCustomization = context.getSharedPreferences(CustomizationActivity.getAppPreferences(), MODE_PRIVATE);
-        columnsOfTable = spCustomization.getInt(CustomizationActivity.getKeyNumberColumns(), 4) + 1;
-        rowsOfTable = spCustomization.getInt(CustomizationActivity.getKeyNumberRows(), 4) + 1;
-        isTwoTables = spCustomization.getBoolean(CustomizationActivity.getKeyTwoTables(), false);
-        isLetters = spCustomization.getBoolean(CustomizationActivity.getKeyNumbersLetters(), false);
+        SharedPreferences settings = context.getSharedPreferences(SettingsActivity.getAppPreferences(), MODE_PRIVATE);
+        isTwoTables = settings.getBoolean(SettingsActivity.getKeyTwoTables(), false);
+        isLetters = settings.getBoolean(SettingsActivity.getKeyNumbersOrLetters(), false);
     }
 
     private void creatingContainerForTable() {
-        table = new LinearLayout(context);
-        table.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
+        containerForTable = new LinearLayout(context);
+        containerForTable.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
+
 
         if (isTwoTables) {
             //Создание разделительной полосы между таблицами
             GradientDrawable drawable = new GradientDrawable();
             drawable.setColor(Color.BLACK);
             drawable.setSize(30, 30);
-//        table.setDividerPadding(40);
-            table.setShowDividers(TableLayout.SHOW_DIVIDER_MIDDLE);
-            table.setDividerDrawable(drawable);
+            containerForTable.setShowDividers(TableLayout.SHOW_DIVIDER_MIDDLE);
+            containerForTable.setDividerDrawable(drawable);
 
             if ((context).getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                table.setOrientation(LinearLayout.HORIZONTAL);
+                containerForTable.setOrientation(LinearLayout.HORIZONTAL);
             } else {
-                table.setOrientation(LinearLayout.VERTICAL);
+                containerForTable.setOrientation(LinearLayout.VERTICAL);
             }
 
         }
     }
 
-    private void creatingTable() {
-            fieldCreator1 = new FieldCreator(context, Color.GREEN);
-            table.addView(fieldCreator1.getField());
+    private void creatingField() {
+            fieldCreator1 = new FieldCreator(context, ContextCompat.getColor(context, R.color.activeTable));
+            containerForTable.addView(fieldCreator1.getField());
 
             if (isTwoTables){
-                    fieldCreator2 = new FieldCreator(context, Color.BLACK);
-                    table.addView(fieldCreator2.getField());
-
+                    fieldCreator2 = new FieldCreator(context, ContextCompat.getColor(context, R.color.passiveTable));
+                    containerForTable.addView(fieldCreator2.getField());
+                Log.d("creatingFieldisT", "fieldCreator2");
             }
     }
 
@@ -118,6 +117,14 @@ public class TableCreator{
             AppCompatTextView[][] cells2 = fieldCreator2.getCells();
             fieldFiller2 = new FieldFiller(context, cells2, tablePresenter);
         }
+    }
+
+
+    private void restoreTable() {
+        readSharedPreferences();
+        creatingContainerForTable();
+        creatingField();
+        restoreFillingTable();
     }
 
     private void restoreFillingTable(){
@@ -145,16 +152,11 @@ public class TableCreator{
 
     }
 
-    private void restoreTable() {
-        readSharedPreferences();
-        creatingContainerForTable();
-        creatingTable();
-        restoreFillingTable();
-    }
 
 
-    public LinearLayout getTable() {
-        return table;
+
+    public LinearLayout getContainerForTable() {
+        return containerForTable;
     }
 
     public ArrayList<Integer> getListNumbers1(){
@@ -173,17 +175,10 @@ public class TableCreator{
     }
 
 
-
     public ArrayMap<Integer, Integer> getCellsIdFirstTable(){
         return fieldFiller1.getCellsId();
     }
-
     public ArrayMap<Integer, Integer> getCellsIdSecondTable(){
         return fieldFiller2.getCellsId();
-    }
-
-
-    public void detachView() {
-        context = null;
     }
 }
