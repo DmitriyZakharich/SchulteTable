@@ -5,7 +5,6 @@ import static android.content.Context.MODE_PRIVATE;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.ArrayMap;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.animation.Animation;
@@ -22,7 +21,6 @@ import java.util.Random;
 import ru.schultetabledima.schultetable.R;
 import ru.schultetabledima.schultetable.presenters.TablePresenter;
 import ru.schultetabledima.schultetable.ui.SettingsActivity;
-import ru.schultetabledima.schultetable.utils.Converter;
 
 
 public class FieldFiller {
@@ -32,9 +30,6 @@ public class FieldFiller {
     private int rowsOfTable;
     TablePresenter tablePresenter;
     private ArrayList<Integer> listNumbers;
-    private int rowCellTen;
-    private int columnCellTen;
-    private boolean amountIsMoreTen = false;
     private ArrayList<Character> listLetters;
     private boolean isLetters;
     private boolean booleanAnim;
@@ -128,25 +123,9 @@ public class FieldFiller {
                 cellsId.put((int)c, cells[i][j].getId());
             }
         }
-
-
-
-        cells[0][0].post(new Runnable() {
-            @Override
-            public void run() {
-                int size = Math.min(cells[0][0].getHeight(), cells[0][0].getWidth());
-                size = size * 65 / 100;
-                for (int i = 0; i < rowsOfTable; i++) {
-                    for (int j = 0; j < columnsOfTable; j++) {
-                        cells[i][j].setTextSize(TypedValue.COMPLEX_UNIT_PX , size);
-                    }
-                }
-            }
-        });
-
-
-
+        correctionTextSizeAfterRendering();
     }
+
 
     private void fillingNumbers(){
         //Новое заполнение. Если иначе, то получение данных из конструктора
@@ -170,64 +149,49 @@ public class FieldFiller {
 
                 cellsId.put(Integer.valueOf(cells[i][j].getText().toString()), cells[i][j].getId());
 
-                /*Запоминание координат ячейки с "10",
-                для корректировки размера текста в ячейках
-                в методе correctionTextSizeCells()
-                */
-                if (cells[i][j].getText().toString().equals("10")){
-                    rowCellTen = i;
-                    columnCellTen = j;
-                    amountIsMoreTen = true;
-                }
-
                 TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(cells[i][j], 1,
                         100, 1, TypedValue.COMPLEX_UNIT_SP);
 
             }
         }
-        if (amountIsMoreTen)
-            correctionTextSizeCells();
-
+            correctionTextSizeAfterRendering();
     }
 
-    /*Корректировка размера шрифта в таблице
-    При количестве ячеек больше 9 авторазмер делает 1-9 больше, чем нужно.*/
-    private void correctionTextSizeCells(){
-        cells[0][0].post(new Runnable() {
-            @Override
-            public void run() {
 
-//                int size = Math.min(cells[0][0].getHeight(), cells[0][0].getWidth());
-//                Log.d("checkTextSize", "size " + size);
-//                size = size * 55 / 100;
-//                Log.d("checkTextSize", "size " + size);
-//                for (int i = 0; i < rowsOfTable; i++) {
-//                    for (int j = 0; j < columnsOfTable; j++) {
-//                        cells[i][j].setTextSize(TypedValue.COMPLEX_UNIT_PX , size);
-//                        Log.d("checkTextSize", "cells[i][j] " + cells[i][j].getTextSize());
-//
-//                    }
-//                }
-
-
-//                int padding = cells[0][0].getHeight() /5;
-//                for (int i = 0; i < rowsOfTable; i++) {
-//                    for (int j = 0; j < columnsOfTable; j++) {
-//                        cells[i][j].setPadding(0,padding,0,padding);
-//                    }
-//                }
-
-                int tenthCellTextSize = Converter.getSP(context, cells[rowCellTen][columnCellTen].getTextSize());
-                for (int i = 0; i < rowsOfTable; i++) {
-                    for (int j = 0; j < columnsOfTable; j++) {
-
-                        TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(cells[i][j], 1,
-                                tenthCellTextSize, 1, TypedValue.COMPLEX_UNIT_SP);
-                        Log.d("Отступы", "" + cells[i][j].getText() + " - " + cells[i][j].getTextSize());
+    /*Корректировка размера шрифта в таблице после получения размера ячейки
+    */
+    private void correctionTextSizeAfterRendering(){
+        if(isLetters){
+            cells[0][0].post(new Runnable() {
+                @Override
+                public void run() {
+                    int size = Math.min(cells[0][0].getHeight(), cells[0][0].getWidth());
+                    size = size * 65 / 100;
+                    for (int i = 0; i < rowsOfTable; i++) {
+                        for (int j = 0; j < columnsOfTable; j++) {
+                            cells[i][j].setTextSize(TypedValue.COMPLEX_UNIT_PX , size);
+                        }
                     }
                 }
-            }
-        });
+            });
+        }
+
+        if(!isLetters){
+            cells[0][0].post(new Runnable() {
+                @Override
+                public void run() {
+                    int size = Math.min(cells[0][0].getHeight(), cells[0][0].getWidth());
+                    size = size * 55 / 100;
+
+                    for (int i = 0; i < rowsOfTable; i++) {
+                        for (int j = 0; j < columnsOfTable; j++) {
+                            TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(cells[i][j], 1,
+                                    size, 1, TypedValue.COMPLEX_UNIT_PX);
+                        }
+                    }
+                }
+            });
+        }
     }
 
     View.OnClickListener cellClick = new View.OnClickListener() {

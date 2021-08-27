@@ -57,9 +57,6 @@ public class TablePresenter implements Serializable{
         settingForCheckMove();
         settingForMenu();
 
-//        if (isTwoTables) {
-//            settingForTwoTables();
-//        }
     }
 
 
@@ -74,14 +71,6 @@ public class TablePresenter implements Serializable{
         isMoveHint = settings.getBoolean(SettingsActivity.getKeyMoveHint(), true);
     }
 
-
-//    private void settingForTwoTables() {
-//        firstTable = (TableLayout) table.getChildAt(0);
-//        if (isTwoTables)
-//            secondTable = (TableLayout)table.getChildAt(1);
-//
-//        activeTable = firstTable.getId();
-//    }
 
 
     private void settingForMenu() {
@@ -146,7 +135,7 @@ public class TablePresenter implements Serializable{
 
                 }
 
-                if (isMoveHint && isMenuShow){
+                if (isMoveHint && isMenuShow && isPressButtons){
                     visibilityHint = View.VISIBLE;
 
                 } else {
@@ -199,7 +188,6 @@ public class TablePresenter implements Serializable{
             secondTable = (TableLayout)table.getChildAt(1);
 
         activeTable = firstTable.getId();
-
     }
 
 
