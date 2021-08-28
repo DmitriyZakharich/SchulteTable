@@ -1,4 +1,4 @@
-package ru.schultetabledima.schultetable.presenters;
+package ru.schultetabledima.schultetable.table;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -19,11 +19,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import ru.schultetabledima.schultetable.R;
-import ru.schultetabledima.schultetable.tablecreation.TableCreator;
-import ru.schultetabledima.schultetable.ui.EndGameDialogue;
-import ru.schultetabledima.schultetable.ui.SettingsActivity;
-import ru.schultetabledima.schultetable.ui.StatisticsActivity;
-import ru.schultetabledima.schultetable.ui.TableActivity;
+import ru.schultetabledima.schultetable.table.tablecreation.TableCreator;
+import ru.schultetabledima.schultetable.settings.SettingsActivity;
+import ru.schultetabledima.schultetable.statistic.StatisticsActivity;
 import ru.schultetabledima.schultetable.utils.Converter;
 
 public class TablePresenter implements Serializable{

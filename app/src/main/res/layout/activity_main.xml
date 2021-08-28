@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.MainActivity"
+    tools:context=".main.MainActivity"
     android:background="@color/white">
 
     <LinearLayout
@@ -20,40 +20,45 @@
             android:id="@+id/tableButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/table"
+            android:layout_margin="5dp"
             android:background="@color/colorButton"
-            android:layout_margin="5dp"/>
+            android:text="@string/table"
+            android:textColor="@color/mainTextColor" />
 
         <Button
             android:id="@+id/statisticsButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/statistics"
+            android:layout_margin="5dp"
             android:background="@color/colorButton"
-            android:layout_margin="5dp"/>
+            android:text="@string/statistics"
+            android:textColor="@color/mainTextColor" />
 
         <Button
             android:id="@+id/customizationButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/settings"
+            android:layout_margin="5dp"
             android:background="@color/colorButton"
-            android:layout_margin="5dp"/>
+            android:text="@string/settings"
+            android:textColor="@color/mainTextColor" />
 
         <Button
             android:id="@+id/adviceButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/advice"
+            android:layout_margin="5dp"
             android:background="@color/colorButton"
-            android:layout_margin="5dp"/>
+            android:text="@string/advice"
+            android:textColor="@color/mainTextColor" />
 
         <Button
             android:id="@+id/donationButton"
             android:layout_width="match_parent"
-            android:text="@string/donation"
             android:layout_height="match_parent"
+            android:layout_margin="5dp"
             android:background="@color/colorButton"
-            android:layout_margin="5dp"/>
+            android:text="@string/donation"
+            android:textColor="@color/mainTextColor" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

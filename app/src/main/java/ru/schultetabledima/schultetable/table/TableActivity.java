@@ -1,4 +1,4 @@
-package ru.schultetabledima.schultetable.ui;
+package ru.schultetabledima.schultetable.table;
 
 import android.animation.LayoutTransition;
 import android.content.Intent;
@@ -16,7 +16,6 @@ import androidx.appcompat.widget.Toolbar;
 
 import ru.schultetabledima.schultetable.R;
 import ru.schultetabledima.schultetable.contracts.TableContract;
-import ru.schultetabledima.schultetable.presenters.TablePresenter;
 
 public class TableActivity extends AppCompatActivity implements TableContract.View{
 

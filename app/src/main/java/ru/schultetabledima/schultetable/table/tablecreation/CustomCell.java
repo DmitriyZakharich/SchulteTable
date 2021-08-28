@@ -1,7 +1,6 @@
-package ru.schultetabledima.schultetable.tablecreation;
+package ru.schultetabledima.schultetable.table.tablecreation;
 
 import android.content.Context;
-import android.util.Log;
 import android.util.TypedValue;
 
 import androidx.annotation.NonNull;

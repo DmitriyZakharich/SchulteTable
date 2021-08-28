@@ -1,4 +1,4 @@
-package ru.schultetabledima.schultetable.presenters;
+package ru.schultetabledima.schultetable.advice;
 
 import android.content.Context;
 import android.util.Log;
@@ -6,7 +6,6 @@ import android.util.Log;
 import java.io.Serializable;
 
 import ru.schultetabledima.schultetable.contracts.AdviceContract;
-import ru.schultetabledima.schultetable.database.advice.AdviceDatabase;
 
 
 public class AdvicePresenter implements AdviceContract.Presenter, Serializable {

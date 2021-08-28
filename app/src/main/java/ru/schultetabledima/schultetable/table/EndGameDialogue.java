@@ -1,20 +1,20 @@
-package ru.schultetabledima.schultetable.ui;
+package ru.schultetabledima.schultetable.table;
 
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.SystemClock;
-import android.widget.Chronometer;
+
 import androidx.appcompat.app.AlertDialog;
 
-import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
 import ru.schultetabledima.schultetable.R;
-import ru.schultetabledima.schultetable.database.Database;
+import ru.schultetabledima.schultetable.statistic.database.Database;
+import ru.schultetabledima.schultetable.statistic.StatisticsActivity;
 
 public class EndGameDialogue {
     private AlertDialog.Builder builder;

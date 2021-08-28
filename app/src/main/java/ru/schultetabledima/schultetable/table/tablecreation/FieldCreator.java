@@ -1,4 +1,4 @@
-package ru.schultetabledima.schultetable.tablecreation;
+package ru.schultetabledima.schultetable.table.tablecreation;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -6,16 +6,14 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
-import android.widget.TableRow;
 
 import androidx.appcompat.widget.AppCompatTextView;
 
-import ru.schultetabledima.schultetable.ui.SettingsActivity;
+import ru.schultetabledima.schultetable.settings.SettingsActivity;
 import ru.schultetabledima.schultetable.utils.Converter;
 
 public class FieldCreator {

@@ -1,17 +1,15 @@
-package ru.schultetabledima.schultetable.tablecreation;
+package ru.schultetabledima.schultetable.table.tablecreation;
 
 import static android.content.Context.MODE_PRIVATE;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.ArrayMap;
-import android.util.TypedValue;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
 import androidx.appcompat.widget.AppCompatTextView;
-import androidx.core.widget.TextViewCompat;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,8 +17,8 @@ import java.util.HashSet;
 import java.util.Random;
 
 import ru.schultetabledima.schultetable.R;
-import ru.schultetabledima.schultetable.presenters.TablePresenter;
-import ru.schultetabledima.schultetable.ui.SettingsActivity;
+import ru.schultetabledima.schultetable.table.TablePresenter;
+import ru.schultetabledima.schultetable.settings.SettingsActivity;
 
 
 public class FieldFiller {

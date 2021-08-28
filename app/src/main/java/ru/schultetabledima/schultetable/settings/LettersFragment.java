@@ -1,10 +1,9 @@
-package ru.schultetabledima.schultetable.ui;
+package ru.schultetabledima.schultetable.settings;
 
 import static android.content.Context.MODE_PRIVATE;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +13,6 @@ import android.widget.Spinner;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.switchmaterial.SwitchMaterial;
-
-import java.util.Objects;
 
 import ru.schultetabledima.schultetable.R;
 

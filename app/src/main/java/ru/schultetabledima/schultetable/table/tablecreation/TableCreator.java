@@ -1,4 +1,4 @@
-package ru.schultetabledima.schultetable.tablecreation;
+package ru.schultetabledima.schultetable.table.tablecreation;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -8,7 +8,6 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.util.ArrayMap;
-import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
@@ -19,8 +18,8 @@ import androidx.core.content.ContextCompat;
 import java.util.ArrayList;
 
 import ru.schultetabledima.schultetable.R;
-import ru.schultetabledima.schultetable.presenters.TablePresenter;
-import ru.schultetabledima.schultetable.ui.SettingsActivity;
+import ru.schultetabledima.schultetable.table.TablePresenter;
+import ru.schultetabledima.schultetable.settings.SettingsActivity;
 
 public class TableCreator{
     private ArrayList<Integer> listNumbers2;
@@ -105,7 +104,6 @@ public class TableCreator{
             if (isTwoTables){
                     fieldCreator2 = new FieldCreator(context, ContextCompat.getColor(context, R.color.passiveTable));
                     containerForTable.addView(fieldCreator2.getField());
-                Log.d("creatingFieldisT", "fieldCreator2");
             }
     }
 
@@ -148,8 +146,6 @@ public class TableCreator{
                 fieldFiller2 = new FieldFiller(cells2, tablePresenter, listNumbers2, context);
             }
         }
-
-
     }
 
 

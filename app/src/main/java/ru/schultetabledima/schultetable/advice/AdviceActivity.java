@@ -1,4 +1,4 @@
-package ru.schultetabledima.schultetable.ui;
+package ru.schultetabledima.schultetable.advice;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,7 +14,7 @@ import java.io.Serializable;
 
 import ru.schultetabledima.schultetable.R;
 import ru.schultetabledima.schultetable.contracts.AdviceContract;
-import ru.schultetabledima.schultetable.presenters.AdvicePresenter;
+import ru.schultetabledima.schultetable.table.TableActivity;
 
 public class AdviceActivity extends AppCompatActivity implements AdviceContract.View, Serializable {
 

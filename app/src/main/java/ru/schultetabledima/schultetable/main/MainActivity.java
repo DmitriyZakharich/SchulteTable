@@ -1,4 +1,4 @@
-package ru.schultetabledima.schultetable.ui;
+package ru.schultetabledima.schultetable.main;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,6 +8,10 @@ import android.view.View;
 import android.widget.Button;
 
 import ru.schultetabledima.schultetable.R;
+import ru.schultetabledima.schultetable.advice.AdviceActivity;
+import ru.schultetabledima.schultetable.settings.SettingsActivity;
+import ru.schultetabledima.schultetable.statistic.StatisticsActivity;
+import ru.schultetabledima.schultetable.table.TableActivity;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 

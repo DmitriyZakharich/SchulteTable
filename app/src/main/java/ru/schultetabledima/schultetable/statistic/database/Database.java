@@ -1,4 +1,4 @@
-package ru.schultetabledima.schultetable.database;
+package ru.schultetabledima.schultetable.statistic.database;
 
 import android.app.Activity;
 import android.content.ContentValues;
@@ -8,8 +8,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
-
-import java.io.Serializable;
 
 public class Database {
     private Activity activity;

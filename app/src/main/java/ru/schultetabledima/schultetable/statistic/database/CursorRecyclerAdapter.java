@@ -1,4 +1,4 @@
-package ru.schultetabledima.schultetable.database;
+package ru.schultetabledima.schultetable.statistic.database;
 
 /*
  * The MIT License (MIT)

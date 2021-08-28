@@ -5,7 +5,7 @@ import static android.content.Context.MODE_PRIVATE;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import ru.schultetabledima.schultetable.ui.SettingsActivity;
+import ru.schultetabledima.schultetable.settings.SettingsActivity;
 
 public class SettingsReader {
     Context context;

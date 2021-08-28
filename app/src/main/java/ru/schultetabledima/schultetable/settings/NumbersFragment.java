@@ -1,4 +1,4 @@
-package ru.schultetabledima.schultetable.ui;
+package ru.schultetabledima.schultetable.settings;
 
 import static android.content.Context.MODE_PRIVATE;
 

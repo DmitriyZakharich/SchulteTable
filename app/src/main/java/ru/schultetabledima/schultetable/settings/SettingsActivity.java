@@ -1,4 +1,4 @@
-package ru.schultetabledima.schultetable.ui;
+package ru.schultetabledima.schultetable.settings;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -18,6 +18,8 @@ import com.google.android.material.tabs.TabLayoutMediator;
 import java.util.ArrayList;
 
 import ru.schultetabledima.schultetable.R;
+import ru.schultetabledima.schultetable.table.TableActivity;
+import ru.schultetabledima.schultetable.statistic.MyAdapter;
 
 public class SettingsActivity extends AppCompatActivity implements View.OnClickListener {
 

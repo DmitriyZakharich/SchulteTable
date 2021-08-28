@@ -1,7 +1,5 @@
-package ru.schultetabledima.schultetable.database.advice;
+package ru.schultetabledima.schultetable.advice;
 
-import android.app.Activity;
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
