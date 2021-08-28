@@ -123,7 +123,6 @@ public class FieldFiller {
                 cellsId.put((int)c, cells[i][j].getId());
             }
         }
-        correctionTextSizeAfterRendering();
     }
 
 
@@ -148,51 +147,10 @@ public class FieldFiller {
                 count++;
 
                 cellsId.put(Integer.valueOf(cells[i][j].getText().toString()), cells[i][j].getId());
-
-                TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(cells[i][j], 1,
-                        100, 1, TypedValue.COMPLEX_UNIT_SP);
-
             }
         }
-            correctionTextSizeAfterRendering();
     }
 
-
-    /*Корректировка размера шрифта в таблице после получения размера ячейки
-    */
-    private void correctionTextSizeAfterRendering(){
-        if(isLetters){
-            cells[0][0].post(new Runnable() {
-                @Override
-                public void run() {
-                    int size = Math.min(cells[0][0].getHeight(), cells[0][0].getWidth());
-                    size = size * 65 / 100;
-                    for (int i = 0; i < rowsOfTable; i++) {
-                        for (int j = 0; j < columnsOfTable; j++) {
-                            cells[i][j].setTextSize(TypedValue.COMPLEX_UNIT_PX , size);
-                        }
-                    }
-                }
-            });
-        }
-
-        if(!isLetters){
-            cells[0][0].post(new Runnable() {
-                @Override
-                public void run() {
-                    int size = Math.min(cells[0][0].getHeight(), cells[0][0].getWidth());
-                    size = size * 55 / 100;
-
-                    for (int i = 0; i < rowsOfTable; i++) {
-                        for (int j = 0; j < columnsOfTable; j++) {
-                            TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(cells[i][j], 1,
-                                    size, 1, TypedValue.COMPLEX_UNIT_PX);
-                        }
-                    }
-                }
-            });
-        }
-    }
 
     View.OnClickListener cellClick = new View.OnClickListener() {
         @Override

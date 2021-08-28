@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -22,7 +23,7 @@ public class FieldCreator {
     private Context context;
     private int rowsOfTable;
     private int columnsOfTable;
-    private AppCompatTextView [][] cells;
+    private CustomCell [][] cells;
     private int backgroundColor;
     private boolean isLetters;
 
@@ -77,10 +78,10 @@ public class FieldCreator {
 
 
         //Создание кнопок
-        cells = new AppCompatTextView[rowsOfTable][columnsOfTable];
+        cells = new CustomCell[rowsOfTable][columnsOfTable];
         for (int i = 0; i < rowsOfTable; i++){
             for (int j = 0; j < columnsOfTable; j++) {
-                cells[i][j] = new AppCompatTextView(context);
+                cells[i][j] = new CustomCell(context, isLetters);
                 cells[i][j].setTextColor(Color.BLACK);
                 cells[i][j].setBackgroundColor(Color.WHITE);
                 cells[i][j].setMaxLines(1);
