@@ -54,7 +54,6 @@ public class TablePresenter implements Serializable{
         startChronometer();
         settingForCheckMove();
         settingForMenu();
-
     }
 
 

@@ -39,26 +39,27 @@ public class StatisticAdapter extends CursorRecyclerAdapter implements Serializa
 
     @Override
     public void onBindViewHolderCursor(RecyclerView.ViewHolder holder, Cursor cursor) {
-        ((ViewHolder)holder).textViewSize.setText(cursor.getString(cursor.getColumnIndex("size_field")));
-        ((ViewHolder)holder).textViewTime.setText(cursor.getString(cursor.getColumnIndex("time")));
+        ((ViewHolder)holder).tableSize.setText(cursor.getString(cursor.getColumnIndex(DatabaseAdapter.DatabaseHelper.COLUMN_SIZE_FIELD)));
+        ((ViewHolder)holder).timeResult.setText(cursor.getString(cursor.getColumnIndex(DatabaseAdapter.DatabaseHelper.COLUMN_TIME)));
 
-        String newDate = TimeAdjustment.getTime(cursor.getString(cursor.getColumnIndex("date")));
+        String newDate = CorrectionTime.getTime(cursor.getString(cursor.getColumnIndex(DatabaseAdapter.DatabaseHelper.COLUMN_DATE)));
 
-        ((ViewHolder)holder).textViewDate.setText(newDate);
+        ((ViewHolder)holder).date.setText(newDate);
     }
 
     private static class ViewHolder extends RecyclerView.ViewHolder implements Serializable{
-        TextView textViewDate, textViewSize, textViewTime;
+        TextView date, tableSize, timeResult;
 
         public ViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
-            textViewDate = (TextView) itemView.findViewById(R.id.textViewDate);
-            textViewSize = (TextView) itemView.findViewById(R.id.textViewSize);
-            textViewTime = (TextView) itemView.findViewById(R.id.textViewTime);
+            date = itemView.findViewById(R.id.textViewDate);
+            tableSize = itemView.findViewById(R.id.textViewSize);
+            timeResult = itemView.findViewById(R.id.textViewTime);
         }
     }
 
-    private static class TimeAdjustment implements Serializable{
+
+    private static class CorrectionTime implements Serializable{
 
         public static String getTime(String timeDataBase){
             Date currentDate = new Date();

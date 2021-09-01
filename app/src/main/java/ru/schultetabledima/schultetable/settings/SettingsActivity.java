@@ -47,7 +47,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
 
         SwitchMaterial switchAnimation = findViewById(R.id.switchAnimation);
         SwitchMaterial switchTouchCells = findViewById(R.id.switchPressButtons);
-        SwitchMaterial switchTwoTableS = findViewById(R.id.switchTwoTables);
+        SwitchMaterial switchTwoTables = findViewById(R.id.switchTwoTables);
         switchMoveHint = findViewById(R.id.switchMoveHint);
         Button buttonToTable = findViewById(R.id.buttonToTable);
 
@@ -56,7 +56,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
 
         switchAnimation.setChecked(settings.getBoolean(KEY_ANIMATION, false));
         switchTouchCells.setChecked(settings.getBoolean(KEY_TOUCH_CELLS, true));
-        switchTwoTableS.setChecked(settings.getBoolean(KEY_TWO_TABLES, false));
+        switchTwoTables.setChecked(settings.getBoolean(KEY_TWO_TABLES, false));
         boolean isLetters = settings.getBoolean(KEY_NUMBERS_OR_LETTERS, false);
 
         if (switchTouchCells.isChecked()){
@@ -72,7 +72,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
 
         switchAnimation.setOnClickListener(this);
         switchTouchCells.setOnClickListener(this);
-        switchTwoTableS.setOnClickListener(this);
+        switchTwoTables.setOnClickListener(this);
         switchMoveHint.setOnClickListener(this);
         buttonToTable.setOnClickListener(this);
 

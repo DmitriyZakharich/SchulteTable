@@ -21,11 +21,27 @@
     <string name="NumberOfRows">Количество рядов</string>
     <string name="NumberOfColumns">Количество столбцов</string>
     <string name="TableSize">Размер таблицы</string>
-    <string name="russian">Рус</string>
-    <string name="english">Анг</string>
+    <string name="rus">Рус</string>
+    <string name="eng">Анг</string>
     <string name="choiceOfLetterLanguage">Русские\\Английские буквы</string>
     <string name="moveHint">Подсказка хода</string>
     <string name="MoveHint">Найти:</string>
     <string name="wrongTable">Другая таблица</string>
+    <string name="oneTable">Одна таблица</string>
+    <string name="twoTables">Две таблицы</string>
+    <string name="allOptions">Все варианты</string>
+    <string name="english">Английский</string>
+    <string name="russian">Русский</string>
+    <string name="playedSizesTable">Сыгранные размеры</string>
+    <string name="quantityTables">Количество таблиц</string>
+    <string name="dataType">Тип данных в таблице</string>
+    <string name="englishLetters">Английские буквы</string>
+    <string name="russianLetters">Русские буквы</string>
+    <string name="allLetters">Все буквы</string>
+    <string name="allValueTypes">Все типы данных</string>
+    <string name="valueTypeLetters">letters</string>
+    <string name="valueTypeNumbers">numbers</string>
+    <string name="languageEnglish">English</string>
+    <string name="languageRussian">Russian</string>
 
 </resources>

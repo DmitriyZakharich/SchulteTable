@@ -77,8 +77,8 @@
         android:backgroundTint="@color/black"
         android:text="@string/choiceOfLetterLanguage"
         android:textColor="@color/mainTextColor"
-        android:textOff="@string/russian"
-        android:textOn="@string/english"
+        android:textOff="@string/rus"
+        android:textOn="@string/eng"
         android:textSize="@dimen/ordinaryTextSize"
         app:showText="true"
         app:switchMinWidth="@dimen/switchSize" />

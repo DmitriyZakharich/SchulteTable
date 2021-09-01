@@ -20,7 +20,6 @@ import ru.schultetabledima.schultetable.R;
 public class LettersFragment extends Fragment implements AdapterView.OnItemSelectedListener, View.OnClickListener {
 
 
-    private int pageNumber;
     private final String [] valueSpinner = {"1","2","3","4","5"};
     private static final String APP_PREFERENCES = "my_settings";
 
