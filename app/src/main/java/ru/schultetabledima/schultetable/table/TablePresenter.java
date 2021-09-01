@@ -27,7 +27,6 @@ import ru.schultetabledima.schultetable.utils.Converter;
 public class TablePresenter implements Serializable{
     private boolean isPressButtons;
     private int count = 0;
-    private int columnsOfTable, rowsOfTable;
     private long saveTime;
     private Context context;
     private transient TableCreator tableCreator;
@@ -60,8 +59,6 @@ public class TablePresenter implements Serializable{
     private void readSharedPreferences() {
         SharedPreferences settings = context.getSharedPreferences(SettingsActivity.getAppPreferences(), MODE_PRIVATE);
         isPressButtons = settings.getBoolean(SettingsActivity.getKeyTouchCells(), true);
-        columnsOfTable = settings.getInt(SettingsActivity.getKeyColumnsNumbers(), 4) + 1;
-        rowsOfTable = settings.getInt(SettingsActivity.getKeyRowsNumbers(), 4) + 1;
         isLetters = settings.getBoolean(SettingsActivity.getKeyNumbersOrLetters(), false);
         isTwoTables = settings.getBoolean(SettingsActivity.getKeyTwoTables(), false);
         isEnglish = settings.getBoolean(SettingsActivity.getKeyRussianOrEnglish(), false);
@@ -284,9 +281,8 @@ public class TablePresenter implements Serializable{
 
     private void endGameDialogue(){
         ((TableActivity)context).stopChronometer();
-        String tableSize = columnsOfTable + "x" + rowsOfTable;
         EndGameDialogue endGameDialogue = new EndGameDialogue((TableActivity) context,
-                isPressButtons, tableSize);
+                isPressButtons);
         endGameDialogue.start();
     }
 

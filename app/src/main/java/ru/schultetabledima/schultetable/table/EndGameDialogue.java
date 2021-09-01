@@ -26,12 +26,11 @@ public class EndGameDialogue {
     private Activity activity;
     private Boolean booleanTouchCells,isLetters, isTwoTables, isEnglish;
     private long stopTime;
-    private String tableSize;
+    private int columnsOfTable, rowsOfTable;
 
-    public EndGameDialogue(Activity activity, Boolean booleanTouchCells, String tableSize) {
+    public EndGameDialogue(Activity activity, Boolean booleanTouchCells) {
         this.activity = activity;
         this.booleanTouchCells = booleanTouchCells;
-        this.tableSize = tableSize;
         stopTime = ((TableActivity)activity).getBaseChronometer()- SystemClock.elapsedRealtime();
         readSharedPreferences();
         main();
@@ -42,17 +41,27 @@ public class EndGameDialogue {
         isLetters = settings.getBoolean(SettingsActivity.getKeyNumbersOrLetters(), false);
         isTwoTables = settings.getBoolean(SettingsActivity.getKeyTwoTables(), false);
         isEnglish = settings.getBoolean(SettingsActivity.getKeyRussianOrEnglish(), false);
+
+        if (isLetters){
+            columnsOfTable = settings.getInt(SettingsActivity.getKeyColumnsLetters(), 4) + 1;
+            rowsOfTable = settings.getInt(SettingsActivity.getKeyRowsLetters(), 4) + 1;
+        } else{
+            columnsOfTable = settings.getInt(SettingsActivity.getKeyColumnsNumbers(), 4) + 1;
+            rowsOfTable = settings.getInt(SettingsActivity.getKeyRowsNumbers(), 4) + 1;
+        }
     }
 
      private void main(){
+         String tableSize = columnsOfTable + "x" + rowsOfTable;
+
          Date currentDate = new Date();
          DateFormat dateFormat = new SimpleDateFormat("HH:mm dd.MM.yy", Locale.getDefault());
          String dateText = dateFormat.format(currentDate);
 
         builder = new AlertDialog.Builder(activity);
         builder.setTitle(R.string.end_game)
-                .setMessage("Ваше время " +  ((TableActivity)activity).getTextChronometer())
-                .setPositiveButton("Новая игра", new DialogInterface.OnClickListener() {
+                .setMessage(activity.getString(R.string.yourTime) +  ((TableActivity)activity).getTextChronometer())
+                .setPositiveButton(R.string.newGame, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         databaseAdapter = new DatabaseAdapter(activity, ((TableActivity) activity).getTextChronometer(), tableSize, dateText);
                         databaseAdapter.insert();
@@ -62,7 +71,7 @@ public class EndGameDialogue {
                         activity.startActivity(intent);
                     }
                 })
-                .setNeutralButton("Статистика", new DialogInterface.OnClickListener(){
+                .setNeutralButton(R.string.statistics, new DialogInterface.OnClickListener(){
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         databaseAdapter = new DatabaseAdapter(activity, ((TableActivity) activity).getTextChronometer(), tableSize, dateText);
@@ -85,7 +94,7 @@ public class EndGameDialogue {
                 }
             });
             builder.setNegativeButtonIcon(activity.getDrawable(R.drawable.ic_resume));
-            builder.setNegativeButton("Продолжить текущую игру", new DialogInterface.OnClickListener() {
+            builder.setNegativeButton(R.string.continueCurrentGame, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                     ((TableActivity) activity).setBaseChronometer(SystemClock.elapsedRealtime() + stopTime);
                     ((TableActivity) activity).startChronometer();

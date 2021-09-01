@@ -28,7 +28,7 @@ public class DatabaseAdapter {
     private DatabaseHelper databaseHelper;
     private String currentDate;
     private SQLiteDatabase db;
-    String language;
+    private String language;
     private boolean isLetters, isTwoTables, isEnglish;
 
 
@@ -55,7 +55,7 @@ public class DatabaseAdapter {
     }
 
     private void init() {
-        valueType = isLetters ? activity.getString(R.string.valueTypeLetters): activity.getString(R.string.valueTypeNumbers);
+        valueType = isLetters ? activity.getString(R.string.valueTypeLetters) : activity.getString(R.string.valueTypeNumbers);
         if (isLetters){
             language = isEnglish ? activity.getString(R.string.languageEnglish) : activity.getString(R.string.languageRussian);
         }else{
@@ -81,11 +81,19 @@ public class DatabaseAdapter {
     public void open() {
         databaseHelper = new DatabaseHelper(activity);
         db = databaseHelper.getReadableDatabase();
-
     }
 
-    public Cursor getCursor(int quantityTables, String valueType, String valueLanguage){
 
+    public Cursor getCursorPlayedSizes(){
+        String[] columns = {DatabaseHelper.COLUMN_SIZE_FIELD};
+
+        Cursor cursor = db.query(true, DatabaseHelper.TABLE_RESULTS,
+                columns, null, null, null, null,
+                DatabaseHelper.COLUMN_ID + " DESC", null);
+        return cursor;
+    }
+
+    public Cursor getCursor(int quantityTables, String valueType, String valueLanguage, String playedSizes){
 
         StringBuffer stringBufferSelection = new StringBuffer();
         ArrayList <String> arrayListSelectionArgs = new ArrayList<>();
@@ -120,19 +128,22 @@ public class DatabaseAdapter {
             insertAlready = true;
         }
 
+        if (!playedSizes.equals(activity.getString(R.string.allSize))) {
+            if(insertAlready)
+                stringBufferSelection.append(" AND ");
+
+            stringBufferSelection.append(DatabaseHelper.COLUMN_SIZE_FIELD + " = ?");
+            arrayListSelectionArgs.add(playedSizes);
+            insertAlready = true;
+        }
 
         String selection = stringBufferSelection.toString();
         String[] selectionArgs = arrayListSelectionArgs.toArray(new String[0]);
-
-
         String[] columns = null;
-        String groupBy = null;
-        String having = null;
         String orderBy = DatabaseHelper.COLUMN_ID + " DESC";
-        String limit = null;
 
         Cursor cursor = db.query(true, DatabaseHelper.TABLE_RESULTS,
-                columns, selection, selectionArgs, groupBy, having, orderBy, limit);
+                columns, selection, selectionArgs, null, null, orderBy, null);
         return cursor;
     }
 
@@ -141,7 +152,7 @@ public class DatabaseAdapter {
     }
 
 
-    static class DatabaseHelper extends SQLiteOpenHelper {
+    static public class DatabaseHelper extends SQLiteOpenHelper {
 
         private static final String DATABASE_NAME = "game_statistics.db"; // название бд
         private static final int DB_VERSION = 1; // версия базы данных
@@ -176,6 +187,5 @@ public class DatabaseAdapter {
             onCreate(db);
         }
     }
-
 }
 

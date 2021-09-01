@@ -51,6 +51,15 @@
                 android:text="@string/dataType"
                 android:textSize="@dimen/ordinaryTextSize"
                 android:textColor="@color/mainTextColor"/>
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/playedSizesTable"
+                android:textSize="@dimen/ordinaryTextSize"
+                android:textColor="@color/mainTextColor"/>
         </LinearLayout>
 
         <LinearLayout
@@ -68,6 +77,12 @@
 
             <Spinner
                 android:id="@+id/spinnerValueType"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <Spinner
+                android:id="@+id/spinnerPlayedSizes"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
