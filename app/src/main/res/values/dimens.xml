@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="ordinaryTextSize">19sp</dimen>
+    <dimen name="commonTextSize">19sp</dimen>
     <dimen name="headerTextSize">26sp</dimen>
     <dimen name="switchSize">87dp</dimen>
     <dimen name="toolbarTextSize">25sp</dimen>
     <dimen name="textSizeStatistic">18sp</dimen>
     <dimen name="textSizeColumnStatistic">25sp</dimen>
-    <dimen name="customMinHeight">40dp</dimen>
+    <dimen name="customMinHeight">48dp</dimen>
 </resources>

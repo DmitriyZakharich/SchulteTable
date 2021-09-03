@@ -1,5 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
+    <style name="basicStyleView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/commonTextSize</item>
+        <item name="android:textColor">@color/mainTextColor</item>
+        <item name="android:minHeight">@dimen/customMinHeight</item>
 
+    </style>
+
+    <style name="TextViewStatistic">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textSize">@dimen/commonTextSize</item>
+        <item name="android:textColor">@color/mainTextColor</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:minHeight">@dimen/customMinHeight</item>
+    </style>
+
+    <style name="Spinner">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textSize">@dimen/commonTextSize</item>
+        <item name="android:textColor">@color/mainTextColor</item>
+        <item name="android:textAlignment">textEnd</item>
+        <item name="android:minHeight">@dimen/customMinHeight</item>
+        <item name="android:backgroundTint">@color/white</item>
+    </style>
+
+    <style name="TextViewSettings">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">2</item>
+        <item name="android:textSize">@dimen/commonTextSize</item>
+        <item name="android:textColor">@color/mainTextColor</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:minHeight">@dimen/customMinHeight</item>
+    </style>
+
+    <style name="Switch">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/commonTextSize</item>
+        <item name="android:textColor">@color/mainTextColor</item>
+        <item name="android:minHeight">@dimen/customMinHeight</item>
+        <item name="switchMinWidth">@dimen/switchSize</item>
+    </style>
 </resources>

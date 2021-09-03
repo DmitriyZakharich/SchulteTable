@@ -5,20 +5,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".advice.AdviceActivity">
+    tools:context=".advice.AdviceActivity"
+    android:background="@color/mainBackgroundColor">
 
 
-    <TextView
-        android:id="@+id/tvAdvice"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        android:textSize="19sp"/>
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/tvAdvice"
+            style="@style/basicStyleView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:textSize="19sp" />
+    </ScrollView>
 
     <Button
         android:id="@+id/toTable"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_weight="0"
         android:text="Button" />
 
 </LinearLayout>

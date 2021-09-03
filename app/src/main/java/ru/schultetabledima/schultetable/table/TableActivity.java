@@ -29,7 +29,7 @@ public class TableActivity extends AppCompatActivity implements TableContract.Vi
     private static final String MENU_PREFERENCES = "PreferencesMenu";
     private static final String KEY_MENU_VISIBILITY = "Saved Menu Visibility";
     private TablePresenter tablePresenter;
-    TextView moveHint, textMoveHint;
+    private TextView moveHint, textMoveHint;
 
 
     @Override

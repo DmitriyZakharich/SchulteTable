@@ -1,26 +1,31 @@
 package ru.schultetabledima.schultetable.advice;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
 
 import ru.schultetabledima.schultetable.R;
 import ru.schultetabledima.schultetable.contracts.AdviceContract;
 import ru.schultetabledima.schultetable.table.TableActivity;
 
-public class AdviceActivity extends AppCompatActivity implements AdviceContract.View, Serializable {
+public class AdviceActivity extends AppCompatActivity implements AdviceContract.View {
 
     private AdvicePresenter advicePresenter;
     private final String KEY_SERIALIZABLE_ADVICE_PRESENTER = "key_serializable_advice_presenter";
-    private Button toTable;
 
 
     TextView tvAdvice;
@@ -28,29 +33,26 @@ public class AdviceActivity extends AppCompatActivity implements AdviceContract.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_advice);
+
         tvAdvice = findViewById(R.id.tvAdvice);
+
         if (savedInstanceState == null)
             advicePresenter = new AdvicePresenter(this);
-        toTable = findViewById(R.id.toTable);
-        toTable.setOnClickListener(moveToActivity);
-        Log.d("Serializable1","onCreate");
 
+        Button toTable = findViewById(R.id.toTable);
+        toTable.setOnClickListener(moveToActivity);
     }
 
     @Override
     public void showAdvice(String advice) {
         tvAdvice.setText(advice);
-        Log.d("Serializable1","showAdvice");
     }
 
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         advicePresenter.detachView();
-        Log.d("AdvicePresenterHash","onSaveInstanceState  " + advicePresenter.hashCode());
-
         outState.putSerializable(KEY_SERIALIZABLE_ADVICE_PRESENTER, advicePresenter);
-        Log.d("Serializable1","onSaveInstanceState");
     }
 
     @Override
@@ -59,22 +61,12 @@ public class AdviceActivity extends AppCompatActivity implements AdviceContract.
         advicePresenter = (AdvicePresenter)savedInstanceState.getSerializable(KEY_SERIALIZABLE_ADVICE_PRESENTER);
         advicePresenter.attachView(this);
         advicePresenter.restart();
-        Log.d("AdvicePresenterHash","onRestoreInstanceState  " + advicePresenter.hashCode());
-
-        Log.d("Serializable1","onRestoreInstanceState");
     }
 
     View.OnClickListener moveToActivity = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            startActivity(new Intent(AdviceActivity.this, TableActivity.class));
+            advicePresenter.onClickListener(v.getId());
         }
     };
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.d("Serializable1","onResume");
-
-    }
 }

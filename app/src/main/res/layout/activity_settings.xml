@@ -9,87 +9,74 @@
     android:background="@color/mainBackgroundColor">
 
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/headlineResults"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/settings"
-            android:textColor="@color/mainTextColor"
-            android:textSize="@dimen/headerTextSize" />
-
-        <com.google.android.material.switchmaterial.SwitchMaterial
-            android:id="@+id/switchPressButtons"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="40dp"
-            android:text="@string/TouchFoundCells"
-            android:textColor="@color/mainTextColor"
-            android:textSize="@dimen/ordinaryTextSize"
-            app:switchMinWidth="@dimen/switchSize" />
-
-        <com.google.android.material.switchmaterial.SwitchMaterial
-            android:id="@+id/switchMoveHint"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="40dp"
-            android:text="@string/moveHint"
-            android:textColor="@color/checkable_switch"
-            android:textSize="@dimen/ordinaryTextSize"
-            app:switchMinWidth="@dimen/switchSize" />
-
-        <com.google.android.material.switchmaterial.SwitchMaterial
-            android:id="@+id/switchAnimation"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="40dp"
-            android:text="@string/Animation"
-            android:textColor="@color/mainTextColor"
-            android:textSize="@dimen/ordinaryTextSize"
-            app:switchMinWidth="@dimen/switchSize" />
-
-        <com.google.android.material.switchmaterial.SwitchMaterial
-            android:id="@+id/switchTwoTables"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="40dp"
-            android:text="@string/TwoTables"
-            android:textColor="@color/mainTextColor"
-            android:textSize="@dimen/ordinaryTextSize"
-            app:switchMinWidth="@dimen/switchSize" />
-
-
-    </LinearLayout>
-
-
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tab_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-
-
-    </com.google.android.material.tabs.TabLayout>
-
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/viewPager"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/headlineResults"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/settings"
+                android:textColor="@color/mainTextColor"
+                android:textSize="@dimen/headerTextSize" />
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/switchPressButtons"
+                style="@style/Switch"
+                android:text="@string/TouchFoundCells" />
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/switchMoveHint"
+                style="@style/Switch"
+                android:text="@string/moveHint"
+                android:textColor="@color/checkable_switch"
+                app:switchMinWidth="@dimen/switchSize" />
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/switchAnimation"
+                style="@style/Switch"
+                android:text="@string/Animation" />
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/switchTwoTables"
+                style="@style/Switch"
+                android:text="@string/TwoTables" />
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tab_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+            </com.google.android.material.tabs.TabLayout>
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/viewPager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+
+        </LinearLayout>
+    </ScrollView>
 
 
     <Button
         android:id="@+id/buttonToTable"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/Table"
-        android:textSize="@dimen/ordinaryTextSize"
         android:background="@color/colorButton"
-        android:textColor="@color/mainTextColor"/>
+        android:text="@string/Table"
+        android:textColor="@color/mainTextColor"
+        android:textSize="@dimen/commonTextSize" />
 </LinearLayout>
 
 
