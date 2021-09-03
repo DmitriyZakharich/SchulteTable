@@ -281,9 +281,7 @@ public class TablePresenter implements Serializable{
 
     private void endGameDialogue(){
         ((TableActivity)context).stopChronometer();
-        EndGameDialogue endGameDialogue = new EndGameDialogue((TableActivity) context,
-                isPressButtons);
-        endGameDialogue.start();
+        EndGameDialogue endGameDialogue = new EndGameDialogue(context, isPressButtons);
     }
 
 

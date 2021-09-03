@@ -9,7 +9,6 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -17,10 +16,9 @@ import java.util.ArrayList;
 
 import ru.schultetabledima.schultetable.R;
 import ru.schultetabledima.schultetable.settings.SettingsActivity;
-import ru.schultetabledima.schultetable.utils.SettingsReader;
 
 public class DatabaseAdapter {
-    private Activity activity;
+    private Context context;
     private String time;
     private int quantityTables;
     private String tableSize;
@@ -32,8 +30,8 @@ public class DatabaseAdapter {
     private boolean isLetters, isTwoTables, isEnglish;
 
 
-    public DatabaseAdapter(Activity activity, String time, String tableSize, String currentDate) {
-        this.activity = activity;
+    public DatabaseAdapter(Context context, String time, String tableSize, String currentDate) {
+        this.context = context;
         this.time = time;
         this.tableSize = tableSize;
         this.currentDate = currentDate;;
@@ -41,23 +39,23 @@ public class DatabaseAdapter {
         init();
     }
 
-    public DatabaseAdapter(Activity activity) {
-        this.activity = activity;
+    public DatabaseAdapter(Context context) {
+        this.context = context;
         readSharedPreferences();
         init();
     }
 
     private void readSharedPreferences() {
-        SharedPreferences settings = activity.getSharedPreferences(SettingsActivity.getAppPreferences(), MODE_PRIVATE);
+        SharedPreferences settings = context.getSharedPreferences(SettingsActivity.getAppPreferences(), MODE_PRIVATE);
         isLetters = settings.getBoolean(SettingsActivity.getKeyNumbersOrLetters(), false);
         isTwoTables = settings.getBoolean(SettingsActivity.getKeyTwoTables(), false);
         isEnglish = settings.getBoolean(SettingsActivity.getKeyRussianOrEnglish(), false);
     }
 
     private void init() {
-        valueType = isLetters ? activity.getString(R.string.valueTypeLetters) : activity.getString(R.string.valueTypeNumbers);
+        valueType = isLetters ? context.getString(R.string.valueTypeLetters) : context.getString(R.string.valueTypeNumbers);
         if (isLetters){
-            language = isEnglish ? activity.getString(R.string.languageEnglish) : activity.getString(R.string.languageRussian);
+            language = isEnglish ? context.getString(R.string.languageEnglish) : context.getString(R.string.languageRussian);
         }else{
             language = null;
         }
@@ -65,7 +63,7 @@ public class DatabaseAdapter {
     }
 
     public void insert(){
-        databaseHelper = new DatabaseHelper(activity);
+        databaseHelper = new DatabaseHelper(context);
         SQLiteDatabase db = databaseHelper.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(DatabaseHelper.COLUMN_SIZE_FIELD, tableSize);
@@ -79,7 +77,7 @@ public class DatabaseAdapter {
     }
 
     public void open() {
-        databaseHelper = new DatabaseHelper(activity);
+        databaseHelper = new DatabaseHelper(context);
         db = databaseHelper.getReadableDatabase();
     }
 
@@ -106,8 +104,8 @@ public class DatabaseAdapter {
             insertAlready = true;
         }
 
-        if (valueType.equals(activity.getString(R.string.valueTypeLetters)) ||
-                valueType.equals(activity.getString(R.string.valueTypeNumbers))){
+        if (valueType.equals(context.getString(R.string.valueTypeLetters)) ||
+                valueType.equals(context.getString(R.string.valueTypeNumbers))){
 
             if(insertAlready)
                 stringBufferSelection.append(" AND ");
@@ -117,8 +115,8 @@ public class DatabaseAdapter {
             insertAlready = true;
         }
 
-        if (valueLanguage.equals(activity.getString(R.string.languageEnglish)) ||
-                valueLanguage.equals(activity.getString(R.string.languageRussian))){
+        if (valueLanguage.equals(context.getString(R.string.languageEnglish)) ||
+                valueLanguage.equals(context.getString(R.string.languageRussian))){
 
             if(insertAlready)
                 stringBufferSelection.append(" AND ");
@@ -128,7 +126,7 @@ public class DatabaseAdapter {
             insertAlready = true;
         }
 
-        if (!playedSizes.equals(activity.getString(R.string.allSize))) {
+        if (!playedSizes.equals(context.getString(R.string.allSize))) {
             if(insertAlready)
                 stringBufferSelection.append(" AND ");
 
