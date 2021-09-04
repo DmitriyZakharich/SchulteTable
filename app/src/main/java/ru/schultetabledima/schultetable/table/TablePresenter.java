@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.util.ArrayMap;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
@@ -19,9 +20,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import ru.schultetabledima.schultetable.R;
-import ru.schultetabledima.schultetable.table.tablecreation.TableCreator;
 import ru.schultetabledima.schultetable.settings.SettingsActivity;
 import ru.schultetabledima.schultetable.statistic.StatisticsActivity;
+import ru.schultetabledima.schultetable.table.tablecreation.TableCreator;
 import ru.schultetabledima.schultetable.utils.Converter;
 
 public class TablePresenter implements Serializable{
@@ -39,6 +40,8 @@ public class TablePresenter implements Serializable{
     private transient ArrayMap<Integer, Integer> cellsIdFirstTable, cellsIdSecondTable;
     private int nextMoveFirstTable, nextMoveSecondTableCountdown;
     private static SharedPreferences sharedPreferencesMenu;
+    private boolean isDialogueShow = false;
+    private transient EndGameDialogue endGameDialogue;
 
 
     public TablePresenter(Context context) {
@@ -150,7 +153,6 @@ public class TablePresenter implements Serializable{
     }
 
 
-
     private void settingForCheckMove() {
         cellsIdFirstTable = new ArrayMap<>();
         cellsIdFirstTable = tableCreator.getCellsIdFirstTable();
@@ -189,7 +191,7 @@ public class TablePresenter implements Serializable{
         if (!isPressButtons){
             endGameDialogue();
 
-        } else if (isPressButtons){
+        } else {
 
             if (isTwoTables){
                 checkMoveInTwoTables(cellId);
@@ -249,7 +251,6 @@ public class TablePresenter implements Serializable{
                         ((TableActivity)context).setMoveHint(nextMoveSecondTableCountdown);
                 }
 
-
         } else if (activeTable == secondTable.getId()) {
 
                 if (cellId == cellsIdSecondTable.get(nextMoveSecondTableCountdown)){
@@ -270,7 +271,6 @@ public class TablePresenter implements Serializable{
                 }
         }
 
-
         if (count == (cellsIdFirstTable.size() + cellsIdSecondTable.size())){
             endGameDialogue();
             ((TableActivity)context).setMoveHint(' ');
@@ -278,17 +278,24 @@ public class TablePresenter implements Serializable{
     }
 
 
-
     private void endGameDialogue(){
         ((TableActivity)context).stopChronometer();
-        EndGameDialogue endGameDialogue = new EndGameDialogue(context, isPressButtons);
+        saveTime = ((TableActivity)context).getBaseChronometer() - SystemClock.elapsedRealtime();
+        isDialogueShow = true;
+        endGameDialogue = new EndGameDialogue(context, this);
     }
 
 
-    public void saveInstanceState(){
-        ((TableActivity)context).stopChronometer();
-        saveTime = ((TableActivity)context).getBaseChronometer() - SystemClock.elapsedRealtime();
+    public void preparingToRotateScreen(){
         ((TableActivity)context).removeTable();
+
+        if (!isDialogueShow){
+            saveTime = ((TableActivity)context).getBaseChronometer() - SystemClock.elapsedRealtime();
+            ((TableActivity)context).stopChronometer();
+        }
+
+        if (isDialogueShow)
+            endGameDialogue.dismiss();
 
 
         if (isLetters){
@@ -312,9 +319,16 @@ public class TablePresenter implements Serializable{
         refreshTableCreator();
         showTable();
         ((TableActivity)context).setBaseChronometer(SystemClock.elapsedRealtime() + saveTime);
-        startChronometer();
+
+        if (!isDialogueShow)
+            startChronometer();
+
         settingForMenu();
         restoreSettingForCheckMove();
+
+        if (isDialogueShow){
+            endGameDialogue();
+        }
     }
 
 
@@ -379,6 +393,13 @@ public class TablePresenter implements Serializable{
         }
     }
 
+    public void cancelDialogue(){
+        isDialogueShow = false;
+    }
+
+    public long getSaveTime(){
+        return saveTime;
+    }
 
     private void showTable() {
         ((TableActivity)context).showTable(table);
@@ -400,8 +421,7 @@ public class TablePresenter implements Serializable{
         Toast toast = Toast.makeText(context, R.string.wrongTable, Toast.LENGTH_SHORT);
         toast.show();
 
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
+        new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 toast.cancel();

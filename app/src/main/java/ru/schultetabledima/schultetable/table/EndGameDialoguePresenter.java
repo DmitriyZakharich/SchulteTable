@@ -23,14 +23,15 @@ public class EndGameDialoguePresenter {
     private int columnsOfTable, rowsOfTable;
     private Context context;
     private EndGameDialogue endGameDialogue;
+    private TablePresenter tablePresenter;
     private long stopTime;
     private AlertDialog.Builder builder;
 
 
-
-    public EndGameDialoguePresenter(Context context, EndGameDialogue endGameDialogue) {
+    public EndGameDialoguePresenter(Context context, EndGameDialogue endGameDialogue, TablePresenter tablePresenter) {
         this.context = context;
         this.endGameDialogue = endGameDialogue;
+        this.tablePresenter = tablePresenter;
         readSharedPreferences();
         init();
         endGameDialogueShow();
@@ -52,7 +53,7 @@ public class EndGameDialoguePresenter {
 
     private void init(){
         EndGameDialogueCreator creator = new EndGameDialogueCreator(context, this);
-        stopTime = ((TableActivity)context).getBaseChronometer()- SystemClock.elapsedRealtime();
+//        stopTime = ((TableActivity)context).getBaseChronometer()- SystemClock.elapsedRealtime();
         builder = creator.getAlertDialog();
     }
 
@@ -74,14 +75,16 @@ public class EndGameDialoguePresenter {
         context.startActivity(intent);
     }
 
-    public void onCancelListener() {
-        ((TableActivity) context).setBaseChronometer(SystemClock.elapsedRealtime() + stopTime);
+    public void onNegativeButtonListener() {
+        ((TableActivity) context).setBaseChronometer(SystemClock.elapsedRealtime() + tablePresenter.getSaveTime());
         ((TableActivity) context).startChronometer();
+        tablePresenter.cancelDialogue();
     }
 
-    public void onNegativeButtonListener() {
-        ((TableActivity) context).setBaseChronometer(SystemClock.elapsedRealtime() + stopTime);
+    public void onCancelDialogueListener() {
+        ((TableActivity) context).setBaseChronometer(SystemClock.elapsedRealtime() + tablePresenter.getSaveTime());
         ((TableActivity) context).startChronometer();
+        tablePresenter.cancelDialogue();
     }
 
     private void databaseInsert(){
@@ -91,7 +94,7 @@ public class EndGameDialoguePresenter {
 
         String tableSize = rowsOfTable + "x" + columnsOfTable;
 
-        DatabaseAdapter databaseAdapter = new DatabaseAdapter((TableActivity) context, ((TableActivity) context).getTextChronometer(), tableSize, dateText);
+        DatabaseAdapter databaseAdapter = new DatabaseAdapter(context, ((TableActivity) context).getTextChronometer(), tableSize, dateText);
         databaseAdapter.insert();
     }
 

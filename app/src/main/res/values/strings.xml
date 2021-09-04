@@ -43,7 +43,7 @@
     <string name="valueTypeNumbers">numbers</string>
     <string name="languageEnglish">English</string>
     <string name="languageRussian">Russian</string>
-    <string name="yourTime">Ваше время </string>
+    <string name="yourTime">"Ваше время "</string>
     <string name="newGame">Новая игра</string>
     <string name="continueCurrentGame">Продолжить текущую игру</string>
     <string name="allSize">Все размеры</string>

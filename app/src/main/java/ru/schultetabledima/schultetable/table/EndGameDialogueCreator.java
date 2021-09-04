@@ -15,8 +15,9 @@ public class EndGameDialogueCreator {
 
     private AlertDialog.Builder builder;
     private Context context;
-    EndGameDialoguePresenter endGameDialoguePresenter;
-    private Boolean isPressButtons,isLetters;
+    private EndGameDialoguePresenter endGameDialoguePresenter;
+    private Boolean isPressButtons;
+
 
     public EndGameDialogueCreator(Context context, EndGameDialoguePresenter endGameDialoguePresenter) {
         this.context = context;
@@ -27,7 +28,6 @@ public class EndGameDialogueCreator {
 
     private void readSharedPreferences() {
         SharedPreferences settings = context.getSharedPreferences(SettingsActivity.getAppPreferences(), MODE_PRIVATE);
-        isLetters = settings.getBoolean(SettingsActivity.getKeyNumbersOrLetters(), false);
         isPressButtons = settings.getBoolean(SettingsActivity.getKeyTouchCells(), true);
     }
 
@@ -54,7 +54,7 @@ public class EndGameDialogueCreator {
             builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
                 @Override
                 public void onCancel(DialogInterface dialog) {
-                    endGameDialoguePresenter.onCancelListener();
+                    endGameDialoguePresenter.onCancelDialogueListener();
                 }
             });
             builder.setNegativeButtonIcon(context.getDrawable(R.drawable.ic_resume));

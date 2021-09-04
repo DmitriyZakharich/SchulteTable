@@ -3,6 +3,7 @@ package ru.schultetabledima.schultetable.table;
 import android.animation.LayoutTransition;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Chronometer;
 import android.widget.ImageButton;
@@ -84,7 +85,7 @@ public class TableActivity extends AppCompatActivity implements TableContract.Vi
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        tablePresenter.saveInstanceState();
+        tablePresenter.preparingToRotateScreen();
         tablePresenter.detachView();
         outState.putSerializable(KEY_SERIALIZABLE_TABLE_PRESENTER, tablePresenter);
 

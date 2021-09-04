@@ -92,7 +92,6 @@ public class DatabaseAdapter {
     }
 
     public Cursor getCursor(int quantityTables, String valueType, String valueLanguage, String playedSizes){
-
         StringBuffer stringBufferSelection = new StringBuffer();
         ArrayList <String> arrayListSelectionArgs = new ArrayList<>();
 
