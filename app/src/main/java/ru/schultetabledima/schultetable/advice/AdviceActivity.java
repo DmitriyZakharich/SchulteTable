@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.ActionMenuView;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -41,6 +42,12 @@ public class AdviceActivity extends AppCompatActivity implements AdviceContract.
 
         Button toTable = findViewById(R.id.toTable);
         toTable.setOnClickListener(moveToActivity);
+
+
+
+
+
+
     }
 
     @Override

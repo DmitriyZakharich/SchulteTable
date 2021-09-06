@@ -9,57 +9,43 @@ import android.widget.Button;
 
 import ru.schultetabledima.schultetable.R;
 import ru.schultetabledima.schultetable.advice.AdviceActivity;
+import ru.schultetabledima.schultetable.donation.DonationActivity;
 import ru.schultetabledima.schultetable.settings.SettingsActivity;
 import ru.schultetabledima.schultetable.statistic.StatisticsActivity;
 import ru.schultetabledima.schultetable.table.TableActivity;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private Button tableButton;
-    private Button statisticsButton;
-    private Button customizationButton;
-    private Button adviceButton;
-    private Intent intent;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-        tableButton = (Button) findViewById(R.id.tableButton);
-        statisticsButton = (Button) findViewById(R.id.statisticsButton);
-        customizationButton = (Button) findViewById(R.id.customizationButton);
-        adviceButton = (Button) findViewById(R.id.adviceButton);
-
-        tableButton.setOnClickListener(this);
-        statisticsButton.setOnClickListener(this);
-        customizationButton.setOnClickListener(this);
-        adviceButton.setOnClickListener(this);
+        findViewById(R.id.tableButton).setOnClickListener(this);
+        findViewById(R.id.statisticsButton).setOnClickListener(this);
+        findViewById(R.id.customizationButton).setOnClickListener(this);
+        findViewById(R.id.adviceButton).setOnClickListener(this);
+        findViewById(R.id.donationButton).setOnClickListener(this);
     }
-
 
         @Override
         public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.tableButton:
-                intent = new Intent(MainActivity.this, TableActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.statisticsButton:
-                intent = new Intent(MainActivity.this, StatisticsActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.customizationButton:
-                intent = new Intent(MainActivity.this, SettingsActivity.class);
-                startActivity(intent);
-                break;
-                case R.id.adviceButton:
-                intent = new Intent(MainActivity.this, AdviceActivity.class);
-                startActivity(intent);
-                break;
-        }
-    }
+            int id = v.getId();
 
+            if (id == R.id.tableButton) {
+                startActivity(new Intent(MainActivity.this, TableActivity.class));
+
+            } else if (id == R.id.statisticsButton) {
+                startActivity(new Intent(MainActivity.this, StatisticsActivity.class));
+
+            } else if (id == R.id.customizationButton) {
+                startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+
+            } else if (id == R.id.adviceButton) {
+                startActivity(new Intent(MainActivity.this, AdviceActivity.class));
+
+            }else if (id == R.id.donationButton) {
+                startActivity(new Intent(MainActivity.this, DonationActivity.class));
+            }
+    }
 }

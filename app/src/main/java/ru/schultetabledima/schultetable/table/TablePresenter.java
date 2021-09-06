@@ -2,24 +2,29 @@ package ru.schultetabledima.schultetable.table;
 
 import static android.content.Context.MODE_PRIVATE;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.util.ArrayMap;
-import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.Toast;
 
+import android.widget.PopupMenu;
 import androidx.core.content.ContextCompat;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
 import ru.schultetabledima.schultetable.R;
+import ru.schultetabledima.schultetable.advice.AdviceActivity;
+import ru.schultetabledima.schultetable.donation.DonationActivity;
 import ru.schultetabledima.schultetable.settings.SettingsActivity;
 import ru.schultetabledima.schultetable.statistic.StatisticsActivity;
 import ru.schultetabledima.schultetable.table.tablecreation.TableCreator;
@@ -69,7 +74,6 @@ public class TablePresenter implements Serializable{
     }
 
 
-
     private void settingForMenu() {
         sharedPreferencesMenu = context.getSharedPreferences(TableActivity.getMenuPreferences(), MODE_PRIVATE);
         isMenuShow = sharedPreferencesMenu.getBoolean(TableActivity.getKeyMenuVisibility(), true);
@@ -107,9 +111,8 @@ public class TablePresenter implements Serializable{
             context.startActivity(new Intent(context, SettingsActivity.class));
 
 
-        } else if (viewID == R.id.image_button_statistics) {
-            context.startActivity(new Intent(context, StatisticsActivity.class));
-
+        } else if (viewID == R.id.image_menu) {
+            createPopupMenu();
 
 
         } else if (viewID == R.id.image_Button_Show_Hide_Menu) {
@@ -144,6 +147,37 @@ public class TablePresenter implements Serializable{
                 ed.putBoolean(TableActivity.getKeyMenuVisibility(), isMenuShow);
                 ed.apply();
         }
+    }
+
+    private void createPopupMenu() {
+        PopupMenu popupMenu = new PopupMenu(context, ((TableActivity)context).findViewById(R.id.image_menu));
+        popupMenu.inflate(R.menu.menu);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            popupMenu.setForceShowIcon(true);
+        }
+
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        int itemId = item.getItemId();
+
+                        if (itemId == R.id.item_statistics) {
+                            context.startActivity(new Intent(context, StatisticsActivity.class));
+                            return true;
+
+                        } else if (itemId == R.id.item_advice) {
+                            context.startActivity(new Intent(context, AdviceActivity.class));
+                            return true;
+
+                        } else if (itemId == R.id.item_donation) {
+                            context.startActivity(new Intent(context, DonationActivity.class));
+                            return true;
+                        }
+
+                        return false;
+                    }
+                });
+        popupMenu.show();
     }
 
 

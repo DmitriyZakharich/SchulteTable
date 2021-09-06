@@ -3,17 +3,16 @@ package ru.schultetabledima.schultetable.table;
 import android.animation.LayoutTransition;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Chronometer;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import ru.schultetabledima.schultetable.R;
 import ru.schultetabledima.schultetable.contracts.TableContract;
@@ -22,15 +21,16 @@ public class TableActivity extends AppCompatActivity implements TableContract.Vi
 
 
     private static final String KEY_SERIALIZABLE_TABLE_PRESENTER = "tablePresenterPutSerializable";
-    private ImageButton settings, statistics;
+    private ImageButton settings;
     private Chronometer chronometer;
-    private RelativeLayout placeForTable;
-    private Toolbar menu;
+    private ConstraintLayout placeForTable;
     private ImageButton selectShowHideMenu;
     private static final String MENU_PREFERENCES = "PreferencesMenu";
     private static final String KEY_MENU_VISIBILITY = "Saved Menu Visibility";
     private TablePresenter tablePresenter;
     private TextView moveHint, textMoveHint;
+    public ImageButton menu;
+    private Toolbar toolbar;
 
 
     @Override
@@ -40,27 +40,29 @@ public class TableActivity extends AppCompatActivity implements TableContract.Vi
 
         selectShowHideMenu = (ImageButton)findViewById(R.id.image_Button_Show_Hide_Menu);
         settings = (ImageButton) findViewById(R.id.image_button_settings);
-        statistics = (ImageButton) findViewById(R.id.image_button_statistics);
-        placeForTable = (RelativeLayout) findViewById(R.id.placeForTable);
+        menu = (ImageButton) findViewById(R.id.image_menu);
+        placeForTable = (ConstraintLayout) findViewById(R.id.placeForTable);
         chronometer = (Chronometer) findViewById(R.id.chronometer);
         moveHint = (TextView) findViewById(R.id.moveHint);
         textMoveHint = (TextView) findViewById(R.id.textMoveHint);
 
-        menu = (Toolbar)findViewById(R.id.toolbar);
-        setSupportActionBar(menu);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
 
         settings.setOnClickListener(onClickMenuButtonsListener);
-        statistics.setOnClickListener(onClickMenuButtonsListener);
         selectShowHideMenu.setOnClickListener(onClickMenuButtonsListener);
+        menu.setOnClickListener(onClickMenuButtonsListener);
 
         if (savedInstanceState == null)
             tablePresenter = new TablePresenter(this);
 
 
-        //Анимация показать-скрыть меню навигации
-        LayoutTransition layoutTransitionToolbar = menu.getLayoutTransition();
+//        Анимация показать-скрыть меню навигации
+        LayoutTransition layoutTransitionToolbar = toolbar.getLayoutTransition();
         layoutTransitionToolbar.enableTransitionType(LayoutTransition.CHANGING);
 }
+
 
     @Override
     public void showTable(LinearLayout table) {
@@ -104,14 +106,15 @@ public class TableActivity extends AppCompatActivity implements TableContract.Vi
     public void showHideMenu(int visibility,int visibilityHint, int imageResource, LinearLayout.LayoutParams layoutParams){
         chronometer.setVisibility(visibility);
         settings.setVisibility(visibility);
-        statistics.setVisibility(visibility);
+        menu.setVisibility(visibility);
 
         textMoveHint.setVisibility(visibilityHint);
         moveHint.setVisibility(visibilityHint);
 
-        menu.setLayoutParams(layoutParams);
         selectShowHideMenu.setImageResource(imageResource);
+        toolbar.setLayoutParams(layoutParams);
     }
+
 
 
     public void setMoveHint(int nextMoveFirstTable) {
