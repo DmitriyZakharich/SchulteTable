@@ -1,10 +1,7 @@
 package ru.schultetabledima.schultetable.table;
 
-import static android.content.Context.MODE_PRIVATE;
-
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.SystemClock;
 
 import androidx.appcompat.app.AlertDialog;
@@ -14,51 +11,36 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import ru.schultetabledima.schultetable.settings.SettingsActivity;
 import ru.schultetabledima.schultetable.statistic.StatisticsActivity;
 import ru.schultetabledima.schultetable.statistic.database.DatabaseAdapter;
+import ru.schultetabledima.schultetable.utils.PreferencesReader;
 
 public class EndGameDialoguePresenter {
 
-    private int columnsOfTable, rowsOfTable;
     private Context context;
     private EndGameDialogue endGameDialogue;
     private TablePresenter tablePresenter;
-    private long stopTime;
-    private AlertDialog.Builder builder;
+    private AlertDialog alertDialog;
+    private PreferencesReader settings;
 
 
     public EndGameDialoguePresenter(Context context, EndGameDialogue endGameDialogue, TablePresenter tablePresenter) {
         this.context = context;
         this.endGameDialogue = endGameDialogue;
         this.tablePresenter = tablePresenter;
-        readSharedPreferences();
         init();
         endGameDialogueShow();
     }
 
-    private void readSharedPreferences() {
-        SharedPreferences settings = context.getSharedPreferences(SettingsActivity.getAppPreferences(), MODE_PRIVATE);
-        boolean isLetters = settings.getBoolean(SettingsActivity.getKeyNumbersOrLetters(), false);
-
-        if (isLetters){
-            columnsOfTable = settings.getInt(SettingsActivity.getKeyColumnsLetters(), 4) + 1;
-            rowsOfTable = settings.getInt(SettingsActivity.getKeyRowsLetters(), 4) + 1;
-        } else{
-            columnsOfTable = settings.getInt(SettingsActivity.getKeyColumnsNumbers(), 4) + 1;
-            rowsOfTable = settings.getInt(SettingsActivity.getKeyRowsNumbers(), 4) + 1;
-        }
-    }
-
-
     private void init(){
-        EndGameDialogueCreator creator = new EndGameDialogueCreator(context, this);
-//        stopTime = ((TableActivity)context).getBaseChronometer()- SystemClock.elapsedRealtime();
-        builder = creator.getAlertDialog();
+        settings = new PreferencesReader(context);
+
+        EndGameDialogueCreator dialogueCreator = new EndGameDialogueCreator(context, this);
+        alertDialog = dialogueCreator.getAlertDialog();
     }
 
     private void endGameDialogueShow() {
-        endGameDialogue.showDialogue(builder);
+        endGameDialogue.showDialogue(alertDialog);
     }
 
     public void onClickPositiveButtonListener() {
@@ -92,11 +74,9 @@ public class EndGameDialoguePresenter {
         DateFormat dateFormat = new SimpleDateFormat("HH:mm dd.MM.yy", Locale.getDefault());
         String dateText = dateFormat.format(currentDate);
 
-        String tableSize = rowsOfTable + "x" + columnsOfTable;
+        String tableSize = settings.getRowsOfTable() + "x" + settings.getColumnsOfTable();
 
         DatabaseAdapter databaseAdapter = new DatabaseAdapter(context, ((TableActivity) context).getTextChronometer(), tableSize, dateText);
         databaseAdapter.insert();
     }
-
-
 }

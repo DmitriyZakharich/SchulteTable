@@ -1,9 +1,6 @@
 package ru.schultetabledima.schultetable.table.tablecreation;
 
-import static android.content.Context.MODE_PRIVATE;
-
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.view.Gravity;
@@ -13,18 +10,18 @@ import android.widget.TableLayout;
 
 import androidx.appcompat.widget.AppCompatTextView;
 
-import ru.schultetabledima.schultetable.settings.SettingsActivity;
 import ru.schultetabledima.schultetable.utils.Converter;
+import ru.schultetabledima.schultetable.utils.PreferencesReader;
 
 public class FieldCreator {
     private TableLayout field;
     private Context context;
-    private int rowsOfTable;
-    private int columnsOfTable;
+//    private int rowsOfTable;
+//    private int columnsOfTable;
     private CustomCell [][] cells;
     private int backgroundColor;
-    private boolean isLetters;
-
+//    private boolean isLetters;
+    private PreferencesReader settings;
 
 
     public FieldCreator(Context context, int backgroundColor) {
@@ -34,22 +31,8 @@ public class FieldCreator {
     }
 
     private void main() {
-        readSharedPreferences();
+        settings = new PreferencesReader(context);
         creator();
-    }
-
-
-    private void readSharedPreferences() {
-        SharedPreferences settings = context.getSharedPreferences(SettingsActivity.getAppPreferences(), MODE_PRIVATE);
-        isLetters = settings.getBoolean(SettingsActivity.getKeyNumbersOrLetters(), false);
-
-        if (isLetters){
-            columnsOfTable = settings.getInt(SettingsActivity.getKeyColumnsLetters(), 4) + 1;
-            rowsOfTable = settings.getInt(SettingsActivity.getKeyRowsLetters(), 4) + 1;
-        } else{
-            columnsOfTable = settings.getInt(SettingsActivity.getKeyColumnsNumbers(), 4) + 1;
-            rowsOfTable = settings.getInt(SettingsActivity.getKeyRowsNumbers(), 4) + 1;
-        }
     }
 
     private void creator(){
@@ -62,9 +45,8 @@ public class FieldCreator {
         field.setBackgroundColor(backgroundColor);
 
 
-
         //создание рядов
-        LinearLayout[] rows = new LinearLayout[rowsOfTable];
+        LinearLayout[] rows = new LinearLayout[settings.getRowsOfTable()];
         for (int i = 0; i < rows.length; i++) {
             rows[i] = new LinearLayout(context);
             TableLayout.LayoutParams tlLayoutParams = new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT,
@@ -76,10 +58,10 @@ public class FieldCreator {
 
 
         //Создание кнопок
-        cells = new CustomCell[rowsOfTable][columnsOfTable];
-        for (int i = 0; i < rowsOfTable; i++){
-            for (int j = 0; j < columnsOfTable; j++) {
-                cells[i][j] = new CustomCell(context, isLetters);
+        cells = new CustomCell[settings.getRowsOfTable()][settings.getColumnsOfTable()];
+        for (int i = 0; i < settings.getRowsOfTable(); i++){
+            for (int j = 0; j < settings.getColumnsOfTable(); j++) {
+                cells[i][j] = new CustomCell(context, settings.getIsLetters());
                 cells[i][j].setTextColor(Color.BLACK);
                 cells[i][j].setBackgroundColor(Color.WHITE);
                 cells[i][j].setMaxLines(1);
@@ -92,7 +74,7 @@ public class FieldCreator {
                 cells[i][j].setLayoutParams(layoutParamsCell);
 
                 if ((context).getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-                    int padding = Converter.getPx(context, 6);
+                    int padding = Converter.getPxFromDP(context, 6);
                     cells[i][j].setPadding(padding, padding, padding, padding);
                 }
 

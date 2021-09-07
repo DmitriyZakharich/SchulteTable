@@ -23,7 +23,6 @@ import ru.schultetabledima.schultetable.statistic.MyAdapter;
 
 public class SettingsActivity extends AppCompatActivity implements View.OnClickListener {
 
-
     private static SharedPreferences settings;
     private static final String APP_PREFERENCES = "my_settings";
 
@@ -38,43 +37,37 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     private static final String KEY_ROWS_LETTERS = "saveSpinnerRowsLetters";
     private static final String KEY_COLUMNS_LETTERS = "saveSpinnerColumnsLetters";
 
-    SwitchMaterial switchMoveHint;
+    private SwitchMaterial switchMoveHint;
+    private SettingsPresenter settingsPresenter;
+
+
+    private SwitchMaterial switchAnimation, switchTouchCells, switchTwoTables;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        SwitchMaterial switchAnimation = findViewById(R.id.switchAnimation);
-        SwitchMaterial switchTouchCells = findViewById(R.id.switchPressButtons);
-        SwitchMaterial switchTwoTables = findViewById(R.id.switchTwoTables);
+
+        switchAnimation = findViewById(R.id.switchAnimation);
+        switchTouchCells = findViewById(R.id.switchPressButtons);
+        switchTwoTables = findViewById(R.id.switchTwoTables);
         switchMoveHint = findViewById(R.id.switchMoveHint);
         Button buttonToTable = findViewById(R.id.buttonToTable);
 
         settings = getSharedPreferences(APP_PREFERENCES, MODE_PRIVATE);
 
-
-        switchAnimation.setChecked(settings.getBoolean(KEY_ANIMATION, false));
-        switchTouchCells.setChecked(settings.getBoolean(KEY_TOUCH_CELLS, true));
-        switchTwoTables.setChecked(settings.getBoolean(KEY_TWO_TABLES, false));
         boolean isLetters = settings.getBoolean(KEY_NUMBERS_OR_LETTERS, false);
 
-        if (switchTouchCells.isChecked()){
-            switchMoveHint.setEnabled(true);
-            switchMoveHint.setChecked(settings.getBoolean(KEY_MOVE_HINT, true));
-        }
-        else{
-            switchMoveHint.setChecked(false);
-            switchMoveHint.setEnabled(false);
-        }
 
 
+        settingsPresenter = new SettingsPresenter(this);
 
         switchAnimation.setOnClickListener(this);
         switchTouchCells.setOnClickListener(this);
         switchTwoTables.setOnClickListener(this);
         switchMoveHint.setOnClickListener(this);
-        buttonToTable.setOnClickListener(this);
+        buttonToTable.setOnClickListener(clickListener);
 
 
         ArrayList<Fragment> fragments = new ArrayList<>();
@@ -137,66 +130,50 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
 
     }
 
+    View.OnClickListener clickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            int id = v.getId();
+            if (id == R.id.buttonToTable) {
+                startActivity(new Intent(SettingsActivity.this, TableActivity.class));
+            }
+        }
+    };
+
 
     @Override
     public void onClick(View v) {
-        SharedPreferences.Editor ed;
-        ed = settings.edit();
-
-        int id = v.getId();
-        if (id == R.id.switchAnimation) {
-            ed.putBoolean(KEY_ANIMATION, ((SwitchMaterial) v).isChecked());
-
-        } else if (id == R.id.switchPressButtons) {
-                boolean isPressButtons = ((SwitchMaterial) v).isChecked();
-                ed.putBoolean(KEY_TOUCH_CELLS, isPressButtons);
-
-                if (isPressButtons){
-                    switchMoveHint.setEnabled(true);
-                    switchMoveHint.setChecked(settings.getBoolean(KEY_MOVE_HINT, true));
-                }
-
-                else{
-                    switchMoveHint.setChecked(false);
-                    switchMoveHint.setEnabled(false);
-                }
+        settingsPresenter.onClickListenerSwitch(v.getId(), ((SwitchMaterial) v).isChecked());
+    }
 
 
-        } else if (id == R.id.switchTwoTables) {
-            ed.putBoolean(KEY_TWO_TABLES, ((SwitchMaterial) v).isChecked());
+    public void customizationSwitchMoveHint(boolean isEnabled, boolean isChecked){
+        switchMoveHint.setEnabled(isEnabled);
 
-        } else if (id == R.id.switchRussianOrEnglish) {
-            ed.putBoolean(KEY_RUSSIAN_OR_ENGLISH, ((SwitchMaterial) v).isChecked());
-
-        } else if (id == R.id.switchMoveHint) {
-            ed.putBoolean(KEY_MOVE_HINT, ((SwitchMaterial) v).isChecked());
-
+        if (isEnabled){
+            switchMoveHint.setChecked(isChecked);
+        }else{
+            switchMoveHint.setChecked(false);
         }
-        ed.apply();
-
-
-         if (id == R.id.buttonToTable) {
-            startActivity(new Intent(SettingsActivity.this, TableActivity.class));
-        }
-
-
     }
 
-    public static String getAppPreferences() {
-        return APP_PREFERENCES;
+    public void switchAnimationSetChecked(boolean isChecked){
+        switchAnimation.setChecked(isChecked);
     }
-    public static String getKeyAnimation() {
-        return KEY_ANIMATION;
+
+    public void switchTouchCellsSetChecked(boolean isChecked){
+        switchTouchCells.setChecked(isChecked);
     }
-    public static String getKeyTouchCells() {
-        return KEY_TOUCH_CELLS;
+
+    public void switchTwoTablesSetChecked(boolean isChecked){
+        switchTwoTables.setChecked(isChecked);
     }
-    public static String getKeyNumbersOrLetters() {
-        return KEY_NUMBERS_OR_LETTERS;
+
+    public void switchMoveHintSetChecked(boolean isChecked){
+        switchMoveHint.setChecked(isChecked);
     }
-    public static String getKeyTwoTables() {
-        return KEY_TWO_TABLES;
-    }
+
+
     public static String getKeyRussianOrEnglish() {
         return KEY_RUSSIAN_OR_ENGLISH;
     }
@@ -212,7 +189,5 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     public static String getKeyRowsNumbers() {
         return KEY_ROWS_NUMBERS;
     }
-    public static String getKeyMoveHint() {
-        return KEY_MOVE_HINT;
-    }
+
 }

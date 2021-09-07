@@ -7,7 +7,7 @@ import androidx.appcompat.app.AlertDialog;
 public class EndGameDialogue {
     private Context context;
     private TablePresenter tablePresenter;
-    AlertDialog alert;
+    private AlertDialog alertDialog;
 
     public EndGameDialogue(Context context, TablePresenter tablePresenter) {
         this.context = context;
@@ -20,12 +20,12 @@ public class EndGameDialogue {
          new EndGameDialoguePresenter(context, this, tablePresenter);
     }
 
-    public void showDialogue(AlertDialog.Builder builder){
-        alert = builder.create();
-        alert.show();
+    public void showDialogue(AlertDialog alertDialog){
+        this.alertDialog = alertDialog;
+        alertDialog.show();
     }
 
     public void dismiss() {
-        alert.dismiss();
+        alertDialog.dismiss();
     }
 }

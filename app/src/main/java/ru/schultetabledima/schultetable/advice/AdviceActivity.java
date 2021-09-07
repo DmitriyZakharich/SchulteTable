@@ -43,11 +43,6 @@ public class AdviceActivity extends AppCompatActivity implements AdviceContract.
         Button toTable = findViewById(R.id.toTable);
         toTable.setOnClickListener(moveToActivity);
 
-
-
-
-
-
     }
 
     @Override

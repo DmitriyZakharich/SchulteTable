@@ -2,7 +2,6 @@ package ru.schultetabledima.schultetable.table;
 
 import static android.content.Context.MODE_PRIVATE;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,10 +12,10 @@ import android.util.ArrayMap;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.TableLayout;
 import android.widget.Toast;
 
-import android.widget.PopupMenu;
 import androidx.core.content.ContextCompat;
 
 import java.io.Serializable;
@@ -29,15 +28,15 @@ import ru.schultetabledima.schultetable.settings.SettingsActivity;
 import ru.schultetabledima.schultetable.statistic.StatisticsActivity;
 import ru.schultetabledima.schultetable.table.tablecreation.TableCreator;
 import ru.schultetabledima.schultetable.utils.Converter;
+import ru.schultetabledima.schultetable.utils.PreferencesReader;
 
 public class TablePresenter implements Serializable{
-    private boolean isPressButtons;
     private int count = 0;
     private long saveTime;
     private Context context;
     private transient TableCreator tableCreator;
     private transient LinearLayout table;
-    private boolean isLetters, isTwoTables, isEnglish, isMenuShow, isMoveHint;
+    private boolean isMenuShow;
     private ArrayList<Character> listLetters1, listLetters2;
     private ArrayList<Integer> listNumbers1, listNumbers2;
     private int activeTable, saveNumberActiveTable;
@@ -47,6 +46,7 @@ public class TablePresenter implements Serializable{
     private static SharedPreferences sharedPreferencesMenu;
     private boolean isDialogueShow = false;
     private transient EndGameDialogue endGameDialogue;
+    private transient PreferencesReader settings;
 
 
     public TablePresenter(Context context) {
@@ -55,24 +55,13 @@ public class TablePresenter implements Serializable{
     }
 
     private void main(){
-        readSharedPreferences();
+        settings = new PreferencesReader(context);
         callTableCreator();
         showTable();
         startChronometer();
         settingForCheckMove();
         settingForMenu();
     }
-
-
-    private void readSharedPreferences() {
-        SharedPreferences settings = context.getSharedPreferences(SettingsActivity.getAppPreferences(), MODE_PRIVATE);
-        isPressButtons = settings.getBoolean(SettingsActivity.getKeyTouchCells(), true);
-        isLetters = settings.getBoolean(SettingsActivity.getKeyNumbersOrLetters(), false);
-        isTwoTables = settings.getBoolean(SettingsActivity.getKeyTwoTables(), false);
-        isEnglish = settings.getBoolean(SettingsActivity.getKeyRussianOrEnglish(), false);
-        isMoveHint = settings.getBoolean(SettingsActivity.getKeyMoveHint(), true);
-    }
-
 
     private void settingForMenu() {
         sharedPreferencesMenu = context.getSharedPreferences(TableActivity.getMenuPreferences(), MODE_PRIVATE);
@@ -85,20 +74,20 @@ public class TablePresenter implements Serializable{
         if(isMenuShow){
             visibility = View.VISIBLE;
             imageResource = R.drawable.ic_arrow_down;
-            layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Converter.getPx(context, 40));
+            layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Converter.getPxFromDP(context, 40));
 
 
         }else{
             visibility = View.INVISIBLE;
             imageResource = R.drawable.ic_arrow_up;
-            layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Converter.getPx(context,20));
+            layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Converter.getPxFromDP(context,20));
 
         }
 
-        if (!isMoveHint || !isPressButtons || !isMenuShow){
+        if (!settings.getIsMoveHint() || !settings.getIsTouchCells() || !isMenuShow){
             visibilityHint = View.INVISIBLE;
 
-        } else if (isMoveHint){
+        } else if (settings.getIsMoveHint()){
             visibilityHint = View.VISIBLE;
         }
         ((TableActivity)context).showHideMenu(visibility, visibilityHint, imageResource, layoutParams);
@@ -124,18 +113,20 @@ public class TablePresenter implements Serializable{
                 if (isMenuShow){
                     visibility = View.INVISIBLE;
                     imageResource = R.drawable.ic_arrow_up;
-                    layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Converter.getPx(context, 20));
+                    layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                                                                Converter.getPxFromDP(context, 20));
                     isMenuShow = false;
 
                 }else{
                     visibility = View.VISIBLE;
                     imageResource = R.drawable.ic_arrow_down;
-                    layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Converter.getPx(context,40));
+                    layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                                                                (int)context.getResources().getDimension(R.dimen.customMinHeight));
                     isMenuShow = true;
 
                 }
 
-                if (isMoveHint && isMenuShow && isPressButtons){
+                if (settings.getIsMoveHint() && isMenuShow && settings.getIsTouchCells()){
                     visibilityHint = View.VISIBLE;
 
                 } else {
@@ -191,30 +182,30 @@ public class TablePresenter implements Serializable{
         cellsIdFirstTable = new ArrayMap<>();
         cellsIdFirstTable = tableCreator.getCellsIdFirstTable();
 
-        if (isTwoTables) {
+        if (settings.getIsTwoTables()) {
             cellsIdSecondTable = new ArrayMap<>();
             cellsIdSecondTable = tableCreator.getCellsIdSecondTable();
         }
 
-        if (isLetters) {
-            nextMoveFirstTable = (isEnglish) ? (int) 'A': (int) 'А'; // eng / rus
+        if (settings.getIsLetters()) {
+            nextMoveFirstTable = (settings.getIsEnglish()) ? (int) 'A': (int) 'А'; // eng / rus
             ((TableActivity)context).setMoveHint((char)nextMoveFirstTable);
 
-            if(isTwoTables)
-                nextMoveSecondTableCountdown = (isEnglish) ? (int)'A' +  cellsIdFirstTable.size() - 1 : (int)'А' +  cellsIdFirstTable.size() - 1;
+            if(settings.getIsTwoTables())
+                nextMoveSecondTableCountdown = (settings.getIsEnglish()) ? (int)'A' +  cellsIdFirstTable.size() - 1 : (int)'А' +  cellsIdFirstTable.size() - 1;
 
 
         } else {
             nextMoveFirstTable = 1;
             ((TableActivity)context).setMoveHint(nextMoveFirstTable);
 
-            if(isTwoTables)
+            if(settings.getIsTwoTables())
                 nextMoveSecondTableCountdown = cellsIdSecondTable.size();
         }
 
 
         firstTable = (TableLayout) table.getChildAt(0);
-        if (isTwoTables)
+        if (settings.getIsTwoTables())
             secondTable = (TableLayout)table.getChildAt(1);
 
         activeTable = firstTable.getId();
@@ -222,12 +213,12 @@ public class TablePresenter implements Serializable{
 
 
     public void checkMove(int cellId){
-        if (!isPressButtons){
+        if (!settings.getIsTouchCells()){
             endGameDialogue();
 
         } else {
 
-            if (isTwoTables){
+            if (settings.getIsTwoTables()){
                 checkMoveInTwoTables(cellId);
 
             }else{
@@ -241,7 +232,7 @@ public class TablePresenter implements Serializable{
         if (cellId == cellsIdFirstTable.get(nextMoveFirstTable)){
             nextMoveFirstTable++;
             count++;
-            if (isLetters)
+            if (settings.getIsLetters())
                 ((TableActivity)context).setMoveHint((char)nextMoveFirstTable);
 
             else
@@ -259,7 +250,6 @@ public class TablePresenter implements Serializable{
         //Проверка активной таблицы
         //Если id из другой таблицы, то
         //Нужно выполнять до смены значения activeTable
-
          if (activeTable == firstTable.getId() && cellsIdSecondTable.containsValue(cellId)){
              showToastWrongTable();
          }
@@ -279,7 +269,7 @@ public class TablePresenter implements Serializable{
                     firstTable.setBackgroundColor(ContextCompat.getColor(context, R.color.passiveTable));
                     secondTable.setBackgroundColor(ContextCompat.getColor(context, R.color.activeTable));
 
-                    if (isLetters)
+                    if (settings.getIsLetters())
                         ((TableActivity)context).setMoveHint((char)nextMoveSecondTableCountdown);
                     else
                         ((TableActivity)context).setMoveHint(nextMoveSecondTableCountdown);
@@ -297,7 +287,7 @@ public class TablePresenter implements Serializable{
                     firstTable.setBackgroundColor(ContextCompat.getColor(context, R.color.activeTable));
                     secondTable.setBackgroundColor(ContextCompat.getColor(context, R.color.passiveTable));
 
-                    if (isLetters)
+                    if (settings.getIsLetters())
                         ((TableActivity)context).setMoveHint((char)nextMoveFirstTable);
                     else
                         ((TableActivity)context).setMoveHint(nextMoveFirstTable);
@@ -332,24 +322,25 @@ public class TablePresenter implements Serializable{
             endGameDialogue.dismiss();
 
 
-        if (isLetters){
+        if (settings.getIsLetters()){
             listLetters1 = new ArrayList<>(tableCreator.getListLetters1());
 
-            if (isTwoTables){
+            if (settings.getIsTwoTables()){
                 listLetters2 = new ArrayList<>(tableCreator.getListLetters2());
             }
         }
 
-        if (!isLetters){
+        if (!settings.getIsLetters()){
             listNumbers1 = new ArrayList<>(tableCreator.getListNumbers1());
 
-            if (isTwoTables){
+            if (settings.getIsTwoTables()){
                 listNumbers2 = new ArrayList<>(tableCreator.getListNumbers2());
             }
         }
     }
 
     public void restoreInstanceState(){
+        settings = new PreferencesReader(context);
         refreshTableCreator();
         showTable();
         ((TableActivity)context).setBaseChronometer(SystemClock.elapsedRealtime() + saveTime);
@@ -368,7 +359,7 @@ public class TablePresenter implements Serializable{
 
 
     private void refreshTableCreator(){
-        if (isLetters){
+        if (settings.getIsLetters()){
             tableCreator = new TableCreator(context, this, listLetters1, listLetters2);
 
         }else {
@@ -378,7 +369,7 @@ public class TablePresenter implements Serializable{
         table = tableCreator.getContainerForTable();
         cellsIdFirstTable = tableCreator.getCellsIdFirstTable();
 
-        if (isTwoTables){
+        if (settings.getIsTwoTables()){
             cellsIdSecondTable = tableCreator.getCellsIdSecondTable();
             restoreSettingForTwoTables();
         }
@@ -388,20 +379,20 @@ public class TablePresenter implements Serializable{
         cellsIdFirstTable = new ArrayMap<>();
         cellsIdFirstTable = tableCreator.getCellsIdFirstTable();
 
-        if (isTwoTables) {
+        if (settings.getIsTwoTables()) {
             cellsIdSecondTable = new ArrayMap<>();
             cellsIdSecondTable = tableCreator.getCellsIdSecondTable();
         }
 
 
-        if (!isLetters) {
+        if (!settings.getIsLetters()) {
             if (activeTable == firstTable.getId()) {
                 ((TableActivity) context).setMoveHint(nextMoveFirstTable);
             } else if (activeTable == secondTable.getId())
                 ((TableActivity) context).setMoveHint(nextMoveSecondTableCountdown);
 
 
-        } else if(isLetters){
+        } else if(settings.getIsLetters()){
             if (activeTable == firstTable.getId()) {
                 ((TableActivity) context).setMoveHint((char) nextMoveFirstTable);
             } else if (activeTable == secondTable.getId())

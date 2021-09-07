@@ -1,9 +1,6 @@
 package ru.schultetabledima.schultetable.table.tablecreation;
 
-import static android.content.Context.MODE_PRIVATE;
-
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.util.ArrayMap;
 import android.view.View;
 import android.view.animation.Animation;
@@ -18,23 +15,18 @@ import java.util.Random;
 
 import ru.schultetabledima.schultetable.R;
 import ru.schultetabledima.schultetable.table.TablePresenter;
-import ru.schultetabledima.schultetable.settings.SettingsActivity;
+import ru.schultetabledima.schultetable.utils.PreferencesReader;
 
 
 public class FieldFiller {
     private AppCompatTextView[][] cells;
     private Context context;
-    private int columnsOfTable;
-    private int rowsOfTable;
-    TablePresenter tablePresenter;
+    private TablePresenter tablePresenter;
     private ArrayList<Integer> listNumbers;
     private ArrayList<Character> listLetters;
-    private boolean isLetters;
-    private boolean booleanAnim;
-    private boolean isEnglish;
     private boolean isNewFilling = true;
     private ArrayMap<Integer, Integer> cellsId;
-
+    private PreferencesReader settings;
 
 
     public FieldFiller(Context context, AppCompatTextView[][] cells, TablePresenter tablePresenter) {
@@ -66,41 +58,25 @@ public class FieldFiller {
 
 
     private void main() {
-        readSharedPreferences();
-        if (isLetters)
+        settings = new PreferencesReader(context);
+
+        if (settings.getIsLetters())
             fillingLetters();
         else
             fillingNumbers();
 
-        if (booleanAnim)
+        if (settings.getIsAnim())
             addAnimation(cells);
-
-    }
-
-
-    private void readSharedPreferences() {
-        SharedPreferences settings = context.getSharedPreferences(SettingsActivity.getAppPreferences(), MODE_PRIVATE);
-        booleanAnim = settings.getBoolean(SettingsActivity.getKeyAnimation(), false);
-        isEnglish = settings.getBoolean(SettingsActivity.getKeyRussianOrEnglish(), false);
-        isLetters = settings.getBoolean(SettingsActivity.getKeyNumbersOrLetters(), false);
-
-        if (isLetters){
-            columnsOfTable = settings.getInt(SettingsActivity.getKeyColumnsLetters(), 4) + 1;
-            rowsOfTable = settings.getInt(SettingsActivity.getKeyRowsLetters(), 4) + 1;
-        } else{
-            columnsOfTable = settings.getInt(SettingsActivity.getKeyColumnsNumbers(), 4) + 1;
-            rowsOfTable = settings.getInt(SettingsActivity.getKeyRowsNumbers(), 4) + 1;
-        }
     }
 
     private void fillingLetters() {
         //Новое заполнение. Если иначе, то получение данных из конструктора
         if (isNewFilling){
-            char firstLetter = (isEnglish)? 'A' : 'А'; // eng/rus
+            char firstLetter = (settings.getIsEnglish())? 'A' : 'А'; // eng/rus
 
             //Массив для заполнения ячеек
             listLetters = new ArrayList();
-            for (int j = 1; j <= columnsOfTable * rowsOfTable; j++ ) {
+            for (int j = 1; j <= settings.getColumnsOfTable() * settings.getRowsOfTable(); j++ ) {
                 listLetters.add( firstLetter );
                 firstLetter++;
             }
@@ -110,12 +86,11 @@ public class FieldFiller {
         cellsId = new ArrayMap<>();
 
         int count = 0;
-        for (int i = 0; i < rowsOfTable; i++) {
-            for (int j = 0; j < columnsOfTable; j++) {
+        for (int i = 0; i < settings.getRowsOfTable(); i++) {
+            for (int j = 0; j < settings.getColumnsOfTable(); j++) {
                 cells[i][j].setText(String.valueOf(listLetters.get(count)));
                 count++;
                 cells[i][j].setOnClickListener(cellClick);
-
 
                 char c = cells[i][j].getText().toString().charAt(0);
                 cellsId.put((int)c, cells[i][j].getId());
@@ -129,7 +104,7 @@ public class FieldFiller {
         if (isNewFilling){
             //Массив для заполнения ячеек
             listNumbers = new ArrayList();
-            for (int j = 1; j <= columnsOfTable * rowsOfTable; j++ ) {
+            for (int j = 1; j <= settings.getColumnsOfTable() * settings.getRowsOfTable(); j++ ) {
                 listNumbers.add( j );
             }
             Collections.shuffle(listNumbers);
@@ -138,8 +113,8 @@ public class FieldFiller {
         cellsId = new ArrayMap<>();
 
         int count = 0;
-        for (int i = 0; i < rowsOfTable; i++) {
-            for (int j = 0; j < columnsOfTable; j++) {
+        for (int i = 0; i < settings.getRowsOfTable(); i++) {
+            for (int j = 0; j < settings.getColumnsOfTable(); j++) {
                 cells[i][j].setOnClickListener(cellClick);
                 cells[i][j].setText(String.valueOf(listNumbers.get(count)));
                 count++;
@@ -175,18 +150,18 @@ public class FieldFiller {
     private void addAnimation(AppCompatTextView[][] cellsOfTable) {
         Random random = new Random();
 
-        int amountCellAnim = (columnsOfTable * rowsOfTable)/2;
+        int amountCellAnim = (settings.getColumnsOfTable() * settings.getRowsOfTable())/2;
         HashSet<Integer> hsRandomForCellAnim = new HashSet<>();
 
         for (int i = 0; i < amountCellAnim; i++) {
-            int randAnimInt = random.nextInt(columnsOfTable * rowsOfTable + 1); //????
+            int randAnimInt = random.nextInt(settings.getColumnsOfTable() * settings.getRowsOfTable() + 1); //????
             if (!hsRandomForCellAnim.add(Integer.valueOf(randAnimInt))){
                 i--;
             }
         }
 
-        for (int i = 0; i < rowsOfTable; i++) {
-            for (int j = 0; j < columnsOfTable; j++) {
+        for (int i = 0; i < settings.getRowsOfTable(); i++) {
+            for (int j = 0; j < settings.getColumnsOfTable(); j++) {
                 if (hsRandomForCellAnim.contains(Integer.parseInt(cellsOfTable[i][j].getText().toString()))) {
                     Animation anim = AnimationUtils.loadAnimation(context, R.anim.myrotate);
                     cellsOfTable[i][j].startAnimation(anim);

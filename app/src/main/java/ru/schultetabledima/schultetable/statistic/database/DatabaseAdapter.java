@@ -1,11 +1,7 @@
 package ru.schultetabledima.schultetable.statistic.database;
 
-import static android.content.Context.MODE_PRIVATE;
-
-import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -15,7 +11,7 @@ import androidx.annotation.Nullable;
 import java.util.ArrayList;
 
 import ru.schultetabledima.schultetable.R;
-import ru.schultetabledima.schultetable.settings.SettingsActivity;
+import ru.schultetabledima.schultetable.utils.PreferencesReader;
 
 public class DatabaseAdapter {
     private Context context;
@@ -27,7 +23,8 @@ public class DatabaseAdapter {
     private String currentDate;
     private SQLiteDatabase db;
     private String language;
-    private boolean isLetters, isTwoTables, isEnglish;
+    private PreferencesReader settings;
+
 
 
     public DatabaseAdapter(Context context, String time, String tableSize, String currentDate) {
@@ -35,31 +32,24 @@ public class DatabaseAdapter {
         this.time = time;
         this.tableSize = tableSize;
         this.currentDate = currentDate;;
-        readSharedPreferences();
         init();
     }
 
     public DatabaseAdapter(Context context) {
         this.context = context;
-        readSharedPreferences();
+        settings = new PreferencesReader(context);
         init();
     }
 
-    private void readSharedPreferences() {
-        SharedPreferences settings = context.getSharedPreferences(SettingsActivity.getAppPreferences(), MODE_PRIVATE);
-        isLetters = settings.getBoolean(SettingsActivity.getKeyNumbersOrLetters(), false);
-        isTwoTables = settings.getBoolean(SettingsActivity.getKeyTwoTables(), false);
-        isEnglish = settings.getBoolean(SettingsActivity.getKeyRussianOrEnglish(), false);
-    }
 
     private void init() {
-        valueType = isLetters ? context.getString(R.string.valueTypeLetters) : context.getString(R.string.valueTypeNumbers);
-        if (isLetters){
-            language = isEnglish ? context.getString(R.string.languageEnglish) : context.getString(R.string.languageRussian);
+        valueType = settings.getIsLetters() ? context.getString(R.string.valueTypeLetters) : context.getString(R.string.valueTypeNumbers);
+        if (settings.getIsLetters()){
+            language = settings.getIsEnglish() ? context.getString(R.string.languageEnglish) : context.getString(R.string.languageRussian);
         }else{
             language = null;
         }
-        quantityTables = isTwoTables ? 2 : 1;
+        quantityTables = settings.getIsTwoTables() ? 2 : 1;
     }
 
     public void insert(){

@@ -1,9 +1,6 @@
 package ru.schultetabledima.schultetable.table.tablecreation;
 
-import static android.content.Context.MODE_PRIVATE;
-
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
@@ -19,7 +16,7 @@ import java.util.ArrayList;
 
 import ru.schultetabledima.schultetable.R;
 import ru.schultetabledima.schultetable.table.TablePresenter;
-import ru.schultetabledima.schultetable.settings.SettingsActivity;
+import ru.schultetabledima.schultetable.utils.PreferencesReader;
 
 public class TableCreator{
     private ArrayList<Integer> listNumbers2;
@@ -27,14 +24,13 @@ public class TableCreator{
     private LinearLayout containerForTable;
     private Context context;
     private TablePresenter tablePresenter;
-    private boolean isTwoTables;
-    private boolean isLetters;
     private FieldFiller fieldFiller1;
     private FieldFiller fieldFiller2;
-    ArrayList<Character> listLetters1;
-    ArrayList<Character> listLetters2;
+    private ArrayList<Character> listLetters1;
+    private ArrayList<Character> listLetters2;
     private FieldCreator fieldCreator1;
     private FieldCreator fieldCreator2;
+    private PreferencesReader settings;
 
 
     public TableCreator(Context context, TablePresenter tablePresenter) {
@@ -63,24 +59,19 @@ public class TableCreator{
 
 
     void main(){
-        readSharedPreferences();
+        settings = new PreferencesReader(context);
         creatingContainerForTable();
         creatingField();
         fillingTable();
     }
 
-    private void readSharedPreferences() {
-        SharedPreferences settings = context.getSharedPreferences(SettingsActivity.getAppPreferences(), MODE_PRIVATE);
-        isTwoTables = settings.getBoolean(SettingsActivity.getKeyTwoTables(), false);
-        isLetters = settings.getBoolean(SettingsActivity.getKeyNumbersOrLetters(), false);
-    }
 
     private void creatingContainerForTable() {
         containerForTable = new LinearLayout(context);
         containerForTable.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
 
 
-        if (isTwoTables) {
+        if (settings.getIsTwoTables()) {
             //Создание разделительной полосы между таблицами
             GradientDrawable drawable = new GradientDrawable();
             drawable.setColor(Color.BLACK);
@@ -101,7 +92,7 @@ public class TableCreator{
             fieldCreator1 = new FieldCreator(context, ContextCompat.getColor(context, R.color.activeTable));
             containerForTable.addView(fieldCreator1.getField());
 
-            if (isTwoTables){
+            if (settings.getIsTwoTables()){
                     fieldCreator2 = new FieldCreator(context, ContextCompat.getColor(context, R.color.passiveTable));
                     containerForTable.addView(fieldCreator2.getField());
             }
@@ -111,7 +102,7 @@ public class TableCreator{
         AppCompatTextView[][] cells1 = fieldCreator1.getCells();
         fieldFiller1 = new FieldFiller(context, cells1, tablePresenter);
 
-        if (isTwoTables){
+        if (settings.getIsTwoTables()){
             AppCompatTextView[][] cells2 = fieldCreator2.getCells();
             fieldFiller2 = new FieldFiller(context, cells2, tablePresenter);
         }
@@ -119,7 +110,7 @@ public class TableCreator{
 
 
     private void restoreTable() {
-        readSharedPreferences();
+        settings = new PreferencesReader(context);
         creatingContainerForTable();
         creatingField();
         restoreFillingTable();
@@ -127,27 +118,26 @@ public class TableCreator{
 
     private void restoreFillingTable(){
 
-        if (isLetters){
+        if (settings.getIsLetters()){
             AppCompatTextView[][] cells1 = fieldCreator1.getCells();
             fieldFiller1 = new FieldFiller(context, tablePresenter, listLetters1, cells1);
 
-            if (isTwoTables){
+            if (settings.getIsTwoTables()){
                 AppCompatTextView[][] cells2 = fieldCreator2.getCells();
                 fieldFiller2 = new FieldFiller(context, tablePresenter, listLetters2, cells2);
             }
         }
 
-        if(!isLetters){
+        if(!settings.getIsLetters()){
             AppCompatTextView[][] cells1 = fieldCreator1.getCells();
             fieldFiller1 = new FieldFiller(cells1, tablePresenter, listNumbers1, context);
 
-            if (isTwoTables){
+            if (settings.getIsTwoTables()){
                 AppCompatTextView[][] cells2 = fieldCreator2.getCells();
                 fieldFiller2 = new FieldFiller(cells2, tablePresenter, listNumbers2, context);
             }
         }
     }
-
 
 
 

@@ -1,37 +1,34 @@
 package ru.schultetabledima.schultetable.table;
 
-import static android.content.Context.MODE_PRIVATE;
-
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
 
 import androidx.appcompat.app.AlertDialog;
 
 import ru.schultetabledima.schultetable.R;
-import ru.schultetabledima.schultetable.settings.SettingsActivity;
+import ru.schultetabledima.schultetable.utils.PreferencesReader;
 
 public class EndGameDialogueCreator {
 
     private AlertDialog.Builder builder;
     private Context context;
     private EndGameDialoguePresenter endGameDialoguePresenter;
-    private Boolean isPressButtons;
+    private PreferencesReader settings;
+    private AlertDialog alertDialog;
 
 
     public EndGameDialogueCreator(Context context, EndGameDialoguePresenter endGameDialoguePresenter) {
         this.context = context;
         this.endGameDialoguePresenter = endGameDialoguePresenter;
-        readSharedPreferences();
         main();
     }
 
-    private void readSharedPreferences() {
-        SharedPreferences settings = context.getSharedPreferences(SettingsActivity.getAppPreferences(), MODE_PRIVATE);
-        isPressButtons = settings.getBoolean(SettingsActivity.getKeyTouchCells(), true);
+    private void main(){
+        settings = new PreferencesReader(context);
+        createDialogue();
     }
 
-    private void main(){
+    private void createDialogue(){
         builder = new AlertDialog.Builder(context);
         builder.setTitle(R.string.end_game)
                 .setMessage(context.getString(R.string.yourTime) +  ((TableActivity)context).getTextChronometer())
@@ -49,7 +46,7 @@ public class EndGameDialogueCreator {
                 .setCancelable(false);
 
 
-        if(!isPressButtons){
+        if(!settings.getIsTouchCells()){
             builder.setCancelable(true);
             builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
                 @Override
@@ -64,9 +61,11 @@ public class EndGameDialogueCreator {
                 }
             });
         }
+
+        alertDialog = builder.create();
     }
 
-    public AlertDialog.Builder getAlertDialog() {
-        return builder;
+    public AlertDialog getAlertDialog() {
+        return alertDialog;
     }
 }
