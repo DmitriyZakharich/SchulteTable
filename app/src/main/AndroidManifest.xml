@@ -9,11 +9,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.AdviceActivity"></activity>
-        <activity android:name=".ui.SettingsActivity" />
-        <activity android:name=".ui.StatisticsActivity" />
-        <activity android:name=".ui.TableActivity" />
-        <activity android:name=".ui.MainActivity">
+        <activity
+            android:name=".donation.DonationActivity"
+            android:exported="true" />
+        <activity android:name=".advice.AdviceActivity" />
+        <activity android:name=".settings.SettingsActivity" />
+        <activity android:name=".statistic.StatisticsActivity" />
+        <activity android:name=".table.TableActivity" />
+        <activity android:name=".main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

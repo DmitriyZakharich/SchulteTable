@@ -10,7 +10,7 @@ public class Converter {
         return (int) sp;
     }
 
-    public static int getPx(Context context, int dp){
+    public static int getPxFromDP(Context context, int dp){
         float scale = context.getResources().getDisplayMetrics().density;
         return((int) (dp * scale + 0.5f));
     }
