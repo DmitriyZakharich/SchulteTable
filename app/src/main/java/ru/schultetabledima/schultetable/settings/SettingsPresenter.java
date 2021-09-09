@@ -1,8 +1,12 @@
 package ru.schultetabledima.schultetable.settings;
 
 import android.content.Context;
-import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
@@ -11,26 +15,31 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import ru.schultetabledima.schultetable.R;
 import ru.schultetabledima.schultetable.statistic.MyAdapter;
 import ru.schultetabledima.schultetable.utils.PreferencesReader;
 
-public class SettingsPresenter {
+public class SettingsPresenter implements Serializable {
 
     private Context context;
-    private PreferencesReader preferencesReader;
-    private PreferencesWriter preferencesWriter;
+    private transient PreferencesReader preferencesReader;
+    private transient PreferencesWriter preferencesWriter;
     private int indexOfNumbers, indexOfLetters;
     private NumbersFragment numbersFragment;
     private LettersFragment lettersFragment;
-    private NumbersFragment contextNumbersFragment;
 
     public SettingsPresenter(Context context) {
         this.context = context;
+        main();
+    }
+
+    private void main(){
         init();
         customizationSettingsActivity();
+        createFragments();
         addFragments();
     }
 
@@ -49,14 +58,18 @@ public class SettingsPresenter {
         ((SettingsActivity) context).customizationSwitchMoveHint(isSwitchMoveHintEnabled, preferencesReader.getIsMoveHint());
     }
 
-    private void addFragments() {
-        ArrayList<Fragment> fragments = new ArrayList<>();
-
+    private void createFragments(){
         numbersFragment = NumbersFragment.newInstance();
         lettersFragment = LettersFragment.newInstance();
 
         numbersFragment.attachPresenter(this);
         lettersFragment.attachPresenter(this);
+    }
+
+    private void addFragments() {
+        Log.d("addFragmentsFragment", "addFragments " + numbersFragment);
+
+        ArrayList<Fragment> fragments = new ArrayList<>();
 
         fragments.add(numbersFragment);
         fragments.add(lettersFragment);
@@ -70,22 +83,19 @@ public class SettingsPresenter {
 
 
         TabLayoutMediator tabLayoutMediator = new TabLayoutMediator(((SettingsActivity) context).getTabLayout(),
-                ((SettingsActivity) context).getViewPager(), new TabLayoutMediator.TabConfigurationStrategy() {
-
-            @Override
-            public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
-                if (position == indexOfNumbers)
-                    tab.setText(R.string.numbers);
-                if (position == indexOfLetters)
-                    tab.setText(R.string.letters);
-            }
-        });
+                ((SettingsActivity) context).getViewPager(), (tab, position) -> {
+                    if (position == indexOfNumbers)
+                        tab.setText(R.string.numbers);
+                    if (position == indexOfLetters)
+                        tab.setText(R.string.letters);
+                });
         tabLayoutMediator.attach();
 
         if (!preferencesReader.getIsLetters())
             ((SettingsActivity) context).setViewPagerCurrentItem(indexOfNumbers);
         else
             ((SettingsActivity) context).setViewPagerCurrentItem(indexOfLetters);
+        Log.d("addFragmentsFragment", "addFragments end" + numbersFragment.getClass());
 
     }
 
@@ -152,6 +162,7 @@ public class SettingsPresenter {
         } else if (id == R.id.spinnerRowsNumbers) {
             preferencesWriter.putInt(PreferencesWriter.getKeyRowsNumbers(), amount);
         }
+
     }
 
 
@@ -186,7 +197,27 @@ public class SettingsPresenter {
         if (id == R.id.switchRussianOrEnglish) {
             preferencesWriter.putBoolean(PreferencesWriter.getKeyRussianOrEnglish(), isChecked);
         }
+    }
 
+    public void attachView(SettingsActivity settingsActivity) {
+        context = settingsActivity;
+    }
 
+    public void detachView() {
+        context = null;
+        numbersFragment = null;
+        lettersFragment = null;
+    }
+
+    public void attachViewFragment(NumbersFragment numbersFragment) {
+        this.numbersFragment = numbersFragment;
+    }
+    public void attachViewFragment(LettersFragment lettersFragment) {
+        this.lettersFragment = lettersFragment;
+    }
+
+    public void restoreInstanceState() {
+        init();
+        addFragments();
     }
 }

@@ -6,27 +6,22 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.android.material.tabs.TabLayout;
 
 import ru.schultetabledima.schultetable.R;
-import ru.schultetabledima.schultetable.table.TableActivity;
 import ru.schultetabledima.schultetable.statistic.MyAdapter;
+import ru.schultetabledima.schultetable.table.TableActivity;
+import ru.schultetabledima.schultetable.table.TablePresenter;
 
 public class SettingsActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private static SharedPreferences settings;
-    private static final String APP_PREFERENCES = "my_settings";
-
-    private static final String KEY_RUSSIAN_OR_ENGLISH = "switchRussianOrEnglish";
-    private static final String KEY_ROWS_NUMBERS = "saveSpinnerRowsNumbers";
-    private static final String KEY_COLUMNS_NUMBERS = "saveSpinnerColumnsNumbers";
-    private static final String KEY_ROWS_LETTERS = "saveSpinnerRowsLetters";
-    private static final String KEY_COLUMNS_LETTERS = "saveSpinnerColumnsLetters";
-
+    private static final String KEY_SERIALIZABLE_SETTINGS_PRESENTER = "key_serializable_settings_presenter";
     private SwitchMaterial switchMoveHint;
     private SettingsPresenter settingsPresenter;
 
@@ -48,17 +43,12 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         viewPager = (ViewPager2)findViewById(R.id.viewPager);
         tabLayout = findViewById(R.id.tab_layout);
 
-        settings = getSharedPreferences(APP_PREFERENCES, MODE_PRIVATE);
-
 
         switchAnimation.setOnClickListener(this);
         switchTouchCells.setOnClickListener(this);
         switchTwoTables.setOnClickListener(this);
         switchMoveHint.setOnClickListener(this);
         findViewById(R.id.buttonToTable).setOnClickListener(clickListener);
-
-
-        Log.d("numbersGetActivity", "onCreate ");
 
         settingsPresenter = new SettingsPresenter(this);
 
@@ -94,13 +84,10 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     }
 
 
-    View.OnClickListener clickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            int id = v.getId();
-            if (id == R.id.buttonToTable) {
-                startActivity(new Intent(SettingsActivity.this, TableActivity.class));
-            }
+    View.OnClickListener clickListener = v -> {
+        int id = v.getId();
+        if (id == R.id.buttonToTable) {
+            startActivity(new Intent(SettingsActivity.this, TableActivity.class));
         }
     };
 
@@ -137,21 +124,24 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         switchMoveHint.setChecked(isChecked);
     }
 
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
 
-    public static String getKeyRussianOrEnglish() {
-        return KEY_RUSSIAN_OR_ENGLISH;
-    }
-    public static String getKeyRowsLetters() {
-        return KEY_ROWS_LETTERS;
-    }
-    public static String getKeyColumnsLetters() {
-        return KEY_COLUMNS_LETTERS;
-    }
-    public static String getKeyColumnsNumbers() {
-        return KEY_COLUMNS_NUMBERS;
-    }
-    public static String getKeyRowsNumbers() {
-        return KEY_ROWS_NUMBERS;
+        settingsPresenter.detachView();
+        outState.putSerializable(KEY_SERIALIZABLE_SETTINGS_PRESENTER, settingsPresenter);
+
+
     }
 
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        settingsPresenter = (SettingsPresenter) savedInstanceState.getSerializable(KEY_SERIALIZABLE_SETTINGS_PRESENTER);
+        settingsPresenter.attachView(this);
+    }
+
+    public SettingsPresenter getPresenter() {
+        return settingsPresenter;
+    }
 }

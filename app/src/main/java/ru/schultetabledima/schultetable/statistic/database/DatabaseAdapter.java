@@ -32,6 +32,7 @@ public class DatabaseAdapter {
         this.time = time;
         this.tableSize = tableSize;
         this.currentDate = currentDate;;
+        settings = new PreferencesReader(context);
         init();
     }
 
