@@ -16,11 +16,8 @@ import ru.schultetabledima.schultetable.utils.PreferencesReader;
 public class FieldCreator {
     private TableLayout field;
     private Context context;
-//    private int rowsOfTable;
-//    private int columnsOfTable;
     private CustomCell [][] cells;
     private int backgroundColor;
-//    private boolean isLetters;
     private PreferencesReader settings;
 
 
@@ -32,6 +29,7 @@ public class FieldCreator {
 
     private void main() {
         settings = new PreferencesReader(context);
+
         creator();
     }
 

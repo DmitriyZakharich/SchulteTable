@@ -5,14 +5,14 @@ import static android.content.Context.MODE_PRIVATE;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-public class CustomSharedPreferences {
+public class PreferencesWriter {
 
     private static SharedPreferences settings;
     private static final String APP_PREFERENCES = "my_settings";
 
     private static final String KEY_ANIMATION = "switchAnimation";
     private static final String KEY_TOUCH_CELLS = "switchTouchCells";
-    private static final String KEY_NUMBERS_OR_LETTERS = "switchNumbersLetters";
+    private static final String KEY_IS_LETTERS = "switchNumbersLetters";
     private static final String KEY_RUSSIAN_OR_ENGLISH = "switchRussianOrEnglish";
     private static final String KEY_TWO_TABLES = "switchTwoTables";
     private static final String KEY_MOVE_HINT = "switchMoveHint";
@@ -23,18 +23,24 @@ public class CustomSharedPreferences {
 
     private Context context;
 
-    public CustomSharedPreferences(Context context) {
+    public PreferencesWriter(Context context) {
         this.context = context;
         init();
     }
 
     private void init() {
-        settings = context.getSharedPreferences(CustomSharedPreferences.getAppPreferences(), MODE_PRIVATE);
+        settings = context.getSharedPreferences(APP_PREFERENCES, MODE_PRIVATE);
     }
 
-    public void putBoolean(String keyAnimation, boolean isChecked) {
+    public void putBoolean(String key, boolean isChecked) {
         SharedPreferences.Editor ed = settings.edit();
-        ed.putBoolean(keyAnimation, isChecked);
+        ed.putBoolean(key, isChecked);
+        ed.apply();
+    }
+
+    public void putInt(String key, int position) {
+        SharedPreferences.Editor ed = settings.edit();
+        ed.putInt(key, position);
         ed.apply();
     }
 
@@ -48,8 +54,8 @@ public class CustomSharedPreferences {
     public static String getKeyTouchCells() {
         return KEY_TOUCH_CELLS;
     }
-    public static String getKeyNumbersOrLetters() {
-        return KEY_NUMBERS_OR_LETTERS;
+    public static String getKeyIsLetters() {
+        return KEY_IS_LETTERS;
     }
     public static String getKeyTwoTables() {
         return KEY_TWO_TABLES;

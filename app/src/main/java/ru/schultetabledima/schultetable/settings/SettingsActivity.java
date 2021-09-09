@@ -3,19 +3,14 @@ package ru.schultetabledima.schultetable.settings;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.tabs.TabLayoutMediator;
-
-import java.util.ArrayList;
 
 import ru.schultetabledima.schultetable.R;
 import ru.schultetabledima.schultetable.table.TableActivity;
@@ -26,12 +21,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     private static SharedPreferences settings;
     private static final String APP_PREFERENCES = "my_settings";
 
-    private static final String KEY_ANIMATION = "switchAnimation";
-    private static final String KEY_TOUCH_CELLS = "switchTouchCells";
-    private static final String KEY_NUMBERS_OR_LETTERS = "switchNumbersLetters";
     private static final String KEY_RUSSIAN_OR_ENGLISH = "switchRussianOrEnglish";
-    private static final String KEY_TWO_TABLES = "switchTwoTables";
-    private static final String KEY_MOVE_HINT = "switchMoveHint";
     private static final String KEY_ROWS_NUMBERS = "saveSpinnerRowsNumbers";
     private static final String KEY_COLUMNS_NUMBERS = "saveSpinnerColumnsNumbers";
     private static final String KEY_ROWS_LETTERS = "saveSpinnerRowsLetters";
@@ -40,8 +30,9 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     private SwitchMaterial switchMoveHint;
     private SettingsPresenter settingsPresenter;
 
-
     private SwitchMaterial switchAnimation, switchTouchCells, switchTwoTables;
+    private ViewPager2 viewPager;
+    private TabLayout tabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,82 +44,55 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         switchTouchCells = findViewById(R.id.switchPressButtons);
         switchTwoTables = findViewById(R.id.switchTwoTables);
         switchMoveHint = findViewById(R.id.switchMoveHint);
-        Button buttonToTable = findViewById(R.id.buttonToTable);
+
+        viewPager = (ViewPager2)findViewById(R.id.viewPager);
+        tabLayout = findViewById(R.id.tab_layout);
 
         settings = getSharedPreferences(APP_PREFERENCES, MODE_PRIVATE);
 
-        boolean isLetters = settings.getBoolean(KEY_NUMBERS_OR_LETTERS, false);
-
-
-
-        settingsPresenter = new SettingsPresenter(this);
 
         switchAnimation.setOnClickListener(this);
         switchTouchCells.setOnClickListener(this);
         switchTwoTables.setOnClickListener(this);
         switchMoveHint.setOnClickListener(this);
-        buttonToTable.setOnClickListener(clickListener);
+        findViewById(R.id.buttonToTable).setOnClickListener(clickListener);
 
 
-        ArrayList<Fragment> fragments = new ArrayList<>();
+        Log.d("numbersGetActivity", "onCreate ");
 
-        NumbersFragment numbersFragment = NumbersFragment.newInstance();
-        LettersFragment lettersFragment = LettersFragment.newInstance();
-        fragments.add(numbersFragment);
-        fragments.add(lettersFragment);
-
-        int indexOfNumbers = fragments.indexOf(numbersFragment);
-        int indexOfLetters = fragments.indexOf(lettersFragment);
-
-
-        ViewPager2 viewPager = (ViewPager2)findViewById(R.id.viewPager);
-        MyAdapter pageAdapter = new MyAdapter(this);
-        pageAdapter.setListFragments(fragments);
-        viewPager.setAdapter(pageAdapter);
-
-
-        TabLayout tabLayout = findViewById(R.id.tab_layout);
-        TabLayoutMediator tabLayoutMediator = new TabLayoutMediator(tabLayout, viewPager, new TabLayoutMediator.TabConfigurationStrategy(){
-
-            @Override
-            public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
-                if (position == indexOfNumbers)
-                    tab.setText(R.string.numbers);
-                if (position == indexOfLetters)
-                    tab.setText(R.string.letters);
-            }
-        });
-        tabLayoutMediator.attach();
-
-
-        if (!isLetters)
-            viewPager.setCurrentItem(indexOfNumbers);
-        else
-            viewPager.setCurrentItem(indexOfLetters);
-
+        settingsPresenter = new SettingsPresenter(this);
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                SharedPreferences.Editor ed;
-                ed = settings.edit();
-
-                if (tab.getPosition() == indexOfNumbers){
-                    ed.putBoolean(KEY_NUMBERS_OR_LETTERS, false);
-
-                } else if(tab.getPosition() == indexOfLetters){
-                    ed.putBoolean(KEY_NUMBERS_OR_LETTERS, true);
-                }
-                ed.apply();
+                settingsPresenter.onTabSelectedListener(tab.getPosition());
             }
+
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {}
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {}
         });
-
     }
+
+
+    public void setViewPagerAdapter(MyAdapter pageAdapter){
+        viewPager.setAdapter(pageAdapter);
+    }
+
+    public TabLayout getTabLayout(){
+        return tabLayout;
+    }
+
+    public ViewPager2 getViewPager(){
+        return viewPager;
+    }
+
+    public void setViewPagerCurrentItem(int index){
+        viewPager.setCurrentItem(index);
+    }
+
 
     View.OnClickListener clickListener = new View.OnClickListener() {
         @Override

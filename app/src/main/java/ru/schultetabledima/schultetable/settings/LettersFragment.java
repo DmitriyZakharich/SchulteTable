@@ -1,8 +1,5 @@
 package ru.schultetabledima.schultetable.settings;
 
-import static android.content.Context.MODE_PRIVATE;
-
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.switchmaterial.SwitchMaterial;
@@ -19,16 +17,13 @@ import ru.schultetabledima.schultetable.R;
 
 public class LettersFragment extends Fragment implements AdapterView.OnItemSelectedListener, View.OnClickListener {
 
-
-    private final String [] valueSpinner = {"1","2","3","4","5"};
-    private static final String APP_PREFERENCES = "my_settings";
-
-    private static SharedPreferences settings;
+    private SettingsPresenter settingsPresenter;
+    private Spinner spinnerRows, spinnerColumns;
+    private SwitchMaterial switchRussianOrEnglish;
 
 
     public static LettersFragment newInstance() {
-        LettersFragment fragment = new LettersFragment();
-        return fragment;
+        return new LettersFragment();
     }
 
     public LettersFragment() {
@@ -45,58 +40,56 @@ public class LettersFragment extends Fragment implements AdapterView.OnItemSelec
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_letters, container, false);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, valueSpinner);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerRows = rootView.findViewById(R.id.spinnerRowsLetters);
+        spinnerColumns = rootView.findViewById(R.id.spinnerColumnsLetters);
+        switchRussianOrEnglish = rootView.findViewById(R.id.switchRussianOrEnglish);
 
-        Spinner spinnerRows = rootView.findViewById(R.id.spinnerRowsLetters);
-        Spinner spinnerColumns = rootView.findViewById(R.id.spinnerColumnsLetters);
-        SwitchMaterial switchRussianOrEnglish = rootView.findViewById(R.id.switchRussianOrEnglish);
-
-        spinnerRows.setAdapter(adapter);
-        spinnerColumns.setAdapter(adapter);
-
-        settings = requireActivity().getSharedPreferences(APP_PREFERENCES, MODE_PRIVATE);
-
-        spinnerRows.setSelection(settings.getInt(SettingsActivity.getKeyRowsLetters(), 4), false);
-        spinnerColumns.setSelection(settings.getInt(SettingsActivity.getKeyColumnsLetters(), 4), false);
-        switchRussianOrEnglish.setChecked(settings.getBoolean(SettingsActivity.getKeyRussianOrEnglish(), false));
 
         spinnerRows.setOnItemSelectedListener(this);
         spinnerColumns.setOnItemSelectedListener(this);
         switchRussianOrEnglish.setOnClickListener(this);
+
+        settingsPresenter.customizationLettersFragment();
 
         return rootView;
     }
 
     @Override
     public void onClick(View v) {
-        SharedPreferences.Editor ed;
-        ed = settings.edit();
-
-        if (v.getId() == R.id.switchRussianOrEnglish) {
-            ed.putBoolean(SettingsActivity.getKeyRussianOrEnglish(), ((SwitchMaterial) v).isChecked());
-            ed.apply();
-        }
+        settingsPresenter.lettersFragmentListener(v.getId(), ((SwitchMaterial) v).isChecked());
     }
 
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        SharedPreferences.Editor ed;
-        ed = settings.edit();
 
-        int parentId = parent.getId();
+        settingsPresenter.lettersFragmentListener(parent.getId(), position);
+    }
 
-        if (parentId == R.id.spinnerColumnsLetters) {
-            ed.putInt(SettingsActivity.getKeyColumnsLetters(), position);
-            ed.apply();
+    public void setSpinnerRowsSelection(int position){
+        spinnerRows.setSelection(position, false);
+    }
 
-        } else if (parentId == R.id.spinnerRowsLetters) {
-            ed.putInt(SettingsActivity.getKeyRowsLetters(), position);
-            ed.apply();
-        }
+    public void setSpinnerColumnsSelection(int position){
+        spinnerColumns.setSelection(position, false);
+    }
+
+    public void setSwitchRussianOrEnglish(boolean isChecked){
+        switchRussianOrEnglish.setChecked(isChecked);
+    }
+
+    public void setSpinnerRowsAdapter(ArrayAdapter<String> adapter){
+        spinnerRows.setAdapter(adapter);
+    }
+
+    public void setSpinnerColumnsAdapter(ArrayAdapter<String> adapter){
+        spinnerColumns.setAdapter(adapter);
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {}
+
+    public void attachPresenter(SettingsPresenter settingsPresenter) {
+        this.settingsPresenter = settingsPresenter;
+    }
 }

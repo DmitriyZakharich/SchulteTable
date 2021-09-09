@@ -5,12 +5,12 @@ import static android.content.Context.MODE_PRIVATE;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import ru.schultetabledima.schultetable.settings.CustomSharedPreferences;
+import ru.schultetabledima.schultetable.settings.PreferencesWriter;
 
 public class PreferencesReader {
     private Context context;
     private SharedPreferences spCustomization;
-    private int columnsOfTable, rowsOfTable;
+    private String keyColumns, keyRows;
 
 
     public PreferencesReader(Context context) {
@@ -19,16 +19,17 @@ public class PreferencesReader {
     }
 
     private void init() {
-        spCustomization = context.getSharedPreferences(CustomSharedPreferences.getAppPreferences(), MODE_PRIVATE);
-        boolean isLetters = spCustomization.getBoolean(CustomSharedPreferences.getKeyNumbersOrLetters(), false);
+        spCustomization = context.getSharedPreferences(PreferencesWriter.getAppPreferences(), MODE_PRIVATE);
+        boolean isLetters = spCustomization.getBoolean(PreferencesWriter.getKeyIsLetters(), false);
 
 
         if (isLetters){
-            columnsOfTable = spCustomization.getInt(CustomSharedPreferences.getKeyColumnsLetters(), 4) + 1;
-            rowsOfTable = spCustomization.getInt(CustomSharedPreferences.getKeyRowsLetters(), 4) + 1;
+            keyColumns = PreferencesWriter.getKeyColumnsLetters();
+            keyRows = PreferencesWriter.getKeyRowsLetters();
+
         } else{
-            columnsOfTable = spCustomization.getInt(CustomSharedPreferences.getKeyColumnsNumbers(), 4) + 1;
-            rowsOfTable = spCustomization.getInt(CustomSharedPreferences.getKeyRowsNumbers(), 4) + 1;
+            keyColumns = PreferencesWriter.getKeyColumnsNumbers();
+            keyRows = PreferencesWriter.getKeyRowsNumbers();
         }
 
     }
@@ -39,36 +40,56 @@ public class PreferencesReader {
 
 
     public boolean getIsTouchCells() {
-        return spCustomization.getBoolean(CustomSharedPreferences.getKeyTouchCells(), true);
+        return spCustomization.getBoolean(PreferencesWriter.getKeyTouchCells(), true);
     }
 
     public int getColumnsOfTable() {
         refresh();
-        return columnsOfTable;
+        return spCustomization.getInt(keyColumns, 4);
     }
 
     public int getRowsOfTable() {
         refresh();
-        return rowsOfTable;
+        return spCustomization.getInt(keyRows, 4);
+    }
+
+    public int getColumnsOfTableNumbers() {
+        refresh();
+        return spCustomization.getInt(PreferencesWriter.getKeyColumnsNumbers(), 4);
+    }
+
+    public int getRowsOfTableNumbers() {
+        refresh();
+        return spCustomization.getInt(PreferencesWriter.getKeyRowsNumbers(), 4);
+    }
+
+    public int getColumnsOfTableLetters() {
+        refresh();
+        return spCustomization.getInt(PreferencesWriter.getKeyColumnsLetters(), 4);
+    }
+
+    public int getRowsOfTableLetters() {
+        refresh();
+        return spCustomization.getInt(PreferencesWriter.getKeyRowsLetters(), 4);
     }
 
     public boolean getIsLetters() {
-        return spCustomization.getBoolean(CustomSharedPreferences.getKeyNumbersOrLetters(), false);
+        return spCustomization.getBoolean(PreferencesWriter.getKeyIsLetters(), false);
     }
 
     public boolean getIsTwoTables() {
-        return spCustomization.getBoolean(CustomSharedPreferences.getKeyTwoTables(), false);
+        return spCustomization.getBoolean(PreferencesWriter.getKeyTwoTables(), false);
     }
 
     public boolean getIsEnglish() {
-        return spCustomization.getBoolean(CustomSharedPreferences.getKeyRussianOrEnglish(), false);
+        return spCustomization.getBoolean(PreferencesWriter.getKeyRussianOrEnglish(), false);
     }
 
     public boolean getIsMoveHint() {
-        return spCustomization.getBoolean(CustomSharedPreferences.getKeyMoveHint(), true);
+        return spCustomization.getBoolean(PreferencesWriter.getKeyMoveHint(), true);
     }
 
     public boolean getIsAnim() {
-        return spCustomization.getBoolean(CustomSharedPreferences.getKeyAnimation(), false);
+        return spCustomization.getBoolean(PreferencesWriter.getKeyAnimation(), false);
     }
 }
