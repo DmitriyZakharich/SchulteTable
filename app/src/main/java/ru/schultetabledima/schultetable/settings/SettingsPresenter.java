@@ -1,28 +1,19 @@
 package ru.schultetabledima.schultetable.settings;
 
 import android.content.Context;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 import ru.schultetabledima.schultetable.R;
 import ru.schultetabledima.schultetable.statistic.MyAdapter;
 import ru.schultetabledima.schultetable.utils.PreferencesReader;
 
-public class SettingsPresenter implements Serializable {
+public class SettingsPresenter implements CustomObserver {
 
     private Context context;
     private transient PreferencesReader preferencesReader;
@@ -60,15 +51,15 @@ public class SettingsPresenter implements Serializable {
 
     private void createFragments(){
         numbersFragment = NumbersFragment.newInstance();
-        lettersFragment = LettersFragment.newInstance();
-
+        numbersFragment.subscribeObserver(this);
         numbersFragment.attachPresenter(this);
+
+        lettersFragment = LettersFragment.newInstance();
+        lettersFragment.subscribeObserver(this);
         lettersFragment.attachPresenter(this);
     }
 
     private void addFragments() {
-        Log.d("addFragmentsFragment", "addFragments " + numbersFragment);
-
         ArrayList<Fragment> fragments = new ArrayList<>();
 
         fragments.add(numbersFragment);
@@ -95,8 +86,6 @@ public class SettingsPresenter implements Serializable {
             ((SettingsActivity) context).setViewPagerCurrentItem(indexOfNumbers);
         else
             ((SettingsActivity) context).setViewPagerCurrentItem(indexOfLetters);
-        Log.d("addFragmentsFragment", "addFragments end" + numbersFragment.getClass());
-
     }
 
 
@@ -140,7 +129,7 @@ public class SettingsPresenter implements Serializable {
     }
 
 
-    public void customizationNumbersFragment() {
+    private void customizationNumbersFragment() {
         final String[] valueSpinner = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(numbersFragment.getActivity(), android.R.layout.simple_spinner_item, valueSpinner);
@@ -179,6 +168,7 @@ public class SettingsPresenter implements Serializable {
         lettersFragment.setSpinnerRowsSelection(preferencesReader.getRowsOfTableLetters() - 1);
         lettersFragment.setSpinnerColumnsSelection(preferencesReader.getColumnsOfTableLetters() - 1);
         lettersFragment.setSwitchRussianOrEnglish(preferencesReader.getIsEnglish());
+
     }
 
     public void lettersFragmentListener(int id, int position) {
@@ -199,25 +189,35 @@ public class SettingsPresenter implements Serializable {
         }
     }
 
-    public void attachView(SettingsActivity settingsActivity) {
-        context = settingsActivity;
+    @Override
+    public void updateSubjectLettersFragment() {
+        customizationLettersFragment();
     }
 
-    public void detachView() {
-        context = null;
-        numbersFragment = null;
-        lettersFragment = null;
+    @Override
+    public void updateSubjectNumbersFragment() {
+        customizationNumbersFragment();
     }
 
-    public void attachViewFragment(NumbersFragment numbersFragment) {
-        this.numbersFragment = numbersFragment;
-    }
-    public void attachViewFragment(LettersFragment lettersFragment) {
-        this.lettersFragment = lettersFragment;
+
+
+    @Override
+    public void subscribeNumbersFragment() {
+        numbersFragment.subscribeObserver(this);
     }
 
-    public void restoreInstanceState() {
-        init();
-        addFragments();
+    @Override
+    public void subscribeLettersFragment() {
+        lettersFragment.subscribeObserver(this);
+    }
+
+    @Override
+    public void unSubscribeNumbersFragment() {
+        numbersFragment.unSubscribeObserver(this);
+    }
+
+    @Override
+    public void unSubscribeLettersFragment() {
+        lettersFragment.unSubscribeObserver(this);
     }
 }

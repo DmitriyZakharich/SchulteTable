@@ -1,14 +1,10 @@
 package ru.schultetabledima.schultetable.settings;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.switchmaterial.SwitchMaterial;
@@ -17,14 +13,12 @@ import com.google.android.material.tabs.TabLayout;
 import ru.schultetabledima.schultetable.R;
 import ru.schultetabledima.schultetable.statistic.MyAdapter;
 import ru.schultetabledima.schultetable.table.TableActivity;
-import ru.schultetabledima.schultetable.table.TablePresenter;
 
 public class SettingsActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private static final String KEY_SERIALIZABLE_SETTINGS_PRESENTER = "key_serializable_settings_presenter";
-    private SwitchMaterial switchMoveHint;
     private SettingsPresenter settingsPresenter;
 
+    private SwitchMaterial switchMoveHint;
     private SwitchMaterial switchAnimation, switchTouchCells, switchTwoTables;
     private ViewPager2 viewPager;
     private TabLayout tabLayout;
@@ -43,6 +37,9 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         viewPager = (ViewPager2)findViewById(R.id.viewPager);
         tabLayout = findViewById(R.id.tab_layout);
 
+        viewPager.setSaveEnabled(false);
+
+
 
         switchAnimation.setOnClickListener(this);
         switchTouchCells.setOnClickListener(this);
@@ -51,6 +48,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         findViewById(R.id.buttonToTable).setOnClickListener(clickListener);
 
         settingsPresenter = new SettingsPresenter(this);
+
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -64,6 +62,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
             @Override
             public void onTabReselected(TabLayout.Tab tab) {}
         });
+
     }
 
 
@@ -122,23 +121,6 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
 
     public void switchMoveHintSetChecked(boolean isChecked){
         switchMoveHint.setChecked(isChecked);
-    }
-
-    @Override
-    protected void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-        settingsPresenter.detachView();
-        outState.putSerializable(KEY_SERIALIZABLE_SETTINGS_PRESENTER, settingsPresenter);
-
-
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        settingsPresenter = (SettingsPresenter) savedInstanceState.getSerializable(KEY_SERIALIZABLE_SETTINGS_PRESENTER);
-        settingsPresenter.attachView(this);
     }
 
     public SettingsPresenter getPresenter() {

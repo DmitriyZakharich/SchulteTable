@@ -10,9 +10,14 @@ import android.widget.Spinner;
 
 import androidx.fragment.app.Fragment;
 
-public abstract class BaseFragment extends Fragment implements AdapterView.OnItemSelectedListener{
+import java.util.ArrayList;
+import java.util.List;
+
+public abstract class BaseFragment extends Fragment implements AdapterView.OnItemSelectedListener, CustomSubject{
     protected SettingsPresenter settingsPresenter;
     protected Spinner spinnerRows, spinnerColumns;
+
+    protected List<CustomObserver> customObservers = new ArrayList<>();
 
 
     public BaseFragment(){}
@@ -20,6 +25,9 @@ public abstract class BaseFragment extends Fragment implements AdapterView.OnIte
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (savedInstanceState != null)
+            getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+
     }
 
     @Override
@@ -53,4 +61,18 @@ public abstract class BaseFragment extends Fragment implements AdapterView.OnIte
     public void setSpinnerColumnsAdapter(ArrayAdapter<String> adapter){
         spinnerColumns.setAdapter(adapter);
     }
+
+
+    @Override
+    public void subscribeObserver(CustomObserver customObserver) {
+        customObservers.add(customObserver);
+    }
+
+    @Override
+    public void unSubscribeObserver(CustomObserver customObserver) {
+        customObservers.remove(customObserver);
+    }
+
+
+
 }

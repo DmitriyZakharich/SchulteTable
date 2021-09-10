@@ -8,7 +8,8 @@ import android.widget.AdapterView;
 
 import ru.schultetabledima.schultetable.R;
 
-public class NumbersFragment extends BaseFragment implements AdapterView.OnItemSelectedListener {
+public class NumbersFragment extends BaseFragment implements AdapterView.OnItemSelectedListener, CustomSubject {
+
 
     public static NumbersFragment newInstance() {
         return new NumbersFragment();
@@ -28,15 +29,7 @@ public class NumbersFragment extends BaseFragment implements AdapterView.OnItemS
         spinnerRows.setOnItemSelectedListener(this);
         spinnerColumns.setOnItemSelectedListener(this);
 
-
-        if (savedInstanceState == null)
-            settingsPresenter.customizationNumbersFragment();
-        else{
-            settingsPresenter = ((SettingsActivity) requireActivity()).getPresenter();
-            settingsPresenter.attachViewFragment(this);
-            settingsPresenter.restoreInstanceState();
-            settingsPresenter.customizationNumbersFragment();
-        }
+        updateNotifyObservers();
 
         return rootView;
     }
@@ -45,5 +38,13 @@ public class NumbersFragment extends BaseFragment implements AdapterView.OnItemS
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         settingsPresenter.numbersFragmentListener(parent.getId(), position);
+    }
+
+
+    @Override
+    public void updateNotifyObservers() {
+        for (CustomObserver customObserver : customObservers){
+            customObserver.updateSubjectNumbersFragment();
+        }
     }
 }
