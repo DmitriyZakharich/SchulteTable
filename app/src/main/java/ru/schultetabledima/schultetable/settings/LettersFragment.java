@@ -35,14 +35,7 @@ public class LettersFragment extends BaseFragment implements AdapterView.OnItemS
         spinnerColumns.setOnItemSelectedListener(this);
         switchRussianOrEnglish.setOnClickListener(this);
 
-        if (savedInstanceState == null)
-            settingsPresenter.customizationLettersFragment();
-        else{
-            settingsPresenter = ((SettingsActivity) requireActivity()).getPresenter();
-            settingsPresenter.attachViewFragment(this);
-            settingsPresenter.restoreInstanceState();
-            settingsPresenter.customizationLettersFragment();
-        }
+        updateNotifyObservers();
 
         return rootView;
     }
@@ -61,5 +54,12 @@ public class LettersFragment extends BaseFragment implements AdapterView.OnItemS
 
     public void setSwitchRussianOrEnglish(boolean isChecked){
         switchRussianOrEnglish.setChecked(isChecked);
+    }
+
+    @Override
+    public void updateNotifyObservers() {
+        for (CustomObserver customObserver : customObservers){
+            customObserver.updateSubjectLettersFragment();
+        }
     }
 }
