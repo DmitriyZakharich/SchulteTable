@@ -35,8 +35,6 @@ public class LettersFragment extends BaseFragment implements AdapterView.OnItemS
         spinnerColumns.setOnItemSelectedListener(this);
         switchRussianOrEnglish.setOnClickListener(this);
 
-        updateNotifyObservers();
-
         return rootView;
     }
 

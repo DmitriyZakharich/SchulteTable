@@ -5,10 +5,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import ru.schultetabledima.schultetable.R;
 import ru.schultetabledima.schultetable.utils.PreferencesReader;
@@ -82,14 +84,25 @@ public class DatabaseAdapter {
         return cursor;
     }
 
+    public Cursor getCursorAll(){
+        String[] columns = {};
+
+        Cursor cursor = db.query(DatabaseHelper.TABLE_RESULTS,
+                null, null, null, null, null,
+                DatabaseHelper.COLUMN_ID + " DESC", null);
+        return cursor;
+    }
+
     public Cursor getCursor(int quantityTables, String valueType, String valueLanguage, String playedSizes){
-        StringBuffer stringBufferSelection = new StringBuffer();
+
+
+        StringBuilder stringBuilderSelection = new StringBuilder();
         ArrayList <String> arrayListSelectionArgs = new ArrayList<>();
 
         boolean insertAlready = false;
 
         if (quantityTables == 1 || quantityTables == 2){
-            stringBufferSelection.append("" + DatabaseHelper.COLUMN_QUANTITY_TABLES + " = ?");
+            stringBuilderSelection.append("" + DatabaseHelper.COLUMN_QUANTITY_TABLES + " = ?");
             arrayListSelectionArgs.add(String.valueOf(quantityTables));
             insertAlready = true;
         }
@@ -98,9 +111,9 @@ public class DatabaseAdapter {
                 valueType.equals(context.getString(R.string.valueTypeNumbers))){
 
             if(insertAlready)
-                stringBufferSelection.append(" AND ");
+                stringBuilderSelection.append(" AND ");
 
-            stringBufferSelection.append(DatabaseHelper.COLUMN_VALUE_TYPE + " = ?");
+            stringBuilderSelection.append(DatabaseHelper.COLUMN_VALUE_TYPE + " = ?");
             arrayListSelectionArgs.add(valueType);
             insertAlready = true;
         }
@@ -109,29 +122,29 @@ public class DatabaseAdapter {
                 valueLanguage.equals(context.getString(R.string.languageRussian))){
 
             if(insertAlready)
-                stringBufferSelection.append(" AND ");
+                stringBuilderSelection.append(" AND ");
 
-            stringBufferSelection.append(DatabaseHelper.COLUMN_LANGUAGE + " = ?");
+            stringBuilderSelection.append(DatabaseHelper.COLUMN_LANGUAGE + " = ?");
             arrayListSelectionArgs.add(valueLanguage);
             insertAlready = true;
         }
 
         if (!playedSizes.equals(context.getString(R.string.allSize))) {
             if(insertAlready)
-                stringBufferSelection.append(" AND ");
+                stringBuilderSelection.append(" AND ");
 
-            stringBufferSelection.append(DatabaseHelper.COLUMN_SIZE_FIELD + " = ?");
+            stringBuilderSelection.append(DatabaseHelper.COLUMN_SIZE_FIELD + " = ?");
             arrayListSelectionArgs.add(playedSizes);
             insertAlready = true;
         }
 
-        String selection = stringBufferSelection.toString();
+        String selection = stringBuilderSelection.toString();
         String[] selectionArgs = arrayListSelectionArgs.toArray(new String[0]);
-        String[] columns = null;
         String orderBy = DatabaseHelper.COLUMN_ID + " DESC";
 
-        Cursor cursor = db.query(true, DatabaseHelper.TABLE_RESULTS,
-                columns, selection, selectionArgs, null, null, orderBy, null);
+        Cursor cursor = db.query(DatabaseHelper.TABLE_RESULTS,
+                null, selection, selectionArgs, null, null, orderBy, null);
+
         return cursor;
     }
 

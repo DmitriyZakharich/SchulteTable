@@ -1,5 +1,6 @@
 package ru.schultetabledima.schultetable.statistic.database;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
 import android.view.LayoutInflater;
@@ -37,6 +38,7 @@ public class StatisticAdapter extends CursorRecyclerAdapter implements Serializa
     }
 
 
+    @SuppressLint("Range")
     @Override
     public void onBindViewHolderCursor(RecyclerView.ViewHolder holder, Cursor cursor) {
         ((ViewHolder)holder).tableSize.setText(cursor.getString(cursor.getColumnIndex(DatabaseAdapter.DatabaseHelper.COLUMN_SIZE_FIELD)));

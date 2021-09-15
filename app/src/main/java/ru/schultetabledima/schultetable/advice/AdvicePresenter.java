@@ -1,50 +1,38 @@
 package ru.schultetabledima.schultetable.advice;
 
-import android.content.Context;
 import android.content.Intent;
 
-import java.io.Serializable;
-
+import moxy.InjectViewState;
+import moxy.MvpPresenter;
+import ru.schultetabledima.schultetable.MyApplication;
 import ru.schultetabledima.schultetable.R;
 import ru.schultetabledima.schultetable.contracts.AdviceContract;
 import ru.schultetabledima.schultetable.table.TableActivity;
 
+@InjectViewState
+public class AdvicePresenter extends MvpPresenter<AdviceContract.View> implements AdviceContract.Presenter {
 
-public class AdvicePresenter implements AdviceContract.Presenter, Serializable {
-    private Context context;
     private AdviceModel adviceModel;
+    private Intent intent;
 
-    public AdvicePresenter(Context context){
-        this.context = context;
+
+    public AdvicePresenter(){
         init();
         showAdvice();
     }
 
-
     private void init() {
-        adviceModel = new AdviceModel(context);
+        adviceModel = new AdviceModel();
     }
 
     private void showAdvice() {
-        ((AdviceContract.View)context).showAdvice(adviceModel.getAdvice());
-    }
-
-    public void detachView(){
-        context = null;
-        adviceModel.detachView();
-    }
-
-    public void attachView (Context context){
-        this.context = context;
-        adviceModel.attachView(context);
-    }
-
-    public void restart() {
-        showAdvice();
+        getViewState().showAdvice(adviceModel.getAdvice());
     }
 
     public void onClickListener(int id) {
         if (id == R.id.toTable)
-            context.startActivity(new Intent (context, TableActivity.class));
+            intent = new Intent (MyApplication.getContext(), TableActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            MyApplication.getContext().startActivity(intent);
     }
 }

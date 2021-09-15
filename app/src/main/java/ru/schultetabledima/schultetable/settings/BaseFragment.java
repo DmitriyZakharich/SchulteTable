@@ -19,7 +19,6 @@ public abstract class BaseFragment extends Fragment implements AdapterView.OnIte
 
     protected List<CustomObserver> customObservers = new ArrayList<>();
 
-
     public BaseFragment(){}
 
     @Override
@@ -28,6 +27,12 @@ public abstract class BaseFragment extends Fragment implements AdapterView.OnIte
         if (savedInstanceState != null)
             getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateNotifyObservers();
     }
 
     @Override

@@ -29,8 +29,6 @@ public class NumbersFragment extends BaseFragment implements AdapterView.OnItemS
         spinnerRows.setOnItemSelectedListener(this);
         spinnerColumns.setOnItemSelectedListener(this);
 
-        updateNotifyObservers();
-
         return rootView;
     }
 

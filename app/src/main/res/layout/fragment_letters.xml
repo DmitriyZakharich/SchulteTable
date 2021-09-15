@@ -28,11 +28,16 @@
             <TextView
                 android:id="@+id/textView4"
                 android:text="@string/NumberOfRows"
-                style="@style/TextViewSettings"/>
+                android:layout_width="0dp"
+                style="@style/TextViewSettings"
+                android:layout_weight="2"/>
 
             <Spinner
                 android:id="@+id/spinnerRowsLetters"
-                style="@style/Spinner"/>
+                style="@style/Spinner"
+                android:layout_width="0dp"
+                android:gravity="end"
+                android:layout_weight="1"/>
 
         </LinearLayout>
 
