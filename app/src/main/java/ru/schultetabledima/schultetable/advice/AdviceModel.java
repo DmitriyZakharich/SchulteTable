@@ -1,29 +1,23 @@
 package ru.schultetabledima.schultetable.advice;
 
-import android.content.Context;
 import android.content.res.Resources;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import androidx.annotation.Nullable;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 
+import ru.schultetabledima.schultetable.MyApplication;
 import ru.schultetabledima.schultetable.R;
+import ru.schultetabledima.schultetable.contracts.AdviceContract;
 
-public class AdviceModel implements Serializable{
+public class AdviceModel implements AdviceContract.Model {
 
-    private Context context;
     private String largeTextString;
 
-    public AdviceModel(Context context) {
-        this.context = context;
+    public AdviceModel() {
         main();
     }
 
@@ -39,7 +33,7 @@ public class AdviceModel implements Serializable{
     private String getStringFromRawRes(int rawRes) {
         InputStream inputStream;
         try {
-            inputStream = context.getResources().openRawResource(rawRes);
+            inputStream = MyApplication.getContext().getResources().openRawResource(rawRes);
         } catch (Resources.NotFoundException e) {
             e.printStackTrace();
             return null;
@@ -74,13 +68,4 @@ public class AdviceModel implements Serializable{
 
         return resultString;
     }
-
-    public void detachView(){
-        context = null;
-    }
-
-    public void attachView(Context context){
-        this.context = context;
-    }
-
 }

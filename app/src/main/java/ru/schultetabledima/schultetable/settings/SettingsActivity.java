@@ -40,7 +40,6 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         viewPager.setSaveEnabled(false);
 
 
-
         switchAnimation.setOnClickListener(this);
         switchTouchCells.setOnClickListener(this);
         switchTwoTables.setOnClickListener(this);
