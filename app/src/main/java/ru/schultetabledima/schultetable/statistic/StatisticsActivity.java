@@ -68,6 +68,25 @@ public class StatisticsActivity extends MvpAppCompatActivity implements Statisti
     public void setPlayedSizesAdapter(ArrayAdapter<String> adapterPlayedSizes) {
         selectPlayedSizes.setAdapter(adapterPlayedSizes);
     }
+
+    @Override
+    public void setSelectionQuantityTables(int position) {
+        selectQuantityTables.setSelection(position);
+    }
+
+    @Override
+    public void setSelectionSpinnerValueType(int position) {
+        selectValueType.setSelection(position);
+
+    }
+
+    @Override
+    public void setSelectionPlayedSizes(int position) {
+        selectPlayedSizes.setSelection(position);
+
+    }
+
+
 }
 
 

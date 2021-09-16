@@ -44,6 +44,8 @@ public class TablePresenter implements Serializable{
     private transient ArrayMap<Integer, Integer> cellsIdFirstTable, cellsIdSecondTable;
     private int nextMoveFirstTable, nextMoveSecondTableCountdown;
     private static SharedPreferences sharedPreferencesMenu;
+    private final String MENU_PREFERENCES = "PreferencesMenu";
+    private final String KEY_MENU_VISIBILITY = "Saved Menu Visibility";
     private boolean isDialogueShow = false;
     private transient EndGameDialogue endGameDialogue;
     private transient PreferencesReader settings;
@@ -60,12 +62,12 @@ public class TablePresenter implements Serializable{
         showTable();
         startChronometer();
         settingForCheckMove();
-        settingForMenu();
+        settingForMenu(); //возможно перенести вверх стека
     }
 
     private void settingForMenu() {
-        sharedPreferencesMenu = context.getSharedPreferences(TableActivity.getMenuPreferences(), MODE_PRIVATE);
-        isMenuShow = sharedPreferencesMenu.getBoolean(TableActivity.getKeyMenuVisibility(), true);
+        sharedPreferencesMenu = context.getSharedPreferences(MENU_PREFERENCES, MODE_PRIVATE);
+        isMenuShow = sharedPreferencesMenu.getBoolean(KEY_MENU_VISIBILITY, true);
 
         int visibility, imageResource;
         int visibilityHint = View.VISIBLE;
@@ -135,7 +137,7 @@ public class TablePresenter implements Serializable{
 
                 ((TableActivity)context).showHideMenu(visibility, visibilityHint, imageResource, layoutParams);
 
-                ed.putBoolean(TableActivity.getKeyMenuVisibility(), isMenuShow);
+                ed.putBoolean(KEY_MENU_VISIBILITY, isMenuShow);
                 ed.apply();
         }
     }

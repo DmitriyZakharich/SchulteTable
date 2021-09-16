@@ -1,14 +1,19 @@
 package ru.schultetabledima.schultetable.statistic;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import moxy.InjectViewState;
@@ -30,15 +35,41 @@ public class StatisticsPresenter extends MvpPresenter<StatisticsContract.View> i
     private String valueLanguage = "";
     private String playedSizes = context.getString(R.string.allSize);
     private Handler handlerResults, handlerPlayedSizes;
+    private SharedPreferences sharedPreferencesStatistics;
+    private List<String> valueSpinnerValueType, valueSpinnerQuantityTables;
+
+    private final String STATISTICS_PREFERENCES = "Preferences_Statistic";
+    private final String KEY_QUANTITY_TABLES = "key_quantity_tables";
+    private final String KEY_VALUE_TYPE = "key_value_type";
+    private final String KEY_VALUE_LANGUAGE = "key_value_language";
+    private final String KEY_PLAYED_SIZES = "key_played_sizes";
+    private final int ALL_OPTIONS = 2;
+    private final int ALL_TABLE_SIZE = 0;
+    private List<String> arrayPlayedSizes;
+
+    final int SPINNER_VALUE_TYPE_NUMBERS = 0;
+    final int SPINNER_VALUE_TYPE_ENGLISH_LETTERS = 1;
+    final int SPINNER_VALUE_TYPE_RUSSIAN_LETTERS = 2;
+    final int SPINNER_VALUE_TYPE_ALL_LETTERS = 3;
+    final int SPINNER_VALUE_TYPE_ALL = 4;
+    private int spinnerPositionQuantityTables;
+    private int spinnerPositionPlayedSizes;
+    private int spinnerPositionValueType;
 
 
     public StatisticsPresenter(){
+        main();
+    }
+
+    private void main() {
         openDatabase();
         initStatisticAdapter();
         fillingSpinners();
+
         getCursorPlayedSizes();
         getResults();
     }
+
 
     private void openDatabase() {
         databaseAdapter = new DatabaseAdapter(context);
@@ -51,12 +82,9 @@ public class StatisticsPresenter extends MvpPresenter<StatisticsContract.View> i
 
 
     private void fillingSpinners() {
-        String[] valueSpinnerQuantityTables = new String[]{context.getString(R.string.oneTable),
-                context.getString(R.string.twoTables), context.getString(R.string.allOptions)};
 
-        String[] valueSpinnerValueType = new String[]{context.getString(R.string.numbers),
-                context.getString(R.string.englishLetters), context.getString(R.string.russianLetters),
-                context.getString(R.string.allLetters), context.getString(R.string.allValueTypes)};
+        valueSpinnerQuantityTables = Arrays.asList(context.getResources().getStringArray(R.array.spinnerQuantityTables));
+        valueSpinnerValueType = Arrays.asList(context.getResources().getStringArray(R.array.spinnerValueType));
 
 
         ArrayAdapter<String> adapterQuantityTables = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item,
@@ -92,7 +120,7 @@ public class StatisticsPresenter extends MvpPresenter<StatisticsContract.View> i
 
     @SuppressLint("Range")
     private void fillingSpinnerPlayedSizes(Cursor cursor) {
-        List<String> arrayPlayedSizes = new ArrayList<>();
+        arrayPlayedSizes = new ArrayList<>();
         arrayPlayedSizes.add(context.getString(R.string.allSize));
 
         while (cursor.moveToNext()){
@@ -105,6 +133,8 @@ public class StatisticsPresenter extends MvpPresenter<StatisticsContract.View> i
 
         getViewState().setPlayedSizesAdapter(adapterPlayedSizes);
 
+        readPreferencesSpinner();
+        customizationSpinner();
     }
 
 
@@ -131,17 +161,30 @@ public class StatisticsPresenter extends MvpPresenter<StatisticsContract.View> i
         getViewState().setRecyclerViewAdapter(statisticAdapter);
     }
 
+
+    private void readPreferencesSpinner() {
+        sharedPreferencesStatistics = context.getSharedPreferences(STATISTICS_PREFERENCES, MODE_PRIVATE);
+
+        spinnerPositionQuantityTables = sharedPreferencesStatistics.getInt(KEY_QUANTITY_TABLES, ALL_OPTIONS);
+        spinnerPositionPlayedSizes = sharedPreferencesStatistics.getInt(KEY_PLAYED_SIZES, ALL_TABLE_SIZE);
+        spinnerPositionValueType = sharedPreferencesStatistics.getInt(KEY_VALUE_TYPE, SPINNER_VALUE_TYPE_ALL);
+    }
+
+    private void customizationSpinner(){
+        getViewState().setSelectionQuantityTables(spinnerPositionQuantityTables);
+        getViewState().setSelectionPlayedSizes(spinnerPositionPlayedSizes);
+        getViewState().setSelectionSpinnerValueType(spinnerPositionValueType);
+    }
+
+
     public void spinnerItemSelected(int parentId, int position, String itemText) {
 
-        final int SPINNER_VALUE_TYPE_NUMBERS = 0;
-        final int SPINNER_VALUE_TYPE_ENGLISH_LETTERS = 1;
-        final int SPINNER_VALUE_TYPE_RUSSIAN_LETTERS = 2;
-        final int SPINNER_VALUE_TYPE_ALL_LETTERS = 3;
-        final int SPINNER_VALUE_TYPE_ALL = 4;
-
+        SharedPreferences.Editor ed = sharedPreferencesStatistics.edit();
 
         if (parentId == R.id.spinnerQuantityTables) {
             quantityTables = position + 1;
+
+            ed.putInt(KEY_QUANTITY_TABLES, position);
 
         } else if (parentId == R.id.spinnerValueType) {
             switch (position){
@@ -166,10 +209,14 @@ public class StatisticsPresenter extends MvpPresenter<StatisticsContract.View> i
                     valueLanguage = "";
                     break;
             }
+            ed.putInt(KEY_VALUE_TYPE, position);
 
         }if (parentId == R.id.spinnerPlayedSizes){
             playedSizes = itemText;
+            ed.putInt(KEY_PLAYED_SIZES, position);
         }
+
+        ed.apply();
 
         loadResults();
     }

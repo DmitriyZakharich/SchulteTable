@@ -25,8 +25,6 @@ public class TableActivity extends AppCompatActivity implements TableContract.Vi
     private Chronometer chronometer;
     private ConstraintLayout placeForTable;
     private ImageButton selectShowHideMenu;
-    private static final String MENU_PREFERENCES = "PreferencesMenu";
-    private static final String KEY_MENU_VISIBILITY = "Saved Menu Visibility";
     private TablePresenter tablePresenter;
     private TextView moveHint, textMoveHint;
     public ImageButton menu;
@@ -146,13 +144,7 @@ public class TableActivity extends AppCompatActivity implements TableContract.Vi
     public void setBaseChronometer(long base){
         chronometer.setBase(base);
     }
-    public static String getKeyMenuVisibility() {
-        return KEY_MENU_VISIBILITY;
-    }
 
-    public static String getMenuPreferences() {
-        return MENU_PREFERENCES;
-    }
 
     @Override
     protected void onRestart() {
