@@ -18,7 +18,7 @@ import ru.schultetabledima.schultetable.R;
 import ru.schultetabledima.schultetable.table.TablePresenter;
 import ru.schultetabledima.schultetable.utils.PreferencesReader;
 
-public class TableCreator{
+public class TableCreator {
     private ArrayList<Integer> listNumbers2;
     private ArrayList<Integer> listNumbers1;
     private LinearLayout containerForTable;
@@ -58,7 +58,7 @@ public class TableCreator{
     }
 
 
-    void main(){
+    void main() {
         settings = new PreferencesReader(context);
         creatingContainerForTable();
         creatingField();
@@ -68,7 +68,8 @@ public class TableCreator{
 
     private void creatingContainerForTable() {
         containerForTable = new LinearLayout(context);
-        containerForTable.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
+        containerForTable.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
+                RelativeLayout.LayoutParams.MATCH_PARENT));
 
 
         if (settings.getIsTwoTables()) {
@@ -89,20 +90,20 @@ public class TableCreator{
     }
 
     private void creatingField() {
-            fieldCreator1 = new FieldCreator(context, ContextCompat.getColor(context, R.color.activeTable));
-            containerForTable.addView(fieldCreator1.getField());
+        fieldCreator1 = new FieldCreator(context, ContextCompat.getColor(context, R.color.activeTable));
+        containerForTable.addView(fieldCreator1.getField());
 
-            if (settings.getIsTwoTables()){
-                    fieldCreator2 = new FieldCreator(context, ContextCompat.getColor(context, R.color.passiveTable));
-                    containerForTable.addView(fieldCreator2.getField());
-            }
+        if (settings.getIsTwoTables()) {
+            fieldCreator2 = new FieldCreator(context, ContextCompat.getColor(context, R.color.passiveTable));
+            containerForTable.addView(fieldCreator2.getField());
+        }
     }
 
-    private void fillingTable(){
+    private void fillingTable() {
         AppCompatTextView[][] cells1 = fieldCreator1.getCells();
         fieldFiller1 = new FieldFiller(context, cells1, tablePresenter);
 
-        if (settings.getIsTwoTables()){
+        if (settings.getIsTwoTables()) {
             AppCompatTextView[][] cells2 = fieldCreator2.getCells();
             fieldFiller2 = new FieldFiller(context, cells2, tablePresenter);
         }
@@ -116,23 +117,23 @@ public class TableCreator{
         restoreFillingTable();
     }
 
-    private void restoreFillingTable(){
+    private void restoreFillingTable() {
 
-        if (settings.getIsLetters()){
+        if (settings.getIsLetters()) {
             AppCompatTextView[][] cells1 = fieldCreator1.getCells();
             fieldFiller1 = new FieldFiller(context, tablePresenter, listLetters1, cells1);
 
-            if (settings.getIsTwoTables()){
+            if (settings.getIsTwoTables()) {
                 AppCompatTextView[][] cells2 = fieldCreator2.getCells();
                 fieldFiller2 = new FieldFiller(context, tablePresenter, listLetters2, cells2);
             }
         }
 
-        if(!settings.getIsLetters()){
+        if (!settings.getIsLetters()) {
             AppCompatTextView[][] cells1 = fieldCreator1.getCells();
             fieldFiller1 = new FieldFiller(cells1, tablePresenter, listNumbers1, context);
 
-            if (settings.getIsTwoTables()){
+            if (settings.getIsTwoTables()) {
                 AppCompatTextView[][] cells2 = fieldCreator2.getCells();
                 fieldFiller2 = new FieldFiller(cells2, tablePresenter, listNumbers2, context);
             }
@@ -140,31 +141,33 @@ public class TableCreator{
     }
 
 
-
     public LinearLayout getContainerForTable() {
         return containerForTable;
     }
 
-    public ArrayList<Integer> getListNumbers1(){
+    public ArrayList<Integer> getListNumbers1() {
         return fieldFiller1.getListNumbers();
     }
-    public ArrayList<Integer> getListNumbers2(){
+
+    public ArrayList<Integer> getListNumbers2() {
         return fieldFiller2.getListNumbers();
     }
 
 
-    public ArrayList<Character> getListLetters1(){
+    public ArrayList<Character> getListLetters1() {
         return fieldFiller1.getListLetters();
     }
-    public ArrayList<Character> getListLetters2(){
+
+    public ArrayList<Character> getListLetters2() {
         return fieldFiller2.getListLetters();
     }
 
 
-    public ArrayMap<Integer, Integer> getCellsIdFirstTable(){
+    public ArrayMap<Integer, Integer> getCellsIdFirstTable() {
         return fieldFiller1.getCellsId();
     }
-    public ArrayMap<Integer, Integer> getCellsIdSecondTable(){
+
+    public ArrayMap<Integer, Integer> getCellsIdSecondTable() {
         return fieldFiller2.getCellsId();
     }
 }
