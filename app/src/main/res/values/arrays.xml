@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="spinnerQuantityTables">
+        <item>@string/oneTable</item>
+        <item>@string/twoTables</item>
+        <item>@string/allOptions</item>
+    </string-array>
+
+    <string-array name="spinnerValueType">
+        <item>@string/numbers</item>
+        <item>@string/englishLetters</item>
+        <item>@string/russianLetters</item>
+        <item>@string/allLetters</item>
+        <item>@string/allValueTypes</item>
+    </string-array>
+
+</resources>
