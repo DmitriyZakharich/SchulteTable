@@ -5,10 +5,13 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.util.ArrayMap;
+import android.view.Gravity;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.content.ContextCompat;
 
@@ -16,6 +19,7 @@ import java.util.ArrayList;
 
 import ru.schultetabledima.schultetable.R;
 import ru.schultetabledima.schultetable.table.TablePresenter;
+import ru.schultetabledima.schultetable.utils.Converter;
 import ru.schultetabledima.schultetable.utils.PreferencesReader;
 
 public class TableCreator {
@@ -31,6 +35,7 @@ public class TableCreator {
     private FieldCreator fieldCreator1;
     private FieldCreator fieldCreator2;
     private PreferencesReader settings;
+    private View viewDivider;
 
 
     public TableCreator(Context context, TablePresenter tablePresenter) {
@@ -70,21 +75,32 @@ public class TableCreator {
         containerForTable = new LinearLayout(context);
         containerForTable.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
                 RelativeLayout.LayoutParams.MATCH_PARENT));
+        containerForTable.setGravity(Gravity.CENTER);
 
 
         if (settings.getIsTwoTables()) {
-            //Создание разделительной полосы между таблицами
-            GradientDrawable drawable = new GradientDrawable();
-            drawable.setColor(Color.BLACK);
-            drawable.setSize(30, 30);
-            containerForTable.setShowDividers(TableLayout.SHOW_DIVIDER_MIDDLE);
-            containerForTable.setDividerDrawable(drawable);
+
+            viewDivider = new View(context);
+            viewDivider.setBackground(AppCompatResources.getDrawable(context, R.drawable.table_separator));
+
+            int widthViewDivider;
+            int heightViewDivider;
 
             if ((context).getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                widthViewDivider = 15;
+                heightViewDivider = 100;
+
                 containerForTable.setOrientation(LinearLayout.HORIZONTAL);
+
             } else {
+                widthViewDivider = 100;
+                heightViewDivider = 15;
+
                 containerForTable.setOrientation(LinearLayout.VERTICAL);
             }
+
+            viewDivider.setLayoutParams(new LinearLayout.LayoutParams(Converter.getPxFromDP(context, widthViewDivider),
+                    Converter.getPxFromDP(context, heightViewDivider)));
 
         }
     }
@@ -94,6 +110,9 @@ public class TableCreator {
         containerForTable.addView(fieldCreator1.getField());
 
         if (settings.getIsTwoTables()) {
+
+            containerForTable.addView(viewDivider);
+
             fieldCreator2 = new FieldCreator(context, ContextCompat.getColor(context, R.color.passiveTable));
             containerForTable.addView(fieldCreator2.getField());
         }

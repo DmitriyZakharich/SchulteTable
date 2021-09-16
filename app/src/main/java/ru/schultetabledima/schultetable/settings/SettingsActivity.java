@@ -34,8 +34,8 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         switchTwoTables = findViewById(R.id.switchTwoTables);
         switchMoveHint = findViewById(R.id.switchMoveHint);
 
-        viewPager = (ViewPager2)findViewById(R.id.viewPager);
         tabLayout = findViewById(R.id.tab_layout);
+        viewPager = (ViewPager2)findViewById(R.id.viewPager);
 
         viewPager.setSaveEnabled(false);
 

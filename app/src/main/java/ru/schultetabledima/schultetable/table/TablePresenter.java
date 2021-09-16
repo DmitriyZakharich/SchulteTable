@@ -208,7 +208,7 @@ public class TablePresenter implements Serializable {
 
         firstTable = (TableLayout) table.getChildAt(0);
         if (settings.getIsTwoTables())
-            secondTable = (TableLayout) table.getChildAt(1);
+            secondTable = (TableLayout) table.getChildAt(2);
 
         activeTable = firstTable.getId();
     }
@@ -404,7 +404,7 @@ public class TablePresenter implements Serializable {
 
     private void restoreSettingForTwoTables() {
         firstTable = (TableLayout) table.getChildAt(0);
-        secondTable = (TableLayout) table.getChildAt(1);
+        secondTable = (TableLayout) table.getChildAt(2);
 
 
         if (saveNumberActiveTable == 0) {

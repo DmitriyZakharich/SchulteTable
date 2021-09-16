@@ -17,7 +17,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import ru.schultetabledima.schultetable.R;
 import ru.schultetabledima.schultetable.contracts.TableContract;
 
-public class TableActivity extends AppCompatActivity implements TableContract.View{
+public class TableActivity extends AppCompatActivity implements TableContract.View {
 
 
     private static final String KEY_SERIALIZABLE_TABLE_PRESENTER = "tablePresenterPutSerializable";
@@ -36,7 +36,7 @@ public class TableActivity extends AppCompatActivity implements TableContract.Vi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_table);
 
-        selectShowHideMenu = (ImageButton)findViewById(R.id.image_Button_Show_Hide_Menu);
+        selectShowHideMenu = (ImageButton) findViewById(R.id.image_Button_Show_Hide_Menu);
         settings = (ImageButton) findViewById(R.id.image_button_settings);
         menu = (ImageButton) findViewById(R.id.image_menu);
         placeForTable = (ConstraintLayout) findViewById(R.id.placeForTable);
@@ -59,7 +59,7 @@ public class TableActivity extends AppCompatActivity implements TableContract.Vi
 //        Анимация показать-скрыть меню навигации
         LayoutTransition layoutTransitionToolbar = toolbar.getLayoutTransition();
         layoutTransitionToolbar.enableTransitionType(LayoutTransition.CHANGING);
-}
+    }
 
 
     @Override
@@ -68,7 +68,7 @@ public class TableActivity extends AppCompatActivity implements TableContract.Vi
         addAnim(table);
     }
 
-    void addAnim(@NonNull LinearLayout table){
+    void addAnim(@NonNull LinearLayout table) {
         LayoutTransition layoutTransitionTable = new LayoutTransition();
         table.setLayoutTransition(layoutTransitionTable);
         layoutTransitionTable.enableTransitionType(LayoutTransition.CHANGING);
@@ -95,13 +95,13 @@ public class TableActivity extends AppCompatActivity implements TableContract.Vi
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        tablePresenter = (TablePresenter)savedInstanceState.getSerializable(KEY_SERIALIZABLE_TABLE_PRESENTER);
+        tablePresenter = (TablePresenter) savedInstanceState.getSerializable(KEY_SERIALIZABLE_TABLE_PRESENTER);
         tablePresenter.attachView(this);
         tablePresenter.restoreInstanceState();
     }
 
 
-    public void showHideMenu(int visibility,int visibilityHint, int imageResource, LinearLayout.LayoutParams layoutParams){
+    public void showHideMenu(int visibility, int visibilityHint, int imageResource, LinearLayout.LayoutParams layoutParams) {
         chronometer.setVisibility(visibility);
         settings.setVisibility(visibility);
         menu.setVisibility(visibility);
@@ -114,34 +114,35 @@ public class TableActivity extends AppCompatActivity implements TableContract.Vi
     }
 
 
-
     public void setMoveHint(int nextMoveFirstTable) {
         moveHint.setText(String.valueOf(nextMoveFirstTable));
     }
+
     public void setMoveHint(char nextMoveFirstTable) {
         moveHint.setText(String.valueOf(nextMoveFirstTable));
     }
+
     public void removeTable() {
         placeForTable.removeAllViews();
     }
 
-    public void startChronometer(){
+    public void startChronometer() {
         chronometer.start();
     }
 
-    public void stopChronometer(){
+    public void stopChronometer() {
         chronometer.stop();
     }
 
-    public String getTextChronometer(){
+    public String getTextChronometer() {
         return (String) chronometer.getText();
     }
 
-    public long getBaseChronometer(){
+    public long getBaseChronometer() {
         return chronometer.getBase();
     }
 
-    public void setBaseChronometer(long base){
+    public void setBaseChronometer(long base) {
         chronometer.setBase(base);
     }
 
