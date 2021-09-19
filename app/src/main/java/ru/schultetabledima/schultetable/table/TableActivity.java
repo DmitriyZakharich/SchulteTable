@@ -27,7 +27,7 @@ public class TableActivity extends AppCompatActivity implements TableContract.Vi
     private ImageButton selectShowHideMenu;
     private TablePresenter tablePresenter;
     private TextView moveHint, textMoveHint;
-    public ImageButton menu;
+    private ImageButton menu;
     private Toolbar toolbar;
 
 
@@ -54,26 +54,17 @@ public class TableActivity extends AppCompatActivity implements TableContract.Vi
 
         if (savedInstanceState == null)
             tablePresenter = new TablePresenter(this);
-
-
-//        Анимация показать-скрыть меню навигации
-        LayoutTransition layoutTransitionToolbar = toolbar.getLayoutTransition();
-        layoutTransitionToolbar.enableTransitionType(LayoutTransition.CHANGING);
     }
 
 
     @Override
     public void showTable(LinearLayout table) {
         placeForTable.addView(table);
-        addAnim(table);
     }
 
-    void addAnim(@NonNull LinearLayout table) {
-        LayoutTransition layoutTransitionTable = new LayoutTransition();
-        table.setLayoutTransition(layoutTransitionTable);
-        layoutTransitionTable.enableTransitionType(LayoutTransition.CHANGING);
+    public void addAnimationToolbar(LayoutTransition layoutTransition) {
+        toolbar.setLayoutTransition(layoutTransition);
     }
-
 
     View.OnClickListener onClickMenuButtonsListener = new View.OnClickListener() {
         @Override
@@ -81,7 +72,6 @@ public class TableActivity extends AppCompatActivity implements TableContract.Vi
             tablePresenter.onClickMenuButtonsListener(v.getId());
         }
     };
-
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {

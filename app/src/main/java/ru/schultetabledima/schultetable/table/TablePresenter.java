@@ -26,6 +26,7 @@ import ru.schultetabledima.schultetable.advice.AdviceActivity;
 import ru.schultetabledima.schultetable.donation.DonationActivity;
 import ru.schultetabledima.schultetable.settings.SettingsActivity;
 import ru.schultetabledima.schultetable.statistic.StatisticsActivity;
+import ru.schultetabledima.schultetable.table.tablecreation.AnimationTransition;
 import ru.schultetabledima.schultetable.table.tablecreation.TableCreator;
 import ru.schultetabledima.schultetable.utils.Converter;
 import ru.schultetabledima.schultetable.utils.PreferencesReader;
@@ -93,6 +94,10 @@ public class TablePresenter implements Serializable {
             visibilityHint = View.VISIBLE;
         }
         ((TableActivity) context).showHideMenu(visibility, visibilityHint, imageResource, layoutParams);
+
+
+        ((TableActivity) context).addAnimationToolbar(new AnimationTransition().createAnimation());
+
     }
 
 

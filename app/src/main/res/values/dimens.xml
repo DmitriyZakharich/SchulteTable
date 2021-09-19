@@ -2,6 +2,7 @@
 <resources>
     <dimen name="commonTextSize">19sp</dimen>
     <dimen name="headerTextSize">26sp</dimen>
+    <dimen name="headlineTextSize">34sp</dimen>
     <dimen name="switchSize">87dp</dimen>
     <dimen name="toolbarTextSize">25sp</dimen>
     <dimen name="textSizeStatistic">18sp</dimen>

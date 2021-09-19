@@ -14,13 +14,37 @@
         android:layout_height="0dp"
         android:layout_weight="1">
 
-        <TextView
-            android:id="@+id/tvAdvice"
-            style="@style/basicStyleView"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:textSize="19sp" />
+            android:orientation="vertical">
+
+            <TextView
+                android:text="@string/adviceHeadline"
+                style="@style/TextViewHeadline" />
+
+            <TextView
+                android:id="@+id/tvAdvice1"
+                style="@style/basicStyleView"
+                android:padding="10dp"/>
+
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="fitXY"
+                android:adjustViewBounds="true"
+                app:srcCompat="@drawable/correct_execution"
+                android:background="@color/red"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:id="@+id/tvAdvice2"
+                style="@style/basicStyleView"
+                android:padding="10dp"/>
+
+        </LinearLayout>
     </ScrollView>
 
     <Button

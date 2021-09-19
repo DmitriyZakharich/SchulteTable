@@ -68,6 +68,7 @@ public class TableCreator {
         creatingContainerForTable();
         creatingField();
         fillingTable();
+        addAnimationTransition();
     }
 
 
@@ -126,6 +127,10 @@ public class TableCreator {
             AppCompatTextView[][] cells2 = fieldCreator2.getCells();
             fieldFiller2 = new FieldFiller(context, cells2, tablePresenter);
         }
+    }
+
+    private void addAnimationTransition() {
+        new AnimationTransition(containerForTable);
     }
 
 

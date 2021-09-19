@@ -17,6 +17,7 @@
         <item name="android:textSize">@dimen/commonTextSize</item>
         <item name="android:textColor">@color/mainTextColor</item>
         <item name="android:gravity">center_vertical</item>
+        <item name="android:padding">5dp</item>
         <item name="android:minHeight">@dimen/customMinHeight</item>
     </style>
 
@@ -39,6 +40,17 @@
         <item name="android:textColor">@color/mainTextColor</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:minHeight">@dimen/customMinHeight</item>
+    </style>
+
+    <style name="TextViewHeadline">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/headlineTextSize</item>
+        <item name="android:textColor">@color/mainTextColor</item>
+        <item name="android:gravity">center</item>
+        <item name="android:minHeight">@dimen/customMinHeight</item>
+        <item name="android:background">@color/colorButton</item>
+
     </style>
 
     <style name="Switch">

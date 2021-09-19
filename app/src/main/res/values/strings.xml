@@ -47,5 +47,6 @@
     <string name="newGame">Новая игра</string>
     <string name="continueCurrentGame">Продолжить текущую игру</string>
     <string name="allSize">Все размеры</string>
+    <string name="adviceHeadline">Советы</string>
 
 </resources>
