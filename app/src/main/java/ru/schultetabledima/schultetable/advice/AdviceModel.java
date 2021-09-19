@@ -1,6 +1,7 @@
 package ru.schultetabledima.schultetable.advice;
 
 import android.content.res.Resources;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -18,14 +19,15 @@ public class AdviceModel implements AdviceContract.Model {
     private String largeTextString;
 
     public AdviceModel() {
-        main();
+//        main();
     }
 
     private void main() {
-        largeTextString = getStringFromRawRes(R.raw.advice);
+//        largeTextString = getStringFromRawRes(R.raw.advice1);
     }
 
-    public String getAdvice(){
+    public String getAdvice(int idResource) {
+        largeTextString = getStringFromRawRes(idResource);
         return largeTextString;
     }
 

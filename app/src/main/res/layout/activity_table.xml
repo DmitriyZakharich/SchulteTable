@@ -57,26 +57,21 @@
                     android:id="@+id/textMoveHint"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_weight="0"
                     android:gravity="center"
                     android:text="@string/MoveHint"
                     android:textColor="@color/mainTextColor"
-                    android:textSize="@dimen/toolbarTextSize" />
-
-                <Space
-                    android:layout_width="2dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0" />
+                    android:textSize="@dimen/toolbarTextSize"
+                    android:layout_marginStart="3dp"/>
 
                 <TextView
                     android:id="@+id/moveHint"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_weight="0"
                     android:gravity="center"
                     android:text=""
                     android:textColor="@color/activeTable"
-                    android:textSize="@dimen/toolbarTextSize" />
+                    android:textSize="@dimen/toolbarTextSize"
+                    android:layout_marginStart="2dp"/>
             </LinearLayout>
 
 
@@ -107,11 +102,10 @@
                     android:background="@null"
                     android:minWidth="0dp"
                     android:minHeight="0dp"
-                    android:src="@drawable/ic_settings" />
+                    android:src="@drawable/ic_settings"
+                    android:contentDescription=""
+                    tools:ignore="ContentDescription" />
 
-                <Space
-                    android:layout_width="10dp"
-                    android:layout_height="wrap_content" />
 
                 <ImageButton
                     android:id="@+id/image_menu"
@@ -121,11 +115,10 @@
                     android:background="@null"
                     android:minWidth="0dp"
                     android:minHeight="0dp"
-                    android:src="@drawable/ic_menu"/>
+                    android:src="@drawable/ic_menu"
+                    android:layout_marginStart="10dp"
+                    tools:ignore="ContentDescription"/>
 
-                <Space
-                    android:layout_width="10dp"
-                    android:layout_height="wrap_content" />
 
                 <ImageButton
                     android:id="@+id/image_Button_Show_Hide_Menu"
@@ -135,11 +128,11 @@
                     android:background="@null"
                     android:minWidth="0dp"
                     android:minHeight="0dp"
-                    android:src="@drawable/ic_arrow_down"/>
+                    android:src="@drawable/ic_arrow_down"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    tools:ignore="ContentDescription"/>
 
-                <Space
-                    android:layout_width="10dp"
-                    android:layout_height="wrap_content" />
 
             </LinearLayout>
 

@@ -9,7 +9,6 @@ import android.database.Cursor;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.util.Log;
 import android.widget.ArrayAdapter;
 
 import java.util.ArrayList;
@@ -38,10 +37,9 @@ public class StatisticsPresenter extends MvpPresenter<StatisticsContract.View> i
     private SharedPreferences sharedPreferencesStatistics;
     private List<String> valueSpinnerValueType, valueSpinnerQuantityTables;
 
-    private final String STATISTICS_PREFERENCES = "Preferences_Statistic";
+    private final String STATISTICS_PREFERENCES = "Preferences_Statistics";
     private final String KEY_QUANTITY_TABLES = "key_quantity_tables";
     private final String KEY_VALUE_TYPE = "key_value_type";
-    private final String KEY_VALUE_LANGUAGE = "key_value_language";
     private final String KEY_PLAYED_SIZES = "key_played_sizes";
     private final int ALL_OPTIONS = 2;
     private final int ALL_TABLE_SIZE = 0;
@@ -52,12 +50,9 @@ public class StatisticsPresenter extends MvpPresenter<StatisticsContract.View> i
     final int SPINNER_VALUE_TYPE_RUSSIAN_LETTERS = 2;
     final int SPINNER_VALUE_TYPE_ALL_LETTERS = 3;
     final int SPINNER_VALUE_TYPE_ALL = 4;
-    private int spinnerPositionQuantityTables;
-    private int spinnerPositionPlayedSizes;
-    private int spinnerPositionValueType;
 
 
-    public StatisticsPresenter(){
+    public StatisticsPresenter() {
         main();
     }
 
@@ -99,9 +94,8 @@ public class StatisticsPresenter extends MvpPresenter<StatisticsContract.View> i
     }
 
 
-
     private void getCursorPlayedSizes() {
-        handlerPlayedSizes = new Handler(Looper.getMainLooper()){
+        handlerPlayedSizes = new Handler(Looper.getMainLooper()) {
             public void handleMessage(android.os.Message msg) {
                 Cursor cursor = (Cursor) msg.obj;
                 fillingSpinnerPlayedSizes(cursor);
@@ -110,7 +104,7 @@ public class StatisticsPresenter extends MvpPresenter<StatisticsContract.View> i
         loadPlayedSizesForSpinner();
     }
 
-    private void loadPlayedSizesForSpinner(){
+    private void loadPlayedSizesForSpinner() {
         new Thread(() -> {
             Message msg = new Message();
             msg.obj = databaseAdapter.getCursorPlayedSizes();
@@ -123,7 +117,7 @@ public class StatisticsPresenter extends MvpPresenter<StatisticsContract.View> i
         arrayPlayedSizes = new ArrayList<>();
         arrayPlayedSizes.add(context.getString(R.string.allSize));
 
-        while (cursor.moveToNext()){
+        while (cursor.moveToNext()) {
             arrayPlayedSizes.add(cursor.getString(
                     cursor.getColumnIndex(DatabaseAdapter.DatabaseHelper.COLUMN_SIZE_FIELD)));
         }
@@ -133,13 +127,12 @@ public class StatisticsPresenter extends MvpPresenter<StatisticsContract.View> i
 
         getViewState().setPlayedSizesAdapter(adapterPlayedSizes);
 
-        readPreferencesSpinner();
-        customizationSpinner();
+        customizationSpinners();
     }
 
 
-    private void getResults(){
-        handlerResults = new Handler(Looper.getMainLooper()){
+    private void getResults() {
+        handlerResults = new Handler(Looper.getMainLooper()) {
             public void handleMessage(android.os.Message msg) {
                 Cursor cursor = (Cursor) msg.obj;
                 swapCursor(cursor);
@@ -148,7 +141,7 @@ public class StatisticsPresenter extends MvpPresenter<StatisticsContract.View> i
         loadResults();
     }
 
-    private void loadResults(){
+    private void loadResults() {
         new Thread(() -> {
             Message msg = new Message();
             msg.obj = databaseAdapter.getCursor(quantityTables, valueType, valueLanguage, playedSizes);
@@ -156,24 +149,18 @@ public class StatisticsPresenter extends MvpPresenter<StatisticsContract.View> i
         }).start();
     }
 
-    private void swapCursor(Cursor cursor){
+    private void swapCursor(Cursor cursor) {
         statisticAdapter.swapCursor(cursor);
         getViewState().setRecyclerViewAdapter(statisticAdapter);
     }
 
 
-    private void readPreferencesSpinner() {
+    private void customizationSpinners() {
         sharedPreferencesStatistics = context.getSharedPreferences(STATISTICS_PREFERENCES, MODE_PRIVATE);
 
-        spinnerPositionQuantityTables = sharedPreferencesStatistics.getInt(KEY_QUANTITY_TABLES, ALL_OPTIONS);
-        spinnerPositionPlayedSizes = sharedPreferencesStatistics.getInt(KEY_PLAYED_SIZES, ALL_TABLE_SIZE);
-        spinnerPositionValueType = sharedPreferencesStatistics.getInt(KEY_VALUE_TYPE, SPINNER_VALUE_TYPE_ALL);
-    }
-
-    private void customizationSpinner(){
-        getViewState().setSelectionQuantityTables(spinnerPositionQuantityTables);
-        getViewState().setSelectionPlayedSizes(spinnerPositionPlayedSizes);
-        getViewState().setSelectionSpinnerValueType(spinnerPositionValueType);
+        getViewState().setSelectionQuantityTables(sharedPreferencesStatistics.getInt(KEY_QUANTITY_TABLES, ALL_OPTIONS));
+        getViewState().setSelectionPlayedSizes(sharedPreferencesStatistics.getInt(KEY_PLAYED_SIZES, ALL_TABLE_SIZE));
+        getViewState().setSelectionSpinnerValueType(sharedPreferencesStatistics.getInt(KEY_VALUE_TYPE, SPINNER_VALUE_TYPE_ALL));
     }
 
 
@@ -187,7 +174,7 @@ public class StatisticsPresenter extends MvpPresenter<StatisticsContract.View> i
             ed.putInt(KEY_QUANTITY_TABLES, position);
 
         } else if (parentId == R.id.spinnerValueType) {
-            switch (position){
+            switch (position) {
                 case SPINNER_VALUE_TYPE_NUMBERS:
                     valueType = context.getString(R.string.valueTypeNumbers);
                     valueLanguage = "";
@@ -211,7 +198,8 @@ public class StatisticsPresenter extends MvpPresenter<StatisticsContract.View> i
             }
             ed.putInt(KEY_VALUE_TYPE, position);
 
-        }if (parentId == R.id.spinnerPlayedSizes){
+        }
+        if (parentId == R.id.spinnerPlayedSizes) {
             playedSizes = itemText;
             ed.putInt(KEY_PLAYED_SIZES, position);
         }

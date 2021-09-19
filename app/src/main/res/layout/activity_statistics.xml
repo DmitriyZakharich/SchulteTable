@@ -12,14 +12,9 @@
     tools:context=".statistic.StatisticsActivity">
 
     <TextView
-        android:id="@+id/headlineResults"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorButton"
-        android:gravity="center"
         android:text="@string/headline_results"
-        android:textColor="@color/mainTextColor"
-        android:textSize="34sp" />
+        style="@style/TextViewHeadline"/>
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -37,8 +32,7 @@
             <TextView
                 android:id="@+id/textView2"
                 android:text="@string/quantityTables"
-                style="@style/TextViewStatistic"
-                android:padding="5dp"/>
+                style="@style/TextViewStatistic"/>
 
             <Spinner
                 android:id="@+id/spinnerQuantityTables"
@@ -54,8 +48,7 @@
             <TextView
                 android:id="@+id/textView3"
                 android:text="@string/dataType"
-                style="@style/TextViewStatistic"
-                android:padding="5dp"/>
+                style="@style/TextViewStatistic" />
 
             <Spinner
                 android:id="@+id/spinnerValueType"
@@ -71,8 +64,7 @@
             <TextView
                 android:id="@+id/textView4"
                 android:text="@string/playedSizesTable"
-                style="@style/TextViewStatistic"
-                android:padding="5dp"/>
+                style="@style/TextViewStatistic"/>
 
             <Spinner
                 android:id="@+id/spinnerPlayedSizes"

@@ -46,21 +46,22 @@ public class StatisticsActivity extends MvpAppCompatActivity implements Statisti
     }
 
     @Override
-    public void onNothingSelected(AdapterView<?> parent) {}
+    public void onNothingSelected(AdapterView<?> parent) {
+    }
 
 
     @Override
-    public void setRecyclerViewAdapter(StatisticAdapter statisticAdapter){
+    public void setRecyclerViewAdapter(StatisticAdapter statisticAdapter) {
         recyclerView.setAdapter(statisticAdapter);
     }
 
     @Override
-    public void setQuantityTablesAdapter (ArrayAdapter<String> adapterQuantityTables){
+    public void setQuantityTablesAdapter(ArrayAdapter<String> adapterQuantityTables) {
         selectQuantityTables.setAdapter(adapterQuantityTables);
     }
 
     @Override
-    public void setValueTypeAdapter (ArrayAdapter<String> adapterValueType){
+    public void setValueTypeAdapter(ArrayAdapter<String> adapterValueType) {
         selectValueType.setAdapter(adapterValueType);
     }
 

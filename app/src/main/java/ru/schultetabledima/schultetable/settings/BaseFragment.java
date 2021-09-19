@@ -8,18 +8,20 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.fragment.app.Fragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class BaseFragment extends Fragment implements AdapterView.OnItemSelectedListener, CustomSubject{
+public abstract class BaseFragment extends Fragment implements AdapterView.OnItemSelectedListener, CustomSubject {
     protected SettingsPresenter settingsPresenter;
     protected Spinner spinnerRows, spinnerColumns;
 
     protected List<CustomObserver> customObservers = new ArrayList<>();
 
-    public BaseFragment(){}
+    public BaseFragment() {
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -37,7 +39,7 @@ public abstract class BaseFragment extends Fragment implements AdapterView.OnIte
 
     @Override
     public abstract View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState);
+                                      Bundle savedInstanceState);
 
 
     public void attachPresenter(SettingsPresenter settingsPresenter) {
@@ -49,21 +51,22 @@ public abstract class BaseFragment extends Fragment implements AdapterView.OnIte
     public abstract void onItemSelected(AdapterView<?> parent, View view, int position, long id);
 
     @Override
-    public void onNothingSelected(AdapterView<?> parent) {}
+    public void onNothingSelected(AdapterView<?> parent) {
+    }
 
-    public void setSpinnerRowsSelection(int position){
+    public void setSpinnerRowsSelection(int position) {
         spinnerRows.setSelection(position, false);
     }
 
-    public void setSpinnerColumnsSelection(int position){
+    public void setSpinnerColumnsSelection(int position) {
         spinnerColumns.setSelection(position, false);
     }
 
-    public void setSpinnerRowsAdapter(ArrayAdapter<String> adapter){
+    public void setSpinnerRowsAdapter(ArrayAdapter<String> adapter) {
         spinnerRows.setAdapter(adapter);
     }
 
-    public void setSpinnerColumnsAdapter(ArrayAdapter<String> adapter){
+    public void setSpinnerColumnsAdapter(ArrayAdapter<String> adapter) {
         spinnerColumns.setAdapter(adapter);
     }
 
@@ -77,7 +80,6 @@ public abstract class BaseFragment extends Fragment implements AdapterView.OnIte
     public void unSubscribeObserver(CustomObserver customObserver) {
         customObservers.remove(customObserver);
     }
-
 
 
 }

@@ -27,7 +27,7 @@ public class SettingsPresenter implements CustomObserver {
         main();
     }
 
-    private void main(){
+    private void main() {
         init();
         customizationSettingsActivity();
         createFragments();
@@ -49,7 +49,7 @@ public class SettingsPresenter implements CustomObserver {
         ((SettingsActivity) context).customizationSwitchMoveHint(isSwitchMoveHintEnabled, preferencesReader.getIsMoveHint());
     }
 
-    private void createFragments(){
+    private void createFragments() {
         numbersFragment = NumbersFragment.newInstance();
         numbersFragment.subscribeObserver(this);
         numbersFragment.attachPresenter(this);
@@ -75,11 +75,11 @@ public class SettingsPresenter implements CustomObserver {
 
         TabLayoutMediator tabLayoutMediator = new TabLayoutMediator(((SettingsActivity) context).getTabLayout(),
                 ((SettingsActivity) context).getViewPager(), (tab, position) -> {
-                    if (position == indexOfNumbers)
-                        tab.setText(R.string.numbers);
-                    if (position == indexOfLetters)
-                        tab.setText(R.string.letters);
-                });
+            if (position == indexOfNumbers)
+                tab.setText(R.string.numbers);
+            if (position == indexOfLetters)
+                tab.setText(R.string.letters);
+        });
         tabLayoutMediator.attach();
 
         if (!preferencesReader.getIsLetters())
@@ -198,7 +198,6 @@ public class SettingsPresenter implements CustomObserver {
     public void updateSubjectNumbersFragment() {
         customizationNumbersFragment();
     }
-
 
 
     @Override

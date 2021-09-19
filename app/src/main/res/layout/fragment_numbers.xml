@@ -22,17 +22,17 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1">
 
             <TextView
                 android:id="@+id/textView4"
                 android:text="@string/NumberOfRows"
-                style="@style/TextViewSettings"/>
+                style="@style/TextViewSettings" />
 
             <Spinner
                 android:id="@+id/spinnerRowsNumbers"
-                style="@style/Spinner" />
+                style="@style/Spinner"/>
 
         </LinearLayout>
 

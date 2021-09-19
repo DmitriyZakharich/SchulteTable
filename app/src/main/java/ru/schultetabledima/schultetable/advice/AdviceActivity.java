@@ -1,9 +1,13 @@
 package ru.schultetabledima.schultetable.advice;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import moxy.MvpAppCompatActivity;
 import moxy.presenter.InjectPresenter;
@@ -14,23 +18,25 @@ public class AdviceActivity extends MvpAppCompatActivity implements AdviceContra
 
     @InjectPresenter
     AdvicePresenter advicePresenter;
-
-    private TextView tvAdvice;
+    private List<TextView> textViewList = new ArrayList<>(2);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_advice);
 
-        tvAdvice = findViewById(R.id.tvAdvice);
+        textViewList.add(findViewById(R.id.tvAdvice1));
+        textViewList.add(findViewById(R.id.tvAdvice2));
 
         Button toTable = findViewById(R.id.toTable);
         toTable.setOnClickListener(moveToActivity);
     }
 
     @Override
-    public void showAdvice(String advice) {
-        tvAdvice.setText(advice);
+    public void showAdvice(int index, String advice) {
+        Log.d("tag1", "showAdvice index " + index);
+
+        textViewList.get(index).setText(advice);
     }
 
     View.OnClickListener moveToActivity = new View.OnClickListener() {

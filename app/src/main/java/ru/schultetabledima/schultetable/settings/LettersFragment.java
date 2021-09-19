@@ -19,7 +19,8 @@ public class LettersFragment extends BaseFragment implements AdapterView.OnItemS
         return new LettersFragment();
     }
 
-    public LettersFragment() {}
+    public LettersFragment() {
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,13 +51,13 @@ public class LettersFragment extends BaseFragment implements AdapterView.OnItemS
     }
 
 
-    public void setSwitchRussianOrEnglish(boolean isChecked){
+    public void setSwitchRussianOrEnglish(boolean isChecked) {
         switchRussianOrEnglish.setChecked(isChecked);
     }
 
     @Override
     public void updateNotifyObservers() {
-        for (CustomObserver customObserver : customObservers){
+        for (CustomObserver customObserver : customObservers) {
             customObserver.updateSubjectLettersFragment();
         }
     }
