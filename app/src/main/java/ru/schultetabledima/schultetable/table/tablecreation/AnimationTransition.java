@@ -1,6 +1,7 @@
 package ru.schultetabledima.schultetable.table.tablecreation;
 
 import android.animation.LayoutTransition;
+import android.util.Log;
 import android.widget.LinearLayout;
 
 public class AnimationTransition {
