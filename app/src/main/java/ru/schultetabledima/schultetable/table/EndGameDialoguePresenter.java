@@ -1,73 +1,68 @@
 package ru.schultetabledima.schultetable.table;
 
-import android.content.Context;
 import android.content.Intent;
-import android.os.SystemClock;
-
-import androidx.appcompat.app.AlertDialog;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import ru.schultetabledima.schultetable.MyApplication;
 import ru.schultetabledima.schultetable.statistic.StatisticsActivity;
-import ru.schultetabledima.schultetable.statistic.database.DatabaseAdapter;
 import ru.schultetabledima.schultetable.utils.PreferencesReader;
 
 public class EndGameDialoguePresenter {
 
-    private Context context;
-    private EndGameDialogue endGameDialogue;
+    private EndGameDialogueFragment dialogFragment;
     private TablePresenter tablePresenter;
-    private AlertDialog alertDialog;
+    private long baseChronometer;
     private PreferencesReader settings;
 
 
-    public EndGameDialoguePresenter(Context context, EndGameDialogue endGameDialogue, TablePresenter tablePresenter) {
-        this.context = context;
-        this.endGameDialogue = endGameDialogue;
+    public EndGameDialoguePresenter(EndGameDialogueFragment dialogFragment, TablePresenter tablePresenter, long baseChronometer) {
+        this.dialogFragment = dialogFragment;
         this.tablePresenter = tablePresenter;
+        this.baseChronometer = baseChronometer;
         init();
-        endGameDialogueShow();
     }
 
     private void init(){
-        settings = new PreferencesReader(context);
+        settings = new PreferencesReader(MyApplication.getContext());
 
-        EndGameDialogueCreator dialogueCreator = new EndGameDialogueCreator(context, this);
-        alertDialog = dialogueCreator.getAlertDialog();
+        EndGameDialogueCreator endGameDialogueCreator = new EndGameDialogueCreator(dialogFragment, this, baseChronometer);
+        dialogFragment.setDialog(endGameDialogueCreator.getDialog());
     }
 
-    private void endGameDialogueShow() {
-        endGameDialogue.showDialogue(alertDialog);
-    }
+
+
+
 
     public void onClickPositiveButtonListener() {
         databaseInsert();
 
-        Intent intent = ((TableActivity)context).getIntent();
-        ((TableActivity)context).finish();
-        context.startActivity(intent);
+        Intent intent = dialogFragment.getActivity().getIntent();
+        dialogFragment.getActivity().finish();
+        dialogFragment.getActivity().startActivity(intent);
     }
 
     public void onClickNeutralButtonListener() {
         databaseInsert();
-        Intent intent = new Intent(context, StatisticsActivity.class);
-        context.startActivity(intent);
+
+        Intent intent = new Intent(dialogFragment.getActivity(), StatisticsActivity.class);
+        dialogFragment.getActivity().startActivity(intent);
     }
 
     public void onNegativeButtonListener() {
-        ((TableActivity) context).setBaseChronometer(SystemClock.elapsedRealtime() + tablePresenter.getSaveTime());
-        ((TableActivity) context).startChronometer();
-        tablePresenter.cancelDialogue();
+        tablePresenter.onNegativeCancelDialogue();
     }
 
     public void onCancelDialogueListener() {
-        ((TableActivity) context).setBaseChronometer(SystemClock.elapsedRealtime() + tablePresenter.getSaveTime());
-        ((TableActivity) context).startChronometer();
-        tablePresenter.cancelDialogue();
+        tablePresenter.onNegativeCancelDialogue();
     }
+
+
+
+
 
     private void databaseInsert(){
         Date currentDate = new Date();
@@ -76,7 +71,7 @@ public class EndGameDialoguePresenter {
 
         String tableSize = settings.getRowsOfTable() + "x" + settings.getColumnsOfTable();
 
-        DatabaseAdapter databaseAdapter = new DatabaseAdapter(context, ((TableActivity) context).getTextChronometer(), tableSize, dateText);
-        databaseAdapter.insert();
+//        DatabaseAdapter databaseAdapter = new DatabaseAdapter(context, ((TableActivity) context).getTextChronometer(), tableSize, dateText);
+//        databaseAdapter.insert();
     }
 }

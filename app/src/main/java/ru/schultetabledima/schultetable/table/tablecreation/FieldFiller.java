@@ -2,11 +2,14 @@ package ru.schultetabledima.schultetable.table.tablecreation;
 
 import android.content.Context;
 import android.util.ArrayMap;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
 import androidx.appcompat.widget.AppCompatTextView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,6 +17,8 @@ import java.util.HashSet;
 import java.util.Random;
 
 import ru.schultetabledima.schultetable.R;
+import ru.schultetabledima.schultetable.contracts.TableContract;
+import ru.schultetabledima.schultetable.table.TableActivity;
 import ru.schultetabledima.schultetable.table.TablePresenter;
 import ru.schultetabledima.schultetable.utils.PreferencesReader;
 
@@ -22,11 +27,12 @@ public class FieldFiller {
     private AppCompatTextView[][] cells;
     private Context context;
     private TablePresenter tablePresenter;
+    private boolean isNewFilling = true;
+    private PreferencesReader settings;
+
     private ArrayList<Integer> listNumbers;
     private ArrayList<Character> listLetters;
-    private boolean isNewFilling = true;
     private ArrayMap<Integer, Integer> cellsId;
-    private PreferencesReader settings;
 
 
     public FieldFiller(Context context, AppCompatTextView[][] cells, TablePresenter tablePresenter) {
@@ -75,7 +81,7 @@ public class FieldFiller {
             char firstLetter = (settings.getIsEnglish())? 'A' : 'А'; // eng/rus
 
             //Массив для заполнения ячеек
-            listLetters = new ArrayList();
+            listLetters = new ArrayList<>();
             for (int j = 1; j <= settings.getColumnsOfTable() * settings.getRowsOfTable(); j++ ) {
                 listLetters.add( firstLetter );
                 firstLetter++;
@@ -103,7 +109,7 @@ public class FieldFiller {
         //Новое заполнение. Если иначе, то получение данных из конструктора
         if (isNewFilling){
             //Массив для заполнения ячеек
-            listNumbers = new ArrayList();
+            listNumbers = new ArrayList<>();
             for (int j = 1; j <= settings.getColumnsOfTable() * settings.getRowsOfTable(); j++ ) {
                 listNumbers.add( j );
             }
@@ -116,6 +122,9 @@ public class FieldFiller {
         for (int i = 0; i < settings.getRowsOfTable(); i++) {
             for (int j = 0; j < settings.getColumnsOfTable(); j++) {
                 cells[i][j].setOnClickListener(cellClick);
+
+                ((TableActivity)cells[i][j].getContext()).getBaseChronometer();
+
                 cells[i][j].setText(String.valueOf(listNumbers.get(count)));
                 count++;
 
@@ -128,7 +137,15 @@ public class FieldFiller {
     View.OnClickListener cellClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            tablePresenter.checkMove(v.getId());
+//            tablePresenter.checkMove(v.getId(), ((TableActivity)(v.getParent().getContext())).getBaseChronometer());
+
+            ViewGroup parent = (ViewGroup) v.getParent();
+
+            while (parent.getClass() != ConstraintLayout.class){
+                parent = (ViewGroup) parent.getParent();
+            }
+            tablePresenter.checkMove(v.getId(), ((TableActivity)(parent.getContext())).getBaseChronometer());
+
         }
     };
 

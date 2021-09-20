@@ -16,6 +16,7 @@ public class PreferencesReader {
     public PreferencesReader(Context context) {
         this.context = context;
         init();
+        //TODO изменить контекст на App
     }
 
     private void init() {

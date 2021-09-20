@@ -37,8 +37,6 @@ public class AdvicePresenter extends MvpPresenter<AdviceContract.View> implement
     private void showAdvice() {
         int count = 0;
         for (int id : adviceResource){
-            Log.d("tag1", "showAdvice count " + count);
-
             getViewState().showAdvice(count++, adviceModel.getAdvice(id));
 
         }

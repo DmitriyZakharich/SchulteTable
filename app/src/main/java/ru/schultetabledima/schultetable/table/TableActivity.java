@@ -9,25 +9,28 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import moxy.MvpAppCompatActivity;
+import moxy.presenter.InjectPresenter;
 import ru.schultetabledima.schultetable.R;
 import ru.schultetabledima.schultetable.contracts.TableContract;
 
-public class TableActivity extends AppCompatActivity implements TableContract.View {
 
+public class TableActivity extends MvpAppCompatActivity implements TableContract.View {
 
-    private static final String KEY_SERIALIZABLE_TABLE_PRESENTER = "tablePresenterPutSerializable";
+    @InjectPresenter
+    TablePresenter tablePresenter;
+
+//    private static final String KEY_SERIALIZABLE_TABLE_PRESENTER = "tablePresenterPutSerializable";
     private ImageButton settings;
     private Chronometer chronometer;
     private ConstraintLayout placeForTable;
     private ImageButton selectShowHideMenu;
-    private TablePresenter tablePresenter;
     private TextView moveHint, textMoveHint;
-    private ImageButton menu;
+    private ImageButton image_menu;
     private Toolbar toolbar;
 
 
@@ -38,7 +41,7 @@ public class TableActivity extends AppCompatActivity implements TableContract.Vi
 
         selectShowHideMenu = (ImageButton) findViewById(R.id.image_Button_Show_Hide_Menu);
         settings = (ImageButton) findViewById(R.id.image_button_settings);
-        menu = (ImageButton) findViewById(R.id.image_menu);
+        image_menu = (ImageButton) findViewById(R.id.image_menu);
         placeForTable = (ConstraintLayout) findViewById(R.id.placeForTable);
         chronometer = (Chronometer) findViewById(R.id.chronometer);
         moveHint = (TextView) findViewById(R.id.moveHint);
@@ -50,10 +53,11 @@ public class TableActivity extends AppCompatActivity implements TableContract.Vi
 
         settings.setOnClickListener(onClickMenuButtonsListener);
         selectShowHideMenu.setOnClickListener(onClickMenuButtonsListener);
-        menu.setOnClickListener(onClickMenuButtonsListener);
+        image_menu.setOnClickListener(onClickMenuButtonsListener);
 
-        if (savedInstanceState == null)
-            tablePresenter = new TablePresenter(this);
+//        if (savedInstanceState == null)
+//            tablePresenter = new TablePresenter(this);
+
     }
 
 
@@ -62,6 +66,7 @@ public class TableActivity extends AppCompatActivity implements TableContract.Vi
         placeForTable.addView(table);
     }
 
+    @Override
     public void addAnimationToolbar(LayoutTransition layoutTransition) {
         toolbar.setLayoutTransition(layoutTransition);
     }
@@ -69,15 +74,15 @@ public class TableActivity extends AppCompatActivity implements TableContract.Vi
     View.OnClickListener onClickMenuButtonsListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            tablePresenter.onClickMenuButtonsListener(v.getId());
+            tablePresenter.onClickMenuButtonsListener(v.getId(), v);
         }
     };
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        tablePresenter.preparingToRotateScreen();
-        tablePresenter.detachView();
-        outState.putSerializable(KEY_SERIALIZABLE_TABLE_PRESENTER, tablePresenter);
+//        tablePresenter.preparingToRotateScreen();
+//        tablePresenter.detachView();
+//        outState.putSerializable(KEY_SERIALIZABLE_TABLE_PRESENTER, tablePresenter);
 
         super.onSaveInstanceState(outState);
     }
@@ -85,16 +90,16 @@ public class TableActivity extends AppCompatActivity implements TableContract.Vi
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        tablePresenter = (TablePresenter) savedInstanceState.getSerializable(KEY_SERIALIZABLE_TABLE_PRESENTER);
-        tablePresenter.attachView(this);
-        tablePresenter.restoreInstanceState();
+//        tablePresenter = (TablePresenter) savedInstanceState.getSerializable(KEY_SERIALIZABLE_TABLE_PRESENTER);
+//        tablePresenter.attachView(this);
+//        tablePresenter.restoreInstanceState();
     }
 
-
+    @Override
     public void showHideMenu(int visibility, int visibilityHint, int imageResource, LinearLayout.LayoutParams layoutParams) {
         chronometer.setVisibility(visibility);
         settings.setVisibility(visibility);
-        menu.setVisibility(visibility);
+        image_menu.setVisibility(visibility);
 
         textMoveHint.setVisibility(visibilityHint);
         moveHint.setVisibility(visibilityHint);
@@ -104,37 +109,61 @@ public class TableActivity extends AppCompatActivity implements TableContract.Vi
     }
 
 
+    public ImageButton getImageMenu() {
+        return image_menu;
+    }
+
+    @Override
     public void setMoveHint(int nextMoveFirstTable) {
         moveHint.setText(String.valueOf(nextMoveFirstTable));
     }
 
+    @Override
     public void setMoveHint(char nextMoveFirstTable) {
         moveHint.setText(String.valueOf(nextMoveFirstTable));
     }
 
+    @Override
     public void removeTable() {
         placeForTable.removeAllViews();
     }
 
+    @Override
     public void startChronometer() {
         chronometer.start();
     }
 
+    @Override
+    public void showDialogueFragment(EndGameDialogueFragment dialogueFragment) {
+//        dialogueFragment.start();
+        dialogueFragment.show(getSupportFragmentManager(), "custom");
+    }
+
+//    @Override
+//    public void setAlertDialog(AlertDialog alertDialog) {
+//        alertDialog.show();
+//        alertDialog.
+//    }
+
+    @Override
     public void stopChronometer() {
         chronometer.stop();
     }
 
-    public String getTextChronometer() {
-        return (String) chronometer.getText();
-    }
+//    @Override
+//    public String getTextChronometer() {
+//        return (String) chronometer.getText();
+//    }
 
     public long getBaseChronometer() {
         return chronometer.getBase();
     }
 
+    @Override
     public void setBaseChronometer(long base) {
         chronometer.setBase(base);
     }
+
 
 
     @Override

@@ -34,8 +34,6 @@ public class AdviceActivity extends MvpAppCompatActivity implements AdviceContra
 
     @Override
     public void showAdvice(int index, String advice) {
-        Log.d("tag1", "showAdvice index " + index);
-
         textViewList.get(index).setText(advice);
     }
 
