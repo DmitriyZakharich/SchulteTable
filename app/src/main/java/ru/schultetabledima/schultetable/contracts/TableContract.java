@@ -6,12 +6,13 @@ import android.widget.LinearLayout;
 import androidx.appcompat.app.AlertDialog;
 
 import moxy.MvpView;
+import moxy.viewstate.strategy.AddToEndSingleStrategy;
 import moxy.viewstate.strategy.AddToEndStrategy;
 import moxy.viewstate.strategy.StateStrategyType;
 import ru.schultetabledima.schultetable.table.EndGameDialogueFragment;
 
 public interface TableContract {
-    @StateStrategyType(AddToEndStrategy.class)
+    @StateStrategyType(AddToEndSingleStrategy.class)
     interface View extends MvpView {
 
 
@@ -27,11 +28,11 @@ public interface TableContract {
 
         void stopChronometer();
 
+        void startChronometer();
+
         void removeTable();
 
         void setBaseChronometer(long l);
-
-        void startChronometer();
 
         void showDialogueFragment(EndGameDialogueFragment dialogueFragment);
 

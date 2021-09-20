@@ -4,6 +4,7 @@ import android.animation.LayoutTransition;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Chronometer;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -63,6 +64,9 @@ public class TableActivity extends MvpAppCompatActivity implements TableContract
 
     @Override
     public void showTable(LinearLayout table) {
+        if (table.getParent() != null) {
+            ((ViewGroup)table.getParent()).removeAllViews();
+        }
         placeForTable.addView(table);
     }
 
@@ -108,11 +112,6 @@ public class TableActivity extends MvpAppCompatActivity implements TableContract
         toolbar.setLayoutParams(layoutParams);
     }
 
-
-    public ImageButton getImageMenu() {
-        return image_menu;
-    }
-
     @Override
     public void setMoveHint(int nextMoveFirstTable) {
         moveHint.setText(String.valueOf(nextMoveFirstTable));
@@ -135,7 +134,6 @@ public class TableActivity extends MvpAppCompatActivity implements TableContract
 
     @Override
     public void showDialogueFragment(EndGameDialogueFragment dialogueFragment) {
-//        dialogueFragment.start();
         dialogueFragment.show(getSupportFragmentManager(), "custom");
     }
 

@@ -11,6 +11,7 @@ import android.os.SystemClock;
 import android.util.ArrayMap;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TableLayout;
@@ -41,7 +42,6 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
 
     private int count = 0;
     private long saveTime;
-//    private Context context;
     private transient TableCreator tableCreator;
     private transient LinearLayout table;
     private boolean isMenuShow;
@@ -79,6 +79,9 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
         settingForMenu(); //возможно перенести вверх стека
     }
 
+
+//////////////////
+//Меню
     private void settingForMenu() {
         sharedPreferencesMenu = MyApplication.getContext().getSharedPreferences(MENU_PREFERENCES, MODE_PRIVATE);
         isMenuShow = sharedPreferencesMenu.getBoolean(KEY_MENU_VISIBILITY, true);
@@ -112,7 +115,6 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
         getViewState().addAnimationToolbar(new AnimationTransition().createAnimation());
 
     }
-
 
     public void onClickMenuButtonsListener(int viewID, View v) {
         if (viewID == R.id.image_button_settings) {
@@ -199,6 +201,7 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
         });
         popupMenu.show();
     }
+//////////////////////
 
 
     private void callTableCreator() {
@@ -207,6 +210,8 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
     }
 
 
+////////////////////////
+    //Проверка хода
     private void settingForCheckMove() {
         cellsIdFirstTable = new ArrayMap<>();
         cellsIdFirstTable = tableCreator.getCellsIdFirstTable();
@@ -240,7 +245,6 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
 
         activeTable = firstTable.getId();
     }
-
 
     public void checkMove(int cellId, long baseChronometer) {
         this.baseChronometer = baseChronometer;
@@ -349,12 +353,15 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
         getViewState().showDialogueFragment(endGameDialogueFragment);
 //        getViewState().setAlertDialog(endGameDialogue.getAlertDialog());
     }
+///////////////////////////
 
 //    public Intent getTableActivityIntent() {
 //        return getViewState().getIntent();
 //    }
 
 
+////////////////////
+    //Восстановление
     public void preparingToRotateScreen() {
         getViewState().removeTable();
 
@@ -461,6 +468,9 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
             secondTable.setBackgroundColor(ContextCompat.getColor(MyApplication.getContext(), R.color.activeTable));
         }
     }
+/////////////////
+
+
 
     public void cancelDialogue() {
         isDialogueShow = false;
@@ -478,13 +488,6 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
         getViewState().startChronometer();
     }
 
-//    public void attachView(Context context) {
-//        this.context = context;
-//    }
-//
-//    public void detachView() {
-//        context = null;
-//    }
 
     private void showToastWrongTable() {
         Toast toast = Toast.makeText(MyApplication.getContext(), R.string.wrongTable, Toast.LENGTH_SHORT);
