@@ -2,22 +2,35 @@ package ru.schultetabledima.schultetable.table;
 
 import android.animation.LayoutTransition;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.ArrayMap;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Chronometer;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Set;
+
 import moxy.MvpAppCompatActivity;
 import moxy.presenter.InjectPresenter;
+import ru.schultetabledima.schultetable.MyApplication;
 import ru.schultetabledima.schultetable.R;
 import ru.schultetabledima.schultetable.contracts.TableContract;
+import ru.schultetabledima.schultetable.table.tablecreation.DataCell;
+import ru.schultetabledima.schultetable.table.tablecreation.TableCreator;
+import ru.schultetabledima.schultetable.utils.PreferencesReader;
 
 
 public class TableActivity extends MvpAppCompatActivity implements TableContract.View {
@@ -25,14 +38,18 @@ public class TableActivity extends MvpAppCompatActivity implements TableContract
     @InjectPresenter
     TablePresenter tablePresenter;
 
-//    private static final String KEY_SERIALIZABLE_TABLE_PRESENTER = "tablePresenterPutSerializable";
-    private ImageButton settings;
+    private ImageButton buttonSettings;
     private Chronometer chronometer;
     private ConstraintLayout placeForTable;
     private ImageButton selectShowHideMenu;
     private TextView moveHint, textMoveHint;
     private ImageButton image_menu;
     private Toolbar toolbar;
+    private AppCompatTextView[][] cells1, cells2;
+    private PreferencesReader settings;
+    //    private List<Integer> cellsIdFirstTable, cellsIdSecondTable;
+    private LinearLayout containerWithTables;
+    private List<TableContract.Presenter> presenterObservers = new ArrayList<>();
 
 
     @Override
@@ -40,34 +57,119 @@ public class TableActivity extends MvpAppCompatActivity implements TableContract
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_table);
 
-        selectShowHideMenu = (ImageButton) findViewById(R.id.image_Button_Show_Hide_Menu);
-        settings = (ImageButton) findViewById(R.id.image_button_settings);
-        image_menu = (ImageButton) findViewById(R.id.image_menu);
-        placeForTable = (ConstraintLayout) findViewById(R.id.placeForTable);
-        chronometer = (Chronometer) findViewById(R.id.chronometer);
-        moveHint = (TextView) findViewById(R.id.moveHint);
-        textMoveHint = (TextView) findViewById(R.id.textMoveHint);
+        selectShowHideMenu = findViewById(R.id.image_Button_Show_Hide_Menu);
+        buttonSettings = findViewById(R.id.image_button_settings);
+        image_menu = findViewById(R.id.image_menu);
+        placeForTable = findViewById(R.id.placeForTable);
+        chronometer = findViewById(R.id.chronometer);
+        moveHint = findViewById(R.id.moveHint);
+        textMoveHint = findViewById(R.id.textMoveHint);
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
 
-        settings.setOnClickListener(onClickMenuButtonsListener);
+        buttonSettings.setOnClickListener(onClickMenuButtonsListener);
         selectShowHideMenu.setOnClickListener(onClickMenuButtonsListener);
         image_menu.setOnClickListener(onClickMenuButtonsListener);
 
-//        if (savedInstanceState == null)
-//            tablePresenter = new TablePresenter(this);
+        settings = new PreferencesReader(this);
 
+
+        TableCreator tableCreator = new TableCreator(this, tablePresenter);
+        containerWithTables = tableCreator.getContainerForTables();
+        placeForTable.addView(containerWithTables);
+
+//        cellsIdFirstTable = tableCreator.getCellsIdFirstTable();
+
+        cells1 = tableCreator.getCellsFirstTable();
+
+        if (settings.getIsTwoTables()) {
+//            cellsIdSecondTable = tableCreator.getCellsIdSecondTable();
+            cells2 = tableCreator.getCellsSecondTable();
+        }
+
+//        tablePresenter.setCellsId(cellsIdFirstTable, cellsIdSecondTable);
     }
 
 
     @Override
-    public void showTable(LinearLayout table) {
-        if (table.getParent() != null) {
-            ((ViewGroup)table.getParent()).removeAllViews();
+    public void setTableData(List<DataCell> dataCellsFirstTable, List<DataCell> dataCellsSecondTable) {
+
+        fillingTable(cells1, dataCellsFirstTable);
+
+        if (settings.getIsTwoTables()) {
+            fillingTable(cells2, dataCellsSecondTable);
         }
-        placeForTable.addView(table);
+
+    }
+
+    @Override
+    public void setTableColor(int table_id, int color) {
+        containerWithTables.getChildAt(table_id).setBackgroundColor(getResources().getColor(color));
+    }
+
+    @Override
+    public void showToastWrongTable(int wrongTable) {
+        Toast toast = Toast.makeText(this, wrongTable, Toast.LENGTH_SHORT);
+        toast.show();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                toast.cancel();
+            }
+        }, 500);
+    }
+
+
+    private void fillingTable(AppCompatTextView[][] cells, List<DataCell> dataCells) {
+
+//        Integer[] ids = (Integer[]) mapValuesAndIds.keySet().toArray();
+
+//        Set<Integer> keys = mapValuesAndIds.keySet();
+//
+//        Integer[] ids = keys.toArray(new Integer[keys.size()]);
+
+
+        int count = 0;
+
+
+        for (int i = 0; i < settings.getRowsOfTable(); i++) {
+            for (int j = 0; j < settings.getColumnsOfTable(); j++) {
+                cells[i][j].setId(dataCells.get(count).getId());
+
+
+                if (settings.getIsLetters()) {
+                    cells[i][j].setText(String.valueOf((char) (dataCells.get(count).getValue())));
+
+                } else {
+                    cells[i][j].setText(String.valueOf(dataCells.get(count).getValue()));
+                }
+
+
+//                cells[i][j].setText(mapValuesAndIds.get(ids[count]).toString());
+
+                count++;
+            }
+        }
+
+
+//        int count = 0;
+//
+//        for (int i = 0; i < settings.getRowsOfTable(); i++) {
+//            for (int j = 0; j < settings.getColumnsOfTable(); j++) {
+//
+//                if (settings.getIsLetters()) {
+//                    cells[i][j].setText(String.valueOf((char) ((int) listValue.get(count))));
+//
+//                } else {
+//                    cells[i][j].setText(String.valueOf(listValue.get(count)));
+//                }
+//                cells[i][j].setId(cellsId.get(i));
+//
+//                count++;
+//            }
+//        }
     }
 
     @Override
@@ -82,27 +184,11 @@ public class TableActivity extends MvpAppCompatActivity implements TableContract
         }
     };
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-//        tablePresenter.preparingToRotateScreen();
-//        tablePresenter.detachView();
-//        outState.putSerializable(KEY_SERIALIZABLE_TABLE_PRESENTER, tablePresenter);
-
-        super.onSaveInstanceState(outState);
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-//        tablePresenter = (TablePresenter) savedInstanceState.getSerializable(KEY_SERIALIZABLE_TABLE_PRESENTER);
-//        tablePresenter.attachView(this);
-//        tablePresenter.restoreInstanceState();
-    }
 
     @Override
     public void showHideMenu(int visibility, int visibilityHint, int imageResource, LinearLayout.LayoutParams layoutParams) {
         chronometer.setVisibility(visibility);
-        settings.setVisibility(visibility);
+        buttonSettings.setVisibility(visibility);
         image_menu.setVisibility(visibility);
 
         textMoveHint.setVisibility(visibilityHint);
@@ -161,7 +247,6 @@ public class TableActivity extends MvpAppCompatActivity implements TableContract
     public void setBaseChronometer(long base) {
         chronometer.setBase(base);
     }
-
 
 
     @Override

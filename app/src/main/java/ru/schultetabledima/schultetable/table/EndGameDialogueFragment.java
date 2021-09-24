@@ -24,7 +24,7 @@ public class EndGameDialogueFragment extends DialogFragment {
     }
 
 
-    public void setDialog(Dialog dialog){
+    public void setDialog(Dialog dialog) {
         this.dialog = dialog;
     }
 

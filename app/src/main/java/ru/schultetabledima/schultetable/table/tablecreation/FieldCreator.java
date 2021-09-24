@@ -3,6 +3,7 @@ package ru.schultetabledima.schultetable.table.tablecreation;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Color;
+import android.util.ArrayMap;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -10,6 +11,11 @@ import android.widget.TableLayout;
 
 import androidx.appcompat.widget.AppCompatTextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import ru.schultetabledima.schultetable.table.TableActivity;
+import ru.schultetabledima.schultetable.table.TablePresenter;
 import ru.schultetabledima.schultetable.utils.Converter;
 import ru.schultetabledima.schultetable.utils.PreferencesReader;
 
@@ -18,12 +24,16 @@ public class FieldCreator {
     private Context context;
     private CustomCell [][] cells;
     private int backgroundColor;
+    private TablePresenter tablePresenter;
     private PreferencesReader settings;
+//    private List<Integer> cellsId;
 
 
-    public FieldCreator(Context context, int backgroundColor) {
+
+    public FieldCreator(Context context, int backgroundColor, TablePresenter tablePresenter) {
         this.context = context;
         this.backgroundColor = backgroundColor;
+        this.tablePresenter = tablePresenter;
         main();
     }
 
@@ -54,6 +64,7 @@ public class FieldCreator {
             field.addView(rows[i]);
         }
 
+//        cellsId = new ArrayList<>();
 
         //Создание кнопок
         cells = new CustomCell[settings.getRowsOfTable()][settings.getColumnsOfTable()];
@@ -76,11 +87,22 @@ public class FieldCreator {
                     cells[i][j].setPadding(padding, padding, padding, padding);
                 }
 
-                cells[i][j].setId(View.generateViewId());
+//                cells[i][j].setId(View.generateViewId());
                 rows[i].addView(cells[i][j]);
+
+                cells[i][j].setOnClickListener(cellClick);
+
+//                cellsId.add(cells[i][j].getId());
             }
         }
     }
+
+    View.OnClickListener cellClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            tablePresenter.checkMove(view.getId(), ((TableActivity)context).getBaseChronometer());
+        }
+    };
 
 
     public TableLayout getField() {
@@ -91,5 +113,8 @@ public class FieldCreator {
         return cells;
     }
 
+//    public List<Integer> getCellsId(){
+//        return cellsId;
+//    }
 
 }

@@ -1,11 +1,11 @@
 package ru.schultetabledima.schultetable.settings;
 
 public interface CustomObserver {
-    public void updateSubjectNumbersFragment();
-    public void updateSubjectLettersFragment();
+    void updateSubjectNumbersFragment();
+    void updateSubjectLettersFragment();
 
-    public void subscribeNumbersFragment();
-    public void subscribeLettersFragment();
-    public void unSubscribeLettersFragment();
-    public void unSubscribeNumbersFragment();
+    void subscribeNumbersFragment();
+    void subscribeLettersFragment();
+    void unSubscribeLettersFragment();
+    void unSubscribeNumbersFragment();
 }

@@ -1,7 +1,6 @@
 package ru.schultetabledima.schultetable.table;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.util.Log;
 
@@ -28,7 +27,7 @@ public class EndGameDialogueCreator {
         main();
     }
 
-    private void main(){
+    private void main() {
         settings = new PreferencesReader(MyApplication.getContext());
         getTime();
         createDialogue();
@@ -42,10 +41,10 @@ public class EndGameDialogueCreator {
         long minutes = (totalSecs % 3600) / 60;
         long seconds = totalSecs % 60;
 
-        Log.d("TagTagTag", "getTime: " + hours + "   " + "   " + minutes + "  " +  seconds);
+        Log.d("TagTagTag", "getTime: " + hours + "   " + "   " + minutes + "  " + seconds);
     }
 
-    private void createDialogue(){
+    private void createDialogue() {
 
         builder = new AlertDialog.Builder(dialogFragment.getActivity());
         builder.setTitle(R.string.end_game)
@@ -55,7 +54,7 @@ public class EndGameDialogueCreator {
                         endGameDialoguePresenter.onClickPositiveButtonListener();
                     }
                 })
-                .setNeutralButton(R.string.statistics, new DialogInterface.OnClickListener(){
+                .setNeutralButton(R.string.statistics, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         endGameDialoguePresenter.onClickNeutralButtonListener();
@@ -64,7 +63,7 @@ public class EndGameDialogueCreator {
                 .setCancelable(false);
 
 
-        if(!settings.getIsTouchCells()){
+        if (!settings.getIsTouchCells()) {
             builder.setCancelable(true);
             builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
                 @Override

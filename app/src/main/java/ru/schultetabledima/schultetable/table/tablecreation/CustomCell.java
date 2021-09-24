@@ -1,5 +1,6 @@
 package ru.schultetabledima.schultetable.table.tablecreation;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.TypedValue;
 
@@ -7,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.widget.TextViewCompat;
 
+@SuppressLint("ViewConstructor")
 public class CustomCell extends AppCompatTextView {
     boolean isLetters;
     public CustomCell(@NonNull Context context, boolean isLetters) {

@@ -8,7 +8,7 @@ import android.widget.AdapterView;
 
 import ru.schultetabledima.schultetable.R;
 
-public class NumbersFragment extends BaseFragment implements AdapterView.OnItemSelectedListener, CustomSubject {
+public class NumbersFragment extends BaseFragment implements AdapterView.OnItemSelectedListener {
 
 
     public static NumbersFragment newInstance() {

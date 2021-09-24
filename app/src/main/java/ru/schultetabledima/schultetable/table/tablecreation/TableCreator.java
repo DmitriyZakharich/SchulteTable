@@ -2,21 +2,20 @@ package ru.schultetabledima.schultetable.table.tablecreation;
 
 import android.content.Context;
 import android.content.res.Configuration;
-import android.graphics.Color;
-import android.graphics.drawable.GradientDrawable;
 import android.util.ArrayMap;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TableLayout;
 
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.AppCompatTextView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import ru.schultetabledima.schultetable.MyApplication;
 import ru.schultetabledima.schultetable.R;
 import ru.schultetabledima.schultetable.table.TablePresenter;
 import ru.schultetabledima.schultetable.utils.Converter;
@@ -26,8 +25,6 @@ public class TableCreator {
     private LinearLayout containerForTable;
     private Context context;
     private TablePresenter tablePresenter;
-    private FieldFiller fieldFiller1;
-    private FieldFiller fieldFiller2;
     private FieldCreator fieldCreator1;
     private FieldCreator fieldCreator2;
     private PreferencesReader settings;
@@ -45,54 +42,55 @@ public class TableCreator {
         main();
     }
 
-    //Constructor to restore activity with letters
-    public TableCreator(Context context, TablePresenter tablePresenter, ArrayList<Character> listLetters1, ArrayList<Character> listLetters2) {
-        this.context = context;
-        this.tablePresenter = tablePresenter;
-        this.listLetters1 = listLetters1;
-        this.listLetters2 = listLetters2;
-        restoreTable();
-    }
-
-    //Constructor to restore activity with numbers
-    public TableCreator(Context context, ArrayList<Integer> listNumbers1, ArrayList<Integer> listNumbers2, TablePresenter tablePresenter) {
-        this.context = context;
-        this.tablePresenter = tablePresenter;
-        this.listNumbers1 = listNumbers1;
-        this.listNumbers2 = listNumbers2;
-        restoreTable();
-    }
+//    //Constructor to restore activity with letters
+//    public TableCreator(Context context, TablePresenter tablePresenter, ArrayList<Character> listLetters1, ArrayList<Character> listLetters2) {
+//        this.context = context;
+//        this.tablePresenter = tablePresenter;
+//        this.listLetters1 = listLetters1;
+//        this.listLetters2 = listLetters2;
+//        restoreTable();
+//    }
+//
+//    //Constructor to restore activity with numbers
+//    public TableCreator(Context context, ArrayList<Integer> listNumbers1, ArrayList<Integer> listNumbers2, TablePresenter tablePresenter) {
+//        this.context = context;
+//        this.tablePresenter = tablePresenter;
+//        this.listNumbers1 = listNumbers1;
+//        this.listNumbers2 = listNumbers2;
+//        restoreTable();
+//    }
 
 
     void main() {
         settings = new PreferencesReader(context);
         creatingContainerForTable();
         creatingField();
-        fillingTable();
-        addAnimationTransition();
+//        fillingTable();
+//        addAnimationTransition();
 
-        if (settings.getIsAnim()) {
-            addAnimationInGame();
-        }
+//        if (settings.getIsAnim()) {
+//            addAnimationInGame();
+//        }
     }
 
 
     private void creatingContainerForTable() {
+
         containerForTable = new LinearLayout(context);
-        containerForTable.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
-                RelativeLayout.LayoutParams.MATCH_PARENT));
+        containerForTable.setLayoutParams(new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT,
+                ConstraintLayout.LayoutParams.MATCH_PARENT));
         containerForTable.setGravity(Gravity.CENTER);
 
 
         if (settings.getIsTwoTables()) {
 
             viewDivider = new View(context);
-            viewDivider.setBackground(AppCompatResources.getDrawable(context, R.drawable.table_separator));
+            viewDivider.setBackground(AppCompatResources.getDrawable(MyApplication.getContext(), R.drawable.table_separator));
 
             int widthViewDivider;
             int heightViewDivider;
 
-            if ((context).getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            if (context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
                 widthViewDivider = 15;
                 heightViewDivider = 100;
 
@@ -112,27 +110,29 @@ public class TableCreator {
     }
 
     private void creatingField() {
-        fieldCreator1 = new FieldCreator(context, ContextCompat.getColor(context, R.color.activeTable));
+        fieldCreator1 = new FieldCreator(context, ContextCompat.getColor(context, R.color.activeTable), tablePresenter);
         containerForTable.addView(fieldCreator1.getField());
 
         if (settings.getIsTwoTables()) {
 
             containerForTable.addView(viewDivider);
 
-            fieldCreator2 = new FieldCreator(context, ContextCompat.getColor(context, R.color.passiveTable));
+            fieldCreator2 = new FieldCreator(context, ContextCompat.getColor(context, R.color.passiveTable), tablePresenter);
             containerForTable.addView(fieldCreator2.getField());
         }
     }
 
-    private void fillingTable() {
-        cells1 = fieldCreator1.getCells();
-        fieldFiller1 = new FieldFiller(context, cells1, tablePresenter);
-
-        if (settings.getIsTwoTables()) {
-            cells2 = fieldCreator2.getCells();
-            fieldFiller2 = new FieldFiller(context, cells2, tablePresenter);
-        }
-    }
+//    private void fillingTable() {
+//
+//
+//        cells1 = fieldCreator1.getCells();
+//        fieldFiller1 = new FieldFiller(context, cells1, tablePresenter);
+//
+//        if (settings.getIsTwoTables()) {
+//            cells2 = fieldCreator2.getCells();
+//            fieldFiller2 = new FieldFiller(context, cells2, tablePresenter);
+//        }
+//    }
 
     private void addAnimationTransition() {
         new AnimationTransition(containerForTable);
@@ -146,61 +146,68 @@ public class TableCreator {
     }
 
 
-    private void restoreTable() {
-        settings = new PreferencesReader(context);
-        creatingContainerForTable();
-        creatingField();
-        restoreFillingTable();
-    }
+//    private void restoreTable() {
+//        settings = new PreferencesReader(context);
+//        creatingContainerForTable();
+//        creatingField();
+//        restoreFillingTable();
+//    }
 
-    private void restoreFillingTable() {
+//    private void restoreFillingTable() {
+//
+//        if (settings.getIsLetters()) {
+//            AppCompatTextView[][] cells1 = fieldCreator1.getCells();
+//            fieldFiller1 = new FieldFiller(context, tablePresenter, listLetters1, cells1);
+//
+//            if (settings.getIsTwoTables()) {
+//                AppCompatTextView[][] cells2 = fieldCreator2.getCells();
+//                fieldFiller2 = new FieldFiller(context, tablePresenter, listLetters2, cells2);
+//            }
+//        }
+//
+//        if (!settings.getIsLetters()) {
+//            AppCompatTextView[][] cells1 = fieldCreator1.getCells();
+//            fieldFiller1 = new FieldFiller(cells1, tablePresenter, listNumbers1, context);
+//
+//            if (settings.getIsTwoTables()) {
+//                AppCompatTextView[][] cells2 = fieldCreator2.getCells();
+//                fieldFiller2 = new FieldFiller(cells2, tablePresenter, listNumbers2, context);
+//            }
+//        }
+//    }
 
-        if (settings.getIsLetters()) {
-            AppCompatTextView[][] cells1 = fieldCreator1.getCells();
-            fieldFiller1 = new FieldFiller(context, tablePresenter, listLetters1, cells1);
 
-            if (settings.getIsTwoTables()) {
-                AppCompatTextView[][] cells2 = fieldCreator2.getCells();
-                fieldFiller2 = new FieldFiller(context, tablePresenter, listLetters2, cells2);
-            }
-        }
-
-        if (!settings.getIsLetters()) {
-            AppCompatTextView[][] cells1 = fieldCreator1.getCells();
-            fieldFiller1 = new FieldFiller(cells1, tablePresenter, listNumbers1, context);
-
-            if (settings.getIsTwoTables()) {
-                AppCompatTextView[][] cells2 = fieldCreator2.getCells();
-                fieldFiller2 = new FieldFiller(cells2, tablePresenter, listNumbers2, context);
-            }
-        }
-    }
-
-
-    public LinearLayout getContainerForTable() {
+    public LinearLayout getContainerForTables() {
         return containerForTable;
     }
 
-    public ArrayList<Integer> getListNumbers1() {
-        return fieldFiller1.getListNumbers();
-    }
-    public ArrayList<Integer> getListNumbers2() {
-        return fieldFiller2.getListNumbers();
-    }
+//    public ArrayList<Integer> getListNumbers1() {
+//        return fieldFiller1.getListNumbers();
+//    }
+//    public ArrayList<Integer> getListNumbers2() {
+//        return fieldFiller2.getListNumbers();
+//    }
+//
+//
+//    public ArrayList<Character> getListLetters1() {
+//        return fieldFiller1.getListLetters();
+//    }
+//    public ArrayList<Character> getListLetters2() {
+//        return fieldFiller2.getListLetters();
+//    }
 
 
-    public ArrayList<Character> getListLetters1() {
-        return fieldFiller1.getListLetters();
-    }
-    public ArrayList<Character> getListLetters2() {
-        return fieldFiller2.getListLetters();
-    }
+//    public List<Integer> getCellsIdFirstTable() {
+//        return fieldCreator1.getCellsId();
+//    }
+//    public List<Integer> getCellsIdSecondTable() {
+//        return fieldCreator2.getCellsId();
+//    }
 
-
-    public ArrayMap<Integer, Integer> getCellsIdFirstTable() {
-        return fieldFiller1.getCellsId();
+    public AppCompatTextView[][] getCellsFirstTable() {
+        return fieldCreator1.getCells();
     }
-    public ArrayMap<Integer, Integer> getCellsIdSecondTable() {
-        return fieldFiller2.getCellsId();
+    public AppCompatTextView[][] getCellsSecondTable() {
+        return fieldCreator2.getCells();
     }
 }

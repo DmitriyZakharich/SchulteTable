@@ -9,7 +9,6 @@
     tools:context=".table.TableActivity"
     android:id="@+id/linearLayoutId">
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/placeForTable"
         android:layout_width="match_parent"

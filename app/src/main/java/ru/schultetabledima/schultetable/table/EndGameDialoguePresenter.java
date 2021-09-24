@@ -53,11 +53,11 @@ public class EndGameDialoguePresenter {
     }
 
     public void onNegativeButtonListener() {
-        tablePresenter.onNegativeCancelDialogue();
+        tablePresenter.onNegativeOrCancelDialogue();
     }
 
     public void onCancelDialogueListener() {
-        tablePresenter.onNegativeCancelDialogue();
+        tablePresenter.onNegativeOrCancelDialogue();
     }
 
 
