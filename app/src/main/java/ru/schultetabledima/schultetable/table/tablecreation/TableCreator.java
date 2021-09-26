@@ -2,7 +2,6 @@ package ru.schultetabledima.schultetable.table.tablecreation;
 
 import android.content.Context;
 import android.content.res.Configuration;
-import android.util.ArrayMap;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -13,9 +12,8 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import ru.schultetabledima.schultetable.MyApplication;
+import ru.schultetabledima.schultetable.App;
 import ru.schultetabledima.schultetable.R;
 import ru.schultetabledima.schultetable.table.TablePresenter;
 import ru.schultetabledima.schultetable.utils.Converter;
@@ -42,25 +40,6 @@ public class TableCreator {
         main();
     }
 
-//    //Constructor to restore activity with letters
-//    public TableCreator(Context context, TablePresenter tablePresenter, ArrayList<Character> listLetters1, ArrayList<Character> listLetters2) {
-//        this.context = context;
-//        this.tablePresenter = tablePresenter;
-//        this.listLetters1 = listLetters1;
-//        this.listLetters2 = listLetters2;
-//        restoreTable();
-//    }
-//
-//    //Constructor to restore activity with numbers
-//    public TableCreator(Context context, ArrayList<Integer> listNumbers1, ArrayList<Integer> listNumbers2, TablePresenter tablePresenter) {
-//        this.context = context;
-//        this.tablePresenter = tablePresenter;
-//        this.listNumbers1 = listNumbers1;
-//        this.listNumbers2 = listNumbers2;
-//        restoreTable();
-//    }
-
-
     void main() {
         settings = new PreferencesReader(context);
         creatingContainerForTable();
@@ -85,7 +64,7 @@ public class TableCreator {
         if (settings.getIsTwoTables()) {
 
             viewDivider = new View(context);
-            viewDivider.setBackground(AppCompatResources.getDrawable(MyApplication.getContext(), R.drawable.table_separator));
+            viewDivider.setBackground(AppCompatResources.getDrawable(App.getContext(), R.drawable.table_separator));
 
             int widthViewDivider;
             int heightViewDivider;
@@ -121,18 +100,6 @@ public class TableCreator {
             containerForTable.addView(fieldCreator2.getField());
         }
     }
-
-//    private void fillingTable() {
-//
-//
-//        cells1 = fieldCreator1.getCells();
-//        fieldFiller1 = new FieldFiller(context, cells1, tablePresenter);
-//
-//        if (settings.getIsTwoTables()) {
-//            cells2 = fieldCreator2.getCells();
-//            fieldFiller2 = new FieldFiller(context, cells2, tablePresenter);
-//        }
-//    }
 
     private void addAnimationTransition() {
         new AnimationTransition(containerForTable);

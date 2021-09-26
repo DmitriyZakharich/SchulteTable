@@ -2,10 +2,8 @@ package ru.schultetabledima.schultetable.table;
 
 import android.animation.LayoutTransition;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.ArrayMap;
 import android.view.View;
 import android.widget.Chronometer;
 import android.widget.ImageButton;
@@ -18,14 +16,10 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Set;
 
 import moxy.MvpAppCompatActivity;
 import moxy.presenter.InjectPresenter;
-import ru.schultetabledima.schultetable.MyApplication;
 import ru.schultetabledima.schultetable.R;
 import ru.schultetabledima.schultetable.contracts.TableContract;
 import ru.schultetabledima.schultetable.table.tablecreation.DataCell;
@@ -80,16 +74,11 @@ public class TableActivity extends MvpAppCompatActivity implements TableContract
         containerWithTables = tableCreator.getContainerForTables();
         placeForTable.addView(containerWithTables);
 
-//        cellsIdFirstTable = tableCreator.getCellsIdFirstTable();
-
         cells1 = tableCreator.getCellsFirstTable();
 
         if (settings.getIsTwoTables()) {
-//            cellsIdSecondTable = tableCreator.getCellsIdSecondTable();
             cells2 = tableCreator.getCellsSecondTable();
         }
-
-//        tablePresenter.setCellsId(cellsIdFirstTable, cellsIdSecondTable);
     }
 
 
@@ -124,15 +113,7 @@ public class TableActivity extends MvpAppCompatActivity implements TableContract
 
     private void fillingTable(AppCompatTextView[][] cells, List<DataCell> dataCells) {
 
-//        Integer[] ids = (Integer[]) mapValuesAndIds.keySet().toArray();
-
-//        Set<Integer> keys = mapValuesAndIds.keySet();
-//
-//        Integer[] ids = keys.toArray(new Integer[keys.size()]);
-
-
         int count = 0;
-
 
         for (int i = 0; i < settings.getRowsOfTable(); i++) {
             for (int j = 0; j < settings.getColumnsOfTable(); j++) {
@@ -146,30 +127,9 @@ public class TableActivity extends MvpAppCompatActivity implements TableContract
                     cells[i][j].setText(String.valueOf(dataCells.get(count).getValue()));
                 }
 
-
-//                cells[i][j].setText(mapValuesAndIds.get(ids[count]).toString());
-
                 count++;
             }
         }
-
-
-//        int count = 0;
-//
-//        for (int i = 0; i < settings.getRowsOfTable(); i++) {
-//            for (int j = 0; j < settings.getColumnsOfTable(); j++) {
-//
-//                if (settings.getIsLetters()) {
-//                    cells[i][j].setText(String.valueOf((char) ((int) listValue.get(count))));
-//
-//                } else {
-//                    cells[i][j].setText(String.valueOf(listValue.get(count)));
-//                }
-//                cells[i][j].setId(cellsId.get(i));
-//
-//                count++;
-//            }
-//        }
     }
 
     @Override

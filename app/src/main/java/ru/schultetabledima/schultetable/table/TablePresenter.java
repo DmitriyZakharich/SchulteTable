@@ -14,7 +14,7 @@ import java.util.List;
 
 import moxy.InjectViewState;
 import moxy.MvpPresenter;
-import ru.schultetabledima.schultetable.MyApplication;
+import ru.schultetabledima.schultetable.App;
 import ru.schultetabledima.schultetable.R;
 import ru.schultetabledima.schultetable.advice.AdviceActivity;
 import ru.schultetabledima.schultetable.contracts.TableContract;
@@ -52,7 +52,7 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
     }
 
     private void main() {
-        settings = new PreferencesReader(MyApplication.getContext());
+        settings = new PreferencesReader(App.getContext());
 
         callValuesCreator();
         pushValuesAndIds();
@@ -61,7 +61,7 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
         settingForCheckMove();
         settingForMenu(); //возможно перенести вверх стека
 
-        MyApplication.getContext().setTheme(R.style.AppTheme);
+        App.getContext().setTheme(R.style.AppTheme);
 
     }
 
@@ -86,7 +86,7 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
 
 
     private void settingForMenu() {
-        sharedPreferencesMenu = MyApplication.getContext().getSharedPreferences(MENU_PREFERENCES, MODE_PRIVATE);
+        sharedPreferencesMenu = App.getContext().getSharedPreferences(MENU_PREFERENCES, MODE_PRIVATE);
         isMenuShow = sharedPreferencesMenu.getBoolean(KEY_MENU_VISIBILITY, true);
 
         int visibility, imageResource;
@@ -96,12 +96,12 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
         if (isMenuShow) {
             visibility = View.VISIBLE;
             imageResource = R.drawable.ic_arrow_down;
-            layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Converter.getPxFromDP(MyApplication.getContext(), 40));
+            layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Converter.getPxFromDP(App.getContext(), 40));
 
         } else {
             visibility = View.INVISIBLE;
             imageResource = R.drawable.ic_arrow_up;
-            layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Converter.getPxFromDP(MyApplication.getContext(), 20));
+            layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Converter.getPxFromDP(App.getContext(), 20));
         }
 
         if (!settings.getIsMoveHint() || !settings.getIsTouchCells() || !isMenuShow) {
@@ -118,9 +118,9 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
 
     public void onClickMenuButtonsListener(int viewID, View v) {
         if (viewID == R.id.image_button_settings) {
-            Intent intent = new Intent(MyApplication.getContext(), SettingsActivity.class);
+            Intent intent = new Intent(App.getContext(), SettingsActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            MyApplication.getContext().startActivity(intent);
+            App.getContext().startActivity(intent);
 
         } else if (viewID == R.id.image_menu) {
             createPopupMenu(v);
@@ -136,14 +136,14 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
                 visibility = View.INVISIBLE;
                 imageResource = R.drawable.ic_arrow_up;
                 layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                        Converter.getPxFromDP(MyApplication.getContext(), 20));
+                        Converter.getPxFromDP(App.getContext(), 20));
                 isMenuShow = false;
 
             } else {
                 visibility = View.VISIBLE;
                 imageResource = R.drawable.ic_arrow_down;
                 layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                        (int) MyApplication.getContext().getResources().getDimension(R.dimen.customMinHeight));
+                        (int) App.getContext().getResources().getDimension(R.dimen.customMinHeight));
                 isMenuShow = true;
 
             }
@@ -163,7 +163,7 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
     }
 
     private void createPopupMenu(View image_menu) {
-        PopupMenu popupMenu = new PopupMenu(MyApplication.getContext(), image_menu);
+        PopupMenu popupMenu = new PopupMenu(App.getContext(), image_menu);
 
         popupMenu.inflate(R.menu.menu);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -174,21 +174,21 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
             int itemId = item.getItemId();
 
             if (itemId == R.id.item_statistics) {
-                Intent intent = new Intent(MyApplication.getContext(), StatisticsActivity.class);
+                Intent intent = new Intent(App.getContext(), StatisticsActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                MyApplication.getContext().startActivity(intent);
+                App.getContext().startActivity(intent);
                 return true;
 
             } else if (itemId == R.id.item_advice) {
-                Intent intent = new Intent(MyApplication.getContext(), AdviceActivity.class);
+                Intent intent = new Intent(App.getContext(), AdviceActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                MyApplication.getContext().startActivity(intent);
+                App.getContext().startActivity(intent);
                 return true;
 
             } else if (itemId == R.id.item_donation) {
-                Intent intent = new Intent(MyApplication.getContext(), DonationActivity.class);
+                Intent intent = new Intent(App.getContext(), DonationActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                MyApplication.getContext().startActivity(intent);
+                App.getContext().startActivity(intent);
                 return true;
             }
 

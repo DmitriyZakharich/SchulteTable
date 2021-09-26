@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-        android:name=".MyApplication">
+        android:name=".App">
         <activity
             android:name=".donation.DonationActivity"
             android:exported="true" />
@@ -18,7 +18,8 @@
         <activity android:name=".statistic.StatisticsActivity" />
         <activity android:name=".table.TableActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
-        <activity android:name=".main.MainActivity">
+        <activity android:name=".main.MainActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

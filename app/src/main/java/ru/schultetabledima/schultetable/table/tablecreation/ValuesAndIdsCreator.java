@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import ru.schultetabledima.schultetable.MyApplication;
+import ru.schultetabledima.schultetable.App;
 import ru.schultetabledima.schultetable.utils.PreferencesReader;
 
 
@@ -21,7 +21,7 @@ public class ValuesAndIdsCreator {
     }
 
     private void main() {
-        settings = new PreferencesReader(MyApplication.getContext());
+        settings = new PreferencesReader(App.getContext());
 
         calculationFirstValue();
         createValues();

@@ -9,7 +9,7 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
-import ru.schultetabledima.schultetable.MyApplication;
+import ru.schultetabledima.schultetable.App;
 import ru.schultetabledima.schultetable.R;
 import ru.schultetabledima.schultetable.utils.PreferencesReader;
 
@@ -26,7 +26,7 @@ public class AnimationInGame {
     }
 
     private void main() {
-        settings = new PreferencesReader(MyApplication.getContext());
+        settings = new PreferencesReader(App.getContext());
         addAnimation();
     }
 
@@ -65,7 +65,7 @@ public class AnimationInGame {
 
 
                 if (hsRandomForCellAnim.contains( Integer.parseInt(cells[i][j].getText().toString())) ) {
-                    Animation anim = AnimationUtils.loadAnimation(MyApplication.getContext(), R.anim.myrotate);
+                    Animation anim = AnimationUtils.loadAnimation(App.getContext(), R.anim.myrotate);
 
 
 

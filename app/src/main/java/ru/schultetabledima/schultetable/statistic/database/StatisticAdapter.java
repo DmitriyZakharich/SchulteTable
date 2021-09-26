@@ -1,31 +1,31 @@
 package ru.schultetabledima.schultetable.statistic.database;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.database.Cursor;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import org.jetbrains.annotations.NotNull;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.io.Serializable;
+import org.jetbrains.annotations.NotNull;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import ru.schultetabledima.schultetable.R;
+import ru.schultetabledima.schultetable.utils.CorrectionTime;
 
-public class StatisticAdapter extends CursorRecyclerAdapter implements Serializable {
-    private LayoutInflater inflater ;
+public class StatisticAdapter extends RecyclerView.Adapter<StatisticAdapter.ViewHolder> {
+    private LayoutInflater inflater;
+    private final List<Result> results;
 
-    public StatisticAdapter(Cursor cursor, Context context) {
-        super(cursor);
+    public StatisticAdapter(Context context, List<Result> results) {
+        this.results = results;
         this.inflater = LayoutInflater.from(context);
     }
 
@@ -37,19 +37,22 @@ public class StatisticAdapter extends CursorRecyclerAdapter implements Serializa
         return new StatisticAdapter.ViewHolder(view);
     }
 
-
-    @SuppressLint("Range")
     @Override
-    public void onBindViewHolderCursor(RecyclerView.ViewHolder holder, Cursor cursor) {
-        ((ViewHolder)holder).tableSize.setText(cursor.getString(cursor.getColumnIndex(DatabaseAdapter.DatabaseHelper.COLUMN_SIZE_FIELD)));
-        ((ViewHolder)holder).timeResult.setText(cursor.getString(cursor.getColumnIndex(DatabaseAdapter.DatabaseHelper.COLUMN_TIME)));
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        Result result = results.get(position);
+        holder.tableSize.setText(result.getSizeField());
+        holder.timeResult.setText(result.getTime());
 
-        String newDate = CorrectionTime.getTime(cursor.getString(cursor.getColumnIndex(DatabaseAdapter.DatabaseHelper.COLUMN_DATE)));
-
-        ((ViewHolder)holder).date.setText(newDate);
+        String newDate = CorrectionTime.getTime(result.getDate());
+        holder.timeResult.setText(newDate);
     }
 
-    private static class ViewHolder extends RecyclerView.ViewHolder implements Serializable{
+    @Override
+    public int getItemCount() {
+        return results.size();
+    }
+
+    public static class ViewHolder extends RecyclerView.ViewHolder{
         TextView date, tableSize, timeResult;
 
         public ViewHolder(@NonNull @NotNull View itemView) {
@@ -57,24 +60,6 @@ public class StatisticAdapter extends CursorRecyclerAdapter implements Serializa
             date = itemView.findViewById(R.id.textViewDate);
             tableSize = itemView.findViewById(R.id.textViewSize);
             timeResult = itemView.findViewById(R.id.textViewTime);
-        }
-    }
-
-
-    private static class CorrectionTime implements Serializable{
-
-        public static String getTime(String timeDataBase){
-            Date currentDate = new Date();
-            DateFormat dateFormat = new SimpleDateFormat("HH:mm dd.MM.yy", Locale.getDefault());
-            String currentDateText = dateFormat.format(currentDate);
-
-            String dayTimeDataBase = timeDataBase.substring(6);
-            String dayCurrentDateText = currentDateText.substring(6);
-
-            if (dayTimeDataBase.equals(dayCurrentDateText)){
-                return timeDataBase.substring(0 , 5);
-            } else
-                return dayTimeDataBase;
         }
     }
 }

@@ -1,15 +1,13 @@
 package ru.schultetabledima.schultetable.advice;
 
 import android.content.Intent;
-import android.util.Log;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import moxy.InjectViewState;
 import moxy.MvpPresenter;
-import ru.schultetabledima.schultetable.MyApplication;
+import ru.schultetabledima.schultetable.App;
 import ru.schultetabledima.schultetable.R;
 import ru.schultetabledima.schultetable.contracts.AdviceContract;
 import ru.schultetabledima.schultetable.table.TableActivity;
@@ -44,8 +42,8 @@ public class AdvicePresenter extends MvpPresenter<AdviceContract.View> implement
 
     public void onClickListener(int id) {
         if (id == R.id.toTable)
-            intent = new Intent(MyApplication.getContext(), TableActivity.class);
+            intent = new Intent(App.getContext(), TableActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        MyApplication.getContext().startActivity(intent);
+        App.getContext().startActivity(intent);
     }
 }

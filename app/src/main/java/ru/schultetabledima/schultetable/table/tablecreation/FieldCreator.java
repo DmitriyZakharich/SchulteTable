@@ -14,6 +14,7 @@ import androidx.appcompat.widget.AppCompatTextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import ru.schultetabledima.schultetable.contracts.TableContract;
 import ru.schultetabledima.schultetable.table.TableActivity;
 import ru.schultetabledima.schultetable.table.TablePresenter;
 import ru.schultetabledima.schultetable.utils.Converter;
@@ -64,8 +65,6 @@ public class FieldCreator {
             field.addView(rows[i]);
         }
 
-//        cellsId = new ArrayList<>();
-
         //Создание кнопок
         cells = new CustomCell[settings.getRowsOfTable()][settings.getColumnsOfTable()];
         for (int i = 0; i < settings.getRowsOfTable(); i++){
@@ -112,9 +111,4 @@ public class FieldCreator {
     public AppCompatTextView[][] getCells() {
         return cells;
     }
-
-//    public List<Integer> getCellsId(){
-//        return cellsId;
-//    }
-
 }

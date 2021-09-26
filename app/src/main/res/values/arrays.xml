@@ -11,7 +11,6 @@
         <item>@string/numbers</item>
         <item>@string/englishLetters</item>
         <item>@string/russianLetters</item>
-        <item>@string/allLetters</item>
         <item>@string/allValueTypes</item>
     </string-array>
 

@@ -1,6 +1,7 @@
 package ru.schultetabledima.schultetable.statistic;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -78,16 +79,12 @@ public class StatisticsActivity extends MvpAppCompatActivity implements Statisti
     @Override
     public void setSelectionSpinnerValueType(int position) {
         selectValueType.setSelection(position);
-
     }
 
     @Override
     public void setSelectionPlayedSizes(int position) {
         selectPlayedSizes.setSelection(position);
-
     }
-
-
 }
 
 
