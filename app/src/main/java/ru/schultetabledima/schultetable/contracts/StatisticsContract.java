@@ -5,7 +5,7 @@ import android.widget.ArrayAdapter;
 import moxy.MvpView;
 import moxy.viewstate.strategy.AddToEndSingleStrategy;
 import moxy.viewstate.strategy.StateStrategyType;
-import ru.schultetabledima.schultetable.statistic.database.StatisticAdapter;
+import ru.schultetabledima.schultetable.database.StatisticAdapter;
 
 public interface StatisticsContract {
 

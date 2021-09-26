@@ -49,7 +49,7 @@ public class ConstructQuery {
             buildQuery.append(" size_field = ?");
             args.add(playedSizes);
         }
-        buildQuery.append(";");
+        buildQuery.append(" ORDER BY id DESC;");
 
         return new SimpleSQLiteQuery(buildQuery.toString(), args.toArray());
     }

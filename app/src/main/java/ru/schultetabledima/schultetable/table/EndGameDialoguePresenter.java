@@ -1,7 +1,6 @@
 package ru.schultetabledima.schultetable.table;
 
 import android.content.Intent;
-import android.util.Log;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -11,9 +10,9 @@ import java.util.Locale;
 import ru.schultetabledima.schultetable.App;
 import ru.schultetabledima.schultetable.R;
 import ru.schultetabledima.schultetable.statistic.StatisticsActivity;
-import ru.schultetabledima.schultetable.statistic.database.AppDatabase;
-import ru.schultetabledima.schultetable.statistic.database.Result;
-import ru.schultetabledima.schultetable.statistic.database.ResultDao;
+import ru.schultetabledima.schultetable.database.AppDatabase;
+import ru.schultetabledima.schultetable.database.Result;
+import ru.schultetabledima.schultetable.database.ResultDao;
 import ru.schultetabledima.schultetable.utils.PreferencesReader;
 
 public class EndGameDialoguePresenter {
@@ -22,6 +21,8 @@ public class EndGameDialoguePresenter {
     private TablePresenter tablePresenter;
     private long baseChronometer;
     private PreferencesReader settings;
+    private String dateText, tableSize, valueType, timeResult;
+    private int quantityTables;
 
 
     public EndGameDialoguePresenter(EndGameDialogueFragment dialogFragment, TablePresenter tablePresenter, long baseChronometer) {
@@ -64,49 +65,45 @@ public class EndGameDialoguePresenter {
 
 
     private void databaseInsert() {
-
-
-        Date currentDate = new Date();
-        DateFormat dateFormat = new SimpleDateFormat("HH:mm dd.MM.yy", Locale.getDefault());
-        String dateText = dateFormat.format(currentDate);
-
-        String tableSize = settings.getRowsOfTable() + "x" + settings.getColumnsOfTable();
-
-
-        int quantityTables = settings.getIsTwoTables() ? 2 : 1;
-
-
-        String valueType;
-        if (settings.getIsLetters()) {
-            valueType = settings.getIsEnglish() ?
-                    App.getContext().getString(R.string.languageEnglish) : App.getContext().getString(R.string.languageRussian);
-
-        }else
-            valueType = App.getContext().getString(R.string.valueTypeNumbers);
-
-
-//        valueType = settings.getIsLetters() ?
-//                App.getContext().getString(R.string.valueTypeLetters) : App.getContext().getString(R.string.valueTypeNumbers);
-
-
-//        String language;
-//        if (settings.getIsLetters()) {
-//            language = settings.getIsEnglish() ?
-//                    App.getContext().getString(R.string.languageEnglish) : App.getContext().getString(R.string.languageRussian);
-//        } else {
-//            language = null;
-//        }
-
+        dataPreparation();
 
         AppDatabase db = App.getInstance().getDatabase();
         ResultDao resultDao = db.resultDao();
-        Result result = new Result(dateText, tableSize, "10:00", quantityTables, valueType);
-        resultDao.insert(result);
+        Result result = new Result(dateText, tableSize, timeResult, quantityTables, valueType);
 
-        Log.d("databaseInsertX", "result: " + result.toString());
+        new Thread(() -> {
+            resultDao.insert(result);
+        }).start();
+    }
 
 
-//        DatabaseAdapter databaseAdapter = new DatabaseAdapter(context, ((TableActivity) context).getTextChronometer(), tableSize, dateText);
-//        databaseAdapter.insert();
+    private void dataPreparation() {
+        getData();
+        getValueType();
+        getTimeResult();
+
+        tableSize = settings.getRowsOfTable() + "x" + settings.getColumnsOfTable();
+
+        quantityTables = settings.getIsTwoTables() ? 2 : 1;
+    }
+
+
+
+    private void getData() {
+        Date currentDate = new Date();
+        DateFormat dateFormat = new SimpleDateFormat("HH:mm dd.MM.yy", Locale.getDefault());
+        dateText = dateFormat.format(currentDate);
+    }
+
+    private void getValueType() {
+        if (settings.getIsLetters()) {
+            valueType = settings.getIsEnglish() ?
+                    App.getContext().getString(R.string.languageEnglish) : App.getContext().getString(R.string.languageRussian);
+        } else
+            valueType = App.getContext().getString(R.string.valueTypeNumbers);
+    }
+
+    private void getTimeResult() {
+        timeResult = TimeResultFromBaseChronometer.getTime(baseChronometer);
     }
 }

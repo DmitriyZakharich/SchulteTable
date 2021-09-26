@@ -4,7 +4,7 @@ import android.app.Application;
 
 import androidx.room.Room;
 
-import ru.schultetabledima.schultetable.statistic.database.AppDatabase;
+import ru.schultetabledima.schultetable.database.AppDatabase;
 
 public class App extends Application {
 

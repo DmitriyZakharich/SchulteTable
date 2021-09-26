@@ -41,7 +41,6 @@ public class TableActivity extends MvpAppCompatActivity implements TableContract
     private Toolbar toolbar;
     private AppCompatTextView[][] cells1, cells2;
     private PreferencesReader settings;
-    //    private List<Integer> cellsIdFirstTable, cellsIdSecondTable;
     private LinearLayout containerWithTables;
     private List<TableContract.Presenter> presenterObservers = new ArrayList<>();
 

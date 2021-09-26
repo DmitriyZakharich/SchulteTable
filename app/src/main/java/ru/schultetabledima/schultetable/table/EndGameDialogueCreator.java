@@ -17,7 +17,7 @@ public class EndGameDialogueCreator {
     private long baseChronometer;
     private PreferencesReader settings;
     private DialogFragment dialogFragment;
-    private StringBuilder stringBuilder;
+    private String time;
 
 
     public EndGameDialogueCreator(DialogFragment dialogFragment, EndGameDialoguePresenter endGameDialoguePresenter, long baseChronometer) {
@@ -29,43 +29,16 @@ public class EndGameDialogueCreator {
 
     private void main() {
         settings = new PreferencesReader(App.getContext());
-        getTime();
+        time = TimeResultFromBaseChronometer.getTime(baseChronometer);
         createDialogue();
     }
 
-    private void getTime() {
-        baseChronometer = SystemClock.elapsedRealtime() - baseChronometer;
-        long totalSecs = baseChronometer / 1000;
-
-        long hours = totalSecs / 3600;
-        long minutes = (totalSecs % 3600) / 60;
-        long seconds = totalSecs % 60;
-
-        stringBuilder = new StringBuilder();
-
-        if (hours > 0) {
-            if (hours < 10)
-                stringBuilder.append("0");
-
-            stringBuilder.append(hours).append(":");
-
-        }
-        if (minutes < 10)
-            stringBuilder.append("0");
-
-        stringBuilder.append(minutes).append(":");
-
-        if (seconds < 10)
-            stringBuilder.append("0");
-
-        stringBuilder.append(seconds);
-    }
 
     private void createDialogue() {
 
         builder = new AlertDialog.Builder(dialogFragment.getActivity());
         builder.setTitle(R.string.end_game)
-                .setMessage(dialogFragment.getActivity().getString(R.string.yourTime) + stringBuilder)
+                .setMessage(dialogFragment.getActivity().getString(R.string.yourTime) + time)
                 .setPositiveButton(R.string.newGame, (dialog, id) -> endGameDialoguePresenter.onClickPositiveButtonListener())
                 .setNeutralButton(R.string.statistics, (dialog, which) -> endGameDialoguePresenter.onClickNeutralButtonListener())
                 .setPositiveButtonIcon(dialogFragment.getActivity().getDrawable(R.drawable.ic_playbutton))

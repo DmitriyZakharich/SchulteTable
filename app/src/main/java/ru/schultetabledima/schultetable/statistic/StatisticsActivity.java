@@ -1,7 +1,6 @@
 package ru.schultetabledima.schultetable.statistic;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -13,7 +12,7 @@ import moxy.MvpAppCompatActivity;
 import moxy.presenter.InjectPresenter;
 import ru.schultetabledima.schultetable.R;
 import ru.schultetabledima.schultetable.contracts.StatisticsContract;
-import ru.schultetabledima.schultetable.statistic.database.StatisticAdapter;
+import ru.schultetabledima.schultetable.database.StatisticAdapter;
 
 public class StatisticsActivity extends MvpAppCompatActivity implements StatisticsContract.View, AdapterView.OnItemSelectedListener {
 

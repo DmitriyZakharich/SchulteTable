@@ -17,10 +17,10 @@ import moxy.MvpPresenter;
 import ru.schultetabledima.schultetable.App;
 import ru.schultetabledima.schultetable.R;
 import ru.schultetabledima.schultetable.contracts.StatisticsContract;
-import ru.schultetabledima.schultetable.statistic.database.AppDatabase;
-import ru.schultetabledima.schultetable.statistic.database.Result;
-import ru.schultetabledima.schultetable.statistic.database.ResultDao;
-import ru.schultetabledima.schultetable.statistic.database.StatisticAdapter;
+import ru.schultetabledima.schultetable.database.AppDatabase;
+import ru.schultetabledima.schultetable.database.Result;
+import ru.schultetabledima.schultetable.database.ResultDao;
+import ru.schultetabledima.schultetable.database.StatisticAdapter;
 
 @InjectViewState
 public class StatisticsPresenter extends MvpPresenter<StatisticsContract.View> implements StatisticsContract.Presenter {
