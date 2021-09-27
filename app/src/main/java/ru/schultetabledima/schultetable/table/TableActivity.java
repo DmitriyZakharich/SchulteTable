@@ -4,6 +4,7 @@ import android.animation.LayoutTransition;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.Chronometer;
 import android.widget.ImageButton;
@@ -14,8 +15,8 @@ import android.widget.Toast;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.FragmentManager;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import moxy.MvpAppCompatActivity;
@@ -27,7 +28,7 @@ import ru.schultetabledima.schultetable.table.tablecreation.TableCreator;
 import ru.schultetabledima.schultetable.utils.PreferencesReader;
 
 
-public class TableActivity extends MvpAppCompatActivity implements TableContract.View {
+public class TableActivity extends MvpAppCompatActivity implements TableContract.View, EndGameDialogueFragment.PassMeLinkOnObject {
 
     @InjectPresenter
     TablePresenter tablePresenter;
@@ -42,13 +43,16 @@ public class TableActivity extends MvpAppCompatActivity implements TableContract
     private AppCompatTextView[][] cells1, cells2;
     private PreferencesReader settings;
     private LinearLayout containerWithTables;
-    private List<TableContract.Presenter> presenterObservers = new ArrayList<>();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_table);
+
+        Log.d("TAGTAGTAG1244", "activity onCreate  tablePresenter " + tablePresenter.toString() );
+
+
+
 
         selectShowHideMenu = findViewById(R.id.image_Button_Show_Hide_Menu);
         buttonSettings = findViewById(R.id.image_button_settings);
@@ -89,7 +93,6 @@ public class TableActivity extends MvpAppCompatActivity implements TableContract
         if (settings.getIsTwoTables()) {
             fillingTable(cells2, dataCellsSecondTable);
         }
-
     }
 
     @Override
@@ -132,7 +135,7 @@ public class TableActivity extends MvpAppCompatActivity implements TableContract
     }
 
     @Override
-    public void addAnimationToolbar(LayoutTransition layoutTransition) {
+    public void setAnimationToolbar(LayoutTransition layoutTransition) {
         toolbar.setLayoutTransition(layoutTransition);
     }
 
@@ -178,25 +181,34 @@ public class TableActivity extends MvpAppCompatActivity implements TableContract
     }
 
     @Override
-    public void showDialogueFragment(EndGameDialogueFragment dialogueFragment) {
-        dialogueFragment.show(getSupportFragmentManager(), "custom");
+    public void showDialogueFragment(boolean isShow) {
+        Log.d("TAGTAGTAG1244", "showDialogueFragment Start: ");
+
+        if (isShow) {
+            EndGameDialogueFragment endGameDialogueFragment = EndGameDialogueFragment.newInstance();
+            FragmentManager fragmentManager = getSupportFragmentManager();
+
+
+//        endGameDialogueFragment.show(fragmentManager, "custom");
+
+            fragmentManager.beginTransaction()
+                    .add(endGameDialogueFragment, "custom")
+                    .commit();
+        }
+
+
+
+//        endGameDialogueFragment.setPresenter(tablePresenter);
+        Log.d("TAGTAGTAG1244", "showDialogueFragment stop: ");
     }
 
-//    @Override
-//    public void setAlertDialog(AlertDialog alertDialog) {
-//        alertDialog.show();
-//        alertDialog.
-//    }
+
 
     @Override
     public void stopChronometer() {
         chronometer.stop();
     }
 
-//    @Override
-//    public String getTextChronometer() {
-//        return (String) chronometer.getText();
-//    }
 
     public long getBaseChronometer() {
         return chronometer.getBase();
@@ -214,5 +226,10 @@ public class TableActivity extends MvpAppCompatActivity implements TableContract
         Intent intent = getIntent();
         finish();
         startActivity(intent);
+    }
+
+    @Override
+    public TablePresenter getTablePresenter() {
+        return tablePresenter;
     }
 }

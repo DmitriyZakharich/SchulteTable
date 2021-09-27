@@ -11,8 +11,6 @@ import androidx.appcompat.widget.AppCompatTextView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 
-import java.util.ArrayList;
-
 import ru.schultetabledima.schultetable.App;
 import ru.schultetabledima.schultetable.R;
 import ru.schultetabledima.schultetable.table.TablePresenter;
@@ -28,10 +26,6 @@ public class TableCreator {
     private PreferencesReader settings;
     private View viewDivider;
     private AppCompatTextView[][] cells1, cells2;
-    private ArrayList<Integer> listNumbers2;
-    private ArrayList<Integer> listNumbers1;
-    private ArrayList<Character> listLetters1;
-    private ArrayList<Character> listLetters2;
 
 
     public TableCreator(Context context, TablePresenter tablePresenter) {
@@ -113,67 +107,14 @@ public class TableCreator {
     }
 
 
-//    private void restoreTable() {
-//        settings = new PreferencesReader(context);
-//        creatingContainerForTable();
-//        creatingField();
-//        restoreFillingTable();
-//    }
-
-//    private void restoreFillingTable() {
-//
-//        if (settings.getIsLetters()) {
-//            AppCompatTextView[][] cells1 = fieldCreator1.getCells();
-//            fieldFiller1 = new FieldFiller(context, tablePresenter, listLetters1, cells1);
-//
-//            if (settings.getIsTwoTables()) {
-//                AppCompatTextView[][] cells2 = fieldCreator2.getCells();
-//                fieldFiller2 = new FieldFiller(context, tablePresenter, listLetters2, cells2);
-//            }
-//        }
-//
-//        if (!settings.getIsLetters()) {
-//            AppCompatTextView[][] cells1 = fieldCreator1.getCells();
-//            fieldFiller1 = new FieldFiller(cells1, tablePresenter, listNumbers1, context);
-//
-//            if (settings.getIsTwoTables()) {
-//                AppCompatTextView[][] cells2 = fieldCreator2.getCells();
-//                fieldFiller2 = new FieldFiller(cells2, tablePresenter, listNumbers2, context);
-//            }
-//        }
-//    }
-
-
     public LinearLayout getContainerForTables() {
         return containerForTable;
     }
 
-//    public ArrayList<Integer> getListNumbers1() {
-//        return fieldFiller1.getListNumbers();
-//    }
-//    public ArrayList<Integer> getListNumbers2() {
-//        return fieldFiller2.getListNumbers();
-//    }
-//
-//
-//    public ArrayList<Character> getListLetters1() {
-//        return fieldFiller1.getListLetters();
-//    }
-//    public ArrayList<Character> getListLetters2() {
-//        return fieldFiller2.getListLetters();
-//    }
-
-
-//    public List<Integer> getCellsIdFirstTable() {
-//        return fieldCreator1.getCellsId();
-//    }
-//    public List<Integer> getCellsIdSecondTable() {
-//        return fieldCreator2.getCellsId();
-//    }
-
     public AppCompatTextView[][] getCellsFirstTable() {
         return fieldCreator1.getCells();
     }
+
     public AppCompatTextView[][] getCellsSecondTable() {
         return fieldCreator2.getCells();
     }

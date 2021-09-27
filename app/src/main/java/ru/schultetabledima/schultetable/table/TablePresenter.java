@@ -41,10 +41,10 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
     private final String KEY_MENU_VISIBILITY = "Saved Menu Visibility";
     private boolean isDialogueShow = false;
     private transient PreferencesReader settings;
+    private ValuesAndIdsCreator valuesAndIdsCreatorFirstTable, valuesAndIdsCreatorSecondTable;
     private List<Integer> cellsIdFirstTableForCheck, cellsIdSecondTableForCheck;
     private List<DataCell> dataCellsFirstTableForFilling, dataCellsSecondTableForFilling;
     private long baseChronometer;
-    private ValuesAndIdsCreator valuesAndIdsCreatorFirstTable, valuesAndIdsCreatorSecondTable;
 
 
     public TablePresenter() {
@@ -60,9 +60,6 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
         startChronometer();
         settingForCheckMove();
         settingForMenu(); //возможно перенести вверх стека
-
-        App.getContext().setTheme(R.style.AppTheme);
-
     }
 
 
@@ -112,7 +109,7 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
         }
         getViewState().showHideMenu(visibility, visibilityHint, imageResource, layoutParams);
 
-        getViewState().addAnimationToolbar(new AnimationTransition().createAnimation());
+        getViewState().setAnimationToolbar(new AnimationTransition().createAnimation());
 
     }
 
@@ -196,7 +193,6 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
         });
         popupMenu.show();
     }
-//////////////////////
 
 
     private void settingForCheckMove() {
@@ -236,7 +232,6 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
                     return;
 
                 checkMoveInTwoTables(cellId);
-
             }
         }
     }
@@ -318,118 +313,17 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
 
 
     private void endGameDialogue() {
+        saveTime = SystemClock.elapsedRealtime() - baseChronometer;
         getViewState().stopChronometer();
-        saveTime = baseChronometer - SystemClock.elapsedRealtime();
         isDialogueShow = true;
 
-        EndGameDialogueFragment endGameDialogueFragment = new EndGameDialogueFragment(this, baseChronometer);
-
-
-//        endGameDialogue = new EndGameDialogue(MyApplication.getContext(), this, baseChronometer);
-        getViewState().showDialogueFragment(endGameDialogueFragment);
+        getViewState().showDialogueFragment(isDialogueShow);
     }
-
-
-////////////////////
-    //Восстановление
-//    public void preparingToRotateScreen() {
-//        getViewState().removeTable();
-//
-//        if (!isDialogueShow) {
-//            saveTime = baseChronometer - SystemClock.elapsedRealtime();
-//            getViewState().stopChronometer();
-//        }
-//
-//        if (isDialogueShow)
-////            endGameDialogue.dismiss();
-//
-//
-//        if (settings.getIsLetters()) {
-//            listLetters1 = new ArrayList<>(tableCreator.getListLetters1());
-//
-//            if (settings.getIsTwoTables()) {
-//                listLetters2 = new ArrayList<>(tableCreator.getListLetters2());
-//            }
-//        }
-//
-//        if (!settings.getIsLetters()) {
-//            listValue1 = new ArrayList<>(tableCreator.getListNumbers1());
-//
-//            if (settings.getIsTwoTables()) {
-//                listValue2 = new ArrayList<>(tableCreator.getListNumbers2());
-//            }
-//        }
-//    }
-
-//    public void restoreInstanceState() {
-//        settings = new PreferencesReader(MyApplication.getContext());
-//        refreshTableCreator();
-//        showTable();
-//        getViewState().setBaseChronometer(SystemClock.elapsedRealtime() + saveTime);
-//
-//        if (!isDialogueShow)
-//            startChronometer();
-//
-//        settingForMenu();
-//        restoreSettingForCheckMove();
-//
-//        if (isDialogueShow) {
-//            endGameDialogue();
-//        }
-//    }
-
-
-//    private void restoreSettingForCheckMove() {
-//        mapValuesAndIdFirstTable = new ArrayMap<>();
-//        mapValuesAndIdFirstTable = tableCreator.getCellsIdFirstTable();
-//
-//        if (settings.getIsTwoTables()) {
-//            mapValuesAndIdSecondTable = new ArrayMap<>();
-//            mapValuesAndIdSecondTable = tableCreator.getCellsIdSecondTable();
-//        }
-//
-//
-//        if (!settings.getIsLetters()) {
-//            if (activeTable == firstTable.getId()) {
-//                getViewState().setMoveHint(nextMoveFirstTable);
-//            } else if (activeTable == secondTable.getId())
-//                getViewState().setMoveHint(nextMoveSecondTableCountdown);
-//
-//
-//        } else if (settings.getIsLetters()) {
-//            if (activeTable == firstTable.getId()) {
-//                getViewState().setMoveHint((char) nextMoveFirstTable);
-//            } else if (activeTable == secondTable.getId())
-//                getViewState().setMoveHint((char) nextMoveSecondTableCountdown);
-//        }
-//    }
-
-
-//    private void restoreSettingForTwoTables() {
-//        firstTable = (TableLayout) table.getChildAt(0);
-//        secondTable = (TableLayout) table.getChildAt(2);
-//
-//
-//        if (saveNumberActiveTable == 0) {
-//            activeTable = firstTable.getId();
-//            firstTable.setBackgroundColor(ContextCompat.getColor(MyApplication.getContext(), R.color.activeTable));
-//            secondTable.setBackgroundColor(ContextCompat.getColor(MyApplication.getContext(), R.color.passiveTable));
-//
-//        } else if (saveNumberActiveTable == 1) {
-//            activeTable = secondTable.getId();
-//            firstTable.setBackgroundColor(ContextCompat.getColor(MyApplication.getContext(), R.color.passiveTable));
-//            secondTable.setBackgroundColor(ContextCompat.getColor(MyApplication.getContext(), R.color.activeTable));
-//        }
-//    }
-/////////////////
 
 
     public void cancelDialogue() {
         isDialogueShow = false;
-    }
-
-    public long getSaveTime() {
-        return saveTime;
+        getViewState().showDialogueFragment(isDialogueShow);
     }
 
 
@@ -443,10 +337,12 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
     }
 
     public void onNegativeOrCancelDialogue() {
-        getViewState().setBaseChronometer(SystemClock.elapsedRealtime() + saveTime);
+        getViewState().setBaseChronometer(SystemClock.elapsedRealtime() - saveTime);
         getViewState().startChronometer();
         cancelDialogue();
     }
 
-
+    public long getSaveTime() {
+        return saveTime;
+    }
 }

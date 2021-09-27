@@ -3,7 +3,9 @@ package ru.schultetabledima.schultetable.table.tablecreation;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Color;
+import android.os.SystemClock;
 import android.util.ArrayMap;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -27,7 +29,6 @@ public class FieldCreator {
     private int backgroundColor;
     private TablePresenter tablePresenter;
     private PreferencesReader settings;
-//    private List<Integer> cellsId;
 
 
 
@@ -40,7 +41,6 @@ public class FieldCreator {
 
     private void main() {
         settings = new PreferencesReader(context);
-
         creator();
     }
 
@@ -86,12 +86,8 @@ public class FieldCreator {
                     cells[i][j].setPadding(padding, padding, padding, padding);
                 }
 
-//                cells[i][j].setId(View.generateViewId());
                 rows[i].addView(cells[i][j]);
-
                 cells[i][j].setOnClickListener(cellClick);
-
-//                cellsId.add(cells[i][j].getId());
             }
         }
     }

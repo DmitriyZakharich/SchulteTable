@@ -1,11 +1,8 @@
 package ru.schultetabledima.schultetable.table;
 
-import android.os.SystemClock;
-
 public class TimeResultFromBaseChronometer {
 
-    public static String getTime(long baseChronometer) {
-        long time = SystemClock.elapsedRealtime() - baseChronometer;
+    public static String getTime(long time) {
         long totalSecs = time / 1000;
 
         long hours = totalSecs / 3600;

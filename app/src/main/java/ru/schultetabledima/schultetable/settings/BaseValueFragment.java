@@ -14,13 +14,13 @@ import androidx.fragment.app.Fragment;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class BaseFragment extends Fragment implements AdapterView.OnItemSelectedListener, CustomSubject {
+public abstract class BaseValueFragment extends Fragment implements AdapterView.OnItemSelectedListener, CustomSubject {
     protected SettingsPresenter settingsPresenter;
     protected Spinner spinnerRows, spinnerColumns;
 
     protected List<CustomObserver> customObservers = new ArrayList<>();
 
-    public BaseFragment() {
+    public BaseValueFragment() {
     }
 
     @Override

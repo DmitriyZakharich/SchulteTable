@@ -9,33 +9,34 @@ import java.util.Locale;
 
 import ru.schultetabledima.schultetable.App;
 import ru.schultetabledima.schultetable.R;
-import ru.schultetabledima.schultetable.statistic.StatisticsActivity;
 import ru.schultetabledima.schultetable.database.AppDatabase;
 import ru.schultetabledima.schultetable.database.Result;
 import ru.schultetabledima.schultetable.database.ResultDao;
+import ru.schultetabledima.schultetable.statistic.StatisticsActivity;
 import ru.schultetabledima.schultetable.utils.PreferencesReader;
 
 public class EndGameDialoguePresenter {
 
     private EndGameDialogueFragment dialogFragment;
     private TablePresenter tablePresenter;
-    private long baseChronometer;
+    private long saveTime;
     private PreferencesReader settings;
     private String dateText, tableSize, valueType, timeResult;
     private int quantityTables;
 
 
-    public EndGameDialoguePresenter(EndGameDialogueFragment dialogFragment, TablePresenter tablePresenter, long baseChronometer) {
+    public EndGameDialoguePresenter(EndGameDialogueFragment dialogFragment, TablePresenter tablePresenter) {
         this.dialogFragment = dialogFragment;
         this.tablePresenter = tablePresenter;
-        this.baseChronometer = baseChronometer;
+
         init();
     }
 
     private void init() {
         settings = new PreferencesReader(App.getContext());
+        saveTime = tablePresenter.getSaveTime();
 
-        EndGameDialogueCreator endGameDialogueCreator = new EndGameDialogueCreator(dialogFragment, this, baseChronometer);
+        EndGameDialogueCreator endGameDialogueCreator = new EndGameDialogueCreator(dialogFragment, this, saveTime);
         dialogFragment.setDialog(endGameDialogueCreator.getDialog());
     }
 
@@ -88,7 +89,6 @@ public class EndGameDialoguePresenter {
     }
 
 
-
     private void getData() {
         Date currentDate = new Date();
         DateFormat dateFormat = new SimpleDateFormat("HH:mm dd.MM.yy", Locale.getDefault());
@@ -104,6 +104,6 @@ public class EndGameDialoguePresenter {
     }
 
     private void getTimeResult() {
-        timeResult = TimeResultFromBaseChronometer.getTime(baseChronometer);
+        timeResult = TimeResultFromBaseChronometer.getTime(saveTime);
     }
 }

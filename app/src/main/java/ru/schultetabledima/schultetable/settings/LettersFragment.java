@@ -11,7 +11,7 @@ import com.google.android.material.switchmaterial.SwitchMaterial;
 import ru.schultetabledima.schultetable.R;
 
 
-public class LettersFragment extends BaseFragment implements AdapterView.OnItemSelectedListener, View.OnClickListener {
+public class LettersFragment extends BaseValueFragment implements AdapterView.OnItemSelectedListener, View.OnClickListener {
 
     private SwitchMaterial switchRussianOrEnglish;
 

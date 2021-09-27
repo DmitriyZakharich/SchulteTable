@@ -21,7 +21,7 @@ public interface TableContract {
 
         void showHideMenu(int visibility, int visibilityHint, int imageResource, LinearLayout.LayoutParams layoutParams);
 
-        void addAnimationToolbar(LayoutTransition animation);
+        void setAnimationToolbar(LayoutTransition animation);
 
         void setMoveHint(int nextMoveFirstTable);
 
@@ -35,8 +35,7 @@ public interface TableContract {
 
         void setBaseChronometer(long l);
 
-        @StateStrategyType(SkipStrategy.class)
-        void showDialogueFragment(EndGameDialogueFragment dialogueFragment);
+        void showDialogueFragment(boolean isShow);
 
         @StateStrategyType(AddToEndStrategy.class)
         void setTableData(List<DataCell> dataCellsFirstTable, List<DataCell> dataCellsSecondTable);
