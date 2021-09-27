@@ -4,6 +4,7 @@ import android.animation.LayoutTransition;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
 import android.widget.Chronometer;
@@ -48,11 +49,6 @@ public class TableActivity extends MvpAppCompatActivity implements TableContract
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_table);
-
-        Log.d("TAGTAGTAG1244", "activity onCreate  tablePresenter " + tablePresenter.toString() );
-
-
-
 
         selectShowHideMenu = findViewById(R.id.image_Button_Show_Hide_Menu);
         buttonSettings = findViewById(R.id.image_button_settings);
@@ -111,7 +107,6 @@ public class TableActivity extends MvpAppCompatActivity implements TableContract
             }
         }, 500);
     }
-
 
     private void fillingTable(AppCompatTextView[][] cells, List<DataCell> dataCells) {
 
@@ -175,48 +170,39 @@ public class TableActivity extends MvpAppCompatActivity implements TableContract
         placeForTable.removeAllViews();
     }
 
-    @Override
-    public void startChronometer() {
-        chronometer.start();
-    }
+
 
     @Override
     public void showDialogueFragment(boolean isShow) {
-        Log.d("TAGTAGTAG1244", "showDialogueFragment Start: ");
 
         if (isShow) {
             EndGameDialogueFragment endGameDialogueFragment = EndGameDialogueFragment.newInstance();
             FragmentManager fragmentManager = getSupportFragmentManager();
 
 
-//        endGameDialogueFragment.show(fragmentManager, "custom");
-
-            fragmentManager.beginTransaction()
-                    .add(endGameDialogueFragment, "custom")
-                    .commit();
+        endGameDialogueFragment.show(fragmentManager, "custom");
         }
-
-
-
-//        endGameDialogueFragment.setPresenter(tablePresenter);
-        Log.d("TAGTAGTAG1244", "showDialogueFragment stop: ");
     }
-
-
 
     @Override
-    public void stopChronometer() {
-        chronometer.stop();
+    public void stopStartChronometer(boolean startIt) {
+        if (startIt)
+            chronometer.start();
+        else
+            chronometer.stop();
     }
-
 
     public long getBaseChronometer() {
         return chronometer.getBase();
     }
 
     @Override
-    public void setBaseChronometer(long base) {
-        chronometer.setBase(base);
+    public void setBaseChronometer(long base, boolean isDialogueShow) {
+
+        if (isDialogueShow) {
+            chronometer.setBase(SystemClock.elapsedRealtime() - base);
+        }else
+            chronometer.setBase(base);
     }
 
 

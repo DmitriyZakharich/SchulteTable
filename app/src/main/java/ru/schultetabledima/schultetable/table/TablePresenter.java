@@ -31,7 +31,7 @@ import ru.schultetabledima.schultetable.utils.PreferencesReader;
 public class TablePresenter extends MvpPresenter<TableContract.View> implements TableContract.Presenter {
 
     private int count1 = 0, countdownSecondTable;
-    private long saveTime;
+    private long saveTime = 0;
     private boolean isMenuShow;
     private int activeTable;
     private final int FIRST_TABLE_ID = 0, SECOND_TABLE_ID = 2;
@@ -39,7 +39,7 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
     private static SharedPreferences sharedPreferencesMenu;
     private final String MENU_PREFERENCES = "PreferencesMenu";
     private final String KEY_MENU_VISIBILITY = "Saved Menu Visibility";
-    private boolean isDialogueShow = false;
+    private boolean isDialogueShow = false, startIt = true;
     private transient PreferencesReader settings;
     private ValuesAndIdsCreator valuesAndIdsCreatorFirstTable, valuesAndIdsCreatorSecondTable;
     private List<Integer> cellsIdFirstTableForCheck, cellsIdSecondTableForCheck;
@@ -214,7 +214,7 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
 
 
     public void checkMove(int cellId, long baseChronometer) {
-        this.baseChronometer = baseChronometer;
+        saveTime = SystemClock.elapsedRealtime() - baseChronometer;
 
         if (!settings.getIsTouchCells())
             endGameDialogue();
@@ -235,7 +235,6 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
             }
         }
     }
-
 
     private void checkMoveInOneTable(int cellId) {
         if (cellId == cellsIdFirstTableForCheck.get(count1)) {
@@ -301,7 +300,6 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
                     getViewState().setMoveHint((char) nextMoveFirstTable);
                 else
                     getViewState().setMoveHint(nextMoveFirstTable);
-
             }
         }
 
@@ -313,10 +311,11 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
 
 
     private void endGameDialogue() {
-        saveTime = SystemClock.elapsedRealtime() - baseChronometer;
-        getViewState().stopChronometer();
+        startIt = false;
+        getViewState().stopStartChronometer(startIt);
         isDialogueShow = true;
 
+        getViewState().setBaseChronometer(saveTime, isDialogueShow);
         getViewState().showDialogueFragment(isDialogueShow);
     }
 
@@ -328,7 +327,9 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
 
 
     private void startChronometer() {
-        getViewState().startChronometer();
+        getViewState().setBaseChronometer(SystemClock.elapsedRealtime() - saveTime, isDialogueShow);
+        startIt = true;
+        getViewState().stopStartChronometer(startIt);
     }
 
 
@@ -337,9 +338,10 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
     }
 
     public void onNegativeOrCancelDialogue() {
-        getViewState().setBaseChronometer(SystemClock.elapsedRealtime() - saveTime);
-        getViewState().startChronometer();
+        startIt = true;
         cancelDialogue();
+        getViewState().setBaseChronometer(SystemClock.elapsedRealtime() - saveTime, isDialogueShow);
+        getViewState().stopStartChronometer(startIt);
     }
 
     public long getSaveTime() {

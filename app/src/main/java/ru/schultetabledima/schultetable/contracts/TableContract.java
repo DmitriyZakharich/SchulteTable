@@ -27,13 +27,14 @@ public interface TableContract {
 
         void setMoveHint(char nextMoveFirstTable);
 
-        void stopChronometer();
-
-        void startChronometer();
+//        void stopChronometer();
+//
+//        @StateStrategyType(SkipStrategy.class)
+//        void startChronometer();
 
         void removeTable();
 
-        void setBaseChronometer(long l);
+        void setBaseChronometer(long l, boolean isDialogueShow);
 
         void showDialogueFragment(boolean isShow);
 
@@ -44,6 +45,8 @@ public interface TableContract {
 
         @StateStrategyType(OneExecutionStateStrategy.class)
         void showToastWrongTable(int wrongTable);
+
+        void stopStartChronometer(boolean startIt);
     }
 
     interface Presenter{
@@ -54,6 +57,4 @@ public interface TableContract {
     interface Model{
 
     }
-
-
 }
