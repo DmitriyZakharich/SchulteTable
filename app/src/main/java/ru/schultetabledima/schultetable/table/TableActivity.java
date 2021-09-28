@@ -176,11 +176,14 @@ public class TableActivity extends MvpAppCompatActivity implements TableContract
     public void showDialogueFragment(boolean isShow) {
 
         if (isShow) {
-            EndGameDialogueFragment endGameDialogueFragment = EndGameDialogueFragment.newInstance();
+
             FragmentManager fragmentManager = getSupportFragmentManager();
+            EndGameDialogueFragment endGameDialogueFragment = (EndGameDialogueFragment)fragmentManager.findFragmentByTag("custom");
 
-
-        endGameDialogueFragment.show(fragmentManager, "custom");
+            if (endGameDialogueFragment == null) {
+                endGameDialogueFragment = EndGameDialogueFragment.newInstance();
+                endGameDialogueFragment.show(fragmentManager, "custom");
+            }
         }
     }
 

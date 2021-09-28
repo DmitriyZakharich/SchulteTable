@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import moxy.InjectViewState;
 import ru.schultetabledima.schultetable.App;
 import ru.schultetabledima.schultetable.R;
 import ru.schultetabledima.schultetable.database.AppDatabase;
@@ -15,6 +16,7 @@ import ru.schultetabledima.schultetable.database.ResultDao;
 import ru.schultetabledima.schultetable.statistic.StatisticsActivity;
 import ru.schultetabledima.schultetable.utils.PreferencesReader;
 
+//@InjectViewState
 public class EndGameDialoguePresenter {
 
     private EndGameDialogueFragment dialogFragment;

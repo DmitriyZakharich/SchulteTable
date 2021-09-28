@@ -39,7 +39,7 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
     private static SharedPreferences sharedPreferencesMenu;
     private final String MENU_PREFERENCES = "PreferencesMenu";
     private final String KEY_MENU_VISIBILITY = "Saved Menu Visibility";
-    private boolean isDialogueShow = false, startIt = true;
+    private boolean isDialogueShow = false, booleanStartChronometer = true;
     private transient PreferencesReader settings;
     private ValuesAndIdsCreator valuesAndIdsCreatorFirstTable, valuesAndIdsCreatorSecondTable;
     private List<Integer> cellsIdFirstTableForCheck, cellsIdSecondTableForCheck;
@@ -311,8 +311,8 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
 
 
     private void endGameDialogue() {
-        startIt = false;
-        getViewState().stopStartChronometer(startIt);
+        booleanStartChronometer = false;
+        getViewState().stopStartChronometer(booleanStartChronometer);
         isDialogueShow = true;
 
         getViewState().setBaseChronometer(saveTime, isDialogueShow);
@@ -328,8 +328,8 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
 
     private void startChronometer() {
         getViewState().setBaseChronometer(SystemClock.elapsedRealtime() - saveTime, isDialogueShow);
-        startIt = true;
-        getViewState().stopStartChronometer(startIt);
+        booleanStartChronometer = true;
+        getViewState().stopStartChronometer(booleanStartChronometer);
     }
 
 
@@ -338,10 +338,10 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
     }
 
     public void onNegativeOrCancelDialogue() {
-        startIt = true;
+        booleanStartChronometer = true;
         cancelDialogue();
         getViewState().setBaseChronometer(SystemClock.elapsedRealtime() - saveTime, isDialogueShow);
-        getViewState().stopStartChronometer(startIt);
+        getViewState().stopStartChronometer(booleanStartChronometer);
     }
 
     public long getSaveTime() {

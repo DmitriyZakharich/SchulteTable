@@ -21,13 +21,9 @@ public class EndGameDialogueCreator {
 
 
     public EndGameDialogueCreator(DialogFragment dialogFragment, EndGameDialoguePresenter endGameDialoguePresenter, long baseChronometer) {
-        Log.d("TAGTAGTAG1244", "EndGameDialogueCreator ");
-
         this.dialogFragment = dialogFragment;
         this.endGameDialoguePresenter = endGameDialoguePresenter;
         this.baseChronometer = baseChronometer;
-        Log.d("TAGTAGTAG1244111", "EndGameDialogueCreator baseChronometer " + baseChronometer);
-
         main();
     }
 

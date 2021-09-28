@@ -12,8 +12,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import moxy.presenter.InjectPresenter;
+
+
 public class EndGameDialogueFragment extends DialogFragment {
+
+//    @InjectPresenter
     private TablePresenter tablePresenter;
+
     private Dialog dialog;
 
     PassMeLinkOnObject activity;
@@ -33,9 +39,7 @@ public class EndGameDialogueFragment extends DialogFragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        activity = (PassMeLinkOnObject) getActivity();
-        tablePresenter = activity.getTablePresenter();
-        new EndGameDialoguePresenter(this, tablePresenter);
+
     }
 
     @Override
@@ -62,12 +66,14 @@ public class EndGameDialogueFragment extends DialogFragment {
     @Override
     public void onPause() {
         super.onPause();
-        getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
-
     }
 
     @NonNull
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+        activity = (PassMeLinkOnObject) getActivity();
+        tablePresenter = activity.getTablePresenter();
+        new EndGameDialoguePresenter(this, tablePresenter);
+
         return dialog;
     }
 }

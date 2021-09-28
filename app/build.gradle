@@ -49,6 +49,7 @@ dependencies {
     implementation "com.github.moxy-community:moxy:2.2.2"
     annotationProcessor "com.github.moxy-community:moxy-compiler:2.2.2"
     implementation "com.github.moxy-community:moxy-androidx:2.2.2"
+    implementation "com.github.moxy-community:moxy-material:2.2.2"
 
     //Room
     implementation "android.arch.persistence.room:runtime:1.1.1"
