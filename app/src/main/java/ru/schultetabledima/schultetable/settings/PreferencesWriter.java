@@ -5,6 +5,8 @@ import static android.content.Context.MODE_PRIVATE;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import ru.schultetabledima.schultetable.App;
+
 public class PreferencesWriter {
 
     private static SharedPreferences settings;
@@ -21,15 +23,13 @@ public class PreferencesWriter {
     private static final String KEY_ROWS_LETTERS = "saveSpinnerRowsLetters";
     private static final String KEY_COLUMNS_LETTERS = "saveSpinnerColumnsLetters";
 
-    private Context context;
-
-    public PreferencesWriter(Context context) {
-        this.context = context;
+    public PreferencesWriter() {
         init();
     }
 
     private void init() {
-        settings = context.getSharedPreferences(APP_PREFERENCES, MODE_PRIVATE);
+
+        settings = App.getContext().getSharedPreferences(APP_PREFERENCES, MODE_PRIVATE);
     }
 
     public void putBoolean(String key, boolean isChecked) {

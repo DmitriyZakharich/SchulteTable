@@ -47,6 +47,9 @@ public interface TableContract {
         void showToastWrongTable(int wrongTable);
 
         void stopStartChronometer(boolean startIt);
+
+        @StateStrategyType(SkipStrategy.class)
+        void showPopupMenu();
     }
 
     interface Presenter{

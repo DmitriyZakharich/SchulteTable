@@ -35,7 +35,7 @@ public class EndGameDialoguePresenter {
     }
 
     private void init() {
-        settings = new PreferencesReader(App.getContext());
+        settings = new PreferencesReader();
         saveTime = tablePresenter.getSaveTime();
 
         EndGameDialogueCreator endGameDialogueCreator = new EndGameDialogueCreator(dialogFragment, this, saveTime);

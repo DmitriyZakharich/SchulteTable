@@ -40,7 +40,7 @@ public class FieldCreator {
     }
 
     private void main() {
-        settings = new PreferencesReader(context);
+        settings = new PreferencesReader();
         creator();
     }
 

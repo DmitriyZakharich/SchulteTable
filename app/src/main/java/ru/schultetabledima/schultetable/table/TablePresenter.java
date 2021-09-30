@@ -44,7 +44,6 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
     private ValuesAndIdsCreator valuesAndIdsCreatorFirstTable, valuesAndIdsCreatorSecondTable;
     private List<Integer> cellsIdFirstTableForCheck, cellsIdSecondTableForCheck;
     private List<DataCell> dataCellsFirstTableForFilling, dataCellsSecondTableForFilling;
-    private long baseChronometer;
 
 
     public TablePresenter() {
@@ -52,7 +51,7 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
     }
 
     private void main() {
-        settings = new PreferencesReader(App.getContext());
+        settings = new PreferencesReader();
 
         callValuesCreator();
         pushValuesAndIds();
@@ -113,15 +112,14 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
 
     }
 
-    public void onClickMenuButtonsListener(int viewID, View v) {
+    public void onClickMenuButtonsListener(int viewID) {
         if (viewID == R.id.image_button_settings) {
             Intent intent = new Intent(App.getContext(), SettingsActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             App.getContext().startActivity(intent);
 
         } else if (viewID == R.id.image_menu) {
-            createPopupMenu(v);
-
+            getViewState().showPopupMenu();
 
         } else if (viewID == R.id.image_Button_Show_Hide_Menu) {
             SharedPreferences.Editor ed = sharedPreferencesMenu.edit();
@@ -157,41 +155,22 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
             ed.putBoolean(KEY_MENU_VISIBILITY, isMenuShow);
             ed.apply();
         }
-    }
 
-    private void createPopupMenu(View image_menu) {
-        PopupMenu popupMenu = new PopupMenu(App.getContext(), image_menu);
+        if (viewID == R.id.item_statistics) {
+            Intent intent = new Intent(App.getContext(), StatisticsActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            App.getContext().startActivity(intent);
 
-        popupMenu.inflate(R.menu.menu);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            popupMenu.setForceShowIcon(true);
+        } else if (viewID == R.id.item_advice) {
+            Intent intent = new Intent(App.getContext(), AdviceActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            App.getContext().startActivity(intent);
+
+        } else if (viewID == R.id.item_donation) {
+            Intent intent = new Intent(App.getContext(), DonationActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            App.getContext().startActivity(intent);
         }
-
-        popupMenu.setOnMenuItemClickListener(item -> {
-            int itemId = item.getItemId();
-
-            if (itemId == R.id.item_statistics) {
-                Intent intent = new Intent(App.getContext(), StatisticsActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                App.getContext().startActivity(intent);
-                return true;
-
-            } else if (itemId == R.id.item_advice) {
-                Intent intent = new Intent(App.getContext(), AdviceActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                App.getContext().startActivity(intent);
-                return true;
-
-            } else if (itemId == R.id.item_donation) {
-                Intent intent = new Intent(App.getContext(), DonationActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                App.getContext().startActivity(intent);
-                return true;
-            }
-
-            return false;
-        });
-        popupMenu.show();
     }
 
 

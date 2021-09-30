@@ -2,14 +2,17 @@ package ru.schultetabledima.schultetable.table;
 
 import android.animation.LayoutTransition;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Chronometer;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +25,7 @@ import java.util.List;
 
 import moxy.MvpAppCompatActivity;
 import moxy.presenter.InjectPresenter;
+import ru.schultetabledima.schultetable.App;
 import ru.schultetabledima.schultetable.R;
 import ru.schultetabledima.schultetable.contracts.TableContract;
 import ru.schultetabledima.schultetable.table.tablecreation.DataCell;
@@ -29,7 +33,7 @@ import ru.schultetabledima.schultetable.table.tablecreation.TableCreator;
 import ru.schultetabledima.schultetable.utils.PreferencesReader;
 
 
-public class TableActivity extends MvpAppCompatActivity implements TableContract.View, EndGameDialogueFragment.PassMeLinkOnObject {
+public class TableActivity extends MvpAppCompatActivity implements TableContract.View, EndGameDialogueFragment.PassMeLinkOnObject, PopupMenu.OnMenuItemClickListener {
 
     @InjectPresenter
     TablePresenter tablePresenter;
@@ -66,7 +70,7 @@ public class TableActivity extends MvpAppCompatActivity implements TableContract
         selectShowHideMenu.setOnClickListener(onClickMenuButtonsListener);
         image_menu.setOnClickListener(onClickMenuButtonsListener);
 
-        settings = new PreferencesReader(this);
+        settings = new PreferencesReader();
 
 
         TableCreator tableCreator = new TableCreator(this, tablePresenter);
@@ -137,7 +141,7 @@ public class TableActivity extends MvpAppCompatActivity implements TableContract
     View.OnClickListener onClickMenuButtonsListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            tablePresenter.onClickMenuButtonsListener(v.getId(), v);
+            tablePresenter.onClickMenuButtonsListener(v.getId());
         }
     };
 
@@ -170,8 +174,6 @@ public class TableActivity extends MvpAppCompatActivity implements TableContract
         placeForTable.removeAllViews();
     }
 
-
-
     @Override
     public void showDialogueFragment(boolean isShow) {
 
@@ -193,6 +195,12 @@ public class TableActivity extends MvpAppCompatActivity implements TableContract
             chronometer.start();
         else
             chronometer.stop();
+    }
+
+    @Override
+    public void showPopupMenu() {
+        PopupMenuCreator popupMenuCreator = new PopupMenuCreator(this, image_menu, tablePresenter);
+        popupMenuCreator.getPopupMenu().show();
     }
 
     public long getBaseChronometer() {
@@ -221,4 +229,12 @@ public class TableActivity extends MvpAppCompatActivity implements TableContract
     public TablePresenter getTablePresenter() {
         return tablePresenter;
     }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem menuItem) {
+        return false;
+    }
+
+
+
 }

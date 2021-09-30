@@ -35,7 +35,7 @@ public class TableCreator {
     }
 
     void main() {
-        settings = new PreferencesReader(context);
+        settings = new PreferencesReader();
         creatingContainerForTable();
         creatingField();
 //        fillingTable();

@@ -21,7 +21,7 @@ public class ValuesAndIdsCreator {
     }
 
     private void main() {
-        settings = new PreferencesReader(App.getContext());
+        settings = new PreferencesReader();
 
         calculationFirstValue();
         createValues();

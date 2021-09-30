@@ -28,7 +28,7 @@ public class EndGameDialogueCreator {
     }
 
     private void main() {
-        settings = new PreferencesReader(App.getContext());
+        settings = new PreferencesReader();
         time = TimeResultFromBaseChronometer.getTime(baseChronometer);
         createDialogue();
     }

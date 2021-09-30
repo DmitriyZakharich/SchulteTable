@@ -3,7 +3,7 @@
     android:height="35dp"
     android:viewportWidth="24"
     android:viewportHeight="24"
-    android:tint="@color/icButton"
+    android:tint="@color/black"
     android:alpha="1.0">
   <group android:scaleX="1.2"
       android:scaleY="1.2"

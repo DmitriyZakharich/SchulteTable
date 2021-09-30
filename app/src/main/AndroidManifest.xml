@@ -16,8 +16,7 @@
         <activity android:name=".advice.AdviceActivity" />
         <activity android:name=".settings.SettingsActivity" />
         <activity android:name=".statistic.StatisticsActivity" />
-        <activity android:name=".table.TableActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity android:name=".table.TableActivity"/>
         <activity android:name=".main.MainActivity"
             android:exported="true">
             <intent-filter>

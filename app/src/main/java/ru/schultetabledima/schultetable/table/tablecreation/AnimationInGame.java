@@ -26,7 +26,7 @@ public class AnimationInGame {
     }
 
     private void main() {
-        settings = new PreferencesReader(App.getContext());
+        settings = new PreferencesReader();
         addAnimation();
     }
 

@@ -36,8 +36,8 @@ public class SettingsPresenter implements CustomObserver {
 
 
     private void init() {
-        preferencesReader = new PreferencesReader(context);
-        preferencesWriter = new PreferencesWriter(context);
+        preferencesReader = new PreferencesReader();
+        preferencesWriter = new PreferencesWriter();
     }
 
     private void customizationSettingsActivity() {
