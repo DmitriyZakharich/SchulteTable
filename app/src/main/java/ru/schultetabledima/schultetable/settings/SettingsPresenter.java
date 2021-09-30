@@ -159,7 +159,7 @@ public class SettingsPresenter implements CustomObserver {
 
         final String[] valueSpinner = {"1", "2", "3", "4", "5"};
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(lettersFragment.getActivity(), android.R.layout.simple_spinner_item, valueSpinner);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(lettersFragment.getActivity(), android.R.layout.simple_spinner_item, valueSpinner);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         lettersFragment.setSpinnerRowsAdapter(adapter);
