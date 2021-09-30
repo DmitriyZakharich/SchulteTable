@@ -70,4 +70,16 @@
         <item name="android:minHeight">@dimen/customMinHeight</item>
         <item name="switchMinWidth">@dimen/switchSize</item>
     </style>
+
+    <style name="AlertDialogCustom" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:background">#303F9F</item>
+        <item name="android:textColorPrimary">@color/mainTextColor</item>
+        <item name="android:colorAccent">#FFFFFF</item>
+    </style>
+
+    <style name="PopupMenuStyle" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:textColor">@color/mainTextColor</item>
+        <item name="android:itemBackground">@color/colorPrimary</item>
+    </style>
+
 </resources>

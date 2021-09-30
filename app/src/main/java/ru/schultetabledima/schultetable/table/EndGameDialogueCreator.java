@@ -1,12 +1,10 @@
 package ru.schultetabledima.schultetable.table;
 
 import android.app.Dialog;
-import android.util.Log;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
-import ru.schultetabledima.schultetable.App;
 import ru.schultetabledima.schultetable.R;
 import ru.schultetabledima.schultetable.utils.PreferencesReader;
 
@@ -35,15 +33,14 @@ public class EndGameDialogueCreator {
 
 
     private void createDialogue() {
-        Log.d("TAGTAGTAG1244", "dialogFragment " + dialogFragment);
-        Log.d("TAGTAGTAG1244", "dialogFragment.getActivity() " + dialogFragment.getActivity());
 
-        builder = new AlertDialog.Builder(dialogFragment.getActivity());
+        builder = new AlertDialog.Builder(dialogFragment.getActivity(), R.style.AlertDialogCustom);
         builder.setTitle(R.string.end_game)
                 .setMessage(dialogFragment.getActivity().getString(R.string.yourTime) + time)
                 .setPositiveButton(R.string.newGame, (dialog, id) -> endGameDialoguePresenter.onClickPositiveButtonListener())
                 .setPositiveButtonIcon(dialogFragment.getActivity().getDrawable(R.drawable.ic_playbutton))
                 .setNeutralButton(R.string.statistics, (dialog, which) -> endGameDialoguePresenter.onClickNeutralButtonListener())
+                .setNeutralButtonIcon(dialogFragment.getActivity().getDrawable(R.drawable.ic_statistic_dialogue))
                 .setCancelable(false);
 
         dialogFragment.setCancelable(false);

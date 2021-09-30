@@ -6,6 +6,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
 
+import androidx.appcompat.view.ContextThemeWrapper;
+
 import ru.schultetabledima.schultetable.R;
 
 public class PopupMenuCreator {
@@ -22,7 +24,9 @@ public class PopupMenuCreator {
     }
 
     private void main() {
-        popupMenu = new PopupMenu(context, view);
+        Context wrapper = new ContextThemeWrapper(context, R.style.PopupMenuStyle);
+
+        popupMenu = new PopupMenu(wrapper, view);
         popupMenu.inflate(R.menu.menu);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             popupMenu.setForceShowIcon(true);
