@@ -5,6 +5,7 @@ import android.util.ArrayMap;
 import android.widget.LinearLayout;
 
 import java.util.List;
+import java.util.Set;
 
 import moxy.MvpView;
 import moxy.viewstate.strategy.AddToEndSingleStrategy;
@@ -50,6 +51,7 @@ public interface TableContract {
 
         @StateStrategyType(SkipStrategy.class)
         void showPopupMenu();
+
     }
 
     interface Presenter{

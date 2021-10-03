@@ -29,6 +29,7 @@ public class NumbersFragment extends BaseValueFragment implements AdapterView.On
         spinnerRows.setOnItemSelectedListener(this);
         spinnerColumns.setOnItemSelectedListener(this);
 
+
         return rootView;
     }
 

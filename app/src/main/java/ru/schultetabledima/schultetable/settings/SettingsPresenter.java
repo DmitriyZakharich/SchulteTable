@@ -54,6 +54,7 @@ public class SettingsPresenter implements CustomObserver {
         numbersFragment.subscribeObserver(this);
         numbersFragment.attachPresenter(this);
 
+
         lettersFragment = LettersFragment.newInstance();
         lettersFragment.subscribeObserver(this);
         lettersFragment.attachPresenter(this);

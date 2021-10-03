@@ -61,5 +61,15 @@
             android:background="@color/colorButton"
             android:text="@string/donation"
             android:textColor="@color/mainTextColor" />
+
+        <Button
+            android:id="@+id/aboutProgramButton"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:padding="5dp"
+            android:background="@color/colorButton"
+            android:text="О программе"
+            android:textColor="@color/mainTextColor" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

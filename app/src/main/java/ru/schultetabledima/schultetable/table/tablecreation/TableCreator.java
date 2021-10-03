@@ -2,6 +2,7 @@ package ru.schultetabledima.schultetable.table.tablecreation;
 
 import android.content.Context;
 import android.content.res.Configuration;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -38,12 +39,7 @@ public class TableCreator {
         settings = new PreferencesReader();
         creatingContainerForTable();
         creatingField();
-//        fillingTable();
-//        addAnimationTransition();
-
-//        if (settings.getIsAnim()) {
-//            addAnimationInGame();
-//        }
+        addAnimationTransition();
     }
 
 
@@ -97,13 +93,6 @@ public class TableCreator {
 
     private void addAnimationTransition() {
         new AnimationTransition(containerForTable);
-    }
-
-    private void addAnimationInGame() {
-        new AnimationInGame(cells1);
-
-        if (settings.getIsTwoTables())
-            new AnimationInGame(cells2);
     }
 
 

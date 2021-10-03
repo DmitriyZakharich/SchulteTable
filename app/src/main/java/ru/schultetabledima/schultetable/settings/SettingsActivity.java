@@ -1,10 +1,14 @@
 package ru.schultetabledima.schultetable.settings;
 
+import android.animation.LayoutTransition;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.switchmaterial.SwitchMaterial;
@@ -35,7 +39,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         switchMoveHint = findViewById(R.id.switchMoveHint);
 
         tabLayout = findViewById(R.id.tab_layout);
-        viewPager = (ViewPager2)findViewById(R.id.viewPager);
+        viewPager = findViewById(R.id.viewPager);
 
         viewPager.setSaveEnabled(false);
 

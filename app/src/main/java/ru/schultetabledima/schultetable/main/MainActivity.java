@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.customizationButton).setOnClickListener(this);
         findViewById(R.id.adviceButton).setOnClickListener(this);
         findViewById(R.id.donationButton).setOnClickListener(this);
+        findViewById(R.id.aboutProgramButton).setOnClickListener(this);
     }
 
         @Override

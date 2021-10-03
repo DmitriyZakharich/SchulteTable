@@ -4,9 +4,11 @@ import android.view.View;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
+import java.util.Set;
 
-import ru.schultetabledima.schultetable.App;
 import ru.schultetabledima.schultetable.utils.PreferencesReader;
 
 
@@ -25,6 +27,10 @@ public class ValuesAndIdsCreator {
 
         calculationFirstValue();
         createValues();
+
+        if (settings.getIsAnim()) {
+            addAnimation();
+        }
     }
 
     private void calculationFirstValue() {
@@ -51,6 +57,24 @@ public class ValuesAndIdsCreator {
         }
 
         Collections.shuffle(dataCells);
+    }
+
+    private void addAnimation() {
+        Random random = new Random();
+        Set<Integer> hsRandomForCellAnim = new HashSet<>();
+
+        int amountCellAnim = dataCells.size();
+
+        for (int i = 0; i < amountCellAnim; i++) {
+            int cellNumberForAnimation = random.nextInt(dataCells.size());
+
+            if (!hsRandomForCellAnim.add(cellNumberForAnimation)) {
+                i--;
+
+            } else {
+                dataCells.get(cellNumberForAnimation).setTypeAnimation(new Random().nextInt(5));
+            }
+        }
     }
 
 

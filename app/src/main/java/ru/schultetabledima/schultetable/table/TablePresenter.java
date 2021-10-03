@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 
 import java.util.List;
+import java.util.Set;
 
 import moxy.InjectViewState;
 import moxy.MvpPresenter;
@@ -21,6 +22,7 @@ import ru.schultetabledima.schultetable.contracts.TableContract;
 import ru.schultetabledima.schultetable.donation.DonationActivity;
 import ru.schultetabledima.schultetable.settings.SettingsActivity;
 import ru.schultetabledima.schultetable.statistic.StatisticsActivity;
+import ru.schultetabledima.schultetable.table.tablecreation.AnimationInGame;
 import ru.schultetabledima.schultetable.table.tablecreation.AnimationTransition;
 import ru.schultetabledima.schultetable.table.tablecreation.DataCell;
 import ru.schultetabledima.schultetable.table.tablecreation.ValuesAndIdsCreator;
