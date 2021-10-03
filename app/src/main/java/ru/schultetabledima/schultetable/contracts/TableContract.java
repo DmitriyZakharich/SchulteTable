@@ -28,11 +28,6 @@ public interface TableContract {
 
         void setMoveHint(char nextMoveFirstTable);
 
-//        void stopChronometer();
-//
-//        @StateStrategyType(SkipStrategy.class)
-//        void startChronometer();
-
         void removeTable();
 
         void setBaseChronometer(long l, boolean isDialogueShow);
@@ -42,7 +37,7 @@ public interface TableContract {
         @StateStrategyType(AddToEndStrategy.class)
         void setTableData(List<DataCell> dataCellsFirstTable, List<DataCell> dataCellsSecondTable);
 
-        void setTableColor(int table_id, int color);
+        void setTableColor(int backgroundResourcesFirstTable, int backgroundResourcesSecondTable);
 
         @StateStrategyType(OneExecutionStateStrategy.class)
         void showToastWrongTable(int wrongTable);

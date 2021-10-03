@@ -1,11 +1,9 @@
 package ru.schultetabledima.schultetable.table.tablecreation;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Color;
-import android.os.SystemClock;
-import android.util.ArrayMap;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -13,10 +11,8 @@ import android.widget.TableLayout;
 
 import androidx.appcompat.widget.AppCompatTextView;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import ru.schultetabledima.schultetable.contracts.TableContract;
+import ru.schultetabledima.schultetable.App;
+import ru.schultetabledima.schultetable.R;
 import ru.schultetabledima.schultetable.table.TableActivity;
 import ru.schultetabledima.schultetable.table.TablePresenter;
 import ru.schultetabledima.schultetable.utils.Converter;
@@ -26,15 +22,15 @@ public class FieldCreator {
     private TableLayout field;
     private Context context;
     private CustomCell [][] cells;
-    private int backgroundColor;
+    private int backgroundResources;
     private TablePresenter tablePresenter;
     private PreferencesReader settings;
 
 
 
-    public FieldCreator(Context context, int backgroundColor, TablePresenter tablePresenter) {
+    public FieldCreator(Context context, int backgroundResources, TablePresenter tablePresenter) {
         this.context = context;
-        this.backgroundColor = backgroundColor;
+        this.backgroundResources = backgroundResources;
         this.tablePresenter = tablePresenter;
         main();
     }
@@ -44,6 +40,7 @@ public class FieldCreator {
         creator();
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     private void creator(){
         field = new TableLayout(context);
         LinearLayout.LayoutParams llLayoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
@@ -51,7 +48,7 @@ public class FieldCreator {
         field.setLayoutParams(llLayoutParams);
 
         field.setId(View.generateViewId());
-        field.setBackgroundColor(backgroundColor);
+//        field.setBackgroundColor(backgroundColor);
 
 
         //создание рядов
@@ -74,6 +71,7 @@ public class FieldCreator {
                 cells[i][j].setBackgroundColor(Color.WHITE);
                 cells[i][j].setMaxLines(1);
                 cells[i][j].setGravity(Gravity.CENTER);
+                cells[i][j].setBackground(App.getContext().getResources().getDrawable(backgroundResources));
 
                 LinearLayout.LayoutParams layoutParamsCell = new LinearLayout.LayoutParams(0,
                         TableLayout.LayoutParams.MATCH_PARENT, 1);

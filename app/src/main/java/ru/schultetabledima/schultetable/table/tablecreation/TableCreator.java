@@ -2,7 +2,6 @@ package ru.schultetabledima.schultetable.table.tablecreation;
 
 import android.content.Context;
 import android.content.res.Configuration;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -10,7 +9,6 @@ import android.widget.LinearLayout;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.content.ContextCompat;
 
 import ru.schultetabledima.schultetable.App;
 import ru.schultetabledima.schultetable.R;
@@ -26,8 +24,6 @@ public class TableCreator {
     private FieldCreator fieldCreator2;
     private PreferencesReader settings;
     private View viewDivider;
-    private AppCompatTextView[][] cells1, cells2;
-
 
     public TableCreator(Context context, TablePresenter tablePresenter) {
         this.context = context;
@@ -79,14 +75,14 @@ public class TableCreator {
     }
 
     private void creatingField() {
-        fieldCreator1 = new FieldCreator(context, ContextCompat.getColor(context, R.color.activeTable), tablePresenter);
+        fieldCreator1 = new FieldCreator(context, R.drawable.border_cell_active_color, tablePresenter);
         containerForTable.addView(fieldCreator1.getField());
 
         if (settings.getIsTwoTables()) {
 
             containerForTable.addView(viewDivider);
 
-            fieldCreator2 = new FieldCreator(context, ContextCompat.getColor(context, R.color.passiveTable), tablePresenter);
+            fieldCreator2 = new FieldCreator(context, R.drawable.border_cell_passive_color, tablePresenter);
             containerForTable.addView(fieldCreator2.getField());
         }
     }

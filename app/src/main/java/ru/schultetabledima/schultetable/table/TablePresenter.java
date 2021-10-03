@@ -4,14 +4,11 @@ import static android.content.Context.MODE_PRIVATE;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.SystemClock;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.PopupMenu;
 
 import java.util.List;
-import java.util.Set;
 
 import moxy.InjectViewState;
 import moxy.MvpPresenter;
@@ -22,7 +19,6 @@ import ru.schultetabledima.schultetable.contracts.TableContract;
 import ru.schultetabledima.schultetable.donation.DonationActivity;
 import ru.schultetabledima.schultetable.settings.SettingsActivity;
 import ru.schultetabledima.schultetable.statistic.StatisticsActivity;
-import ru.schultetabledima.schultetable.table.tablecreation.AnimationInGame;
 import ru.schultetabledima.schultetable.table.tablecreation.AnimationTransition;
 import ru.schultetabledima.schultetable.table.tablecreation.DataCell;
 import ru.schultetabledima.schultetable.table.tablecreation.ValuesAndIdsCreator;
@@ -256,8 +252,7 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
 
                 activeTable = SECOND_TABLE_ID;
 
-                getViewState().setTableColor(FIRST_TABLE_ID, R.color.passiveTable);
-                getViewState().setTableColor(SECOND_TABLE_ID, R.color.activeTable);
+                getViewState().setTableColor(R.drawable.border_cell_passive_color, R.drawable.border_cell_active_color);
 
 
                 if (settings.getIsLetters())
@@ -274,8 +269,7 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
 
                 activeTable = FIRST_TABLE_ID;
 
-                getViewState().setTableColor(FIRST_TABLE_ID, R.color.activeTable);
-                getViewState().setTableColor(SECOND_TABLE_ID, R.color.passiveTable);
+                getViewState().setTableColor(R.drawable.border_cell_active_color, R.drawable.border_cell_passive_color);
 
                 if (settings.getIsLetters())
                     getViewState().setMoveHint((char) nextMoveFirstTable);

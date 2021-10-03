@@ -1,10 +1,8 @@
 package ru.schultetabledima.schultetable.table;
 
 import android.animation.LayoutTransition;
-import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -31,7 +29,6 @@ import moxy.MvpAppCompatActivity;
 import moxy.presenter.InjectPresenter;
 import ru.schultetabledima.schultetable.R;
 import ru.schultetabledima.schultetable.contracts.TableContract;
-import ru.schultetabledima.schultetable.table.tablecreation.CustomCell;
 import ru.schultetabledima.schultetable.table.tablecreation.DataCell;
 import ru.schultetabledima.schultetable.table.tablecreation.TableCreator;
 import ru.schultetabledima.schultetable.utils.PreferencesReader;
@@ -82,9 +79,11 @@ public class TableActivity extends MvpAppCompatActivity implements TableContract
         containerWithTables = tableCreator.getContainerForTables();
         placeForTable.addView(containerWithTables);
 
+
         cells1 = tableCreator.getCellsFirstTable();
 
         if (settings.getIsTwoTables()) {
+
             cells2 = tableCreator.getCellsSecondTable();
         }
     }
@@ -113,7 +112,6 @@ public class TableActivity extends MvpAppCompatActivity implements TableContract
             for (int j = 0; j < settings.getColumnsOfTable(); j++) {
                 cells[i][j].setId(dataCells.get(count).getId());
 
-
                 if (settings.getIsLetters()) {
                     cells[i][j].setText(String.valueOf((char) (dataCells.get(count).getValue())));
 
@@ -126,9 +124,17 @@ public class TableActivity extends MvpAppCompatActivity implements TableContract
         }
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     @Override
-    public void setTableColor(int table_id, int color) {
-        containerWithTables.getChildAt(table_id).setBackgroundColor(getResources().getColor(color));
+    public void setTableColor(int backgroundResourcesFirstTable, int backgroundResourcesSecondTable) {
+
+        for (int i = 0; i < settings.getRowsOfTable(); i++) {
+            for (int j = 0; j < settings.getColumnsOfTable(); j++) {
+
+                cells1[i][j].setBackground(this.getResources().getDrawable(backgroundResourcesFirstTable));
+                cells2[i][j].setBackground(this.getResources().getDrawable(backgroundResourcesSecondTable));
+            }
+        }
     }
 
     @Override
@@ -159,10 +165,10 @@ public class TableActivity extends MvpAppCompatActivity implements TableContract
             } else {
 
                 if (dataCells.get(i).getTypeAnimation() == 3)
-                    new CustomRotateValueAnimator(dataCells.get(i).getId());
+                    new CustomRotateValueAnimator(this, dataCells.get(i).getId());
 
                 if (dataCells.get(i).getTypeAnimation() == 4) {
-                    new CustomScaleValueAnimator(dataCells.get(i).getId());
+                    new CustomScaleValueAnimator(this, dataCells.get(i).getId());
                 }
             }
         }
@@ -269,81 +275,5 @@ public class TableActivity extends MvpAppCompatActivity implements TableContract
     @Override
     public boolean onMenuItemClick(MenuItem menuItem) {
         return false;
-    }
-
-
-    private class CustomRotateValueAnimator {
-
-        private int id;
-
-        public CustomRotateValueAnimator(int id) {
-            this.id = id;
-            init();
-        }
-
-        private void init() {
-            final float startRotate = -60;
-            final float endRotate = 60;
-            long animationDuration = 1500;
-
-            ValueAnimator animator = ValueAnimator.ofFloat(startRotate, endRotate);
-            animator.setDuration(animationDuration);
-            animator.setRepeatCount(ValueAnimator.INFINITE);
-            animator.setRepeatMode(ValueAnimator.REVERSE);
-
-            animator.addUpdateListener(valueAnimator -> {
-                float animatedValue = (float) valueAnimator.getAnimatedValue();
-                int ROTATE_ANIMATION = 1;
-                ((CustomCell) findViewById(id)).setAnimation(animatedValue, ROTATE_ANIMATION);
-
-                ((CustomCell) findViewById(id)).setTextColor(Color.TRANSPARENT);
-            });
-            animator.start();
-        }
-    }
-
-    private class CustomScaleValueAnimator implements ObservationContract.CellTextSizeObserver {
-        private int id;
-
-        public CustomScaleValueAnimator(int id) {
-            this.id = id;
-            subscribeSubject();
-        }
-
-        private void main() {
-            final float startSize = 20;
-            final float endSize = ((CustomCell) findViewById(id)).getTextSize();
-            long animationDuration = 1900;
-
-            ValueAnimator animator = ValueAnimator.ofFloat(startSize, endSize);
-            animator.setDuration(animationDuration);
-            animator.setRepeatCount(ValueAnimator.INFINITE);
-            animator.setRepeatMode(ValueAnimator.REVERSE);
-
-            animator.addUpdateListener(valueAnimator -> {
-                float animatedValue = (float) valueAnimator.getAnimatedValue();
-                int SCALE_ANIMATION = 2;
-                ((CustomCell) findViewById(id)).setAnimation(animatedValue, SCALE_ANIMATION);
-                ((CustomCell) findViewById(id)).setTextColor(Color.TRANSPARENT);
-
-            });
-            animator.start();
-        }
-
-
-        @Override
-        public void updateSubject() {
-            main();
-        }
-
-        @Override
-        public void subscribeSubject() {
-            ((CustomCell) findViewById(id)).subscribeObserver(this);
-        }
-
-        @Override
-        public void unSubscribeSubject() {
-            ((CustomCell) findViewById(id)).unSubscribeObserver(this);
-        }
     }
 }
