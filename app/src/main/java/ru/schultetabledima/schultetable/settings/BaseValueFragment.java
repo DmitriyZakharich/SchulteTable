@@ -14,10 +14,11 @@ import androidx.fragment.app.Fragment;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class BaseValueFragment extends Fragment implements AdapterView.OnItemSelectedListener, CustomSubject {
-    protected SettingsPresenter settingsPresenter;
-    protected Spinner spinnerRows, spinnerColumns;
+import moxy.MvpAppCompatFragment;
 
+public abstract class BaseValueFragment extends Fragment implements AdapterView.OnItemSelectedListener {
+
+    protected Spinner spinnerRows, spinnerColumns;
     protected List<CustomObserver> customObservers = new ArrayList<>();
 
     public BaseValueFragment() {
@@ -34,7 +35,7 @@ public abstract class BaseValueFragment extends Fragment implements AdapterView.
     @Override
     public void onResume() {
         super.onResume();
-        updateNotifyObservers();
+//        updateNotifyObservers();
     }
 
     @Override
@@ -42,9 +43,9 @@ public abstract class BaseValueFragment extends Fragment implements AdapterView.
                                       Bundle savedInstanceState);
 
 
-    public void attachPresenter(SettingsPresenter settingsPresenter) {
-        this.settingsPresenter = settingsPresenter;
-    }
+//    public void attachPresenter(SettingsPresenter settingsPresenter) {
+//        this.settingsPresenter = settingsPresenter;
+//    }
 
 
     @Override
@@ -62,24 +63,24 @@ public abstract class BaseValueFragment extends Fragment implements AdapterView.
         spinnerColumns.setSelection(position, false);
     }
 
-    public void setSpinnerRowsAdapter(ArrayAdapter<String> adapter) {
-        spinnerRows.setAdapter(adapter);
-    }
+//    public void setSpinnerRowsAdapter(ArrayAdapter<String> adapter) {
+//        spinnerRows.setAdapter(adapter);
+//    }
 
-    public void setSpinnerColumnsAdapter(ArrayAdapter<String> adapter) {
-        spinnerColumns.setAdapter(adapter);
-    }
+//    public void setSpinnerColumnsAdapter(ArrayAdapter<String> adapter) {
+//        spinnerColumns.setAdapter(adapter);
+//    }
 
 
-    @Override
-    public void subscribeObserver(CustomObserver customObserver) {
-        customObservers.add(customObserver);
-    }
-
-    @Override
-    public void unSubscribeObserver(CustomObserver customObserver) {
-        customObservers.remove(customObserver);
-    }
+//    @Override
+//    public void subscribeObserver(CustomObserver customObserver) {
+//        customObservers.add(customObserver);
+//    }
+//
+//    @Override
+//    public void unSubscribeObserver(CustomObserver customObserver) {
+//        customObservers.remove(customObserver);
+//    }
 
 
 }

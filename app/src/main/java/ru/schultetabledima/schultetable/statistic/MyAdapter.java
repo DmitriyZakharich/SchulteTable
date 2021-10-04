@@ -5,15 +5,16 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class MyAdapter extends FragmentStateAdapter {
-    ArrayList<Fragment> fragments;
+    List<Fragment> fragments;
+
     public MyAdapter(@NonNull FragmentActivity fragmentActivity) {
         super(fragmentActivity);
     }
 
-    public void setListFragments(ArrayList<Fragment> fragments){
+    public void setListFragments(List<Fragment> fragments) {
         this.fragments = fragments;
     }
 

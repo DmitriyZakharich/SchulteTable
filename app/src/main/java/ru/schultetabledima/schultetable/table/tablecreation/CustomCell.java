@@ -30,6 +30,7 @@ public class CustomCell extends AppCompatTextView implements ObservationContract
     private int typeAnimation;
     private float width, height, centerX, centerY;
     private String message;
+    private boolean isAnimation = false;
 
     protected List<ObservationContract.CellTextSizeObserver> cellTextSizeObserver = new ArrayList<>();
 
@@ -55,6 +56,7 @@ public class CustomCell extends AppCompatTextView implements ObservationContract
     public void setAnimation(float animatedValue, int typeAnimation) {
         this.animatedValue = animatedValue;
         this.typeAnimation = typeAnimation;
+        isAnimation = true;
         invalidate();
     }
 
@@ -62,6 +64,8 @@ public class CustomCell extends AppCompatTextView implements ObservationContract
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        if (!isAnimation)
+            return;
 
         if (typeAnimation == 1) {
             canvas.rotate(animatedValue, centerX, centerY);

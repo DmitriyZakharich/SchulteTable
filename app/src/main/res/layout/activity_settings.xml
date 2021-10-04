@@ -6,32 +6,38 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".settings.SettingsActivity"
-    android:background="@color/mainBackgroundColor">
+    android:background="@color/mainBackgroundColor"
+    android:animateLayoutChanges="true">
 
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:weightSum="7">
 
             <TextView
                 android:id="@+id/headlineResults"
                 style="@style/TextViewHeadline"
-                android:text="@string/settings"/>
+                android:layout_height="wrap_content"
+                android:text="@string/settings" />
 
             <com.google.android.material.switchmaterial.SwitchMaterial
                 android:id="@+id/switchPressButtons"
                 style="@style/Switch"
+                android:layout_height="wrap_content"
                 android:text="@string/TouchFoundCells" />
 
             <com.google.android.material.switchmaterial.SwitchMaterial
                 android:id="@+id/switchMoveHint"
                 style="@style/Switch"
+                android:layout_height="wrap_content"
                 android:text="@string/moveHint"
                 android:textColor="@color/checkable_switch"
                 app:switchMinWidth="@dimen/switchSize" />
@@ -39,11 +45,13 @@
             <com.google.android.material.switchmaterial.SwitchMaterial
                 android:id="@+id/switchAnimation"
                 style="@style/Switch"
+                android:layout_height="wrap_content"
                 android:text="@string/Animation" />
 
             <com.google.android.material.switchmaterial.SwitchMaterial
                 android:id="@+id/switchTwoTables"
                 style="@style/Switch"
+                android:layout_height="wrap_content"
                 android:text="@string/TwoTables" />
 
             <LinearLayout
@@ -53,22 +61,21 @@
 
                 <TextView
                     style="@style/TextViewSettings"
-                    android:text="@string/dataInTheTable"/>
+                    android:text="@string/dataInTheTable" />
 
                 <com.google.android.material.tabs.TabLayout
                     android:id="@+id/tab_layout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:tabGravity="fill"
-                    app:tabMode="scrollable">
-                </com.google.android.material.tabs.TabLayout>
+                    app:tabMode="scrollable" />
 
             </LinearLayout>
 
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/viewPager"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"/>
 
 
         </LinearLayout>
@@ -79,6 +86,7 @@
         android:id="@+id/buttonToTable"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_weight="0"
         android:background="@color/colorButton"
         android:text="@string/Table"
         android:textColor="@color/mainTextColor"

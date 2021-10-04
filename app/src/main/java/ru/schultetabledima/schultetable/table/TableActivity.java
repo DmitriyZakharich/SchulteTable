@@ -79,11 +79,9 @@ public class TableActivity extends MvpAppCompatActivity implements TableContract
         containerWithTables = tableCreator.getContainerForTables();
         placeForTable.addView(containerWithTables);
 
-
         cells1 = tableCreator.getCellsFirstTable();
 
         if (settings.getIsTwoTables()) {
-
             cells2 = tableCreator.getCellsSecondTable();
         }
     }

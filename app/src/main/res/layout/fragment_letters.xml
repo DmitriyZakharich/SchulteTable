@@ -65,5 +65,4 @@
         app:switchMinWidth="@dimen/switchSize"
         style="@style/basicStyleView"/>
 
-
 </LinearLayout>
