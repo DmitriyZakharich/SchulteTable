@@ -1,22 +1,17 @@
 package ru.schultetabledima.schultetable.advice;
 
-import android.content.Intent;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import moxy.InjectViewState;
 import moxy.MvpPresenter;
-import ru.schultetabledima.schultetable.App;
 import ru.schultetabledima.schultetable.R;
 import ru.schultetabledima.schultetable.contracts.AdviceContract;
-import ru.schultetabledima.schultetable.table.TableActivity;
 
 @InjectViewState
-public class AdvicePresenter extends MvpPresenter<AdviceContract.View> implements AdviceContract.Presenter {
+public class AdvicePresenter extends MvpPresenter<AdviceContract.View> {
 
     private AdviceModel adviceModel;
-    private Intent intent;
     private List<Integer> adviceResource = new ArrayList<>(2);
 
 
@@ -34,16 +29,9 @@ public class AdvicePresenter extends MvpPresenter<AdviceContract.View> implement
 
     private void showAdvice() {
         int count = 0;
-        for (int id : adviceResource){
+        for (int id : adviceResource) {
             getViewState().showAdvice(count++, adviceModel.getAdvice(id));
 
         }
-    }
-
-    public void onClickListener(int id) {
-        if (id == R.id.toTable)
-            intent = new Intent(App.getContext(), TableActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        App.getContext().startActivity(intent);
     }
 }

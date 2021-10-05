@@ -16,6 +16,7 @@ public class NumbersFragment extends BaseValueFragment implements AdapterView.On
     private View view;
 
     public static NumbersFragment newInstance() {
+
         return new NumbersFragment();
     }
 

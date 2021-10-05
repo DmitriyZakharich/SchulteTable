@@ -1,11 +1,10 @@
 package ru.schultetabledima.schultetable.main;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import ru.schultetabledima.schultetable.R;
 import ru.schultetabledima.schultetable.advice.AdviceActivity;
@@ -13,8 +12,12 @@ import ru.schultetabledima.schultetable.donation.DonationActivity;
 import ru.schultetabledima.schultetable.settings.SettingsActivity;
 import ru.schultetabledima.schultetable.statistic.StatisticsActivity;
 import ru.schultetabledima.schultetable.table.TableActivity;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private AdView mAdView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +30,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.adviceButton).setOnClickListener(this);
         findViewById(R.id.donationButton).setOnClickListener(this);
         findViewById(R.id.aboutProgramButton).setOnClickListener(this);
+
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
     }
 
         @Override

@@ -47,11 +47,18 @@
         </LinearLayout>
     </ScrollView>
 
-    <Button
-        android:id="@+id/toTable"
+<!--    <Button-->
+<!--        android:id="@+id/toTable"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_weight="0"-->
+<!--        android:text="Button" />-->
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentContainerView"
+        android:name="ru.schultetabledima.schultetable.NavigationFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0"
-        android:text="Button" />
+        android:layout_weight="0"/>
 
 </LinearLayout>

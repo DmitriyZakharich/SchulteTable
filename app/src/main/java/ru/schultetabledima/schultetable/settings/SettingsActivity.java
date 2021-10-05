@@ -53,7 +53,6 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         switchTouchCells.setOnClickListener(this);
         switchTwoTables.setOnClickListener(this);
         switchMoveHint.setOnClickListener(this);
-        findViewById(R.id.buttonToTable).setOnClickListener(clickListener);
 
         numbersFragment = NumbersFragment.newInstance();
         lettersFragment = LettersFragment.newInstance();
@@ -104,14 +103,6 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     public void setViewPagerCurrentItem(int index) {
         viewPager.setCurrentItem(index, false);
     }
-
-
-    View.OnClickListener clickListener = v -> {
-        int id = v.getId();
-        if (id == R.id.buttonToTable) {
-            startActivity(new Intent(SettingsActivity.this, TableActivity.class));
-        }
-    };
 
 
     @Override

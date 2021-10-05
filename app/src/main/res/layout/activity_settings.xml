@@ -81,16 +81,11 @@
         </LinearLayout>
     </ScrollView>
 
-
-    <Button
-        android:id="@+id/buttonToTable"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentContainerView"
+        android:name="ru.schultetabledima.schultetable.NavigationFragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0"
-        android:background="@color/colorButton"
-        android:text="@string/Table"
-        android:textColor="@color/mainTextColor"
-        android:textSize="@dimen/commonTextSize" />
+        android:layout_height="wrap_content" />
 </LinearLayout>
 
 

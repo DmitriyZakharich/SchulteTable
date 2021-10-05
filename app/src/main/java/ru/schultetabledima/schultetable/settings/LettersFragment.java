@@ -15,6 +15,7 @@ import ru.schultetabledima.schultetable.R;
 public class LettersFragment extends BaseValueFragment implements AdapterView.OnItemSelectedListener, View.OnClickListener {
 
     private SwitchMaterial switchRussianOrEnglish;
+
     private LettersFragmentPresenter presenter;
 
     public static LettersFragment newInstance() {

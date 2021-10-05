@@ -71,6 +71,16 @@
         <item name="switchMinWidth">@dimen/switchSize</item>
     </style>
 
+    <style name="ImageButtonNavigationFragment">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@color/colorButton</item>
+        <item name="android:layout_margin">1dp</item>
+        <item name="android:minHeight">@dimen/customMinHeight</item>
+
+    </style>
+
     <style name="AlertDialogCustom" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:background">#303F9F</item>
         <item name="android:textColorPrimary">@color/mainTextColor</item>
