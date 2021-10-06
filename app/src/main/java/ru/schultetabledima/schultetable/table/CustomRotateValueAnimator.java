@@ -30,9 +30,9 @@ public class CustomRotateValueAnimator {
         animator.addUpdateListener(valueAnimator -> {
             float animatedValue = (float) valueAnimator.getAnimatedValue();
             int ROTATE_ANIMATION = 1;
-            ((CustomCell) ((TableActivity)context).findViewById(id)).setAnimation(animatedValue, ROTATE_ANIMATION);
+            ((CustomCell) ((TableActivity) context).findViewById(id)).setAnimation(animatedValue, ROTATE_ANIMATION);
 
-            ((CustomCell) ((TableActivity)context).findViewById(id)).setTextColor(Color.TRANSPARENT);
+            ((CustomCell) ((TableActivity) context).findViewById(id)).setTextColor(Color.TRANSPARENT);
         });
         animator.start();
     }

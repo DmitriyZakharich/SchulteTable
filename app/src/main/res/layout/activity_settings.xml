@@ -22,6 +22,12 @@
             android:orientation="vertical"
             android:weightSum="7">
 
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/fragmentContainerView3"
+                android:name="ru.schultetabledima.schultetable.AdBannerFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
             <TextView
                 android:id="@+id/headlineResults"
                 style="@style/TextViewHeadline"

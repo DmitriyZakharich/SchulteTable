@@ -11,6 +11,12 @@
     android:divider="@drawable/statistic_separator"
     tools:context=".statistic.StatisticsActivity">
 
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentContainerView4"
+        android:name="ru.schultetabledima.schultetable.AdBannerFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"

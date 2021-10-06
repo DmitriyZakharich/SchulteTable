@@ -8,6 +8,12 @@
     tools:context=".advice.AdviceActivity"
     android:background="@color/mainBackgroundColor">
 
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentContainerView2"
+        android:name="ru.schultetabledima.schultetable.AdBannerFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
 
     <ScrollView
         android:layout_width="match_parent"
@@ -46,13 +52,6 @@
 
         </LinearLayout>
     </ScrollView>
-
-<!--    <Button-->
-<!--        android:id="@+id/toTable"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_weight="0"-->
-<!--        android:text="Button" />-->
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView"

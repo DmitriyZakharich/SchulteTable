@@ -18,14 +18,12 @@ import ru.schultetabledima.schultetable.table.TableActivity;
 
 public class NavigationFragment extends Fragment implements View.OnClickListener {
 
-    private AdView mAdView;
 
     public NavigationFragment() {
     }
 
     public static NavigationFragment newInstance() {
-        NavigationFragment fragment = new NavigationFragment();
-        return fragment;
+        return new NavigationFragment();
     }
 
     @Override
@@ -42,10 +40,6 @@ public class NavigationFragment extends Fragment implements View.OnClickListener
         rootView.findViewById(R.id.statisticNavigationFragment).setOnClickListener(this);
         rootView.findViewById(R.id.settingsNavigationFragment).setOnClickListener(this);
         rootView.findViewById(R.id.adviceNavigationFragment).setOnClickListener(this);
-
-        mAdView = rootView.findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
 
         return rootView;
     }
