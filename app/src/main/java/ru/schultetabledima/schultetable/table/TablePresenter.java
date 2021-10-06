@@ -16,7 +16,6 @@ import ru.schultetabledima.schultetable.App;
 import ru.schultetabledima.schultetable.R;
 import ru.schultetabledima.schultetable.advice.AdviceActivity;
 import ru.schultetabledima.schultetable.contracts.TableContract;
-import ru.schultetabledima.schultetable.donation.DonationActivity;
 import ru.schultetabledima.schultetable.settings.SettingsActivity;
 import ru.schultetabledima.schultetable.statistic.StatisticsActivity;
 import ru.schultetabledima.schultetable.table.tablecreation.AnimationTransition;
@@ -28,7 +27,7 @@ import ru.schultetabledima.schultetable.utils.PreferencesReader;
 @InjectViewState
 public class TablePresenter extends MvpPresenter<TableContract.View> implements TableContract.Presenter {
 
-    private int count1 = 0, countdownSecondTable;
+    private int countFirstTable = 0, countdownSecondTable;
     private long saveTime = 0;
     private boolean isMenuShow;
     private int activeTable;
@@ -164,10 +163,6 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             App.getContext().startActivity(intent);
 
-        } else if (viewID == R.id.item_donation) {
-            Intent intent = new Intent(App.getContext(), DonationActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            App.getContext().startActivity(intent);
         }
     }
 
@@ -214,9 +209,9 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
     }
 
     private void checkMoveInOneTable(int cellId) {
-        if (cellId == cellsIdFirstTableForCheck.get(count1)) {
+        if (cellId == cellsIdFirstTableForCheck.get(countFirstTable)) {
             nextMoveFirstTable++;
-            count1++;
+            countFirstTable++;
             if (settings.getIsLetters())
                 getViewState().setMoveHint((char) nextMoveFirstTable);
 
@@ -224,7 +219,7 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
                 getViewState().setMoveHint(nextMoveFirstTable);
         }
 
-        if (count1 == cellsIdFirstTableForCheck.size()) {
+        if (countFirstTable == cellsIdFirstTableForCheck.size()) {
             getViewState().setMoveHint(' ');
             endGameDialogue();
         }
@@ -246,8 +241,8 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
 
         if (activeTable == FIRST_TABLE_ID) {
 
-            if (cellId == cellsIdFirstTableForCheck.get(count1)) {
-                count1++;
+            if (cellId == cellsIdFirstTableForCheck.get(countFirstTable)) {
+                countFirstTable++;
                 nextMoveFirstTable++;
 
                 activeTable = SECOND_TABLE_ID;

@@ -28,7 +28,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.statisticsButton).setOnClickListener(this);
         findViewById(R.id.customizationButton).setOnClickListener(this);
         findViewById(R.id.adviceButton).setOnClickListener(this);
-        findViewById(R.id.donationButton).setOnClickListener(this);
         findViewById(R.id.aboutProgramButton).setOnClickListener(this);
 
         mAdView = findViewById(R.id.adView);
@@ -51,9 +50,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             } else if (id == R.id.adviceButton) {
                 startActivity(new Intent(MainActivity.this, AdviceActivity.class));
-
-            }else if (id == R.id.donationButton) {
-                startActivity(new Intent(MainActivity.this, DonationActivity.class));
             }
     }
 }

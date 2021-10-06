@@ -12,9 +12,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         android:name=".App">
-        <activity
-            android:name=".donation.DonationActivity"
-            android:exported="true" />
         <activity android:name=".advice.AdviceActivity" />
         <activity android:name=".settings.SettingsActivity" />
         <activity android:name=".statistic.StatisticsActivity" />
