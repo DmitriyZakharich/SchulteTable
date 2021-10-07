@@ -8,4 +8,5 @@
     <dimen name="textSizeStatistic">18sp</dimen>
     <dimen name="textSizeColumnStatistic">25sp</dimen>
     <dimen name="customMinHeight">48dp</dimen>
+    <dimen name="customSpinnerTextSize">16sp</dimen>
 </resources>

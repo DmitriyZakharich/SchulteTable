@@ -62,11 +62,11 @@ public class StatisticsPresenter extends MvpPresenter<StatisticsContract.View> i
         valueSpinnerValueType = Arrays.asList(context.getResources().getStringArray(R.array.spinnerValueType));
 
 
-        ArrayAdapter<String> adapterQuantityTables = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item,
+        ArrayAdapter<String> adapterQuantityTables = new ArrayAdapter<>(context, R.layout.custom_spinner_style,
                 valueSpinnerQuantityTables);
         adapterQuantityTables.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        ArrayAdapter<String> adapterValueType = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, valueSpinnerValueType);
+        ArrayAdapter<String> adapterValueType = new ArrayAdapter<>(context, R.layout.custom_spinner_style, valueSpinnerValueType);
         adapterValueType.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         getViewState().setQuantityTablesAdapter(adapterQuantityTables);
@@ -102,7 +102,7 @@ public class StatisticsPresenter extends MvpPresenter<StatisticsContract.View> i
 
         tableSize.add(0, context.getString(R.string.allSize));
 
-        ArrayAdapter<String> adapterPlayedSizes = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, tableSize);
+        ArrayAdapter<String> adapterPlayedSizes = new ArrayAdapter<>(context, R.layout.custom_spinner_style, tableSize);
         adapterPlayedSizes.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         getViewState().setPlayedSizesAdapter(adapterPlayedSizes);
