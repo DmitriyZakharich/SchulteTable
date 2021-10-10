@@ -1,10 +1,10 @@
 package ru.schultetabledima.schultetable.table.tablecreation;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
@@ -12,7 +12,6 @@ import android.widget.TableLayout;
 import androidx.appcompat.widget.AppCompatTextView;
 
 import ru.schultetabledima.schultetable.App;
-import ru.schultetabledima.schultetable.R;
 import ru.schultetabledima.schultetable.table.TableActivity;
 import ru.schultetabledima.schultetable.table.TablePresenter;
 import ru.schultetabledima.schultetable.utils.Converter;
@@ -21,11 +20,10 @@ import ru.schultetabledima.schultetable.utils.PreferencesReader;
 public class FieldCreator {
     private TableLayout field;
     private Context context;
-    private CustomCell [][] cells;
+    private CustomCell[][] cells;
     private int backgroundResources;
     private TablePresenter tablePresenter;
     private PreferencesReader settings;
-
 
 
     public FieldCreator(Context context, int backgroundResources, TablePresenter tablePresenter) {
@@ -40,15 +38,13 @@ public class FieldCreator {
         creator();
     }
 
-    @SuppressLint("UseCompatLoadingForDrawables")
-    private void creator(){
+    private void creator() {
         field = new TableLayout(context);
         LinearLayout.LayoutParams llLayoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT, 1);
         field.setLayoutParams(llLayoutParams);
 
         field.setId(View.generateViewId());
-//        field.setBackgroundColor(backgroundColor);
 
 
         //создание рядов
@@ -56,7 +52,7 @@ public class FieldCreator {
         for (int i = 0; i < rows.length; i++) {
             rows[i] = new LinearLayout(context);
             TableLayout.LayoutParams tlLayoutParams = new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT,
-                    0,1);
+                    0, 1);
             tlLayoutParams.setLayoutDirection(LinearLayout.HORIZONTAL);
             rows[i].setLayoutParams(tlLayoutParams);
             field.addView(rows[i]);
@@ -64,7 +60,7 @@ public class FieldCreator {
 
         //Создание кнопок
         cells = new CustomCell[settings.getRowsOfTable()][settings.getColumnsOfTable()];
-        for (int i = 0; i < settings.getRowsOfTable(); i++){
+        for (int i = 0; i < settings.getRowsOfTable(); i++) {
             for (int j = 0; j < settings.getColumnsOfTable(); j++) {
                 cells[i][j] = new CustomCell(context, settings.getIsLetters());
                 cells[i][j].setTextColor(Color.BLACK);
@@ -76,7 +72,7 @@ public class FieldCreator {
                 LinearLayout.LayoutParams layoutParamsCell = new LinearLayout.LayoutParams(0,
                         TableLayout.LayoutParams.MATCH_PARENT, 1);
 
-                layoutParamsCell.setMargins(1,1,1,1);
+                layoutParamsCell.setMargins(1, 1, 1, 1);
                 cells[i][j].setLayoutParams(layoutParamsCell);
 
                 if ((context).getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
@@ -85,15 +81,26 @@ public class FieldCreator {
                 }
 
                 rows[i].addView(cells[i][j]);
-                cells[i][j].setOnClickListener(cellClick);
+                cells[i][j].setLongClickable(true);
+                cells[i][j].setOnTouchListener(cellTouch);
             }
         }
     }
 
-    View.OnClickListener cellClick = new View.OnClickListener() {
+    View.OnTouchListener cellTouch = new View.OnTouchListener() {
         @Override
-        public void onClick(View view) {
-            tablePresenter.checkMove(view.getId(), ((TableActivity)context).getBaseChronometer());
+        public boolean onTouch(View view, MotionEvent motionEvent) {
+
+            switch (motionEvent.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    tablePresenter.checkMove(view.getId(), ((TableActivity) context).getBaseChronometer());
+                    return true;
+                case MotionEvent.ACTION_UP:
+                    tablePresenter.applyCellSelection(view.getId());
+                    return true;
+
+            }
+            return false;
         }
     };
 

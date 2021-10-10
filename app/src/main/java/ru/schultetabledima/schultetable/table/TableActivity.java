@@ -3,11 +3,15 @@ package ru.schultetabledima.schultetable.table;
 import android.animation.LayoutTransition;
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Chronometer;
@@ -27,6 +31,7 @@ import java.util.List;
 
 import moxy.MvpAppCompatActivity;
 import moxy.presenter.InjectPresenter;
+import ru.schultetabledima.schultetable.App;
 import ru.schultetabledima.schultetable.R;
 import ru.schultetabledima.schultetable.contracts.TableContract;
 import ru.schultetabledima.schultetable.table.tablecreation.DataCell;
@@ -55,6 +60,10 @@ public class TableActivity extends MvpAppCompatActivity implements TableContract
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_table);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         selectShowHideMenu = findViewById(R.id.image_Button_Show_Hide_Menu);
         buttonSettings = findViewById(R.id.image_button_settings);
@@ -273,5 +282,15 @@ public class TableActivity extends MvpAppCompatActivity implements TableContract
     @Override
     public boolean onMenuItemClick(MenuItem menuItem) {
         return false;
+    }
+
+    @Override
+    public void setCellColor(int id, int cellColor) {
+        findViewById(id).setBackgroundColor(cellColor);
+    }
+
+    @Override
+    public void setBackgroundResources(int cellId, int backgroundResources) {
+        findViewById(cellId).setBackground(App.getContext().getResources().getDrawable(backgroundResources));
     }
 }

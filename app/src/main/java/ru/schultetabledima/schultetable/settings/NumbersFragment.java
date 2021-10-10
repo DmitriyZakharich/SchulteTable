@@ -31,7 +31,6 @@ public class NumbersFragment extends BaseValueFragment implements AdapterView.On
 
         spinnerRows = rootView.findViewById(R.id.spinnerRowsNumbers);
         spinnerColumns = rootView.findViewById(R.id.spinnerColumnsNumbers);
-        view = rootView.findViewById(R.id.view_empty);
 
 
         spinnerRows.setOnItemSelectedListener(this);
@@ -49,12 +48,6 @@ public class NumbersFragment extends BaseValueFragment implements AdapterView.On
         presenter = new NumbersFragmentPresenter(this);
 
         return rootView;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        view.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, spinnerRows.getHeight()));
     }
 
     @Override

@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/fragmentContainerView4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -22,7 +22,7 @@
             android:id="@+id/tableButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_margin="3dp"
             android:background="@color/colorButton"
             android:text="@string/table"
             android:textColor="@color/mainTextColor" />
@@ -31,7 +31,7 @@
             android:id="@+id/statisticsButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_margin="3dp"
             android:background="@color/colorButton"
             android:text="@string/statistics"
             android:textColor="@color/mainTextColor" />
@@ -40,7 +40,7 @@
             android:id="@+id/customizationButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_margin="3dp"
             android:background="@color/colorButton"
             android:text="@string/settings"
             android:textColor="@color/mainTextColor" />
@@ -49,7 +49,7 @@
             android:id="@+id/adviceButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_margin="3dp"
             android:background="@color/colorButton"
             android:text="@string/advice"
             android:textColor="@color/mainTextColor" />
@@ -58,26 +58,30 @@
             android:id="@+id/aboutProgramButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="5dp"
+            android:layout_margin="3dp"
             android:background="@color/colorButton"
             android:padding="5dp"
             android:text="@string/about_the_app"
             android:textColor="@color/mainTextColor" />
     </LinearLayout>
 
-
-    <com.google.android.gms.ads.AdView
-        android:id="@+id/adView"
-        android:layout_width="wrap_content"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentContainerView4"
+        android:name="ru.schultetabledima.schultetable.AdBannerFragment"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        ads:adSize="BANNER"
-        ads:adUnitId="@string/banner_ad_unit_id"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
+
+<!--    <com.google.android.gms.ads.AdView-->
+<!--        android:id="@+id/adView"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        ads:adSize="BANNER"-->
+<!--        ads:adUnitId="@string/banner_ad_unit_id"-->
+<!--        />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

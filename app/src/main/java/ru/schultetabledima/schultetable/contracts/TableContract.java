@@ -1,11 +1,9 @@
 package ru.schultetabledima.schultetable.contracts;
 
 import android.animation.LayoutTransition;
-import android.util.ArrayMap;
 import android.widget.LinearLayout;
 
 import java.util.List;
-import java.util.Set;
 
 import moxy.MvpView;
 import moxy.viewstate.strategy.AddToEndSingleStrategy;
@@ -13,7 +11,6 @@ import moxy.viewstate.strategy.AddToEndStrategy;
 import moxy.viewstate.strategy.OneExecutionStateStrategy;
 import moxy.viewstate.strategy.SkipStrategy;
 import moxy.viewstate.strategy.StateStrategyType;
-import ru.schultetabledima.schultetable.table.EndGameDialogueFragment;
 import ru.schultetabledima.schultetable.table.tablecreation.DataCell;
 
 public interface TableContract {
@@ -47,14 +44,19 @@ public interface TableContract {
         @StateStrategyType(SkipStrategy.class)
         void showPopupMenu();
 
+        @StateStrategyType(SkipStrategy.class)
+        void setCellColor(int id, int cellColor);
+
+        @StateStrategyType(SkipStrategy.class)
+        void setBackgroundResources(int cellId, int backgroundResources);
     }
 
-    interface Presenter{
+    interface Presenter {
 
     }
 
 
-    interface Model{
+    interface Model {
 
     }
 }
