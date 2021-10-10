@@ -93,10 +93,10 @@ public class FieldCreator {
 
             switch (motionEvent.getAction()) {
                 case MotionEvent.ACTION_DOWN:
-                    tablePresenter.checkMove(view.getId(), ((TableActivity) context).getBaseChronometer());
+                    tablePresenter.cellActionDown(view.getId(), ((TableActivity) context).getBaseChronometer());
                     return true;
                 case MotionEvent.ACTION_UP:
-                    tablePresenter.applyCellSelection(view.getId());
+                    tablePresenter.cellActionUp(view.getId());
                     return true;
 
             }

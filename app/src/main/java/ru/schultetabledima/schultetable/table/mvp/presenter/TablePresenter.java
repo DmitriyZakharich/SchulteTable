@@ -2,7 +2,6 @@ package ru.schultetabledima.schultetable.table.mvp.presenter;
 
 import static android.content.Context.MODE_PRIVATE;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.SystemClock;
 import android.view.View;
@@ -14,10 +13,7 @@ import moxy.InjectViewState;
 import moxy.MvpPresenter;
 import ru.schultetabledima.schultetable.App;
 import ru.schultetabledima.schultetable.R;
-import ru.schultetabledima.schultetable.advice.AdviceActivity;
 import ru.schultetabledima.schultetable.contracts.TableContract;
-import ru.schultetabledima.schultetable.settings.SettingsActivity;
-import ru.schultetabledima.schultetable.statistic.StatisticsActivity;
 import ru.schultetabledima.schultetable.table.mvp.model.CellValuesCreator;
 import ru.schultetabledima.schultetable.table.mvp.model.DataCell;
 import ru.schultetabledima.schultetable.table.mvp.view.tablecreation.AnimationTransition;
@@ -27,11 +23,10 @@ import ru.schultetabledima.schultetable.utils.PreferencesReader;
 @InjectViewState
 public class TablePresenter extends MvpPresenter<TableContract.View> implements TableContract.Presenter {
 
-
     private long saveTime = 0;
     private boolean isMenuShow;
     private int nextMoveFirstTable, nextMoveSecondTableCountdown;
-    private static SharedPreferences sharedPreferencesMenu;
+    private SharedPreferences sharedPreferencesMenu;
     private final String MENU_PREFERENCES = "PreferencesMenu";
     private final String KEY_MENU_VISIBILITY = "Saved Menu Visibility";
     private boolean isDialogueShow = false, booleanStartChronometer = true;
@@ -40,6 +35,8 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
     private List<DataCell> dataCellsFirstTableForFilling, dataCellsSecondTableForFilling;
     private MoveInspector moveInspector;
     private DataForMoveInspector dataForMoveInspector;
+    private MenuButtonsHandler menuButtonsHandler;
+    private DataForMenuButtonsHandler dataForMenuButtonsHandler;
 
 
     public TablePresenter() {
@@ -52,16 +49,17 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
         getViewState().createTable();
 
         dataForMoveInspector = new DataForMoveInspector();
+        dataForMenuButtonsHandler = new DataForMenuButtonsHandler();
 
         callValuesCreator();
         pushValuesToTable();
 
         startChronometer();
         settingForCheckMove();
+        settingForMenu();
 
         moveInspector = new MoveInspector(this, dataForMoveInspector);
-
-        settingForMenu(); //возможно перенести вверх стека
+        menuButtonsHandler = new MenuButtonsHandler(this, dataForMenuButtonsHandler);
     }
 
 
@@ -69,7 +67,6 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
         cellValuesCreatorFirstTable = new CellValuesCreator();
         dataCellsFirstTableForFilling = cellValuesCreatorFirstTable.getDataCells();
         dataForMoveInspector.setCellsIdFirstTableForCheck(cellValuesCreatorFirstTable.getListIdsForCheck());
-
 
         if (settings.getIsTwoTables()) {
             cellValuesCreatorSecondTable = new CellValuesCreator();
@@ -87,6 +84,10 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
     private void settingForMenu() {
         sharedPreferencesMenu = App.getContext().getSharedPreferences(MENU_PREFERENCES, MODE_PRIVATE);
         isMenuShow = sharedPreferencesMenu.getBoolean(KEY_MENU_VISIBILITY, true);
+
+        dataForMenuButtonsHandler.setMenuShow(isMenuShow);
+        dataForMenuButtonsHandler.setKEY_MENU_VISIBILITY(KEY_MENU_VISIBILITY);
+        dataForMenuButtonsHandler.setSharedPreferencesMenu(sharedPreferencesMenu);
 
         int visibility, imageResource;
         int visibilityHint = View.VISIBLE;
@@ -116,61 +117,8 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
     }
 
     public boolean onClickMenuButtonsListener(int viewID) {
-        if (viewID == R.id.image_button_settings) {
-            Intent intent = new Intent(App.getContext(), SettingsActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            App.getContext().startActivity(intent);
 
-        } else if (viewID == R.id.image_menu) {
-            getViewState().showPopupMenu();
-
-        } else if (viewID == R.id.image_Button_Show_Hide_Menu) {
-            SharedPreferences.Editor ed = sharedPreferencesMenu.edit();
-
-            int visibility, visibilityHint, imageResource;
-            LinearLayout.LayoutParams layoutParams;
-
-            if (isMenuShow) {
-                visibility = View.INVISIBLE;
-                imageResource = R.drawable.ic_arrow_up;
-                layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                        Converter.getPxFromDP(App.getContext(), 20));
-                isMenuShow = false;
-
-            } else {
-                visibility = View.VISIBLE;
-                imageResource = R.drawable.ic_arrow_down;
-                layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                        (int) App.getContext().getResources().getDimension(R.dimen.customMinHeight));
-                isMenuShow = true;
-
-            }
-
-            if (settings.getIsMoveHint() && isMenuShow && settings.getIsTouchCells()) {
-                visibilityHint = View.VISIBLE;
-
-            } else {
-                visibilityHint = View.INVISIBLE;
-            }
-
-            getViewState().showHideMenu(visibility, visibilityHint, imageResource, layoutParams);
-
-            ed.putBoolean(KEY_MENU_VISIBILITY, isMenuShow);
-            ed.apply();
-        }
-
-        if (viewID == R.id.item_statistics) {
-            Intent intent = new Intent(App.getContext(), StatisticsActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            App.getContext().startActivity(intent);
-
-        } else if (viewID == R.id.item_advice) {
-            Intent intent = new Intent(App.getContext(), AdviceActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            App.getContext().startActivity(intent);
-
-        }
-        return true;
+        return menuButtonsHandler.checkClick(viewID);
     }
 
 
@@ -184,7 +132,6 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
 
             dataForMoveInspector.setCountdownSecondTable(countdownSecondTable);
             dataForMoveInspector.setNextMoveSecondTableCountdown(nextMoveSecondTableCountdown);
-
         }
 
         if (settings.getIsLetters()) {
@@ -196,13 +143,13 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
     }
 
 
-    public void checkMove(int cellId, long baseChronometer) {
+    public void cellActionDown(int cellId, long baseChronometer) {
         saveTime = SystemClock.elapsedRealtime() - baseChronometer;
-        moveInspector.checkMove(cellId);
+        moveInspector.cellActionDown(cellId);
     }
 
-    public void applyCellSelection(int cellId) {
-        moveInspector.applyCellSelection(cellId);
+    public void cellActionUp(int cellId) {
+        moveInspector.cellActionUp(cellId);
     }
 
 

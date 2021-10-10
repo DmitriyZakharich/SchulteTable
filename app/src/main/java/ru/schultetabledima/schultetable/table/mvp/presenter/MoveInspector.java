@@ -42,7 +42,7 @@ public class MoveInspector {
     }
 
 
-    public void checkMove(int cellId) {
+    public void cellActionDown(int cellId) {
 
         if (!settings.getIsTouchCells())
             presenter.endGameDialogue();
@@ -77,7 +77,7 @@ public class MoveInspector {
         presenter.getViewState().setCellColor(cellId, cellColor);
     }
 
-    public void applyCellSelection(int cellId) {
+    public void cellActionUp(int cellId) {
 
         if (!settings.getIsTwoTables()) {
             applyCellSelectionInOneTable(cellId);
