@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".table.TableActivity"
+    tools:context=".table.mvp.view.TableActivity"
     android:id="@+id/linearLayoutId">
 
     <androidx.constraintlayout.widget.ConstraintLayout

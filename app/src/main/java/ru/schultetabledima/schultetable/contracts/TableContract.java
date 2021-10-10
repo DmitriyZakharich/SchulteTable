@@ -11,7 +11,7 @@ import moxy.viewstate.strategy.AddToEndStrategy;
 import moxy.viewstate.strategy.OneExecutionStateStrategy;
 import moxy.viewstate.strategy.SkipStrategy;
 import moxy.viewstate.strategy.StateStrategyType;
-import ru.schultetabledima.schultetable.table.tablecreation.DataCell;
+import ru.schultetabledima.schultetable.table.mvp.model.DataCell;
 
 public interface TableContract {
     @StateStrategyType(AddToEndSingleStrategy.class)
@@ -24,8 +24,6 @@ public interface TableContract {
         void setMoveHint(int nextMoveFirstTable);
 
         void setMoveHint(char nextMoveFirstTable);
-
-        void removeTable();
 
         void setBaseChronometer(long l, boolean isDialogueShow);
 
@@ -49,6 +47,8 @@ public interface TableContract {
 
         @StateStrategyType(SkipStrategy.class)
         void setBackgroundResources(int cellId, int backgroundResources);
+
+        void createTable();
     }
 
     interface Presenter {

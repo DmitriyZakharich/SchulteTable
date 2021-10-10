@@ -1,15 +1,10 @@
 package ru.schultetabledima.schultetable.settings;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.LinearLayout;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.switchmaterial.SwitchMaterial;
@@ -21,7 +16,6 @@ import java.util.List;
 
 import ru.schultetabledima.schultetable.R;
 import ru.schultetabledima.schultetable.statistic.MyAdapter;
-import ru.schultetabledima.schultetable.table.TableActivity;
 
 public class SettingsActivity extends AppCompatActivity implements View.OnClickListener {
 

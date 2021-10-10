@@ -8,13 +8,10 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-
 import ru.schultetabledima.schultetable.advice.AdviceActivity;
 import ru.schultetabledima.schultetable.settings.SettingsActivity;
 import ru.schultetabledima.schultetable.statistic.StatisticsActivity;
-import ru.schultetabledima.schultetable.table.TableActivity;
+import ru.schultetabledima.schultetable.table.mvp.view.TableActivity;
 
 public class NavigationFragment extends Fragment implements View.OnClickListener {
 
