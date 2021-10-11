@@ -24,11 +24,7 @@ import ru.schultetabledima.schultetable.utils.PreferencesReader;
 public class TablePresenter extends MvpPresenter<TableContract.View> implements TableContract.Presenter {
 
     private long saveTime = 0;
-    private boolean isMenuShow;
     private int nextMoveFirstTable, nextMoveSecondTableCountdown;
-    private SharedPreferences sharedPreferencesMenu;
-    private final String MENU_PREFERENCES = "PreferencesMenu";
-    private final String KEY_MENU_VISIBILITY = "Saved Menu Visibility";
     private boolean isDialogueShow = false, booleanStartChronometer = true;
     private transient PreferencesReader settings;
     private CellValuesCreator cellValuesCreatorFirstTable, cellValuesCreatorSecondTable;
@@ -49,7 +45,6 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
         getViewState().createTable();
 
         dataForMoveInspector = new DataForMoveInspector();
-        dataForMenuButtonsHandler = new DataForMenuButtonsHandler();
 
         callValuesCreator();
         pushValuesToTable();
@@ -75,49 +70,17 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
         }
     }
 
-
     private void pushValuesToTable() {
         getViewState().setTableData(dataCellsFirstTableForFilling, dataCellsSecondTableForFilling);
     }
 
 
     private void settingForMenu() {
-        sharedPreferencesMenu = App.getContext().getSharedPreferences(MENU_PREFERENCES, MODE_PRIVATE);
-        isMenuShow = sharedPreferencesMenu.getBoolean(KEY_MENU_VISIBILITY, true);
-
-        dataForMenuButtonsHandler.setMenuShow(isMenuShow);
-        dataForMenuButtonsHandler.setKEY_MENU_VISIBILITY(KEY_MENU_VISIBILITY);
-        dataForMenuButtonsHandler.setSharedPreferencesMenu(sharedPreferencesMenu);
-
-        int visibility, imageResource;
-        int visibilityHint = View.VISIBLE;
-        LinearLayout.LayoutParams layoutParams;
-
-        if (isMenuShow) {
-            visibility = View.VISIBLE;
-            imageResource = R.drawable.ic_arrow_down;
-            layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Converter.getPxFromDP(App.getContext(), 40));
-
-        } else {
-            visibility = View.INVISIBLE;
-            imageResource = R.drawable.ic_arrow_up;
-            layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Converter.getPxFromDP(App.getContext(), 20));
-        }
-
-        if (!settings.getIsMoveHint() || !settings.getIsTouchCells() || !isMenuShow) {
-            visibilityHint = View.INVISIBLE;
-
-        } else if (settings.getIsMoveHint()) {
-            visibilityHint = View.VISIBLE;
-        }
-        getViewState().showHideMenu(visibility, visibilityHint, imageResource, layoutParams);
-
-        getViewState().setAnimationToolbar(new AnimationTransition().createAnimation());
-
+        MenuCustomizer menuCustomizer = new MenuCustomizer(this);
+        dataForMenuButtonsHandler = menuCustomizer.getData();
     }
 
     public boolean onClickMenuButtonsListener(int viewID) {
-
         return menuButtonsHandler.checkClick(viewID);
     }
 
@@ -161,7 +124,6 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
         getViewState().setBaseChronometer(saveTime, isDialogueShow);
         getViewState().showDialogueFragment(isDialogueShow);
     }
-
 
     public void cancelDialogue() {
         isDialogueShow = false;
