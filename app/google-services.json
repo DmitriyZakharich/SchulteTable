@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "640943483347",
+    "project_id": "schultetable-adfcc",
+    "storage_bucket": "schultetable-adfcc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:640943483347:android:9c59fac3466f6630222726",
+        "android_client_info": {
+          "package_name": "ru.schultetabledima.schultetable"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "640943483347-2ld806t8ni9jflcoifbrkhonoleq6gug.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA8oAsR4ss3nROnSSTK555y0ALQBgDGdG4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "640943483347-2ld806t8ni9jflcoifbrkhonoleq6gug.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

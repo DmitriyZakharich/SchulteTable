@@ -1,18 +1,23 @@
 package ru.schultetabledima.schultetable.statistic;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import moxy.MvpAppCompatActivity;
 import moxy.presenter.InjectPresenter;
 import ru.schultetabledima.schultetable.R;
 import ru.schultetabledima.schultetable.contracts.StatisticsContract;
-import ru.schultetabledima.schultetable.statistic.database.StatisticAdapter;
+import ru.schultetabledima.schultetable.database.StatisticAdapter;
+import ru.schultetabledima.schultetable.utils.Converter;
 
 public class StatisticsActivity extends MvpAppCompatActivity implements StatisticsContract.View, AdapterView.OnItemSelectedListener {
 
@@ -78,16 +83,12 @@ public class StatisticsActivity extends MvpAppCompatActivity implements Statisti
     @Override
     public void setSelectionSpinnerValueType(int position) {
         selectValueType.setSelection(position);
-
     }
 
     @Override
     public void setSelectionPlayedSizes(int position) {
         selectPlayedSizes.setSelection(position);
-
     }
-
-
 }
 
 

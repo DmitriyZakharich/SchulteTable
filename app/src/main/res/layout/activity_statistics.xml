@@ -11,123 +11,145 @@
     android:divider="@drawable/statistic_separator"
     tools:context=".statistic.StatisticsActivity">
 
-    <TextView
-        android:text="@string/headline_results"
-        style="@style/TextViewHeadline"/>
-
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentContainerView4"
+        android:name="ru.schultetabledima.schultetable.AdBannerFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:orientation="vertical"
-        android:background="@color/mainBackgroundColor"
+        android:divider="@drawable/statistic_separator"
         android:showDividers="middle"
-        android:divider="@drawable/statistic_separator">
+        android:layout_weight="1">
+
+        <TextView
+            style="@style/TextViewHeadline"
+            android:text="@string/headline_results" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:background="@color/mainBackgroundColor"
+            android:divider="@drawable/statistic_separator"
+            android:orientation="vertical"
+            android:showDividers="middle">
 
-            <TextView
-                android:id="@+id/textView2"
-                android:text="@string/quantityTables"
-                style="@style/TextViewStatistic"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
 
-            <Spinner
-                android:id="@+id/spinnerQuantityTables"
-                style="@style/Spinner"/>
+                <TextView
+                    android:id="@+id/textView2"
+                    style="@style/TextViewStatistic"
+                    android:text="@string/quantityTables" />
+
+                <Spinner
+                    android:id="@+id/spinnerQuantityTables"
+                    style="@style/Spinner" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:text="@string/dataType"
+                    style="@style/TextViewStatistic"/>
+
+                <Spinner
+                    android:id="@+id/spinnerValueType"
+                    style="@style/Spinner" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView4"
+                    style="@style/TextViewStatistic"
+                    android:text="@string/playedSizesTable"/>
+
+                <Spinner
+                    android:id="@+id/spinnerPlayedSizes"
+                    style="@style/Spinner" />
+
+            </LinearLayout>
+
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:background="@color/black"
+            android:divider="@drawable/statistic_separator"
+            android:orientation="horizontal"
+            android:showDividers="middle">
 
             <TextView
-                android:id="@+id/textView3"
-                android:text="@string/dataType"
-                style="@style/TextViewStatistic" />
+                android:id="@+id/headlineData"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:text="@string/headline_data"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="@dimen/textSizeColumnStatistic" />
 
-            <Spinner
-                android:id="@+id/spinnerValueType"
-                style="@style/Spinner"/>
+            <TextView
+                android:id="@+id/headlineSize"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:text="@string/headline_size"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="@dimen/textSizeColumnStatistic" />
+
+            <TextView
+                android:id="@+id/headlineTime"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:text="@string/headline_time"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="@dimen/textSizeColumnStatistic" />
 
         </LinearLayout>
 
-        <LinearLayout
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/textView4"
-                android:text="@string/playedSizesTable"
-                style="@style/TextViewStatistic"/>
-
-            <Spinner
-                android:id="@+id/spinnerPlayedSizes"
-                style="@style/Spinner"/>
-
-        </LinearLayout>
-
-
+            android:nestedScrollingEnabled="false"
+            android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </LinearLayout>
 
-    <LinearLayout
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentContainerView"
+        android:name="ru.schultetabledima.schultetable.NavigationFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/black"
-        android:orientation="horizontal"
-        android:showDividers="middle"
-        android:divider="@drawable/statistic_separator">
-
-        <TextView
-            android:id="@+id/headlineData"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@color/white"
-            android:text="@string/headline_data"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textSize="@dimen/textSizeColumnStatistic" />
-
-        <TextView
-            android:id="@+id/headlineSize"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@color/white"
-            android:text="@string/headline_size"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textSize="@dimen/textSizeColumnStatistic" />
-
-        <TextView
-            android:id="@+id/headlineTime"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@color/white"
-            android:text="@string/headline_time"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textSize="@dimen/textSizeColumnStatistic" />
-
-    </LinearLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_weight="0"/>
 
 </LinearLayout>
 

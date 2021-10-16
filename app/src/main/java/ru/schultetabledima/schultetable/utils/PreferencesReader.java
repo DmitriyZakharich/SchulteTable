@@ -5,21 +5,20 @@ import static android.content.Context.MODE_PRIVATE;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import ru.schultetabledima.schultetable.App;
 import ru.schultetabledima.schultetable.settings.PreferencesWriter;
 
 public class PreferencesReader {
-    private Context context;
     private SharedPreferences spCustomization;
     private String keyColumns, keyRows;
 
 
-    public PreferencesReader(Context context) {
-        this.context = context;
+    public PreferencesReader() {
         init();
     }
 
     private void init() {
-        spCustomization = context.getSharedPreferences(PreferencesWriter.getAppPreferences(), MODE_PRIVATE);
+        spCustomization = App.getContext().getSharedPreferences(PreferencesWriter.getAppPreferences(), MODE_PRIVATE);
         boolean isLetters = spCustomization.getBoolean(PreferencesWriter.getKeyIsLetters(), false);
 
 

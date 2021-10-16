@@ -1,7 +1,6 @@
 package ru.schultetabledima.schultetable.advice;
 
 import android.content.res.Resources;
-import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -10,8 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 
-import ru.schultetabledima.schultetable.MyApplication;
-import ru.schultetabledima.schultetable.R;
+import ru.schultetabledima.schultetable.App;
 import ru.schultetabledima.schultetable.contracts.AdviceContract;
 
 public class AdviceModel implements AdviceContract.Model {
@@ -35,7 +33,7 @@ public class AdviceModel implements AdviceContract.Model {
     private String getStringFromRawRes(int rawRes) {
         InputStream inputStream;
         try {
-            inputStream = MyApplication.getContext().getResources().openRawResource(rawRes);
+            inputStream = App.getContext().getResources().openRawResource(rawRes);
         } catch (Resources.NotFoundException e) {
             e.printStackTrace();
             return null;

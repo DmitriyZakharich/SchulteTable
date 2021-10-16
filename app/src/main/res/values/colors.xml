@@ -12,15 +12,15 @@
     <color name="red">#FF0000</color>
 
 
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimary">#354EDA</color>
+    <color name="colorPrimaryDark">#1A30BD</color>
     <color name="colorAccent">#FF4081</color>
 
     <color name="icButton">#FFFFFF</color>
     <color name="activeTable">#00FF00</color>
     <color name="passiveTable">#000000</color>
     <color name="mainTextColor">#FFFFFF</color>
-    <color name="mainBackgroundColor">#344987</color>
+    <color name="mainBackgroundColor">#1034A1</color>
     <color name="enableTextColor">#33000000</color>
 
 
