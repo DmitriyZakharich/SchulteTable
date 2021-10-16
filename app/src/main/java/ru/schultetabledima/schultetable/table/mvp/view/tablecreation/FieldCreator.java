@@ -12,8 +12,8 @@ import android.widget.TableLayout;
 import androidx.appcompat.widget.AppCompatTextView;
 
 import ru.schultetabledima.schultetable.App;
-import ru.schultetabledima.schultetable.table.mvp.view.TableActivity;
 import ru.schultetabledima.schultetable.table.mvp.presenter.TablePresenter;
+import ru.schultetabledima.schultetable.table.mvp.view.TableActivity;
 import ru.schultetabledima.schultetable.utils.Converter;
 import ru.schultetabledima.schultetable.utils.PreferencesReader;
 
@@ -21,6 +21,7 @@ public class FieldCreator {
     private TableLayout field;
     private Context context;
     private CustomCell[][] cells;
+    private LinearLayout[] rows;
     private int backgroundResources;
     private TablePresenter tablePresenter;
     private PreferencesReader settings;
@@ -35,20 +36,23 @@ public class FieldCreator {
 
     private void main() {
         settings = new PreferencesReader();
-        creator();
+        createField();
+        createRows();
+        createCells();
     }
 
-    private void creator() {
+
+    private void createField() {
         field = new TableLayout(context);
         LinearLayout.LayoutParams llLayoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT, 1);
         field.setLayoutParams(llLayoutParams);
 
         field.setId(View.generateViewId());
+    }
 
-
-        //создание рядов
-        LinearLayout[] rows = new LinearLayout[settings.getRowsOfTable()];
+    private void createRows() {
+        rows = new LinearLayout[settings.getRowsOfTable()];
         for (int i = 0; i < rows.length; i++) {
             rows[i] = new LinearLayout(context);
             TableLayout.LayoutParams tlLayoutParams = new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT,
@@ -57,8 +61,10 @@ public class FieldCreator {
             rows[i].setLayoutParams(tlLayoutParams);
             field.addView(rows[i]);
         }
+    }
 
-        //Создание кнопок
+    private void createCells() {
+
         cells = new CustomCell[settings.getRowsOfTable()][settings.getColumnsOfTable()];
         for (int i = 0; i < settings.getRowsOfTable(); i++) {
             for (int j = 0; j < settings.getColumnsOfTable(); j++) {

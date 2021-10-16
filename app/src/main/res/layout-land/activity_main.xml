@@ -59,7 +59,7 @@
             android:layout_height="match_parent"
             android:layout_margin="3dp"
             android:background="@drawable/background_button"
-            android:padding="5dp"
+            android:padding="10dp"
             android:text="@string/about_the_app"
             android:textColor="@color/mainTextColor" />
     </LinearLayout>

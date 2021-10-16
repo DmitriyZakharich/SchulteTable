@@ -10,7 +10,7 @@ import ru.schultetabledima.schultetable.App;
 public class PreferencesWriter {
 
     private static SharedPreferences settings;
-    private static final String APP_PREFERENCES = "my_settings";
+    private static final String APP_PREFERENCES = "my_settingsd";
 
     private static final String KEY_ANIMATION = "switchAnimation";
     private static final String KEY_TOUCH_CELLS = "switchTouchCells";

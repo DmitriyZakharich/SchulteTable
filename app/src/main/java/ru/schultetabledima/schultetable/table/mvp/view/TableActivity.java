@@ -50,7 +50,6 @@ public class TableActivity extends MvpAppCompatActivity implements TableContract
     private Toolbar toolbar;
     private AppCompatTextView[][] cells1, cells2;
     private PreferencesReader settings;
-    private LinearLayout containerWithTables;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +84,7 @@ public class TableActivity extends MvpAppCompatActivity implements TableContract
 
     public void createTable() {
         TableCreator tableCreator = new TableCreator(this, tablePresenter);
-        containerWithTables = tableCreator.getContainerForTables();
+        LinearLayout containerWithTables = tableCreator.getContainerForTables();
         placeForTable.addView(containerWithTables);
 
         cells1 = tableCreator.getCellsFirstTable();

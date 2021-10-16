@@ -1,23 +1,14 @@
 package ru.schultetabledima.schultetable.table.mvp.presenter;
 
-import static android.content.Context.MODE_PRIVATE;
-
-import android.content.SharedPreferences;
 import android.os.SystemClock;
-import android.view.View;
-import android.widget.LinearLayout;
 
 import java.util.List;
 
 import moxy.InjectViewState;
 import moxy.MvpPresenter;
-import ru.schultetabledima.schultetable.App;
-import ru.schultetabledima.schultetable.R;
 import ru.schultetabledima.schultetable.contracts.TableContract;
 import ru.schultetabledima.schultetable.table.mvp.model.CellValuesCreator;
 import ru.schultetabledima.schultetable.table.mvp.model.DataCell;
-import ru.schultetabledima.schultetable.table.mvp.view.tablecreation.AnimationTransition;
-import ru.schultetabledima.schultetable.utils.Converter;
 import ru.schultetabledima.schultetable.utils.PreferencesReader;
 
 @InjectViewState
@@ -49,9 +40,9 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
         callValuesCreator();
         pushValuesToTable();
 
-        startChronometer();
-        settingForCheckMove();
         settingForMenu();
+        settingForCheckMove();
+        startChronometer();
 
         moveInspector = new MoveInspector(this, dataForMoveInspector);
         menuButtonsHandler = new MenuButtonsHandler(this, dataForMenuButtonsHandler);
