@@ -2,18 +2,26 @@ package ru.schultetabledima.schultetable.settings;
 
 import android.content.Context;
 
+import androidx.fragment.app.Fragment;
+
 import ru.schultetabledima.schultetable.R;
 import ru.schultetabledima.schultetable.utils.PreferencesReader;
 
 
 public class SettingsPresenter {
 
-    private Context context;
+    private Context context1;
+    private Fragment context;
     private transient PreferencesReader preferencesReader;
     private transient PreferencesWriter preferencesWriter;
 
     public SettingsPresenter(Context context) {
-        this.context = context;
+        this.context1 = context;
+        main();
+    }
+
+    public SettingsPresenter(Fragment view) {
+        this.context = view;
         main();
     }
 
@@ -29,19 +37,19 @@ public class SettingsPresenter {
     }
 
     private void customizationSettingsActivity() {
-        ((SettingsActivity) context).switchTouchCellsSetChecked(preferencesReader.getIsTouchCells());
-        ((SettingsActivity) context).switchAnimationSetChecked(preferencesReader.getIsAnim());
-        ((SettingsActivity) context).switchTwoTablesSetChecked(preferencesReader.getIsTwoTables());
+        ((SettingsFragment) context).switchTouchCellsSetChecked(preferencesReader.getIsTouchCells());
+        ((SettingsFragment) context).switchAnimationSetChecked(preferencesReader.getIsAnim());
+        ((SettingsFragment) context).switchTwoTablesSetChecked(preferencesReader.getIsTwoTables());
 
         boolean isSwitchMoveHintEnabled = preferencesReader.getIsTouchCells();
-        ((SettingsActivity) context).customizationSwitchMoveHint(isSwitchMoveHintEnabled, preferencesReader.getIsMoveHint());
+        ((SettingsFragment) context).customizationSwitchMoveHint(isSwitchMoveHintEnabled, preferencesReader.getIsMoveHint());
 
 
         if (preferencesReader.getIsLetters()) {
 
-            ((SettingsActivity) context).setViewPagerCurrentItem(1);
+            ((SettingsFragment) context).setViewPagerCurrentItem(1);
         } else {
-            ((SettingsActivity) context).setViewPagerCurrentItem(0);
+            ((SettingsFragment) context).setViewPagerCurrentItem(0);
         }
     }
 
@@ -65,7 +73,7 @@ public class SettingsPresenter {
             key = PreferencesWriter.getKeyTouchCells();
 
             boolean isSwitchMoveHintEnabled = isChecked;
-            ((SettingsActivity) context).customizationSwitchMoveHint(isSwitchMoveHintEnabled, preferencesReader.getIsMoveHint());
+            ((SettingsFragment) context).customizationSwitchMoveHint(isSwitchMoveHintEnabled, preferencesReader.getIsMoveHint());
 
 
         } else if (id == R.id.switchTwoTables) {

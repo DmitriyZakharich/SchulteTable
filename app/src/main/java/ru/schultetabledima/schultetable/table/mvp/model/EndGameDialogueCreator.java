@@ -1,6 +1,9 @@
 package ru.schultetabledima.schultetable.table.mvp.model;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
+import android.util.Log;
+import android.view.KeyEvent;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
@@ -36,6 +39,17 @@ public class EndGameDialogueCreator {
     private void createDialogue() {
 
         builder = new AlertDialog.Builder(dialogFragment.getActivity(), R.style.AlertDialogCustom);
+
+        builder.setOnKeyListener((dialog, keyCode, event) -> {
+            if (keyCode == KeyEvent.KEYCODE_BACK &&
+                    event.getAction() == KeyEvent.ACTION_UP &&
+                    !event.isCanceled()) {
+                dialogFragment.getActivity().onBackPressed();
+                return true;
+            }
+            return false;
+        });
+
         builder.setTitle(R.string.end_game)
                 .setMessage(dialogFragment.getActivity().getString(R.string.yourTime) + time)
                 .setPositiveButton(R.string.newGame, (dialog, id) -> endGameDialoguePresenter.onClickPositiveButtonListener())
@@ -56,6 +70,7 @@ public class EndGameDialogueCreator {
             builder.setNegativeButton(R.string.continueCurrentGame, (dialog, id) -> endGameDialoguePresenter.onNegativeButtonListener());
             builder.setNegativeButtonIcon(dialogFragment.getActivity().getDrawable(R.drawable.ic_resume));
         }
+
     }
 
     public Dialog getDialog() {

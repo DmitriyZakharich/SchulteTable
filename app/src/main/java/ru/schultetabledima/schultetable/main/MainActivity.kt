@@ -1,39 +1,25 @@
 package ru.schultetabledima.schultetable.main
 
-import android.content.Intent
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.View
-import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.NavigationUI
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import ru.schultetabledima.schultetable.R
-import ru.schultetabledima.schultetable.advice.AdviceActivity
-import ru.schultetabledima.schultetable.databinding.ActivityMainBinding
-import ru.schultetabledima.schultetable.settings.SettingsActivity
-import ru.schultetabledima.schultetable.statistic.StatisticsActivity
-import ru.schultetabledima.schultetable.table.mvp.view.TableActivity
 
-class MainActivity : AppCompatActivity(), View.OnClickListener {
-
-    private lateinit var binding: ActivityMainBinding
-
+class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setContentView(R.layout.activity_single)
 
-        binding.tableButton.setOnClickListener(this)
-        binding.statisticsButton.setOnClickListener(this)
-        binding.customizationButton.setOnClickListener(this)
-        binding.adviceButton.setOnClickListener(this)
-        binding.aboutProgramButton.setOnClickListener(this)
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.mainBottomNavigationView)
+        val navController = (supportFragmentManager.findFragmentById(R.id.mainContainerView) as NavHostFragment).navController
+        NavigationUI.setupWithNavController(bottomNavigationView, navController)
+
     }
 
-    override fun onClick(v: View?) {
-        when (v?.id) {
-            R.id.tableButton -> startActivity(Intent(this, TableActivity::class.java))
-            R.id.statisticsButton -> startActivity(Intent(this, StatisticsActivity::class.java))
-            R.id.customizationButton -> startActivity(Intent(this, SettingsActivity::class.java))
-            R.id.adviceButton -> startActivity(Intent(this, AdviceActivity::class.java))
-        }
+    fun visibilityBottomNavigationView(visibility: Int){
+        findViewById<BottomNavigationView>(R.id.mainBottomNavigationView).visibility = visibility
     }
 }

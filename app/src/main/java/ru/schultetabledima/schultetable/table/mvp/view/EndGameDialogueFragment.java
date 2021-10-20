@@ -22,7 +22,7 @@ public class EndGameDialogueFragment extends DialogFragment {
 
     private Dialog dialog;
 
-    PassMeLinkOnObject activity;
+    private PassMeLinkOnObject view;
 
     public interface PassMeLinkOnObject {
         TablePresenter getTablePresenter();
@@ -63,17 +63,14 @@ public class EndGameDialogueFragment extends DialogFragment {
         this.dialog = dialog;
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-    }
 
     @NonNull
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        activity = (PassMeLinkOnObject) getActivity();
-        tablePresenter = activity.getTablePresenter();
+        view = (PassMeLinkOnObject) getParentFragment();
+        tablePresenter = view.getTablePresenter();
         new EndGameDialoguePresenter(this, tablePresenter);
 
         return dialog;
     }
+
 }

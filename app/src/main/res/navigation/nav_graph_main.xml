@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph_application"
+    app:startDestination="@id/menuFragment">
+
+    <fragment
+        android:id="@+id/adviceFragment"
+        android:name="ru.schultetabledima.schultetable.advice.AdviceFragment"
+        android:label="AdviceFragment">
+        <action
+            android:id="@+id/action_adviceFragment_to_menuFragment"
+            app:destination="@id/menuFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/statisticFragment"
+        android:name="ru.schultetabledima.schultetable.statistic.StatisticFragment"
+        android:label="StatisticFragment">
+        <action
+            android:id="@+id/action_statisticFragment_to_menuFragment"
+            app:destination="@id/menuFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="ru.schultetabledima.schultetable.settings.SettingsFragment"
+        android:label="SettingsFragment">
+        <action
+            android:id="@+id/action_settingsFragment_to_menuFragment"
+            app:destination="@id/menuFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/menuFragment"
+        android:name="ru.schultetabledima.schultetable.main.MenuFragment"
+        android:label="MenuFragment">
+        <action
+            android:id="@+id/action_menuFragment_to_adviceFragment"
+            app:destination="@id/adviceFragment" />
+        <action
+            android:id="@+id/action_menuFragment_to_statisticFragment"
+            app:destination="@id/statisticFragment" />
+        <action
+            android:id="@+id/action_menuFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_menuFragment_to_tableFragment2"
+            app:destination="@id/tableFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/tableFragment2"
+        android:name="ru.schultetabledima.schultetable.table.mvp.view.TableFragment"
+        android:label="TableFragment">
+        <action
+            android:id="@+id/action_tableFragment2_to_menuFragment"
+            app:destination="@id/menuFragment" />
+        <action
+            android:id="@+id/action_tableFragment2_to_statisticFragment"
+            app:destination="@id/statisticFragment" />
+        <action
+            android:id="@+id/action_tableFragment2_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_tableFragment2_to_adviceFragment"
+            app:destination="@id/adviceFragment" />
+        <action
+            android:id="@+id/action_tableFragment2_to_tableFragment2"
+            app:destination="@id/tableFragment2" />
+    </fragment>
+</navigation>

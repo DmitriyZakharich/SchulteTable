@@ -25,11 +25,11 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:text="@string/adviceHeadline"
                 style="@style/TextViewHeadline" />
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvAdvice1"
                 style="@style/basicStyleView"
                 android:padding="10dp"/>
@@ -45,19 +45,11 @@
                 android:background="@color/red"
                 tools:ignore="ContentDescription" />
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvAdvice2"
                 style="@style/basicStyleView"
                 android:padding="10dp"/>
 
         </LinearLayout>
     </ScrollView>
-
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fragmentContainerView"
-        android:name="ru.schultetabledima.schultetable.NavigationFragment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0"/>
-
 </LinearLayout>

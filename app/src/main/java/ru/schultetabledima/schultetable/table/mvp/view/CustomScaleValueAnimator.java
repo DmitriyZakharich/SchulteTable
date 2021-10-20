@@ -4,22 +4,25 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Color;
 
+import androidx.fragment.app.Fragment;
+
 import ru.schultetabledima.schultetable.table.ObservationContract;
 import ru.schultetabledima.schultetable.table.mvp.view.tablecreation.CustomCell;
 
 public class CustomScaleValueAnimator implements ObservationContract.CellTextSizeObserver {
-    private Context context;
     private int id;
+    private TableFragment tableFragment;
 
-    public CustomScaleValueAnimator(Context context, int id) {
-        this.context = context;
+
+    public CustomScaleValueAnimator(TableFragment tableFragment, int id) {
+        this.tableFragment = tableFragment;
         this.id = id;
         subscribeSubject();
     }
 
     private void main() {
         final float startSize = 20;
-        final float endSize = ((CustomCell) ((TableActivity)context).findViewById(id)).getTextSize();
+        final float endSize = ((CustomCell) tableFragment.getView().findViewById(id)).getTextSize();
         long animationDuration = 1900;
 
         ValueAnimator animator = ValueAnimator.ofFloat(startSize, endSize);
@@ -30,8 +33,9 @@ public class CustomScaleValueAnimator implements ObservationContract.CellTextSiz
         animator.addUpdateListener(valueAnimator -> {
             float animatedValue = (float) valueAnimator.getAnimatedValue();
             int SCALE_ANIMATION = 2;
-            ((CustomCell) ((TableActivity)context).findViewById(id)).setAnimation(animatedValue, SCALE_ANIMATION);
-            ((CustomCell) ((TableActivity)context).findViewById(id)).setTextColor(Color.TRANSPARENT);
+
+            ((CustomCell)  tableFragment.getView().findViewById(id)).setAnimation(animatedValue, SCALE_ANIMATION);
+            ((CustomCell)  tableFragment.getView().findViewById(id)).setTextColor(Color.TRANSPARENT);
 
         });
         animator.start();
@@ -45,12 +49,12 @@ public class CustomScaleValueAnimator implements ObservationContract.CellTextSiz
 
     @Override
     public void subscribeSubject() {
-        ((CustomCell) ((TableActivity)context).findViewById(id)).subscribeObserver(this);
+        ((CustomCell) tableFragment.getView().findViewById(id)).subscribeObserver(this);
     }
 
     @Override
     public void unSubscribeSubject() {
-        ((CustomCell) ((TableActivity)context).findViewById(id)).unSubscribeObserver(this);
+        ((CustomCell) tableFragment.getView().findViewById(id)).unSubscribeObserver(this);
     }
 }
 

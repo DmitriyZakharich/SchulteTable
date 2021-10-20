@@ -11,14 +11,13 @@ import android.widget.TableLayout;
 
 import androidx.appcompat.widget.AppCompatTextView;
 
-import ru.schultetabledima.schultetable.App;
 import ru.schultetabledima.schultetable.table.mvp.presenter.TablePresenter;
-import ru.schultetabledima.schultetable.table.mvp.view.TableActivity;
 import ru.schultetabledima.schultetable.utils.Converter;
 import ru.schultetabledima.schultetable.utils.PreferencesReader;
 
 public class FieldCreator {
     private TableLayout field;
+    private TableCreator.PassMeLinkOnPresenter container;
     private Context context;
     private CustomCell[][] cells;
     private LinearLayout[] rows;
@@ -27,7 +26,8 @@ public class FieldCreator {
     private PreferencesReader settings;
 
 
-    public FieldCreator(Context context, int backgroundResources, TablePresenter tablePresenter) {
+    public FieldCreator(TableCreator.PassMeLinkOnPresenter container, Context context, int backgroundResources, TablePresenter tablePresenter) {
+        this.container = container;
         this.context = context;
         this.backgroundResources = backgroundResources;
         this.tablePresenter = tablePresenter;
@@ -73,7 +73,7 @@ public class FieldCreator {
                 cells[i][j].setBackgroundColor(Color.WHITE);
                 cells[i][j].setMaxLines(1);
                 cells[i][j].setGravity(Gravity.CENTER);
-                cells[i][j].setBackground(App.getContext().getResources().getDrawable(backgroundResources));
+                cells[i][j].setBackground(context.getResources().getDrawable(backgroundResources));
 
                 LinearLayout.LayoutParams layoutParamsCell = new LinearLayout.LayoutParams(0,
                         TableLayout.LayoutParams.MATCH_PARENT, 1);
@@ -99,7 +99,7 @@ public class FieldCreator {
 
             switch (motionEvent.getAction()) {
                 case MotionEvent.ACTION_DOWN:
-                    tablePresenter.cellActionDown(view.getId(), ((TableActivity) context).getBaseChronometer());
+                    tablePresenter.cellActionDown(view.getId(), container.getBaseChronometer());
                     return true;
                 case MotionEvent.ACTION_UP:
                     tablePresenter.cellActionUp(view.getId());

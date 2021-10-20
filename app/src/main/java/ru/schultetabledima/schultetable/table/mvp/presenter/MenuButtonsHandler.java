@@ -1,15 +1,11 @@
 package ru.schultetabledima.schultetable.table.mvp.presenter;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.view.View;
 import android.widget.LinearLayout;
 
 import ru.schultetabledima.schultetable.App;
 import ru.schultetabledima.schultetable.R;
-import ru.schultetabledima.schultetable.advice.AdviceActivity;
-import ru.schultetabledima.schultetable.settings.SettingsActivity;
-import ru.schultetabledima.schultetable.statistic.StatisticsActivity;
 import ru.schultetabledima.schultetable.utils.Converter;
 import ru.schultetabledima.schultetable.utils.PreferencesReader;
 
@@ -36,9 +32,7 @@ public class MenuButtonsHandler {
 
     public boolean checkClick(int viewID) {
         if (viewID == R.id.image_button_settings) {
-            Intent intent = new Intent(App.getContext(), SettingsActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            App.getContext().startActivity(intent);
+            presenter.getViewState().moveFragment(R.id.action_tableFragment2_to_settingsFragment);
 
         } else if (viewID == R.id.image_menu) {
             presenter.getViewState().showPopupMenu();
@@ -62,7 +56,6 @@ public class MenuButtonsHandler {
                 layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
                         (int) App.getContext().getResources().getDimension(R.dimen.customMinHeight));
                 isMenuShow = true;
-
             }
 
             if (settings.getIsMoveHint() && isMenuShow && settings.getIsTouchCells()) {
@@ -79,16 +72,12 @@ public class MenuButtonsHandler {
         }
 
         if (viewID == R.id.item_statistics) {
-            Intent intent = new Intent(App.getContext(), StatisticsActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            App.getContext().startActivity(intent);
+            presenter.getViewState().moveFragment(R.id.action_tableFragment2_to_statisticFragment);
 
         } else if (viewID == R.id.item_advice) {
-            Intent intent = new Intent(App.getContext(), AdviceActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            App.getContext().startActivity(intent);
-
+            presenter.getViewState().moveFragment(R.id.action_tableFragment2_to_adviceFragment);
         }
+
         return true;
     }
 }
