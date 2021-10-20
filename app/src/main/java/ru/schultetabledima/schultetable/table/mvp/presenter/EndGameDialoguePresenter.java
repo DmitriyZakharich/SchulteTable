@@ -46,12 +46,12 @@ public class EndGameDialoguePresenter {
 
     public void onClickPositiveButtonListener() {
         databaseInsert();
-        NavHostFragment.findNavController(dialogFragment).navigate(R.id.action_tableFragment2_to_tableFragment2);
+        NavHostFragment.findNavController(dialogFragment).navigate(R.id.action_tableFragment_to_tableFragment);
     }
 
     public void onClickNeutralButtonListener() {
         databaseInsert();
-        NavHostFragment.findNavController(dialogFragment).navigate(R.id.action_tableFragment2_to_statisticFragment);
+        NavHostFragment.findNavController(dialogFragment).navigate(R.id.action_tableFragment_to_statisticFragment);
     }
 
     public void onNegativeButtonListener() {

@@ -9,7 +9,7 @@
     android:orientation="vertical"
     android:showDividers="middle|beginning|end"
     android:divider="@drawable/statistic_separator"
-    tools:context=".statistic.StatisticsActivity">
+    tools:context=".statistic.StatisticFragment">
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView4"
@@ -27,7 +27,7 @@
 
         <TextView
             style="@style/TextViewHeadline"
-            android:text="@string/headline_results" />
+            android:text="@string/statistics" />
 
         <LinearLayout
             android:layout_width="match_parent"

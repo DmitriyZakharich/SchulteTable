@@ -19,8 +19,8 @@
         android:menuCategory="secondary"/>
 
     <item
-        android:id="@+id/tableFragment2"
+        android:id="@+id/tableFragment"
         android:title="@string/table"
         android:icon="@drawable/ic_table"
-        android:menuCategory="secondary"/>
+        android:menuCategory="secondary" />
 </menu>

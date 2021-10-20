@@ -32,7 +32,7 @@ public class MenuButtonsHandler {
 
     public boolean checkClick(int viewID) {
         if (viewID == R.id.image_button_settings) {
-            presenter.getViewState().moveFragment(R.id.action_tableFragment2_to_settingsFragment);
+            presenter.getViewState().moveFragment(R.id.action_tableFragment_to_settingsFragment);
 
         } else if (viewID == R.id.image_menu) {
             presenter.getViewState().showPopupMenu();
@@ -72,10 +72,10 @@ public class MenuButtonsHandler {
         }
 
         if (viewID == R.id.item_statistics) {
-            presenter.getViewState().moveFragment(R.id.action_tableFragment2_to_statisticFragment);
+            presenter.getViewState().moveFragment(R.id.action_tableFragment_to_statisticFragment);
 
         } else if (viewID == R.id.item_advice) {
-            presenter.getViewState().moveFragment(R.id.action_tableFragment2_to_adviceFragment);
+            presenter.getViewState().moveFragment(R.id.action_tableFragment_to_adviceFragment);
         }
 
         return true;

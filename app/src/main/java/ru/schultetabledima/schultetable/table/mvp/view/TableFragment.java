@@ -22,6 +22,7 @@ import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.FragmentManager;
+import androidx.navigation.NavOptions;
 import androidx.navigation.fragment.NavHostFragment;
 
 import java.util.ArrayList;
@@ -84,7 +85,6 @@ public class TableFragment extends MvpAppCompatFragment implements TableContract
         textMoveHint = view.findViewById(R.id.textMoveHint);
 
         toolbar = view.findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
 
         buttonSettings.setOnClickListener(onClickMenuButtonsListener);
         selectShowHideMenu.setOnClickListener(onClickMenuButtonsListener);
@@ -182,12 +182,7 @@ public class TableFragment extends MvpAppCompatFragment implements TableContract
     public void showToastWrongTable(int wrongTable) {
         Toast toast = Toast.makeText(getActivity(), wrongTable, Toast.LENGTH_SHORT);
         toast.show();
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                toast.cancel();
-            }
-        }, 500);
+        new Handler().postDelayed(() -> toast.cancel(), 500);
     }
 
 
@@ -269,15 +264,6 @@ public class TableFragment extends MvpAppCompatFragment implements TableContract
             chronometer.setBase(base);
     }
 
-//    @Override
-//    protected void onRestart() {
-//        super.onRestart();
-//        Intent intent = getIntent();
-//        finish();
-//        startActivity(intent);
-//    }
-
-
     @Override
     public TablePresenter getTablePresenter() {
         return tablePresenter;
@@ -294,9 +280,15 @@ public class TableFragment extends MvpAppCompatFragment implements TableContract
     }
 
     public void moveFragment(int idActionNavigation) {
-        NavHostFragment.findNavController(this).navigate(idActionNavigation);
 
+        NavOptions.Builder builder = new NavOptions.Builder();
+        NavOptions navOptions = builder
+                .setEnterAnim(R.anim.slide_in_left)
+                .setExitAnim(R.anim.slide_out_right)
+                .setPopEnterAnim(R.anim.slide_in_right)
+                .setPopExitAnim(R.anim.slide_out_left)
+                .build();
+
+        NavHostFragment.findNavController(this).navigate(idActionNavigation, null, navOptions);
     }
-
-
 }
