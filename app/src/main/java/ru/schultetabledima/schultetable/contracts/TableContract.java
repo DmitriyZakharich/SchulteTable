@@ -3,6 +3,8 @@ package ru.schultetabledima.schultetable.contracts;
 import android.animation.LayoutTransition;
 import android.widget.LinearLayout;
 
+import androidx.fragment.app.Fragment;
+
 import java.util.List;
 
 import moxy.MvpView;
@@ -27,7 +29,7 @@ public interface TableContract {
 
         void setBaseChronometer(long l, boolean isDialogueShow);
 
-        void showDialogueFragment(boolean isShow);
+        void showDialogueFragment(boolean needToShow);
 
         @StateStrategyType(AddToEndStrategy.class)
         void setTableData(List<DataCell> dataCellsFirstTable, List<DataCell> dataCellsSecondTable);
@@ -49,6 +51,10 @@ public interface TableContract {
         void setBackgroundResources(int cellId, int backgroundResources);
 
         void createTable();
+
+        @StateStrategyType(SkipStrategy.class)
+        void moveFragment(int idActionNavigation);
+
     }
 
     interface Presenter {

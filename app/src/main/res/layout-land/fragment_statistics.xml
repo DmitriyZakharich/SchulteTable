@@ -141,13 +141,6 @@
                 app:layout_constraintTop_toTopOf="parent" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
-
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fragmentContainerView"
-        android:name="ru.schultetabledima.schultetable.NavigationFragment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0"/>
 </LinearLayout>
 
 

@@ -1,6 +1,7 @@
 package ru.schultetabledima.schultetable.table.mvp.presenter;
 
 import android.os.SystemClock;
+import android.util.Log;
 
 import java.util.List;
 

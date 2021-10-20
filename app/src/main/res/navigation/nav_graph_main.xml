@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph_application"
+    app:startDestination="@id/menuFragment">
+
+    <fragment
+        android:id="@+id/adviceFragment"
+        android:name="ru.schultetabledima.schultetable.advice.AdviceFragment"
+        android:label="AdviceFragment"/>
+    <fragment
+        android:id="@+id/statisticFragment"
+        android:name="ru.schultetabledima.schultetable.statistic.StatisticFragment"
+        android:label="StatisticFragment"/>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="ru.schultetabledima.schultetable.settings.SettingsFragment"
+        android:label="SettingsFragment"/>
+
+    <fragment
+        android:id="@+id/menuFragment"
+        android:name="ru.schultetabledima.schultetable.main.MenuFragment"
+        android:label="MenuFragment">
+        <action
+            android:id="@+id/action_menuFragment_to_adviceFragment"
+            app:destination="@id/adviceFragment" />
+        <action
+            android:id="@+id/action_menuFragment_to_statisticFragment"
+            app:destination="@id/statisticFragment" />
+        <action
+            android:id="@+id/action_menuFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_menuFragment_to_tableFragment"
+            app:destination="@id/tableFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/tableFragment"
+        android:name="ru.schultetabledima.schultetable.table.mvp.view.TableFragment"
+        android:label="TableFragment">
+        <action
+            android:id="@+id/action_tableFragment_to_statisticFragment"
+            app:destination="@id/statisticFragment" />
+        <action
+            android:id="@+id/action_tableFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_tableFragment_to_adviceFragment"
+            app:destination="@id/adviceFragment" />
+        <action
+            android:id="@+id/action_tableFragment_to_tableFragment"
+            app:destination="@id/tableFragment" />
+    </fragment>
+</navigation>

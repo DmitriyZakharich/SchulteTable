@@ -18,6 +18,7 @@ import ru.schultetabledima.schultetable.utils.PreferencesReader;
 
 public class TableCreator {
     private LinearLayout containerForTable;
+    private PassMeLinkOnPresenter container;
     private Context context;
     private TablePresenter tablePresenter;
     private FieldCreator fieldCreator1;
@@ -25,7 +26,13 @@ public class TableCreator {
     private PreferencesReader settings;
     private View viewDivider;
 
-    public TableCreator(Context context, TablePresenter tablePresenter) {
+    public interface PassMeLinkOnPresenter{
+        long getBaseChronometer();
+        TablePresenter getTablePresenter();
+    }
+
+    public TableCreator(PassMeLinkOnPresenter container, Context context, TablePresenter tablePresenter) {
+        this.container = container;
         this.context = context;
         this.tablePresenter = tablePresenter;
         main();
@@ -75,14 +82,14 @@ public class TableCreator {
     }
 
     private void creatingField() {
-        fieldCreator1 = new FieldCreator(context, R.drawable.border_cell_active_color, tablePresenter);
+        fieldCreator1 = new FieldCreator(container, context, R.drawable.border_cell_active_color, tablePresenter);
         containerForTable.addView(fieldCreator1.getField());
 
         if (settings.getIsTwoTables()) {
 
             containerForTable.addView(viewDivider);
 
-            fieldCreator2 = new FieldCreator(context, R.drawable.border_cell_passive_color, tablePresenter);
+            fieldCreator2 = new FieldCreator(container, context, R.drawable.border_cell_passive_color, tablePresenter);
             containerForTable.addView(fieldCreator2.getField());
         }
     }

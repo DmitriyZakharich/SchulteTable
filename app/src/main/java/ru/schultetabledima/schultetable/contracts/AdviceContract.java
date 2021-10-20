@@ -12,7 +12,6 @@ public interface AdviceContract {
     }
 
     interface Presenter {
-        void onClickListener(int id);
     }
 
     interface Model {

@@ -53,13 +53,11 @@ public class MoveInspector {
             if (!settings.getIsTwoTables())
                 checkMoveInOneTable(cellId);
 
-
             if (settings.getIsTwoTables()) {
 
                 if (!isValidTable(cellId)) {
                     return;
                 }
-
                 checkMoveInTwoTables(cellId);
             }
         }
@@ -79,12 +77,13 @@ public class MoveInspector {
 
     public void cellActionUp(int cellId) {
 
+        if (!settings.getIsTouchCells())
+            return;
+
         if (!settings.getIsTwoTables()) {
             applyCellSelectionInOneTable(cellId);
         } else
             applyCellSelectionInTwoTables(cellId);
-
-
     }
 
     private void applyCellSelectionInOneTable(int cellId) {
@@ -146,7 +145,6 @@ public class MoveInspector {
                 colorSecondTable = R.drawable.border_cell_active_color;
 
                 nextMove = nextMoveSecondTableCountdown;
-
             }
 
         } else if (activeTable == SECOND_TABLE_ID) {
@@ -168,12 +166,10 @@ public class MoveInspector {
                 nextMove = nextMoveFirstTable;
             }
         }
-
         presenter.getViewState().setCellColor(cellId, cellColor);
     }
 
     private void applyCellSelectionInTwoTables(int cellId) {
-
 
         if (isRightCell) {
             presenter.getViewState().setTableColor(colorFirstTable, colorSecondTable);
@@ -183,18 +179,14 @@ public class MoveInspector {
             else
                 presenter.getViewState().setMoveHint(nextMove);
 
-
             isRightCell = false;
 
         } else
             presenter.getViewState().setBackgroundResources(cellId, backgroundCellResources);
-
 
         if (countdownSecondTable < 0) {
             presenter.endGameDialogue();
             presenter.getViewState().setMoveHint('☑');
         }
     }
-
-
 }

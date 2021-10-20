@@ -2,13 +2,12 @@ package ru.schultetabledima.schultetable.table.mvp.view;
 
 import android.animation.LayoutTransition;
 import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Chronometer;
@@ -17,30 +16,35 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.FragmentManager;
+import androidx.navigation.NavOptions;
+import androidx.navigation.fragment.NavHostFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import moxy.MvpAppCompatActivity;
+import moxy.MvpAppCompatFragment;
 import moxy.presenter.InjectPresenter;
-import ru.schultetabledima.schultetable.App;
 import ru.schultetabledima.schultetable.R;
 import ru.schultetabledima.schultetable.contracts.TableContract;
-import ru.schultetabledima.schultetable.table.mvp.presenter.TablePresenter;
+import ru.schultetabledima.schultetable.main.MainActivity;
 import ru.schultetabledima.schultetable.table.mvp.model.DataCell;
+import ru.schultetabledima.schultetable.table.mvp.presenter.TablePresenter;
 import ru.schultetabledima.schultetable.table.mvp.view.tablecreation.TableCreator;
 import ru.schultetabledima.schultetable.utils.PreferencesReader;
 
-
-public class TableActivity extends MvpAppCompatActivity implements TableContract.View, EndGameDialogueFragment.PassMeLinkOnObject {
+public class TableFragment extends MvpAppCompatFragment implements TableContract.View,
+        EndGameDialogueFragment.PassMeLinkOnObject, TableCreator.PassMeLinkOnPresenter {
 
     @InjectPresenter
     TablePresenter tablePresenter;
 
+    private View view;
     private ImageButton buttonSettings;
     private Chronometer chronometer;
     private ConstraintLayout placeForTable;
@@ -51,29 +55,36 @@ public class TableActivity extends MvpAppCompatActivity implements TableContract
     private AppCompatTextView[][] cells1, cells2;
     private PreferencesReader settings;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_table);
-
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
-        init();
+    public TableFragment() {
     }
 
-    private void init() {
-        selectShowHideMenu = findViewById(R.id.image_Button_Show_Hide_Menu);
-        buttonSettings = findViewById(R.id.image_button_settings);
-        image_menu = findViewById(R.id.image_menu);
-        placeForTable = findViewById(R.id.placeForTable);
-        chronometer = findViewById(R.id.chronometer);
-        moveHint = findViewById(R.id.moveHint);
-        textMoveHint = findViewById(R.id.textMoveHint);
+    public static TableFragment newInstance() {
+        return new TableFragment();
+    }
 
-        toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        view = inflater.inflate(R.layout.fragment_table, container, false);
+        init();
+
+        ((MainActivity) getActivity()).visibilityBottomNavigationView(View.GONE);
+
+        return view;
+    }
+
+
+    private void init() {
+        selectShowHideMenu = view.findViewById(R.id.image_Button_Show_Hide_Menu);
+        buttonSettings = view.findViewById(R.id.image_button_settings);
+        image_menu = view.findViewById(R.id.image_menu);
+        placeForTable = view.findViewById(R.id.placeForTable);
+        chronometer = view.findViewById(R.id.chronometer);
+        moveHint = view.findViewById(R.id.moveHint);
+        textMoveHint = view.findViewById(R.id.textMoveHint);
+
+        toolbar = view.findViewById(R.id.toolbar);
 
         buttonSettings.setOnClickListener(onClickMenuButtonsListener);
         selectShowHideMenu.setOnClickListener(onClickMenuButtonsListener);
@@ -83,7 +94,7 @@ public class TableActivity extends MvpAppCompatActivity implements TableContract
     }
 
     public void createTable() {
-        TableCreator tableCreator = new TableCreator(this, tablePresenter);
+        TableCreator tableCreator = new TableCreator(this, getActivity(), tablePresenter);
         LinearLayout containerWithTables = tableCreator.getContainerForTables();
         placeForTable.addView(containerWithTables);
 
@@ -134,14 +145,14 @@ public class TableActivity extends MvpAppCompatActivity implements TableContract
     private void addAnimationGame(List<DataCell> dataCells) {
 
         List<Animation> animationList = new ArrayList<>(3);
-        animationList.add(AnimationUtils.loadAnimation(this, R.anim.myrotate));
-        animationList.add(AnimationUtils.loadAnimation(this, R.anim.myalpha));
-        animationList.add(AnimationUtils.loadAnimation(this, R.anim.myscale));
+        animationList.add(AnimationUtils.loadAnimation(getActivity(), R.anim.myrotate));
+        animationList.add(AnimationUtils.loadAnimation(getActivity(), R.anim.myalpha));
+        animationList.add(AnimationUtils.loadAnimation(getActivity(), R.anim.myscale));
 
         for (int i = 0; i < dataCells.size(); i++) {
             if (dataCells.get(i).getTypeAnimation() <= 2) {
                 Animation anim = animationList.get(dataCells.get(i).getTypeAnimation());
-                findViewById(dataCells.get(i).getId()).startAnimation(anim);
+                view.findViewById(dataCells.get(i).getId()).startAnimation(anim);
             } else {
 
                 if (dataCells.get(i).getTypeAnimation() == 3)
@@ -169,14 +180,9 @@ public class TableActivity extends MvpAppCompatActivity implements TableContract
 
     @Override
     public void showToastWrongTable(int wrongTable) {
-        Toast toast = Toast.makeText(this, wrongTable, Toast.LENGTH_SHORT);
+        Toast toast = Toast.makeText(getActivity(), wrongTable, Toast.LENGTH_SHORT);
         toast.show();
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                toast.cancel();
-            }
-        }, 500);
+        new Handler().postDelayed(() -> toast.cancel(), 500);
     }
 
 
@@ -217,16 +223,15 @@ public class TableActivity extends MvpAppCompatActivity implements TableContract
     }
 
     @Override
-    public void showDialogueFragment(boolean isShow) {
+    public void showDialogueFragment(boolean needToShow) {
+        if (needToShow) {
 
-        if (isShow) {
-
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            EndGameDialogueFragment endGameDialogueFragment = (EndGameDialogueFragment) fragmentManager.findFragmentByTag("custom");
+            FragmentManager fragmentManager = getChildFragmentManager();
+            EndGameDialogueFragment endGameDialogueFragment = (EndGameDialogueFragment) fragmentManager.findFragmentByTag("dialogueFragment");
 
             if (endGameDialogueFragment == null) {
                 endGameDialogueFragment = EndGameDialogueFragment.newInstance();
-                endGameDialogueFragment.show(fragmentManager, "custom");
+                endGameDialogueFragment.show(fragmentManager, "dialogueFragment");
             }
         }
     }
@@ -241,11 +246,11 @@ public class TableActivity extends MvpAppCompatActivity implements TableContract
 
     @Override
     public void showPopupMenu() {
-        PopupMenuCreator popupMenuCreator = new PopupMenuCreator(this, image_menu, tablePresenter);
+        PopupMenuCreator popupMenuCreator = new PopupMenuCreator(getActivity(), image_menu, tablePresenter);
         popupMenuCreator.getPopupMenu().show();
     }
 
-
+    @Override
     public long getBaseChronometer() {
         return chronometer.getBase();
     }
@@ -260,25 +265,30 @@ public class TableActivity extends MvpAppCompatActivity implements TableContract
     }
 
     @Override
-    protected void onRestart() {
-        super.onRestart();
-        Intent intent = getIntent();
-        finish();
-        startActivity(intent);
-    }
-
-    @Override
     public TablePresenter getTablePresenter() {
         return tablePresenter;
     }
 
     @Override
     public void setCellColor(int id, int cellColor) {
-        findViewById(id).setBackgroundColor(cellColor);
+        view.findViewById(id).setBackgroundColor(cellColor);
     }
 
     @Override
     public void setBackgroundResources(int cellId, int backgroundResources) {
-        findViewById(cellId).setBackground(App.getContext().getResources().getDrawable(backgroundResources));
+        view.findViewById(cellId).setBackground(getActivity().getResources().getDrawable(backgroundResources));
+    }
+
+    public void moveFragment(int idActionNavigation) {
+
+        NavOptions.Builder builder = new NavOptions.Builder();
+        NavOptions navOptions = builder
+                .setEnterAnim(R.anim.slide_in_left)
+                .setExitAnim(R.anim.slide_out_right)
+                .setPopEnterAnim(R.anim.slide_in_right)
+                .setPopExitAnim(R.anim.slide_out_left)
+                .build();
+
+        NavHostFragment.findNavController(this).navigate(idActionNavigation, null, navOptions);
     }
 }

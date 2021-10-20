@@ -1,6 +1,6 @@
 package ru.schultetabledima.schultetable.table.mvp.presenter;
 
-import android.content.Intent;
+import androidx.navigation.fragment.NavHostFragment;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -12,10 +12,9 @@ import ru.schultetabledima.schultetable.R;
 import ru.schultetabledima.schultetable.database.AppDatabase;
 import ru.schultetabledima.schultetable.database.Result;
 import ru.schultetabledima.schultetable.database.ResultDao;
-import ru.schultetabledima.schultetable.statistic.StatisticsActivity;
 import ru.schultetabledima.schultetable.table.mvp.model.EndGameDialogueCreator;
-import ru.schultetabledima.schultetable.table.mvp.view.EndGameDialogueFragment;
 import ru.schultetabledima.schultetable.table.mvp.model.TimeResultFromBaseChronometer;
+import ru.schultetabledima.schultetable.table.mvp.view.EndGameDialogueFragment;
 import ru.schultetabledima.schultetable.utils.PreferencesReader;
 
 
@@ -47,17 +46,12 @@ public class EndGameDialoguePresenter {
 
     public void onClickPositiveButtonListener() {
         databaseInsert();
-
-        Intent intent = dialogFragment.getActivity().getIntent();
-        dialogFragment.getActivity().finish();
-        dialogFragment.getActivity().startActivity(intent);
+        NavHostFragment.findNavController(dialogFragment).navigate(R.id.action_tableFragment_to_tableFragment);
     }
 
     public void onClickNeutralButtonListener() {
         databaseInsert();
-
-        Intent intent = new Intent(dialogFragment.getActivity(), StatisticsActivity.class);
-        dialogFragment.getActivity().startActivity(intent);
+        NavHostFragment.findNavController(dialogFragment).navigate(R.id.action_tableFragment_to_statisticFragment);
     }
 
     public void onNegativeButtonListener() {

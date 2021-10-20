@@ -9,19 +9,24 @@ import ru.schultetabledima.schultetable.R;
 import ru.schultetabledima.schultetable.contracts.AdviceContract;
 
 @InjectViewState
-public class AdvicePresenter extends MvpPresenter<AdviceContract.View> {
+public class AdvicePresenter extends MvpPresenter<AdviceContract.View> implements AdviceContract.Presenter {
 
     private AdviceModel adviceModel;
-    private List<Integer> adviceResource = new ArrayList<>(2);
-
+    private List<Integer> adviceResource;
 
     public AdvicePresenter() {
         init();
         showAdvice();
     }
 
+//    public void start() {
+//
+//
+//    }
+
     private void init() {
         adviceModel = new AdviceModel();
+        adviceResource = new ArrayList<>(2);
 
         adviceResource.add(R.raw.advice1);
         adviceResource.add(R.raw.advice2);
