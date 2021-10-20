@@ -9,7 +9,7 @@ import ru.schultetabledima.schultetable.R
 import ru.schultetabledima.schultetable.contracts.AdviceContract
 import ru.schultetabledima.schultetable.main.MainActivity
 
-class AdviceFragment : MvpAppCompatFragment(R.layout.activity_advice), AdviceContract.View {
+class AdviceFragment : MvpAppCompatFragment(R.layout.fragment_advice), AdviceContract.View {
     @InjectPresenter
     lateinit var advicePresenter: AdvicePresenter
 

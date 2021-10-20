@@ -39,7 +39,7 @@ class StatisticFragment : MvpAppCompatFragment(), StatisticsContract.View,
         savedInstanceState: Bundle?
     ): View? {
 
-        val view: View? = inflater.inflate(R.layout.activity_statistics, container, false)
+        val view: View? = inflater.inflate(R.layout.fragment_statistics, container, false)
 
         recyclerView = view?.findViewById(R.id.recyclerview)
         selectQuantityTables = view?.findViewById(R.id.spinnerQuantityTables)

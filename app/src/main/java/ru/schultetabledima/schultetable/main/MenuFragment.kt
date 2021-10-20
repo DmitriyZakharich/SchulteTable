@@ -8,12 +8,12 @@ import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import ru.schultetabledima.schultetable.R
-import ru.schultetabledima.schultetable.databinding.ActivityMainBinding
+import ru.schultetabledima.schultetable.databinding.FragmentMainMenuBinding
 
 
-class MenuFragment : Fragment(R.layout.activity_main), View.OnClickListener {
+class MenuFragment : Fragment(R.layout.fragment_main_menu), View.OnClickListener {
 
-    private lateinit var binding: ActivityMainBinding
+    private lateinit var binding: FragmentMainMenuBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -21,7 +21,7 @@ class MenuFragment : Fragment(R.layout.activity_main), View.OnClickListener {
         savedInstanceState: Bundle?
     ): View? {
 
-        val view: View? = inflater.inflate(R.layout.activity_main, container, false)
+        val view: View? = inflater.inflate(R.layout.fragment_main_menu, container, false)
 
         view?.findViewById<Button>(R.id.tableButton)?.setOnClickListener(this)
         view?.findViewById<Button>(R.id.adviceButton)?.setOnClickListener(this)

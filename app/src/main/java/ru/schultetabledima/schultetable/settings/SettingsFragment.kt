@@ -12,7 +12,7 @@ import ru.schultetabledima.schultetable.R
 import ru.schultetabledima.schultetable.main.MainActivity
 import ru.schultetabledima.schultetable.statistic.MyAdapter
 
-class SettingsFragment: Fragment(R.layout.activity_settings), View.OnClickListener {
+class SettingsFragment: Fragment(R.layout.fragment_settings), View.OnClickListener {
 
     private var settingsPresenter: SettingsPresenter? = null
 
