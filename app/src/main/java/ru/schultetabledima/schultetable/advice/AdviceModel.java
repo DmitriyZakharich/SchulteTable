@@ -14,12 +14,9 @@ import ru.schultetabledima.schultetable.contracts.AdviceContract;
 
 public class AdviceModel implements AdviceContract.Model {
 
-    private String largeTextString;
-
 
     public String getAdvice(int idResource) {
-        largeTextString = getStringFromRawRes(idResource);
-        return largeTextString;
+        return getStringFromRawRes(idResource);
     }
 
     @Nullable

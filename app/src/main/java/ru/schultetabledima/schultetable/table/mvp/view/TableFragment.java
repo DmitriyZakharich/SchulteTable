@@ -54,7 +54,6 @@ public class TableFragment extends BaseScreenFragment implements TableContract.V
     private Toolbar toolbar;
     private AppCompatTextView[][] cells1, cells2;
     private PreferencesReader settings;
-    private boolean needRestartPresenter = false;
     private final int ROTATE_VALUE_ANIMATOR = 3;
     private final int SCALE_VALUE_ANIMATOR = 4;
 
@@ -292,14 +291,7 @@ public class TableFragment extends BaseScreenFragment implements TableContract.V
         NavHostFragment.findNavController(this).navigate(idActionNavigation, null, navOptions);
     }
 
-
     @Override
     public void clearingTheCommandQueue() {
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        needRestartPresenter = true;
     }
 }

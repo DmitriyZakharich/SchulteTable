@@ -1,6 +1,7 @@
 package ru.schultetabledima.schultetable.advice
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.addCallback
 import androidx.appcompat.widget.AppCompatTextView
@@ -31,7 +32,6 @@ class AdviceFragment : BaseScreenFragment(R.layout.fragment_advice), AdviceContr
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         textViewList.add(view.findViewById(R.id.tvAdvice1))
         textViewList.add(view.findViewById(R.id.tvAdvice2))
         textViewList.add(view.findViewById(R.id.tvAdvice3))
@@ -44,5 +44,10 @@ class AdviceFragment : BaseScreenFragment(R.layout.fragment_advice), AdviceContr
 
     override fun showAdvice(index: Int, advice: String?) {
         textViewList[index]?.text = advice
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        textViewList.clear()
     }
 }
