@@ -1,21 +1,19 @@
 package ru.schultetabledima.schultetable.statistic
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.recyclerview.widget.RecyclerView
-import moxy.MvpAppCompatFragment
 import moxy.presenter.InjectPresenter
 import ru.schultetabledima.schultetable.R
+import ru.schultetabledima.schultetable.common.BaseScreenFragment
 import ru.schultetabledima.schultetable.contracts.StatisticsContract
 import ru.schultetabledima.schultetable.database.StatisticAdapter
 import ru.schultetabledima.schultetable.main.MainActivity
 
-class StatisticFragment : MvpAppCompatFragment(), StatisticsContract.View,
+class StatisticFragment : BaseScreenFragment(R.layout.fragment_statistics), StatisticsContract.View,
     AdapterView.OnItemSelectedListener {
 
     @InjectPresenter
@@ -26,32 +24,23 @@ class StatisticFragment : MvpAppCompatFragment(), StatisticsContract.View,
     private var selectValueType: Spinner? = null
     private var selectPlayedSizes: Spinner? = null
 
-
     companion object {
         fun newInstance(): StatisticFragment {
             return StatisticFragment()
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-
-        val view: View? = inflater.inflate(R.layout.fragment_statistics, container, false)
-
-        recyclerView = view?.findViewById(R.id.recyclerview)
-        selectQuantityTables = view?.findViewById(R.id.spinnerQuantityTables)
-        selectValueType = view?.findViewById(R.id.spinnerValueType)
-        selectPlayedSizes = view?.findViewById(R.id.spinnerPlayedSizes)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        recyclerView = requireView().findViewById(R.id.recyclerview)
+        selectQuantityTables = requireView().findViewById(R.id.spinnerQuantityTables)
+        selectValueType = requireView().findViewById(R.id.spinnerValueType)
+        selectPlayedSizes = requireView().findViewById(R.id.spinnerPlayedSizes)
 
 
         selectQuantityTables?.onItemSelectedListener = this
         selectValueType?.onItemSelectedListener = this
         selectPlayedSizes?.onItemSelectedListener = this
-
-        return view
     }
 
     override fun onResume() {

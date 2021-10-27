@@ -7,7 +7,8 @@
     <fragment
         android:id="@+id/adviceFragment"
         android:name="ru.schultetabledima.schultetable.advice.AdviceFragment"
-        android:label="AdviceFragment"/>
+        android:label="AdviceFragment"
+        android:tag="adviceFragment"/>
     <fragment
         android:id="@+id/statisticFragment"
         android:name="ru.schultetabledima.schultetable.statistic.StatisticFragment"
@@ -23,16 +24,24 @@
         android:label="MenuFragment">
         <action
             android:id="@+id/action_menuFragment_to_adviceFragment"
-            app:destination="@id/adviceFragment" />
+            app:destination="@id/adviceFragment"
+            app:popUpToInclusive="true"
+            app:popUpTo = "@+id/adviceFragment"/>
         <action
             android:id="@+id/action_menuFragment_to_statisticFragment"
-            app:destination="@id/statisticFragment" />
+            app:destination="@id/statisticFragment"
+            app:popUpToInclusive="true"
+            app:popUpTo = "@+id/statisticFragment" />
         <action
             android:id="@+id/action_menuFragment_to_settingsFragment"
-            app:destination="@id/settingsFragment" />
+            app:destination="@id/settingsFragment"
+            app:popUpToInclusive="true"
+            app:popUpTo = "@+id/settingsFragment" />
         <action
             android:id="@+id/action_menuFragment_to_tableFragment"
-            app:destination="@id/tableFragment" />
+            app:destination="@id/tableFragment"
+            app:popUpToInclusive="true"
+            app:popUpTo = "@+id/tableFragment" />
     </fragment>
     <fragment
         android:id="@+id/tableFragment"
@@ -40,15 +49,28 @@
         android:label="TableFragment">
         <action
             android:id="@+id/action_tableFragment_to_statisticFragment"
-            app:destination="@id/statisticFragment" />
+            app:destination="@id/statisticFragment"
+            app:popUpTo="@+id/statisticFragment"
+            app:popUpToInclusive="true"
+            app:popUpToSaveState="false" />
         <action
             android:id="@+id/action_tableFragment_to_settingsFragment"
-            app:destination="@id/settingsFragment" />
+            app:destination="@id/settingsFragment"
+            app:popUpTo="@+id/settingsFragment"
+            app:popUpToInclusive="true"
+            app:popUpToSaveState="false" />
         <action
             android:id="@+id/action_tableFragment_to_adviceFragment"
-            app:destination="@id/adviceFragment" />
+            app:destination="@id/adviceFragment"
+            app:popUpTo="@+id/adviceFragment"
+            app:popUpToInclusive="true"
+            app:popUpToSaveState="false" />
         <action
             android:id="@+id/action_tableFragment_to_tableFragment"
-            app:destination="@id/tableFragment" />
+            app:destination="@id/tableFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@+id/tableFragment"
+            app:popUpToInclusive="true"
+            app:popUpToSaveState="false" />
     </fragment>
 </navigation>

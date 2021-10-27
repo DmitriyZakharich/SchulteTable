@@ -50,5 +50,6 @@
     <string name="dataInTheTable">Данные в таблице</string>
     <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
     <string name="about_the_app">О программе</string>
+    <string name="an_important_point"><b><u>Важный момент:</u></b></string>
 
 </resources>

@@ -42,7 +42,7 @@ public class LettersFragment extends BaseValueFragment implements AdapterView.On
 
         final String[] valueSpinner = {"1", "2", "3", "4", "5"};
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), R.layout.custom_spinner_style, valueSpinner);
+        ArrayAdapter<String> adapter = new ArrayAdapter(getActivity(), R.layout.custom_spinner_style, valueSpinner);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         spinnerRows.setAdapter(adapter);

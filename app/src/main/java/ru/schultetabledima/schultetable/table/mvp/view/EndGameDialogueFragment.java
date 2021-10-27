@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+import androidx.navigation.FloatingWindow;
 
 import ru.schultetabledima.schultetable.table.mvp.presenter.EndGameDialoguePresenter;
 import ru.schultetabledima.schultetable.table.mvp.presenter.TablePresenter;

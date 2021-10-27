@@ -8,10 +8,11 @@ import ru.schultetabledima.schultetable.App;
 import ru.schultetabledima.schultetable.R;
 import ru.schultetabledima.schultetable.utils.Converter;
 import ru.schultetabledima.schultetable.utils.PreferencesReader;
+import ru.schultetabledima.schultetable.utils.ScreenAnimationKt;
 
 public class MenuButtonsHandler {
 
-    TablePresenter presenter;
+    private TablePresenter presenter;
     private PreferencesReader settings;
     private boolean isMenuShow;
     private String KEY_MENU_VISIBILITY;
@@ -32,7 +33,9 @@ public class MenuButtonsHandler {
 
     public boolean checkClick(int viewID) {
         if (viewID == R.id.image_button_settings) {
-            presenter.getViewState().moveFragment(R.id.action_tableFragment_to_settingsFragment);
+            presenter.setFragmentInFocus(false);
+            presenter.getViewState().moveFragment(R.id.action_tableFragment_to_settingsFragment, ScreenAnimationKt.enterFromLeftExitToRight());
+//            presenter.getViewState().finishTableFragment();
 
         } else if (viewID == R.id.image_menu) {
             presenter.getViewState().showPopupMenu();
@@ -72,12 +75,19 @@ public class MenuButtonsHandler {
         }
 
         if (viewID == R.id.item_statistics) {
-            presenter.getViewState().moveFragment(R.id.action_tableFragment_to_statisticFragment);
+            presenter.setFragmentInFocus(false);
+            presenter.getViewState().moveFragment(R.id.action_tableFragment_to_statisticFragment, ScreenAnimationKt.enterFromLeftExitToRight());
+//            presenter.getViewState().finishTableFragment();
 
         } else if (viewID == R.id.item_advice) {
-            presenter.getViewState().moveFragment(R.id.action_tableFragment_to_adviceFragment);
+            presenter.setFragmentInFocus(false);
+            presenter.getViewState().moveFragment(R.id.action_tableFragment_to_adviceFragment, ScreenAnimationKt.enterFromLeftExitToRight());
+//            presenter.getViewState().finishTableFragment();
+
         }
 
         return true;
     }
+
+
 }
