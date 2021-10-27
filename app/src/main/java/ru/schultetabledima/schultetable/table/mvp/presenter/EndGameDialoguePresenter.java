@@ -43,23 +43,33 @@ public class EndGameDialoguePresenter {
         dialogFragment.setDialog(endGameDialogueCreator.getDialog());
     }
 
-
+    //New game button
     public void onClickPositiveButtonListener() {
         databaseInsert();
-        NavHostFragment.findNavController(dialogFragment).navigate(R.id.action_tableFragment_to_tableFragment);
+        tablePresenter.cancelDialogue();
+        NavHostFragment.findNavController(dialogFragment.getParentFragment()).navigate(R.id.action_tableFragment_to_tableFragment);
+        dialogFragment.dismiss();
     }
 
+    //Statistic button
     public void onClickNeutralButtonListener() {
         databaseInsert();
-        NavHostFragment.findNavController(dialogFragment).navigate(R.id.action_tableFragment_to_statisticFragment);
+        tablePresenter.cancelDialogue();
+        tablePresenter.setFragmentInFocus(false);
+        NavHostFragment.findNavController(dialogFragment.getParentFragment()).navigate(R.id.action_tableFragment_to_statisticFragment);
+        dialogFragment.dismiss();
     }
 
+    //Continue current game button
     public void onNegativeButtonListener() {
         tablePresenter.onNegativeOrCancelDialogue();
+        dialogFragment.dismiss();
     }
 
+    //Cancel
     public void onCancelDialogueListener() {
         tablePresenter.onNegativeOrCancelDialogue();
+        dialogFragment.dismiss();
     }
 
 

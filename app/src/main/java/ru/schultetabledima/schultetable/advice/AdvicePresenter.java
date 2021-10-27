@@ -2,6 +2,7 @@ package ru.schultetabledima.schultetable.advice;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import moxy.InjectViewState;
 import moxy.MvpPresenter;
@@ -19,24 +20,25 @@ public class AdvicePresenter extends MvpPresenter<AdviceContract.View> implement
         showAdvice();
     }
 
-//    public void start() {
-//
-//
-//    }
-
     private void init() {
         adviceModel = new AdviceModel();
-        adviceResource = new ArrayList<>(2);
+        adviceResource = new ArrayList(2);
 
-        adviceResource.add(R.raw.advice1);
-        adviceResource.add(R.raw.advice2);
+        if (Locale.getDefault().getLanguage().equals("ru")) {
+            adviceResource.add(R.raw.advice1_ru);
+            adviceResource.add(R.raw.advice2_ru);
+            adviceResource.add(R.raw.advice3_ru);
+        } else {
+            adviceResource.add(R.raw.advice1_en);
+            adviceResource.add(R.raw.advice2_en);
+            adviceResource.add(R.raw.advice3_en);
+        }
     }
 
     private void showAdvice() {
         int count = 0;
         for (int id : adviceResource) {
             getViewState().showAdvice(count++, adviceModel.getAdvice(id));
-
         }
     }
 }

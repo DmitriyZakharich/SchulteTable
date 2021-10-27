@@ -25,6 +25,7 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
     private DataForMoveInspector dataForMoveInspector;
     private MenuButtonsHandler menuButtonsHandler;
     private DataForMenuButtonsHandler dataForMenuButtonsHandler;
+    private boolean newSession = true; //Обработка BackStack. newSession - обнуление предыдуз
 
 
     public TablePresenter() {
@@ -47,6 +48,15 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
 
         moveInspector = new MoveInspector(this, dataForMoveInspector);
         menuButtonsHandler = new MenuButtonsHandler(this, dataForMenuButtonsHandler);
+
+        newSession = false;
+    }
+
+
+    private void cleaningData() {
+        saveTime = 0;
+        isDialogueShow = false;
+        booleanStartChronometer = true;
     }
 
 
@@ -138,5 +148,20 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
 
     public long getSaveTime() {
         return saveTime;
+    }
+
+
+    /* Обработка BackStack.
+    Фрагмент скрывается, поэтому Презентер нужно отчистить
+    от старых данных и подготовиться к возвращению на фрагмент.*/
+    public void setFragmentInFocus(boolean isFragmentInFocus) {
+        if (!isFragmentInFocus) {
+            getViewState().clearingTheCommandQueue();
+            cleaningData();
+            newSession = true;
+
+        } else if (isFragmentInFocus && newSession) {
+            main();
+        }
     }
 }

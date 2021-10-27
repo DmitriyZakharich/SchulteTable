@@ -4,23 +4,27 @@
         android:id="@+id/adviceFragment"
         android:title="@string/advice"
         android:icon="@drawable/ic_advice"
-        android:menuCategory="secondary"/>
+        android:menuCategory="secondary"
+        android:tag="adviceFragment"/>
 
     <item
         android:id="@+id/statisticFragment"
         android:title="@string/statistics"
         android:icon="@drawable/ic_statistic"
-        android:menuCategory="secondary"/>
+        android:menuCategory="secondary"
+        android:tag="statisticFragment"/>
 
     <item
         android:id="@+id/settingsFragment"
         android:title="@string/settings"
         android:icon="@drawable/ic_settings"
-        android:menuCategory="secondary"/>
+        android:menuCategory="secondary"
+        android:tag="settingsFragment"/>
 
     <item
         android:id="@+id/tableFragment"
         android:title="@string/table"
         android:icon="@drawable/ic_table"
-        android:menuCategory="secondary" />
+        android:menuCategory="secondary"
+        android:tag="tableFragment" />
 </menu>

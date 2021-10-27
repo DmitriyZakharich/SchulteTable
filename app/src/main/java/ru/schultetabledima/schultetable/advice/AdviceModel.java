@@ -16,13 +16,6 @@ public class AdviceModel implements AdviceContract.Model {
 
     private String largeTextString;
 
-    public AdviceModel() {
-//        main();
-    }
-
-    private void main() {
-//        largeTextString = getStringFromRawRes(R.raw.advice1);
-    }
 
     public String getAdvice(int idResource) {
         largeTextString = getStringFromRawRes(idResource);

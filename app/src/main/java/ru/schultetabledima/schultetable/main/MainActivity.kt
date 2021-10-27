@@ -1,11 +1,11 @@
 package ru.schultetabledima.schultetable.main
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.FragmentContainerView
+import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.navOptions
 import androidx.navigation.ui.NavigationUI
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import ru.schultetabledima.schultetable.R
@@ -13,71 +13,108 @@ import ru.schultetabledima.schultetable.advice.AdviceFragment
 import ru.schultetabledima.schultetable.settings.SettingsFragment
 import ru.schultetabledima.schultetable.statistic.StatisticFragment
 import ru.schultetabledima.schultetable.table.mvp.view.TableFragment
+import ru.schultetabledima.schultetable.utils.enterFromLeftExitToRight
+import ru.schultetabledima.schultetable.utils.enterFromRightExitToLeft
+import ru.schultetabledima.schultetable.utils.getNavOptions
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var bottomNavigationView: BottomNavigationView
+    private lateinit var navHostFragment: NavHostFragment
+    private lateinit var navController: NavController
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.mainBottomNavigationView)
-        var navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.mainContainerView) as NavHostFragment
-        val navController = navHostFragment.navController
-        NavigationUI.setupWithNavController(bottomNavigationView, navController)
 
+        bottomNavigationView = findViewById(R.id.mainBottomNavigationView)
+        navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.mainContainerView) as NavHostFragment
+        navController = navHostFragment.navController
+        NavigationUI.setupWithNavController(bottomNavigationView, navController)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setBottomNavigationListener()
+    }
+
+    private fun setBottomNavigationListener() {
         bottomNavigationView.setOnItemSelectedListener { item ->
 
             var currentFragment = navHostFragment.childFragmentManager.fragments[0]
+            var newFragment = 0
+            var customNavOptions: NavOptions? = null
+            var tagFragment: String? = null
 
-            val navOptions1: NavOptions = navOptions {
-                anim {
-                    enter = R.anim.slide_in_right
-                    exit = R.anim.slide_out_left
-
-                    popEnter = R.anim.slide_in_left
-                    popExit = R.anim.slide_out_right
-                }
-            }
-            val navOptions2: NavOptions = navOptions {
-                anim {
-                    enter = R.anim.slide_in_left
-                    exit = R.anim.slide_out_right
-
-                    popEnter = R.anim.slide_in_right
-                    popExit = R.anim.slide_out_left
-                }
-            }
             when (item.itemId) {
-                R.id.adviceFragment -> {
-                    if (currentFragment::class != AdviceFragment::class)
-                        navController.navigate(R.id.adviceFragment, null, navOptions2)
-                }
-                R.id.statisticFragment -> {
+                R.id.adviceFragment ->
+                    if (currentFragment::class != AdviceFragment::class) {
+                        newFragment = R.id.adviceFragment
+                        tagFragment = "adviceFragment"
 
-                    if (currentFragment::class != StatisticFragment::class)
-                        if (currentFragment::class == AdviceFragment::class)
-                            navController.navigate(R.id.statisticFragment, null, navOptions1)
-                        else {
-                            navController.navigate(R.id.statisticFragment, null, navOptions2)
+                        customNavOptions = getNavOptions(R.id.adviceFragment)
+                    }
+
+                R.id.statisticFragment -> {
+                    if (currentFragment::class != StatisticFragment::class) {
+                        newFragment = R.id.statisticFragment
+                        tagFragment = "statisticFragment"
+
+                        customNavOptions = if (currentFragment::class == AdviceFragment::class) {
+                            enterFromRightExitToLeft()
+
+                        } else {
+                            enterFromLeftExitToRight()
                         }
+                    }
                 }
                 R.id.settingsFragment -> {
-                    if (currentFragment::class != SettingsFragment::class)
-                        if (currentFragment::class == AdviceFragment::class || currentFragment::class == StatisticFragment::class)
-                            navController.navigate(R.id.settingsFragment, null, navOptions1)
-                        else
-                            navController.navigate(R.id.settingsFragment, null, navOptions2)
+                    if (currentFragment::class != SettingsFragment::class) {
+                        newFragment = R.id.settingsFragment
+                        tagFragment = "settingsFragment"
+
+
+                        customNavOptions =
+                            if (currentFragment::class == AdviceFragment::class || currentFragment::class == StatisticFragment::class)
+                                enterFromRightExitToLeft()
+                            else
+                                enterFromLeftExitToRight()
+                    }
                 }
                 R.id.tableFragment -> {
-                    if (currentFragment::class != TableFragment::class)
-                        navController.navigate(R.id.tableFragment, null, navOptions1)
+                    if (currentFragment::class != TableFragment::class) {
+                        newFragment = R.id.tableFragment
+                        tagFragment = "tableFragment"
+                        customNavOptions = enterFromRightExitToLeft()
+                    }
                 }
+            }
+
+            if (newFragment != 0) {
+
+                navController.navigate(newFragment, null, customNavOptions)
+                supportFragmentManager.executePendingTransactions()
             }
             true
         }
+
     }
 
     fun visibilityBottomNavigationView(visibility: Int) {
         findViewById<BottomNavigationView>(R.id.mainBottomNavigationView).visibility = visibility
     }
+}
+
+
+fun NavController.popBackStackAllInstances(destination: Int, inclusive: Boolean): Boolean {
+    var popped: Boolean
+    while (true) {
+        popped = popBackStack(destination, inclusive)
+        if (!popped) {
+            break
+        }
+    }
+    return popped
 }

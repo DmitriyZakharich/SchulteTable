@@ -15,7 +15,7 @@ public class PopupMenuCreator {
     private Context context;
     private View view;
     private TablePresenter tablePresenter;
-    PopupMenu popupMenu;
+    private PopupMenu popupMenu;
 
     public PopupMenuCreator(Context context, View view, TablePresenter tablePresenter) {
         this.context = context;

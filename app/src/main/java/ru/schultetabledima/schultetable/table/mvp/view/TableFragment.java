@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,9 +29,9 @@ import androidx.navigation.fragment.NavHostFragment;
 import java.util.ArrayList;
 import java.util.List;
 
-import moxy.MvpAppCompatFragment;
 import moxy.presenter.InjectPresenter;
 import ru.schultetabledima.schultetable.R;
+import ru.schultetabledima.schultetable.common.BaseScreenFragment;
 import ru.schultetabledima.schultetable.contracts.TableContract;
 import ru.schultetabledima.schultetable.main.MainActivity;
 import ru.schultetabledima.schultetable.table.mvp.model.DataCell;
@@ -38,13 +39,12 @@ import ru.schultetabledima.schultetable.table.mvp.presenter.TablePresenter;
 import ru.schultetabledima.schultetable.table.mvp.view.tablecreation.TableCreator;
 import ru.schultetabledima.schultetable.utils.PreferencesReader;
 
-public class TableFragment extends MvpAppCompatFragment implements TableContract.View,
+public class TableFragment extends BaseScreenFragment implements TableContract.View,
         EndGameDialogueFragment.PassMeLinkOnObject, TableCreator.PassMeLinkOnPresenter {
 
     @InjectPresenter
     TablePresenter tablePresenter;
 
-    private View view;
     private ImageButton buttonSettings;
     private Chronometer chronometer;
     private ConstraintLayout placeForTable;
@@ -54,37 +54,45 @@ public class TableFragment extends MvpAppCompatFragment implements TableContract
     private Toolbar toolbar;
     private AppCompatTextView[][] cells1, cells2;
     private PreferencesReader settings;
+    private boolean needRestartPresenter = false;
+    private final int ROTATE_VALUE_ANIMATOR = 3;
+    private final int SCALE_VALUE_ANIMATOR = 4;
 
     public TableFragment() {
+        super(R.layout.fragment_table);
     }
 
     public static TableFragment newInstance() {
         return new TableFragment();
     }
 
-    @Nullable
+
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
-        view = inflater.inflate(R.layout.fragment_table, container, false);
+        if (getActivity() != null)
+            ((MainActivity) getActivity()).visibilityBottomNavigationView(View.GONE);
+
         init();
-
-        ((MainActivity) getActivity()).visibilityBottomNavigationView(View.GONE);
-
-        return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        tablePresenter.setFragmentInFocus(true);
+    }
 
     private void init() {
-        selectShowHideMenu = view.findViewById(R.id.image_Button_Show_Hide_Menu);
-        buttonSettings = view.findViewById(R.id.image_button_settings);
-        image_menu = view.findViewById(R.id.image_menu);
-        placeForTable = view.findViewById(R.id.placeForTable);
-        chronometer = view.findViewById(R.id.chronometer);
-        moveHint = view.findViewById(R.id.moveHint);
-        textMoveHint = view.findViewById(R.id.textMoveHint);
+        selectShowHideMenu = requireView().findViewById(R.id.image_Button_Show_Hide_Menu);
+        buttonSettings = requireView().findViewById(R.id.image_button_settings);
+        image_menu = requireView().findViewById(R.id.image_menu);
+        placeForTable = requireView().findViewById(R.id.placeForTable);
+        chronometer = requireView().findViewById(R.id.chronometer);
+        moveHint = requireView().findViewById(R.id.moveHint);
+        textMoveHint = requireView().findViewById(R.id.textMoveHint);
 
-        toolbar = view.findViewById(R.id.toolbar);
+        toolbar = requireView().findViewById(R.id.toolbar);
 
         buttonSettings.setOnClickListener(onClickMenuButtonsListener);
         selectShowHideMenu.setOnClickListener(onClickMenuButtonsListener);
@@ -127,6 +135,7 @@ public class TableFragment extends MvpAppCompatFragment implements TableContract
 
         for (int i = 0; i < settings.getRowsOfTable(); i++) {
             for (int j = 0; j < settings.getColumnsOfTable(); j++) {
+
                 cells[i][j].setId(dataCells.get(count).getId());
 
                 if (settings.getIsLetters()) {
@@ -150,15 +159,18 @@ public class TableFragment extends MvpAppCompatFragment implements TableContract
         animationList.add(AnimationUtils.loadAnimation(getActivity(), R.anim.myscale));
 
         for (int i = 0; i < dataCells.size(); i++) {
-            if (dataCells.get(i).getTypeAnimation() <= 2) {
+
+            if (dataCells.get(i).getTypeAnimation() >= 0 && dataCells.get(i).getTypeAnimation() <= 2) {
+
                 Animation anim = animationList.get(dataCells.get(i).getTypeAnimation());
-                view.findViewById(dataCells.get(i).getId()).startAnimation(anim);
+                requireView().findViewById(dataCells.get(i).getId()).startAnimation(anim);
+
             } else {
 
-                if (dataCells.get(i).getTypeAnimation() == 3)
+                if (dataCells.get(i).getTypeAnimation() == ROTATE_VALUE_ANIMATOR)
                     new CustomRotateValueAnimator(this, dataCells.get(i).getId());
 
-                if (dataCells.get(i).getTypeAnimation() == 4) {
+                if (dataCells.get(i).getTypeAnimation() == SCALE_VALUE_ANIMATOR) {
                     new CustomScaleValueAnimator(this, dataCells.get(i).getId());
                 }
             }
@@ -171,7 +183,6 @@ public class TableFragment extends MvpAppCompatFragment implements TableContract
 
         for (int i = 0; i < settings.getRowsOfTable(); i++) {
             for (int j = 0; j < settings.getColumnsOfTable(); j++) {
-
                 cells1[i][j].setBackground(this.getResources().getDrawable(backgroundResourcesFirstTable));
                 cells2[i][j].setBackground(this.getResources().getDrawable(backgroundResourcesSecondTable));
             }
@@ -182,7 +193,7 @@ public class TableFragment extends MvpAppCompatFragment implements TableContract
     public void showToastWrongTable(int wrongTable) {
         Toast toast = Toast.makeText(getActivity(), wrongTable, Toast.LENGTH_SHORT);
         toast.show();
-        new Handler().postDelayed(() -> toast.cancel(), 500);
+        new Handler().postDelayed(toast::cancel, 500);
     }
 
 
@@ -225,7 +236,6 @@ public class TableFragment extends MvpAppCompatFragment implements TableContract
     @Override
     public void showDialogueFragment(boolean needToShow) {
         if (needToShow) {
-
             FragmentManager fragmentManager = getChildFragmentManager();
             EndGameDialogueFragment endGameDialogueFragment = (EndGameDialogueFragment) fragmentManager.findFragmentByTag("dialogueFragment");
 
@@ -257,7 +267,6 @@ public class TableFragment extends MvpAppCompatFragment implements TableContract
 
     @Override
     public void setBaseChronometer(long base, boolean isDialogueShow) {
-
         if (isDialogueShow) {
             chronometer.setBase(SystemClock.elapsedRealtime() - base);
         } else
@@ -271,24 +280,26 @@ public class TableFragment extends MvpAppCompatFragment implements TableContract
 
     @Override
     public void setCellColor(int id, int cellColor) {
-        view.findViewById(id).setBackgroundColor(cellColor);
+        requireView().findViewById(id).setBackgroundColor(cellColor);
     }
 
     @Override
     public void setBackgroundResources(int cellId, int backgroundResources) {
-        view.findViewById(cellId).setBackground(getActivity().getResources().getDrawable(backgroundResources));
+        requireView().findViewById(cellId).setBackground(getActivity().getResources().getDrawable(backgroundResources));
     }
 
-    public void moveFragment(int idActionNavigation) {
-
-        NavOptions.Builder builder = new NavOptions.Builder();
-        NavOptions navOptions = builder
-                .setEnterAnim(R.anim.slide_in_left)
-                .setExitAnim(R.anim.slide_out_right)
-                .setPopEnterAnim(R.anim.slide_in_right)
-                .setPopExitAnim(R.anim.slide_out_left)
-                .build();
-
+    public void moveFragment(int idActionNavigation, NavOptions navOptions) {
         NavHostFragment.findNavController(this).navigate(idActionNavigation, null, navOptions);
+    }
+
+
+    @Override
+    public void clearingTheCommandQueue() {
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        needRestartPresenter = true;
     }
 }

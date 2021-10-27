@@ -12,7 +12,7 @@ public class ConstructQuery {
 
     public static SimpleSQLiteQuery getQuery(int quantityTables, String valueType, String playedSizes){
         StringBuilder buildQuery = new StringBuilder();
-        List<Object> args = new ArrayList<>();
+        List<Object> args = new ArrayList();
 
         boolean insertAlready = false;
 

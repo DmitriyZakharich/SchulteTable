@@ -39,14 +39,27 @@
                 android:id="@+id/imageView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:scaleType="fitXY"
                 android:adjustViewBounds="true"
-                app:srcCompat="@drawable/correct_execution"
                 android:background="@color/red"
+                android:scaleType="fitXY"
+                app:srcCompat="@drawable/correct_execution"
                 tools:ignore="ContentDescription" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvAdvice2"
+                style="@style/basicStyleView"
+                android:padding="10dp"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="23sp"
+                android:text="@string/an_important_point"
+                android:padding="10dp"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvAdvice3"
                 style="@style/basicStyleView"
                 android:padding="10dp"/>
 

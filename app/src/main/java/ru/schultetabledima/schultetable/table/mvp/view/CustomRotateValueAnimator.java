@@ -3,6 +3,7 @@ package ru.schultetabledima.schultetable.table.mvp.view;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 
 import ru.schultetabledima.schultetable.table.mvp.view.tablecreation.CustomCell;
 
@@ -21,7 +22,7 @@ public class CustomRotateValueAnimator {
     private void init() {
         final float startRotate = -60;
         final float endRotate = 60;
-        long animationDuration = 1500;
+        long animationDuration = 1800;
 
         ValueAnimator animator = ValueAnimator.ofFloat(startRotate, endRotate);
         animator.setDuration(animationDuration);
@@ -32,8 +33,13 @@ public class CustomRotateValueAnimator {
             float animatedValue = (float) valueAnimator.getAnimatedValue();
             int ROTATE_ANIMATION = 1;
 
-            ((CustomCell) tableFragment.getView().findViewById(id)).setAnimation(animatedValue, ROTATE_ANIMATION);
-            ((CustomCell) tableFragment.getView().findViewById(id)).setTextColor(Color.TRANSPARENT);
+            if (tableFragment.getView() != null && ((CustomCell) tableFragment.requireView().findViewById(id)) != null &&
+                    ((CustomCell) tableFragment.requireView().findViewById(id)) != null) {
+
+                ((CustomCell) tableFragment.requireView().findViewById(id)).setTextColor(Color.TRANSPARENT);
+                ((CustomCell) tableFragment.requireView().findViewById(id)).setAnimation(animatedValue, ROTATE_ANIMATION);
+            }
+
         });
         animator.start();
     }

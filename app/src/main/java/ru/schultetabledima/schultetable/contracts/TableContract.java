@@ -3,7 +3,7 @@ package ru.schultetabledima.schultetable.contracts;
 import android.animation.LayoutTransition;
 import android.widget.LinearLayout;
 
-import androidx.fragment.app.Fragment;
+import androidx.navigation.NavOptions;
 
 import java.util.List;
 
@@ -11,6 +11,7 @@ import moxy.MvpView;
 import moxy.viewstate.strategy.AddToEndSingleStrategy;
 import moxy.viewstate.strategy.AddToEndStrategy;
 import moxy.viewstate.strategy.OneExecutionStateStrategy;
+import moxy.viewstate.strategy.SingleStateStrategy;
 import moxy.viewstate.strategy.SkipStrategy;
 import moxy.viewstate.strategy.StateStrategyType;
 import ru.schultetabledima.schultetable.table.mvp.model.DataCell;
@@ -53,16 +54,16 @@ public interface TableContract {
         void createTable();
 
         @StateStrategyType(SkipStrategy.class)
-        void moveFragment(int idActionNavigation);
+        void moveFragment(int idActionNavigation, NavOptions navOptions);
 
+        //Clearing the command queue to getViewState
+        @StateStrategyType(SingleStateStrategy.class)
+        void clearingTheCommandQueue();
     }
 
     interface Presenter {
-
     }
 
-
     interface Model {
-
     }
 }
