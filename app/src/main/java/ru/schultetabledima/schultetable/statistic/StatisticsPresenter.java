@@ -2,6 +2,7 @@ package ru.schultetabledima.schultetable.statistic;
 
 import static android.content.Context.MODE_PRIVATE;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Handler;
@@ -11,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -48,6 +50,7 @@ public class StatisticsPresenter extends MvpPresenter<StatisticsContract.View> i
     private final int SPINNER_VALUE_TYPE_ENGLISH_LETTERS = 1;
     private final int SPINNER_VALUE_TYPE_RUSSIAN_LETTERS = 2;
     private final int SPINNER_VALUE_TYPE_ALL = 3;
+    private List<Result> results;
 
     public StatisticsPresenter() {
         main();
@@ -125,15 +128,10 @@ public class StatisticsPresenter extends MvpPresenter<StatisticsContract.View> i
 
         handlerResults = new Handler(Looper.getMainLooper()) {
             public void handleMessage(android.os.Message msg) {
-                List<Result> results = (List<Result>) msg.obj;
-
+                results = (ArrayList<Result>) msg.obj;
 
 
                 StatisticAdapter.OptionsMenuLongClickListener optionsMenuLongClickListener = (result, v, position) -> {
-
-                    Log.d("TAGfrfrrrrrrrr", " result.getSizeField()  " + result.getSizeField());
-                    Log.d("TAGfrfrrrrrrrr", " result.toString()  " + result.toString());
-
                     DeletePopupMenuCreator deletePopupMenuCreator = new DeletePopupMenuCreator(thisStatisticsPresenter, context, v, result, position);
                     deletePopupMenuCreator.getPopupMenu().show();
                 };
@@ -198,14 +196,12 @@ public class StatisticsPresenter extends MvpPresenter<StatisticsContract.View> i
 
     public boolean deleteRecordFromDB(Result result, int position) {
 
-        Handler handlerDeleteRecord = new Handler(Looper.getMainLooper()){
+        Handler handlerDeleteRecord = new Handler(Looper.getMainLooper()) {
             public void handleMessage(android.os.Message msg) {
-
                 statisticAdapter.notifyItemRemoved(position);
+                statisticAdapter.notifyItemRangeChanged(position, results.size());
             }
         };
-
-
 
         new Thread(() -> {
             Message msg = new Message();
@@ -213,14 +209,10 @@ public class StatisticsPresenter extends MvpPresenter<StatisticsContract.View> i
             AppDatabase db = App.getInstance().getDatabase();
             ResultDao resultDao = db.resultDao();
             resultDao.delete(result);
+            results.remove(result);
             handlerDeleteRecord.sendMessage(msg);
         }).start();
 
-
-
-
-
         return true;
     }
-
 }

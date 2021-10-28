@@ -1,6 +1,7 @@
 package ru.schultetabledima.schultetable.statistic
 
 import android.os.Bundle
+import android.os.Parcelable
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
@@ -25,6 +26,7 @@ class StatisticFragment : BaseScreenFragment(R.layout.fragment_statistics), Stat
     private var selectQuantityTables: Spinner? = null
     private var selectValueType: Spinner? = null
     private var selectPlayedSizes: Spinner? = null
+    private var recyclerViewState: Parcelable? = null
 
     companion object {
         fun newInstance(): StatisticFragment {
@@ -58,7 +60,7 @@ class StatisticFragment : BaseScreenFragment(R.layout.fragment_statistics), Stat
             parent!!.id,
             position,
             parent.selectedItem.toString()
-        );
+        )
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -91,26 +93,4 @@ class StatisticFragment : BaseScreenFragment(R.layout.fragment_statistics), Stat
     override fun setSelectionPlayedSizes(position: Int) {
         selectPlayedSizes?.setSelection(position)
     }
-
-
-
-//    override fun onContextItemSelected(item: MenuItem): Boolean {
-//        var position = -1
-//        try {
-//            position = (recyclerView.adapter as StatisticAdapter).position
-//        } catch (e: Exception) {
-//            Log.d("TAGfrfrrrrrrrr", e.getLocalizedMessage(), e)
-//            return super.onContextItemSelected(item)
-//        }
-//        Log.d("TAGfrfrrrrrrrr", "!!!!!!!!!!!!!!!")
-////        when (item.getItemId()) {
-////            R.id.ctx_menu_remove_backup ->   Log.d("TAGfrfrrrrrrrr", "Gjirjfirjfirji")
-////
-////            // do your stuff
-////            R.id.ctx_menu_restore_backup -> Log.d("TAGfrfrrrrrrrr", "Gjirjfirjfirji")
-////            // do your stuff
-////        }
-//        return super.onContextItemSelected(item);
-//    }
-
 }

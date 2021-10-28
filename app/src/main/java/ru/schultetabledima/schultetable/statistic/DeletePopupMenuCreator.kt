@@ -1,16 +1,20 @@
 package ru.schultetabledima.schultetable.statistic
 
 import android.content.Context
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.PopupMenu
-
 import androidx.appcompat.view.ContextThemeWrapper
 import ru.schultetabledima.schultetable.R
 import ru.schultetabledima.schultetable.database.Result
 
-class DeletePopupMenuCreator (val presenter: StatisticsPresenter, val context: Context?, val view: View?, private val result: Result, val position: Int){
+class DeletePopupMenuCreator(
+    val presenter: StatisticsPresenter,
+    val context: Context?,
+    val view: View?,
+    private val result: Result,
+    val position: Int
+) {
     private lateinit var popupMenu: PopupMenu
 
     init {
@@ -22,7 +26,7 @@ class DeletePopupMenuCreator (val presenter: StatisticsPresenter, val context: C
         popupMenu = PopupMenu(wrapper, view!!)
         popupMenu.inflate(R.menu.statistic_menu)
 
-        popupMenu.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item: MenuItem? ->
+        popupMenu.setOnMenuItemClickListener { item: MenuItem? ->
 
             when (item!!.itemId) {
                 R.id.item_delete -> {
@@ -30,7 +34,7 @@ class DeletePopupMenuCreator (val presenter: StatisticsPresenter, val context: C
                 }
             }
             true
-        })
+        }
     }
 
     fun getPopupMenu(): PopupMenu {

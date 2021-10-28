@@ -4,6 +4,7 @@ import android.widget.ArrayAdapter;
 
 import moxy.MvpView;
 import moxy.viewstate.strategy.AddToEndSingleStrategy;
+import moxy.viewstate.strategy.SkipStrategy;
 import moxy.viewstate.strategy.StateStrategyType;
 import ru.schultetabledima.schultetable.database.StatisticAdapter;
 
