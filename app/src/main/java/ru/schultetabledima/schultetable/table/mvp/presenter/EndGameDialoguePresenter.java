@@ -16,6 +16,7 @@ import ru.schultetabledima.schultetable.table.mvp.model.EndGameDialogueCreator;
 import ru.schultetabledima.schultetable.table.mvp.model.TimeResultFromBaseChronometer;
 import ru.schultetabledima.schultetable.table.mvp.view.EndGameDialogueFragment;
 import ru.schultetabledima.schultetable.utils.PreferencesReader;
+import ru.schultetabledima.schultetable.utils.ScreenAnimationKt;
 
 
 public class EndGameDialoguePresenter {
@@ -47,7 +48,10 @@ public class EndGameDialoguePresenter {
     public void onClickPositiveButtonListener() {
         databaseInsert();
         tablePresenter.cancelDialogue();
-        NavHostFragment.findNavController(dialogFragment.getParentFragment()).navigate(R.id.action_tableFragment_to_tableFragment);
+        tablePresenter.getViewState().moveFragment(R.id.action_tableFragment_to_tableFragment, null);
+
+//        NavHostFragment.findNavController(dialogFragment.getParentFragment())
+//                .navigate(R.id.action_tableFragment_to_tableFragment, null, ScreenAnimationKt.enterFromLeftExitToRight());
         dialogFragment.dismiss();
     }
 
@@ -56,7 +60,10 @@ public class EndGameDialoguePresenter {
         databaseInsert();
         tablePresenter.cancelDialogue();
         tablePresenter.setFragmentInFocus(false);
-        NavHostFragment.findNavController(dialogFragment.getParentFragment()).navigate(R.id.action_tableFragment_to_statisticFragment);
+        tablePresenter.getViewState().moveFragment(R.id.action_tableFragment_to_statisticFragment, ScreenAnimationKt.enterFromLeftExitToRight());
+
+//        NavHostFragment.findNavController(dialogFragment.getParentFragment())
+//                .navigate(R.id.action_tableFragment_to_statisticFragment, null, ScreenAnimationKt.enterFromLeftExitToRight());
         dialogFragment.dismiss();
     }
 
