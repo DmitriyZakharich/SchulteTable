@@ -1,6 +1,8 @@
 package ru.schultetabledima.schultetable.statistic
 
 import android.os.Bundle
+import android.util.Log
+import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -19,7 +21,7 @@ class StatisticFragment : BaseScreenFragment(R.layout.fragment_statistics), Stat
     @InjectPresenter
     lateinit var statisticsPresenter: StatisticsPresenter
 
-    private var recyclerView: RecyclerView? = null
+    private lateinit var recyclerView: RecyclerView
     private var selectQuantityTables: Spinner? = null
     private var selectValueType: Spinner? = null
     private var selectPlayedSizes: Spinner? = null
@@ -41,6 +43,8 @@ class StatisticFragment : BaseScreenFragment(R.layout.fragment_statistics), Stat
         selectQuantityTables?.onItemSelectedListener = this
         selectValueType?.onItemSelectedListener = this
         selectPlayedSizes?.onItemSelectedListener = this
+
+        registerForContextMenu(recyclerView)
     }
 
     override fun onResume() {
@@ -61,7 +65,7 @@ class StatisticFragment : BaseScreenFragment(R.layout.fragment_statistics), Stat
     }
 
     override fun setRecyclerViewAdapter(statisticAdapter: StatisticAdapter?) {
-        recyclerView?.adapter = statisticAdapter
+        recyclerView.adapter = statisticAdapter
     }
 
     override fun setQuantityTablesAdapter(adapterQuantityTables: ArrayAdapter<String>?) {
@@ -87,4 +91,26 @@ class StatisticFragment : BaseScreenFragment(R.layout.fragment_statistics), Stat
     override fun setSelectionPlayedSizes(position: Int) {
         selectPlayedSizes?.setSelection(position)
     }
+
+
+
+//    override fun onContextItemSelected(item: MenuItem): Boolean {
+//        var position = -1
+//        try {
+//            position = (recyclerView.adapter as StatisticAdapter).position
+//        } catch (e: Exception) {
+//            Log.d("TAGfrfrrrrrrrr", e.getLocalizedMessage(), e)
+//            return super.onContextItemSelected(item)
+//        }
+//        Log.d("TAGfrfrrrrrrrr", "!!!!!!!!!!!!!!!")
+////        when (item.getItemId()) {
+////            R.id.ctx_menu_remove_backup ->   Log.d("TAGfrfrrrrrrrr", "Gjirjfirjfirji")
+////
+////            // do your stuff
+////            R.id.ctx_menu_restore_backup -> Log.d("TAGfrfrrrrrrrr", "Gjirjfirjfirji")
+////            // do your stuff
+////        }
+//        return super.onContextItemSelected(item);
+//    }
+
 }

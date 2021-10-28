@@ -7,6 +7,8 @@ import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
 
 import java.util.Arrays;
@@ -33,6 +35,7 @@ public class StatisticsPresenter extends MvpPresenter<StatisticsContract.View> i
     private Handler handlerResults, handlerPlayedSizes;
     private SharedPreferences sharedPreferencesStatistics;
     private List<String> valueSpinnerValueType, valueSpinnerQuantityTables;
+    private StatisticsPresenter thisStatisticsPresenter = this;
 
     private final String STATISTICS_PREFERENCES = "Preferences_Statistics1";
     private final String KEY_QUANTITY_TABLES = "key_quantity_tables";
@@ -124,7 +127,19 @@ public class StatisticsPresenter extends MvpPresenter<StatisticsContract.View> i
             public void handleMessage(android.os.Message msg) {
                 List<Result> results = (List<Result>) msg.obj;
 
-                statisticAdapter = new StatisticAdapter(context, results);
+
+
+                StatisticAdapter.OptionsMenuLongClickListener optionsMenuLongClickListener = (result, v, position) -> {
+
+                    Log.d("TAGfrfrrrrrrrr", " result.getSizeField()  " + result.getSizeField());
+                    Log.d("TAGfrfrrrrrrrr", " result.toString()  " + result.toString());
+
+                    DeletePopupMenuCreator deletePopupMenuCreator = new DeletePopupMenuCreator(thisStatisticsPresenter, context, v, result, position);
+                    deletePopupMenuCreator.getPopupMenu().show();
+                };
+
+
+                statisticAdapter = new StatisticAdapter(context, results, optionsMenuLongClickListener);
                 getViewState().setRecyclerViewAdapter(statisticAdapter);
             }
         };
@@ -180,4 +195,32 @@ public class StatisticsPresenter extends MvpPresenter<StatisticsContract.View> i
 
         loadResultsFromDB();
     }
+
+    public boolean deleteRecordFromDB(Result result, int position) {
+
+        Handler handlerDeleteRecord = new Handler(Looper.getMainLooper()){
+            public void handleMessage(android.os.Message msg) {
+
+                statisticAdapter.notifyItemRemoved(position);
+            }
+        };
+
+
+
+        new Thread(() -> {
+            Message msg = new Message();
+
+            AppDatabase db = App.getInstance().getDatabase();
+            ResultDao resultDao = db.resultDao();
+            resultDao.delete(result);
+            handlerDeleteRecord.sendMessage(msg);
+        }).start();
+
+
+
+
+
+        return true;
+    }
+
 }

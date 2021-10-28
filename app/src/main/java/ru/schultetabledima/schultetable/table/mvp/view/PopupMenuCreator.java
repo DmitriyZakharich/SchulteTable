@@ -28,7 +28,7 @@ public class PopupMenuCreator {
         Context wrapper = new ContextThemeWrapper(context, R.style.PopupMenuStyle);
 
         popupMenu = new PopupMenu(wrapper, view);
-        popupMenu.inflate(R.menu.menu);
+        popupMenu.inflate(R.menu.table_bottom_menu);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             popupMenu.setForceShowIcon(true);
         }

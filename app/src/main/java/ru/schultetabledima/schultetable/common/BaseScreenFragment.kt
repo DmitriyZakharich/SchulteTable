@@ -4,10 +4,12 @@ import androidx.activity.addCallback
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import moxy.MvpAppCompatFragment
-import ru.schultetabledima.schultetable.main.popBackStackAllInstances
+import ru.schultetabledima.schultetable.utils.popBackStackAllInstances
+
 
 /**
- * Class for removing duplicates from the backstack
+ * Class for removing duplicates from the backstack.
+ * Works in pairs with NavController.popBackStackAllInstances
  * */
 open class BaseScreenFragment(id: Int) : MvpAppCompatFragment(id) {
 
