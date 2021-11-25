@@ -33,6 +33,7 @@ class AdviceFragment : BaseScreenFragment(R.layout.fragment_advice), AdviceContr
         (activity as MainActivity).visibilityBottomNavigationView(View.VISIBLE)
     }
 
+    @Override
     override fun showAdvice(index: Int, advice: String?) {
         textViewList[index]?.text = advice
     }

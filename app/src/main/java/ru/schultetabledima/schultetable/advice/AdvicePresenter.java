@@ -12,13 +12,15 @@ import ru.schultetabledima.schultetable.contracts.AdviceContract;
 @InjectViewState
 public class AdvicePresenter extends MvpPresenter<AdviceContract.View> implements AdviceContract.Presenter {
 
-    private AdviceModel adviceModel;
+    private AdviceContract.Model adviceModel;
     private List<Integer> adviceResource;
+
 
     public AdvicePresenter() {
         init();
         pushAdviceToView();
     }
+
 
     private void init() {
         adviceModel = new AdviceModel();

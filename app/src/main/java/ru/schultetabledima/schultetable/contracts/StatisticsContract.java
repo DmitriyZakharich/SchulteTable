@@ -22,7 +22,9 @@ public interface StatisticsContract {
         void setPlayedSizesAdapter(ArrayAdapter<String> adapterPlayedSizes);
 
         void setSelectionQuantityTables(int position);
+
         void setSelectionSpinnerValueType(int position);
+
         void setSelectionPlayedSizes(int position);
     }
 

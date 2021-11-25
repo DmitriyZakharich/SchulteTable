@@ -14,7 +14,7 @@ import moxy.viewstate.strategy.OneExecutionStateStrategy;
 import moxy.viewstate.strategy.SingleStateStrategy;
 import moxy.viewstate.strategy.SkipStrategy;
 import moxy.viewstate.strategy.StateStrategyType;
-import ru.schultetabledima.schultetable.table.mvp.model.DataCell;
+import ru.schultetabledima.schultetable.table.model.DataCell;
 
 public interface TableContract {
     @StateStrategyType(AddToEndSingleStrategy.class)
@@ -38,7 +38,7 @@ public interface TableContract {
         void setTableColor(int backgroundResourcesFirstTable, int backgroundResourcesSecondTable);
 
         @StateStrategyType(OneExecutionStateStrategy.class)
-        void showToastWrongTable(int wrongTable);
+        void showToast(int wrongTable, int lengthToast);
 
         void stopStartChronometer(boolean startIt);
 
@@ -65,5 +65,12 @@ public interface TableContract {
     }
 
     interface Model {
+        interface ValuesCreator{
+            List<DataCell> getDataCells();
+
+            List<Integer> getListIdsForCheck();
+
+            int getFirstValue();
+        }
     }
 }

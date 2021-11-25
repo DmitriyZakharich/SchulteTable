@@ -44,32 +44,32 @@ public class PreferencesReader {
 
     public int getColumnsOfTable() {
         refresh();
-        return spCustomization.getInt(keyColumns, 4);
+        return spCustomization.getInt(keyColumns, 5);
     }
 
     public int getRowsOfTable() {
         refresh();
-        return spCustomization.getInt(keyRows, 4);
+        return spCustomization.getInt(keyRows, 5);
     }
 
     public int getColumnsOfTableNumbers() {
         refresh();
-        return spCustomization.getInt(PreferencesWriter.getKeyColumnsNumbers(), 4);
+        return spCustomization.getInt(PreferencesWriter.getKeyColumnsNumbers(), 5);
     }
 
     public int getRowsOfTableNumbers() {
         refresh();
-        return spCustomization.getInt(PreferencesWriter.getKeyRowsNumbers(), 4);
+        return spCustomization.getInt(PreferencesWriter.getKeyRowsNumbers(), 5);
     }
 
     public int getColumnsOfTableLetters() {
         refresh();
-        return spCustomization.getInt(PreferencesWriter.getKeyColumnsLetters(), 4);
+        return spCustomization.getInt(PreferencesWriter.getKeyColumnsLetters(), 5);
     }
 
     public int getRowsOfTableLetters() {
         refresh();
-        return spCustomization.getInt(PreferencesWriter.getKeyRowsLetters(), 4);
+        return spCustomization.getInt(PreferencesWriter.getKeyRowsLetters(), 5);
     }
 
     public boolean getIsLetters() {

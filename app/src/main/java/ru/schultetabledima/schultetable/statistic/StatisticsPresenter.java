@@ -57,13 +57,18 @@ public class StatisticsPresenter extends MvpPresenter<StatisticsContract.View> i
     }
 
     private void main() {
+        createSharedPreferencesStatistics();
         customizationSpinners();
         customizationSpinnerPlayedSizes();
+
         getResults();
     }
 
-    private void customizationSpinners() {
+    private void createSharedPreferencesStatistics() {
+        sharedPreferencesStatistics = context.getSharedPreferences(STATISTICS_PREFERENCES, MODE_PRIVATE);
+    }
 
+    private void customizationSpinners() {
         valueSpinnerQuantityTables = Arrays.asList(context.getResources().getStringArray(R.array.spinnerQuantityTables));
         valueSpinnerValueType = Arrays.asList(context.getResources().getStringArray(R.array.spinnerValueType));
 
@@ -117,15 +122,13 @@ public class StatisticsPresenter extends MvpPresenter<StatisticsContract.View> i
     }
 
     private void readPreferenceForSpinner() {
-        sharedPreferencesStatistics = context.getSharedPreferences(STATISTICS_PREFERENCES, MODE_PRIVATE);
-
         getViewState().setSelectionQuantityTables(sharedPreferencesStatistics.getInt(KEY_QUANTITY_TABLES, ALL_OPTIONS));
         getViewState().setSelectionPlayedSizes(sharedPreferencesStatistics.getInt(KEY_PLAYED_SIZES, ALL_TABLE_SIZE));
         getViewState().setSelectionSpinnerValueType(sharedPreferencesStatistics.getInt(KEY_VALUE_TYPE, SPINNER_VALUE_TYPE_ALL));
     }
 
-    private void getResults() {
 
+    private void getResults() {
         handlerResults = new Handler(Looper.getMainLooper()) {
             public void handleMessage(android.os.Message msg) {
                 results = (ArrayList<Result>) msg.obj;
@@ -158,6 +161,8 @@ public class StatisticsPresenter extends MvpPresenter<StatisticsContract.View> i
     }
 
     public void spinnerItemSelected(int parentId, int position, String itemText) {
+        if(sharedPreferencesStatistics == null)
+            return;
 
         SharedPreferences.Editor ed = sharedPreferencesStatistics.edit();
 

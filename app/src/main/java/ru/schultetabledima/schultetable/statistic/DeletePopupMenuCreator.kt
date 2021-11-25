@@ -7,7 +7,9 @@ import android.widget.PopupMenu
 import androidx.appcompat.view.ContextThemeWrapper
 import ru.schultetabledima.schultetable.R
 import ru.schultetabledima.schultetable.database.Result
-
+/**
+ * Class for deleting records from DB
+ * */
 class DeletePopupMenuCreator(
     val presenter: StatisticsPresenter,
     val context: Context?,

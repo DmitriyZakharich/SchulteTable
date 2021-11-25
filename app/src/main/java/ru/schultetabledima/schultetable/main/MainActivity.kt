@@ -1,6 +1,10 @@
 package ru.schultetabledima.schultetable.main
 
+import android.content.res.Configuration
+import android.os.Build
 import android.os.Bundle
+import android.view.WindowInsets
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
@@ -11,7 +15,7 @@ import ru.schultetabledima.schultetable.R
 import ru.schultetabledima.schultetable.advice.AdviceFragment
 import ru.schultetabledima.schultetable.settings.SettingsFragment
 import ru.schultetabledima.schultetable.statistic.StatisticFragment
-import ru.schultetabledima.schultetable.table.mvp.view.TableFragment
+import ru.schultetabledima.schultetable.table.view.TableFragment
 import ru.schultetabledima.schultetable.utils.enterFromLeftExitToRight
 import ru.schultetabledima.schultetable.utils.enterFromRightExitToLeft
 
@@ -20,6 +24,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var bottomNavigationView: BottomNavigationView
     private lateinit var navHostFragment: NavHostFragment
     private lateinit var navController: NavController
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,7 +35,25 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.findFragmentById(R.id.mainContainerView) as NavHostFragment
         navController = navHostFragment.navController
         NavigationUI.setupWithNavController(bottomNavigationView, navController)
+
+        screenSettings()
     }
+
+    private fun screenSettings() {
+        @Suppress("DEPRECATION")
+        if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                window.insetsController?.hide(WindowInsets.Type.statusBars())
+            } else {
+                window.setFlags(
+                    WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                    WindowManager.LayoutParams.FLAG_FULLSCREEN
+                )
+            }
+        }
+    }
+
 
     override fun onResume() {
         super.onResume()
@@ -48,14 +71,12 @@ class MainActivity : AppCompatActivity() {
                 R.id.adviceFragment ->
                     if (currentFragment::class != AdviceFragment::class) {
                         newFragment = R.id.adviceFragment
-
                         customNavOptions = enterFromLeftExitToRight()
                     }
 
                 R.id.statisticFragment -> {
                     if (currentFragment::class != StatisticFragment::class) {
                         newFragment = R.id.statisticFragment
-
                         customNavOptions = if (currentFragment::class == AdviceFragment::class) {
                             enterFromRightExitToLeft()
 
@@ -67,7 +88,6 @@ class MainActivity : AppCompatActivity() {
                 R.id.settingsFragment -> {
                     if (currentFragment::class != SettingsFragment::class) {
                         newFragment = R.id.settingsFragment
-
                         customNavOptions =
                             if (currentFragment::class == AdviceFragment::class || currentFragment::class == StatisticFragment::class)
                                 enterFromRightExitToLeft()
@@ -93,5 +113,12 @@ class MainActivity : AppCompatActivity() {
 
     fun visibilityBottomNavigationView(visibility: Int) {
         findViewById<BottomNavigationView>(R.id.mainBottomNavigationView).visibility = visibility
+    }
+
+    fun setWindowFlags(commandString: String) {
+        if (commandString == "Add_Flag_KEEP_SCREEN_ON")
+            window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        else
+            window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
     }
 }

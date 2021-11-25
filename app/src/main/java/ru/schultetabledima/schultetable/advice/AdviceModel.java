@@ -14,7 +14,7 @@ import ru.schultetabledima.schultetable.contracts.AdviceContract;
 
 public class AdviceModel implements AdviceContract.Model {
 
-
+    @Override
     public String getAdvice(int idResource) {
         return getStringFromRawRes(idResource);
     }

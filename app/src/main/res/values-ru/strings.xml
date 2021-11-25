@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SchulteTableDima</string>
+    <string name="app_name">Таблица Шульте на весь экран</string>
     <string name="donation">Пожертвование</string>
     <string name="advice">Советы</string>
     <string name="settings">Настройки</string>
@@ -48,9 +48,12 @@
     <string name="allSize">Все размеры</string>
     <string name="adviceHeadline">Советы</string>
     <string name="dataInTheTable">Данные в таблице</string>
-    <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="banner_ad_unit_id">ca-app-pub-4698101566958568/6830072663</string>
     <string name="about_the_app">О программе</string>
     <string name="an_important_point"><b><u>Важный момент:</u></b></string>
     <string name="delete">Удалить</string>
+    <string name="icons_by">Иконки с сайта <u>icons8.com</u></string>
+    <string name="phone_frame_with_screenshots">Скриншоты в Гугл плей с помощью deavvi с сайта <u>pixabay.com</u></string>
+    <string name="internalError">Внутренная ошибка. Пожалуйста, перезагрузите приложение.</string>
 
 </resources>
