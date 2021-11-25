@@ -1,6 +1,9 @@
 package ru.schultetabledima.schultetable.database;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,12 +20,20 @@ import ru.schultetabledima.schultetable.R;
 import ru.schultetabledima.schultetable.utils.CorrectionTime;
 
 public class StatisticAdapter extends RecyclerView.Adapter<StatisticAdapter.ViewHolder> {
+
+    public interface OptionsMenuLongClickListener {
+        void onOptionsMenuClicked(Result result, View v, int position);
+    }
+
+
     private LayoutInflater inflater;
     private final List<Result> results;
+    private final OptionsMenuLongClickListener onLongClickListener;
 
-    public StatisticAdapter(Context context, List<Result> results) {
+    public StatisticAdapter(Context context, List<Result> results, OptionsMenuLongClickListener onLongClickListener) {
         this.results = results;
         this.inflater = LayoutInflater.from(context);
+        this.onLongClickListener = onLongClickListener;
     }
 
     @NonNull
@@ -34,7 +45,9 @@ public class StatisticAdapter extends RecyclerView.Adapter<StatisticAdapter.View
     }
 
     @Override
+    @SuppressLint("RecyclerView")
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+
         Result result = results.get(position);
 
         holder.tableSize.setText(result.getSizeField());
@@ -42,6 +55,23 @@ public class StatisticAdapter extends RecyclerView.Adapter<StatisticAdapter.View
 
         String newDate = CorrectionTime.getTime(result.getDate());
         holder.date.setText(newDate);
+
+
+        holder.tableSize.setOnLongClickListener(v -> {
+            onLongClickListener.onOptionsMenuClicked(result, v, position);
+            return false;
+        });
+        holder.timeResult.setOnLongClickListener(v -> {
+            onLongClickListener.onOptionsMenuClicked(result, v, position);
+            return false;
+        });
+
+        holder.date.setOnLongClickListener(v -> {
+            onLongClickListener.onOptionsMenuClicked(result, v, position);
+            return false;
+        });
+
+
     }
 
     @Override

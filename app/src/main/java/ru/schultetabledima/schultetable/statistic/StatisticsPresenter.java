@@ -2,13 +2,17 @@ package ru.schultetabledima.schultetable.statistic;
 
 import static android.content.Context.MODE_PRIVATE;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -33,6 +37,7 @@ public class StatisticsPresenter extends MvpPresenter<StatisticsContract.View> i
     private Handler handlerResults, handlerPlayedSizes;
     private SharedPreferences sharedPreferencesStatistics;
     private List<String> valueSpinnerValueType, valueSpinnerQuantityTables;
+    private StatisticsPresenter thisStatisticsPresenter = this;
 
     private final String STATISTICS_PREFERENCES = "Preferences_Statistics1";
     private final String KEY_QUANTITY_TABLES = "key_quantity_tables";
@@ -45,19 +50,25 @@ public class StatisticsPresenter extends MvpPresenter<StatisticsContract.View> i
     private final int SPINNER_VALUE_TYPE_ENGLISH_LETTERS = 1;
     private final int SPINNER_VALUE_TYPE_RUSSIAN_LETTERS = 2;
     private final int SPINNER_VALUE_TYPE_ALL = 3;
+    private List<Result> results;
 
     public StatisticsPresenter() {
         main();
     }
 
     private void main() {
+        createSharedPreferencesStatistics();
         customizationSpinners();
         customizationSpinnerPlayedSizes();
+
         getResults();
     }
 
-    private void customizationSpinners() {
+    private void createSharedPreferencesStatistics() {
+        sharedPreferencesStatistics = context.getSharedPreferences(STATISTICS_PREFERENCES, MODE_PRIVATE);
+    }
 
+    private void customizationSpinners() {
         valueSpinnerQuantityTables = Arrays.asList(context.getResources().getStringArray(R.array.spinnerQuantityTables));
         valueSpinnerValueType = Arrays.asList(context.getResources().getStringArray(R.array.spinnerValueType));
 
@@ -111,20 +122,25 @@ public class StatisticsPresenter extends MvpPresenter<StatisticsContract.View> i
     }
 
     private void readPreferenceForSpinner() {
-        sharedPreferencesStatistics = context.getSharedPreferences(STATISTICS_PREFERENCES, MODE_PRIVATE);
-
         getViewState().setSelectionQuantityTables(sharedPreferencesStatistics.getInt(KEY_QUANTITY_TABLES, ALL_OPTIONS));
         getViewState().setSelectionPlayedSizes(sharedPreferencesStatistics.getInt(KEY_PLAYED_SIZES, ALL_TABLE_SIZE));
         getViewState().setSelectionSpinnerValueType(sharedPreferencesStatistics.getInt(KEY_VALUE_TYPE, SPINNER_VALUE_TYPE_ALL));
     }
 
-    private void getResults() {
 
+    private void getResults() {
         handlerResults = new Handler(Looper.getMainLooper()) {
             public void handleMessage(android.os.Message msg) {
-                List<Result> results = (List<Result>) msg.obj;
+                results = (ArrayList<Result>) msg.obj;
 
-                statisticAdapter = new StatisticAdapter(context, results);
+
+                StatisticAdapter.OptionsMenuLongClickListener optionsMenuLongClickListener = (result, v, position) -> {
+                    DeletePopupMenuCreator deletePopupMenuCreator = new DeletePopupMenuCreator(thisStatisticsPresenter, context, v, result, position);
+                    deletePopupMenuCreator.getPopupMenu().show();
+                };
+
+
+                statisticAdapter = new StatisticAdapter(context, results, optionsMenuLongClickListener);
                 getViewState().setRecyclerViewAdapter(statisticAdapter);
             }
         };
@@ -145,6 +161,8 @@ public class StatisticsPresenter extends MvpPresenter<StatisticsContract.View> i
     }
 
     public void spinnerItemSelected(int parentId, int position, String itemText) {
+        if(sharedPreferencesStatistics == null)
+            return;
 
         SharedPreferences.Editor ed = sharedPreferencesStatistics.edit();
 
@@ -179,5 +197,27 @@ public class StatisticsPresenter extends MvpPresenter<StatisticsContract.View> i
         ed.apply();
 
         loadResultsFromDB();
+    }
+
+    public boolean deleteRecordFromDB(Result result, int position) {
+
+        Handler handlerDeleteRecord = new Handler(Looper.getMainLooper()) {
+            public void handleMessage(android.os.Message msg) {
+                statisticAdapter.notifyItemRemoved(position);
+                statisticAdapter.notifyItemRangeChanged(position, results.size());
+            }
+        };
+
+        new Thread(() -> {
+            Message msg = new Message();
+
+            AppDatabase db = App.getInstance().getDatabase();
+            ResultDao resultDao = db.resultDao();
+            resultDao.delete(result);
+            results.remove(result);
+            handlerDeleteRecord.sendMessage(msg);
+        }).start();
+
+        return true;
     }
 }

@@ -2,10 +2,7 @@ package ru.schultetabledima.schultetable.settings
 
 import android.os.Bundle
 import android.view.View
-import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
-import androidx.navigation.NavDirections
-import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.google.android.material.tabs.TabLayout
@@ -14,22 +11,21 @@ import com.google.android.material.tabs.TabLayoutMediator
 import ru.schultetabledima.schultetable.R
 import ru.schultetabledima.schultetable.common.BaseScreenFragment
 import ru.schultetabledima.schultetable.main.MainActivity
-import ru.schultetabledima.schultetable.main.popBackStackAllInstances
 import ru.schultetabledima.schultetable.statistic.MyAdapter
 
-class SettingsFragment: BaseScreenFragment(R.layout.fragment_settings), View.OnClickListener {
+class SettingsFragment : BaseScreenFragment(R.layout.fragment_settings), View.OnClickListener {
 
     private var settingsPresenter: SettingsPresenter? = null
 
     private var switchMoveHint: SwitchMaterial? = null
     private var switchAnimation: SwitchMaterial? = null
-    private  var switchTouchCells:SwitchMaterial? = null
-    private  var switchTwoTables:SwitchMaterial? = null
+    private var switchTouchCells: SwitchMaterial? = null
+    private var switchTwoTables: SwitchMaterial? = null
     private var viewPager: ViewPager2? = null
     private var numbersFragment: NumbersFragment? = null
     private var lettersFragment: LettersFragment? = null
 
-    companion object{
+    companion object {
         fun newInstance(): SettingsFragment {
             return SettingsFragment()
         }

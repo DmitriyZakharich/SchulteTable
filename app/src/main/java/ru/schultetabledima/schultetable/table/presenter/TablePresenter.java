@@ -1,15 +1,14 @@
-package ru.schultetabledima.schultetable.table.mvp.presenter;
+package ru.schultetabledima.schultetable.table.presenter;
 
 import android.os.SystemClock;
-import android.util.Log;
 
 import java.util.List;
 
 import moxy.InjectViewState;
 import moxy.MvpPresenter;
 import ru.schultetabledima.schultetable.contracts.TableContract;
-import ru.schultetabledima.schultetable.table.mvp.model.CellValuesCreator;
-import ru.schultetabledima.schultetable.table.mvp.model.DataCell;
+import ru.schultetabledima.schultetable.table.model.CellValuesCreator;
+import ru.schultetabledima.schultetable.table.model.DataCell;
 import ru.schultetabledima.schultetable.utils.PreferencesReader;
 
 @InjectViewState
@@ -19,13 +18,14 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
     private int nextMoveFirstTable, nextMoveSecondTableCountdown;
     private boolean isDialogueShow = false, booleanStartChronometer = true;
     private transient PreferencesReader settings;
-    private CellValuesCreator cellValuesCreatorFirstTable, cellValuesCreatorSecondTable;
+    private TableContract.Model.ValuesCreator cellValuesCreatorFirstTable, cellValuesCreatorSecondTable;
     private List<DataCell> dataCellsFirstTableForFilling, dataCellsSecondTableForFilling;
     private MoveInspector moveInspector;
     private DataForMoveInspector dataForMoveInspector;
     private MenuButtonsHandler menuButtonsHandler;
     private DataForMenuButtonsHandler dataForMenuButtonsHandler;
-    private boolean newSession = true; //Обработка BackStack. newSession - обнуление предыдуз
+    private boolean newSession = true; //Обработка BackStack. newSession - обнуление предыдущего сеанса до
+                                        //перехода на другой фрагмент
 
 
     public TablePresenter() {
@@ -46,8 +46,7 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
         settingForCheckMove();
         startChronometer();
 
-        moveInspector = new MoveInspector(this, dataForMoveInspector);
-        menuButtonsHandler = new MenuButtonsHandler(this, dataForMenuButtonsHandler);
+        creatingHandlers();
 
         newSession = false;
     }
@@ -139,6 +138,11 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
         getViewState().stopStartChronometer(booleanStartChronometer);
     }
 
+    private void creatingHandlers() {
+        moveInspector = new MoveInspector(this, dataForMoveInspector);
+        menuButtonsHandler = new MenuButtonsHandler(this, dataForMenuButtonsHandler);
+    }
+
     public void onNegativeOrCancelDialogue() {
         booleanStartChronometer = true;
         cancelDialogue();
@@ -152,8 +156,9 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
 
 
     /* Обработка BackStack.
-    Фрагмент скрывается, поэтому Презентер нужно отчистить
-    от старых данных и подготовиться к возвращению на фрагмент.*/
+       Фрагмент скрывается, поэтому Презентер нужно отчистить
+       от старых данных и подготовиться к возвращению на фрагмент
+       через BackPress.*/
     public void setFragmentInFocus(boolean isFragmentInFocus) {
         if (!isFragmentInFocus) {
             getViewState().clearingTheCommandQueue();

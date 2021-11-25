@@ -9,63 +9,58 @@ import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
 import ru.schultetabledima.schultetable.R
 import ru.schultetabledima.schultetable.databinding.FragmentMainMenuBinding
 import ru.schultetabledima.schultetable.utils.enterFromRightExitToLeft
 
-
 class MenuFragment : Fragment(R.layout.fragment_main_menu), View.OnClickListener {
 
     private lateinit var binding: FragmentMainMenuBinding
+    private var mAdView: AdView? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
+        binding = FragmentMainMenuBinding.inflate(inflater,container,false);
+        return binding.root
+    }
 
-        val view: View? = inflater.inflate(R.layout.fragment_main_menu, container, false)
-
-        view?.findViewById<Button>(R.id.tableButton)?.setOnClickListener(this)
-        view?.findViewById<Button>(R.id.adviceButton)?.setOnClickListener(this)
-        view?.findViewById<Button>(R.id.statisticsButton)?.setOnClickListener(this)
-        view?.findViewById<Button>(R.id.settingsButton)?.setOnClickListener(this)
-
-        return view
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.tableButton.setOnClickListener(this)
+        binding.adviceButton.setOnClickListener(this)
+        binding.statisticsButton.setOnClickListener(this)
+        binding.settingsButton.setOnClickListener(this)
+        binding.aboutAppButton.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
-
         when (v?.id) {
 
             R.id.tableButton ->
                 findNavController().navigate(R.id.action_menuFragment_to_tableFragment, null, enterFromRightExitToLeft())
 
-
-            R.id.adviceButton ->{
+            R.id.adviceButton ->
                 findNavController().navigate(R.id.action_menuFragment_to_adviceFragment, null, enterFromRightExitToLeft())
-
-                val navHostFragment =
-                    activity?.supportFragmentManager?.findFragmentById(R.id.mainContainerView) as NavHostFragment
-
-
-                Log.d("fragmentBackStackCount", "onClickMenuFragment  =  ${navHostFragment.childFragmentManager.backStackEntryCount}")
-
-            }
-
+            
             R.id.statisticsButton ->
                 findNavController().navigate(R.id.action_menuFragment_to_statisticFragment, null, enterFromRightExitToLeft())
 
             R.id.settingsButton ->
                 findNavController().navigate(R.id.action_menuFragment_to_settingsFragment,null,enterFromRightExitToLeft())
 
+            R.id.aboutAppButton ->
+                findNavController().navigate(R.id.action_menuFragment_to_aboutAppFragment,null,enterFromRightExitToLeft())
         }
     }
 
     override fun onResume() {
         super.onResume()
         (activity as MainActivity).visibilityBottomNavigationView(View.GONE)
-
     }
 }
 

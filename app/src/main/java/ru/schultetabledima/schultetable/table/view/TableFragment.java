@@ -1,14 +1,11 @@
-package ru.schultetabledima.schultetable.table.mvp.view;
+package ru.schultetabledima.schultetable.table.view;
 
 import android.animation.LayoutTransition;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Chronometer;
@@ -34,9 +31,9 @@ import ru.schultetabledima.schultetable.R;
 import ru.schultetabledima.schultetable.common.BaseScreenFragment;
 import ru.schultetabledima.schultetable.contracts.TableContract;
 import ru.schultetabledima.schultetable.main.MainActivity;
-import ru.schultetabledima.schultetable.table.mvp.model.DataCell;
-import ru.schultetabledima.schultetable.table.mvp.presenter.TablePresenter;
-import ru.schultetabledima.schultetable.table.mvp.view.tablecreation.TableCreator;
+import ru.schultetabledima.schultetable.table.model.DataCell;
+import ru.schultetabledima.schultetable.table.presenter.TablePresenter;
+import ru.schultetabledima.schultetable.table.view.tablecreation.TableCreator;
 import ru.schultetabledima.schultetable.utils.PreferencesReader;
 
 public class TableFragment extends BaseScreenFragment implements TableContract.View,
@@ -54,7 +51,6 @@ public class TableFragment extends BaseScreenFragment implements TableContract.V
     private Toolbar toolbar;
     private AppCompatTextView[][] cells1, cells2;
     private PreferencesReader settings;
-    private boolean needRestartPresenter = false;
     private final int ROTATE_VALUE_ANIMATOR = 3;
     private final int SCALE_VALUE_ANIMATOR = 4;
 
@@ -71,8 +67,10 @@ public class TableFragment extends BaseScreenFragment implements TableContract.V
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        if (getActivity() != null)
+        if (getActivity() != null){
             ((MainActivity) getActivity()).visibilityBottomNavigationView(View.GONE);
+            ((MainActivity) getActivity()).setWindowFlags("Add_Flag_KEEP_SCREEN_ON");
+        }
 
         init();
     }
@@ -190,10 +188,9 @@ public class TableFragment extends BaseScreenFragment implements TableContract.V
     }
 
     @Override
-    public void showToastWrongTable(int wrongTable) {
-        Toast toast = Toast.makeText(getActivity(), wrongTable, Toast.LENGTH_SHORT);
+    public void showToast(int wrongTable, int lengthToast) {
+        Toast toast = Toast.makeText(getActivity(), wrongTable, lengthToast);
         toast.show();
-        new Handler().postDelayed(toast::cancel, 500);
     }
 
 
@@ -292,14 +289,13 @@ public class TableFragment extends BaseScreenFragment implements TableContract.V
         NavHostFragment.findNavController(this).navigate(idActionNavigation, null, navOptions);
     }
 
-
     @Override
     public void clearingTheCommandQueue() {
     }
 
     @Override
     public void onDestroyView() {
+        ((MainActivity) getActivity()).setWindowFlags("");
         super.onDestroyView();
-        needRestartPresenter = true;
     }
 }

@@ -1,4 +1,4 @@
-package ru.schultetabledima.schultetable.table.mvp.view;
+package ru.schultetabledima.schultetable.table.view;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -11,10 +11,9 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
-import androidx.navigation.FloatingWindow;
 
-import ru.schultetabledima.schultetable.table.mvp.presenter.EndGameDialoguePresenter;
-import ru.schultetabledima.schultetable.table.mvp.presenter.TablePresenter;
+import ru.schultetabledima.schultetable.table.presenter.EndGameDialoguePresenter;
+import ru.schultetabledima.schultetable.table.presenter.TablePresenter;
 
 
 public class EndGameDialogueFragment extends DialogFragment {

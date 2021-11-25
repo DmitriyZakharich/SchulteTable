@@ -12,17 +12,19 @@ import ru.schultetabledima.schultetable.contracts.AdviceContract;
 @InjectViewState
 public class AdvicePresenter extends MvpPresenter<AdviceContract.View> implements AdviceContract.Presenter {
 
-    private AdviceModel adviceModel;
+    private AdviceContract.Model adviceModel;
     private List<Integer> adviceResource;
+
 
     public AdvicePresenter() {
         init();
-        showAdvice();
+        pushAdviceToView();
     }
+
 
     private void init() {
         adviceModel = new AdviceModel();
-        adviceResource = new ArrayList(2);
+        adviceResource = new ArrayList<>(3);
 
         if (Locale.getDefault().getLanguage().equals("ru")) {
             adviceResource.add(R.raw.advice1_ru);
@@ -35,7 +37,7 @@ public class AdvicePresenter extends MvpPresenter<AdviceContract.View> implement
         }
     }
 
-    private void showAdvice() {
+    private void pushAdviceToView() {
         int count = 0;
         for (int id : adviceResource) {
             getViewState().showAdvice(count++, adviceModel.getAdvice(id));

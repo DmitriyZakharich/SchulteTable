@@ -1,4 +1,4 @@
-package ru.schultetabledima.schultetable.table.mvp.model;
+package ru.schultetabledima.schultetable.table.model;
 
 public class DataCell {
     private final int id;

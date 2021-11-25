@@ -21,12 +21,12 @@ public interface ResultDao {
     List<String> getTableSize();
 
     @Insert
-    void insert(Result employee);
+    void insert(Result result);
 
     @Update
-    void update(Result employee);
+    void update(Result result);
 
     @Delete
-    void delete(Result employee);
+    void delete(Result result);
 
 }

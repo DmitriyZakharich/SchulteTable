@@ -1,4 +1,4 @@
-package ru.schultetabledima.schultetable.table.mvp.presenter;
+package ru.schultetabledima.schultetable.table.presenter;
 
 import android.content.SharedPreferences;
 import android.view.View;
@@ -35,7 +35,6 @@ public class MenuButtonsHandler {
         if (viewID == R.id.image_button_settings) {
             presenter.setFragmentInFocus(false);
             presenter.getViewState().moveFragment(R.id.action_tableFragment_to_settingsFragment, ScreenAnimationKt.enterFromLeftExitToRight());
-//            presenter.getViewState().finishTableFragment();
 
         } else if (viewID == R.id.image_menu) {
             presenter.getViewState().showPopupMenu();
@@ -77,13 +76,10 @@ public class MenuButtonsHandler {
         if (viewID == R.id.item_statistics) {
             presenter.setFragmentInFocus(false);
             presenter.getViewState().moveFragment(R.id.action_tableFragment_to_statisticFragment, ScreenAnimationKt.enterFromLeftExitToRight());
-//            presenter.getViewState().finishTableFragment();
 
         } else if (viewID == R.id.item_advice) {
             presenter.setFragmentInFocus(false);
             presenter.getViewState().moveFragment(R.id.action_tableFragment_to_adviceFragment, ScreenAnimationKt.enterFromLeftExitToRight());
-//            presenter.getViewState().finishTableFragment();
-
         }
 
         return true;

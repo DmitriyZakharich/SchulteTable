@@ -1,4 +1,4 @@
-package ru.schultetabledima.schultetable.table.mvp.model;
+package ru.schultetabledima.schultetable.table.model;
 
 import android.view.View;
 
@@ -9,11 +9,11 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
-import ru.schultetabledima.schultetable.table.mvp.model.DataCell;
+import ru.schultetabledima.schultetable.contracts.TableContract;
 import ru.schultetabledima.schultetable.utils.PreferencesReader;
 
 
-public class CellValuesCreator {
+public class CellValuesCreator implements TableContract.Model.ValuesCreator {
     private PreferencesReader settings;
     private List<Integer> listIdsForCheck;
     private List<DataCell> dataCells;
@@ -78,15 +78,17 @@ public class CellValuesCreator {
         }
     }
 
-
+    @Override
     public List<DataCell> getDataCells() {
         return dataCells;
     }
 
+    @Override
     public List<Integer> getListIdsForCheck() {
         return listIdsForCheck;
     }
 
+    @Override
     public int getFirstValue() {
         return firstValue;
     }

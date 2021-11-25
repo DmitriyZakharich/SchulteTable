@@ -1,4 +1,4 @@
-package ru.schultetabledima.schultetable.table.mvp.view.tablecreation;
+package ru.schultetabledima.schultetable.table.view.tablecreation;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

@@ -1,6 +1,9 @@
 package ru.schultetabledima.schultetable.statistic
 
 import android.os.Bundle
+import android.os.Parcelable
+import android.util.Log
+import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -19,10 +22,11 @@ class StatisticFragment : BaseScreenFragment(R.layout.fragment_statistics), Stat
     @InjectPresenter
     lateinit var statisticsPresenter: StatisticsPresenter
 
-    private var recyclerView: RecyclerView? = null
+    private lateinit var recyclerView: RecyclerView
     private var selectQuantityTables: Spinner? = null
     private var selectValueType: Spinner? = null
     private var selectPlayedSizes: Spinner? = null
+    private var recyclerViewState: Parcelable? = null
 
     companion object {
         fun newInstance(): StatisticFragment {
@@ -41,6 +45,8 @@ class StatisticFragment : BaseScreenFragment(R.layout.fragment_statistics), Stat
         selectQuantityTables?.onItemSelectedListener = this
         selectValueType?.onItemSelectedListener = this
         selectPlayedSizes?.onItemSelectedListener = this
+
+        registerForContextMenu(recyclerView)
     }
 
     override fun onResume() {
@@ -54,14 +60,14 @@ class StatisticFragment : BaseScreenFragment(R.layout.fragment_statistics), Stat
             parent!!.id,
             position,
             parent.selectedItem.toString()
-        );
+        )
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {
     }
 
     override fun setRecyclerViewAdapter(statisticAdapter: StatisticAdapter?) {
-        recyclerView?.adapter = statisticAdapter
+        recyclerView.adapter = statisticAdapter
     }
 
     override fun setQuantityTablesAdapter(adapterQuantityTables: ArrayAdapter<String>?) {

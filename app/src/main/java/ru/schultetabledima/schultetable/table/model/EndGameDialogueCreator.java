@@ -1,15 +1,13 @@
-package ru.schultetabledima.schultetable.table.mvp.model;
+package ru.schultetabledima.schultetable.table.model;
 
 import android.app.Dialog;
-import android.content.DialogInterface;
-import android.util.Log;
 import android.view.KeyEvent;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
 import ru.schultetabledima.schultetable.R;
-import ru.schultetabledima.schultetable.table.mvp.presenter.EndGameDialoguePresenter;
+import ru.schultetabledima.schultetable.table.presenter.EndGameDialoguePresenter;
 import ru.schultetabledima.schultetable.utils.PreferencesReader;
 
 public class EndGameDialogueCreator {

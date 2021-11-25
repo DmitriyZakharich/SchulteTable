@@ -1,4 +1,4 @@
-package ru.schultetabledima.schultetable.table.mvp.view.tablecreation;
+package ru.schultetabledima.schultetable.table.view.tablecreation;
 
 import android.content.Context;
 import android.content.res.Configuration;
@@ -12,7 +12,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import ru.schultetabledima.schultetable.App;
 import ru.schultetabledima.schultetable.R;
-import ru.schultetabledima.schultetable.table.mvp.presenter.TablePresenter;
+import ru.schultetabledima.schultetable.table.presenter.TablePresenter;
 import ru.schultetabledima.schultetable.utils.Converter;
 import ru.schultetabledima.schultetable.utils.PreferencesReader;
 

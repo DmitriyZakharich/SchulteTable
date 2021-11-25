@@ -1,4 +1,4 @@
-package ru.schultetabledima.schultetable.table.mvp.model;
+package ru.schultetabledima.schultetable.table.model;
 
 public class TimeResultFromBaseChronometer {
 
@@ -30,5 +30,4 @@ public class TimeResultFromBaseChronometer {
 
         return  buildTime.toString();
     }
-
 }

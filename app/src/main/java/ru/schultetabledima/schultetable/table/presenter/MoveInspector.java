@@ -1,9 +1,11 @@
-package ru.schultetabledima.schultetable.table.mvp.presenter;
+package ru.schultetabledima.schultetable.table.presenter;
 
 import android.graphics.Color;
+import android.widget.Toast;
 
 import java.util.List;
 
+import ru.schultetabledima.schultetable.App;
 import ru.schultetabledima.schultetable.R;
 import ru.schultetabledima.schultetable.utils.PreferencesReader;
 
@@ -47,23 +49,27 @@ public class MoveInspector {
         if (!settings.getIsTouchCells())
             presenter.endGameDialogue();
 
+        try {
+            if (settings.getIsTouchCells()) {
 
-        if (settings.getIsTouchCells()) {
+                if (!settings.getIsTwoTables())
+                    checkMoveInOneTable(cellId);
 
-            if (!settings.getIsTwoTables())
-                checkMoveInOneTable(cellId);
+                if (settings.getIsTwoTables()) {
 
-            if (settings.getIsTwoTables()) {
-
-                if (!isValidTable(cellId)) {
-                    return;
+                    if (!isValidTable(cellId)) {
+                        return;
+                    }
+                    checkMoveInTwoTables(cellId);
                 }
-                checkMoveInTwoTables(cellId);
             }
+        } catch (IndexOutOfBoundsException e) {
+            presenter.getViewState().showToast(R.string.internalError, Toast.LENGTH_LONG);
         }
     }
 
-    private void checkMoveInOneTable(int cellId) {
+
+    private void checkMoveInOneTable(int cellId) throws IndexOutOfBoundsException {
         cellColor = Color.RED;
         if (cellId == cellsIdFirstTableForCheck.get(countFirstTable)) {
             nextMoveFirstTable++;
@@ -71,7 +77,6 @@ public class MoveInspector {
             cellColor = Color.GREEN;
             isRightCell = true;
         }
-
         presenter.getViewState().setCellColor(cellId, cellColor);
     }
 
@@ -110,14 +115,14 @@ public class MoveInspector {
 
         if (activeTable == FIRST_TABLE_ID && cellsIdSecondTableForCheck.contains(cellId)) {
             presenter.getViewState().setCellColor(cellId, cellColor);
-            presenter.getViewState().showToastWrongTable(R.string.wrongTable);
+            presenter.getViewState().showToast(R.string.wrongTable, Toast.LENGTH_SHORT);
             backgroundCellResources = R.drawable.border_cell_passive_color;
             return false;
         }
 
         if (activeTable == SECOND_TABLE_ID && cellsIdFirstTableForCheck.contains(cellId)) {
             presenter.getViewState().setCellColor(cellId, cellColor);
-            presenter.getViewState().showToastWrongTable(R.string.wrongTable);
+            presenter.getViewState().showToast(R.string.wrongTable, Toast.LENGTH_SHORT);
             backgroundCellResources = R.drawable.border_cell_passive_color;
             return false;
         }
@@ -126,7 +131,7 @@ public class MoveInspector {
         return true;
     }
 
-    private void checkMoveInTwoTables(int cellId) {
+    private void checkMoveInTwoTables(int cellId) throws IndexOutOfBoundsException {
 
         cellColor = Color.RED;
 

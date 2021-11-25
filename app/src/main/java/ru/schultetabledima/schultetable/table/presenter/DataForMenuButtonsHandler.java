@@ -1,4 +1,4 @@
-package ru.schultetabledima.schultetable.table.mvp.presenter;
+package ru.schultetabledima.schultetable.table.presenter;
 
 import android.content.SharedPreferences;
 

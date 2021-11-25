@@ -1,4 +1,4 @@
-package ru.schultetabledima.schultetable.table.mvp.view.tablecreation;
+package ru.schultetabledima.schultetable.table.view.tablecreation;
 
 import android.animation.LayoutTransition;
 import android.widget.LinearLayout;

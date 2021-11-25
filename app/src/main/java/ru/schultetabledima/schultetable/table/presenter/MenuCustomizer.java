@@ -1,4 +1,4 @@
-package ru.schultetabledima.schultetable.table.mvp.presenter;
+package ru.schultetabledima.schultetable.table.presenter;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -8,7 +8,7 @@ import android.widget.LinearLayout;
 
 import ru.schultetabledima.schultetable.App;
 import ru.schultetabledima.schultetable.R;
-import ru.schultetabledima.schultetable.table.mvp.view.tablecreation.AnimationTransition;
+import ru.schultetabledima.schultetable.table.view.tablecreation.AnimationTransition;
 import ru.schultetabledima.schultetable.utils.Converter;
 import ru.schultetabledima.schultetable.utils.PreferencesReader;
 

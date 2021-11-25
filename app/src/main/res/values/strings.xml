@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SchulteTableDima</string>
+    <string name="app_name">Schulte table in full screen</string>
     <string name="advice">Advice</string>
     <string name="settings">Settings</string>
     <string name="statistics">Statistics</string>
@@ -26,6 +26,7 @@
     <string name="moveHint">Move Hint</string>
     <string name="MoveHint">Next:</string>
     <string name="wrongTable">Wrong table</string>
+    <string name="internalError">"Internal error. Please restart the app. "</string>
     <string name="oneTable">One table</string>
     <string name="twoTables">Two tables</string>
     <string name="allOptions">All options</string>
@@ -48,8 +49,11 @@
     <string name="allSize">All sizes</string>
     <string name="adviceHeadline">Advice</string>
     <string name="dataInTheTable">Data in the table</string>
-    <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="banner_ad_unit_id">ca-app-pub-4698101566958568/6830072663</string>
     <string name="about_the_app">about the app</string>
     <string name="an_important_point"><b><u>An important point:</u></b></string>
+    <string name="delete">Delete</string>
+    <string name="icons_by">Icons by <u>icons8.com</u></string>
+    <string name="phone_frame_with_screenshots">Google Play screenshots with the help deavvi from <u>pixabay.com</u></string>
 
 </resources>

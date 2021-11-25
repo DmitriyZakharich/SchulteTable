@@ -1,11 +1,9 @@
-package ru.schultetabledima.schultetable.table.mvp.view;
+package ru.schultetabledima.schultetable.table.view;
 
 import android.animation.ValueAnimator;
-import android.content.Context;
 import android.graphics.Color;
-import android.util.Log;
 
-import ru.schultetabledima.schultetable.table.mvp.view.tablecreation.CustomCell;
+import ru.schultetabledima.schultetable.table.view.tablecreation.CustomCell;
 
 public class CustomRotateValueAnimator {
 

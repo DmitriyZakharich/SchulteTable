@@ -1,4 +1,4 @@
-package ru.schultetabledima.schultetable.table.mvp.view;
+package ru.schultetabledima.schultetable.table.view;
 
 import android.content.Context;
 import android.os.Build;
@@ -9,7 +9,7 @@ import android.widget.PopupMenu;
 import androidx.appcompat.view.ContextThemeWrapper;
 
 import ru.schultetabledima.schultetable.R;
-import ru.schultetabledima.schultetable.table.mvp.presenter.TablePresenter;
+import ru.schultetabledima.schultetable.table.presenter.TablePresenter;
 
 public class PopupMenuCreator {
     private Context context;
@@ -28,7 +28,7 @@ public class PopupMenuCreator {
         Context wrapper = new ContextThemeWrapper(context, R.style.PopupMenuStyle);
 
         popupMenu = new PopupMenu(wrapper, view);
-        popupMenu.inflate(R.menu.menu);
+        popupMenu.inflate(R.menu.table_bottom_menu);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             popupMenu.setForceShowIcon(true);
         }
