@@ -1,5 +1,7 @@
 package ru.schultetabledima.schultetable.advice;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -12,18 +14,18 @@ import ru.schultetabledima.schultetable.contracts.AdviceContract;
 @InjectViewState
 public class AdvicePresenter extends MvpPresenter<AdviceContract.View> implements AdviceContract.Presenter {
 
-    private AdviceContract.Model adviceModel;
+    private final AdviceContract.Model adviceModel;
     private List<Integer> adviceResource;
 
 
-    public AdvicePresenter() {
+    public AdvicePresenter(AdviceModel adviceModel) {
+        this.adviceModel = adviceModel;
         init();
         pushAdviceToView();
     }
 
 
     private void init() {
-        adviceModel = new AdviceModel();
         adviceResource = new ArrayList<>(3);
 
         if (Locale.getDefault().getLanguage().equals("ru")) {
@@ -36,6 +38,10 @@ public class AdvicePresenter extends MvpPresenter<AdviceContract.View> implement
             adviceResource.add(R.raw.advice3_en);
         }
     }
+
+//    public void setModel(AdviceModel adviceModel) {
+//        this.adviceModel = adviceModel;
+//    }
 
     private void pushAdviceToView() {
         int count = 0;

@@ -5,6 +5,8 @@ import static android.content.Context.MODE_PRIVATE;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import javax.inject.Inject;
+
 import ru.schultetabledima.schultetable.App;
 
 public class PreferencesWriter {
@@ -23,12 +25,12 @@ public class PreferencesWriter {
     private static final String KEY_ROWS_LETTERS = "saveSpinnerRowsLetters";
     private static final String KEY_COLUMNS_LETTERS = "saveSpinnerColumnsLetters";
 
+    @Inject
     public PreferencesWriter() {
         init();
     }
 
     private void init() {
-
         settings = App.getContext().getSharedPreferences(APP_PREFERENCES, MODE_PRIVATE);
     }
 
@@ -78,6 +80,4 @@ public class PreferencesWriter {
     public static String getKeyMoveHint() {
         return KEY_MOVE_HINT;
     }
-
-
 }

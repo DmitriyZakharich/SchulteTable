@@ -15,17 +15,30 @@ public interface SettingsContract {
 
         void customizationSwitchMoveHint(boolean isEnabled, boolean isChecked);
 
-        void setViewPagerAdapter(MyAdapter pageAdapter);
-
-
         void setViewPagerCurrentItem(int index);
     }
 
     interface Presenter {
 
+        void onTabSelectedListener(int position);
+
+        void onClickListenerSwitch(int id, boolean isChecked);
     }
 
-    interface Model {
-
+    interface ModelPreferenceReader {
+        boolean getIsTouchCells();
+        int getColumnsOfTable();
+        int getRowsOfTable();
+        int getColumnsOfTableNumbers();
+        int getRowsOfTableNumbers();
+        int getColumnsOfTableLetters();
+        int getRowsOfTableLetters();
+        boolean getIsLetters();
+        boolean getIsTwoTables();
+        boolean getIsEnglish();
+        boolean getIsMoveHint();
+        boolean getIsAnim();
     }
+
+
 }

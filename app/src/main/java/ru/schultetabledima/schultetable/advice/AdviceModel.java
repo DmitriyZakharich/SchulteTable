@@ -8,11 +8,15 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-
+import javax.inject.Inject;
 import ru.schultetabledima.schultetable.App;
 import ru.schultetabledima.schultetable.contracts.AdviceContract;
 
 public class AdviceModel implements AdviceContract.Model {
+
+    @Inject
+    public AdviceModel() {
+    }
 
     @Override
     public String getAdvice(int idResource) {

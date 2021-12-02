@@ -10,7 +10,10 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.recyclerview.widget.RecyclerView
 import moxy.presenter.InjectPresenter
+import moxy.presenter.ProvidePresenter
 import ru.schultetabledima.schultetable.R
+import ru.schultetabledima.schultetable.advice.AdvicePresenter
+import ru.schultetabledima.schultetable.advice.DaggerAdviceComponent
 import ru.schultetabledima.schultetable.common.BaseScreenFragment
 import ru.schultetabledima.schultetable.contracts.StatisticsContract
 import ru.schultetabledima.schultetable.database.StatisticAdapter
@@ -21,6 +24,13 @@ class StatisticFragment : BaseScreenFragment(R.layout.fragment_statistics), Stat
 
     @InjectPresenter
     lateinit var statisticsPresenter: StatisticsPresenter
+
+    @ProvidePresenter
+    fun provideStatisticsPresenter(): StatisticsPresenter {
+        val adviceModule = DaggerAdviceComponent.create().getAdviceModel()
+        statisticsPresenter = StatisticsPresenter()
+        return statisticsPresenter
+    }
 
     private lateinit var recyclerView: RecyclerView
     private var selectQuantityTables: Spinner? = null
