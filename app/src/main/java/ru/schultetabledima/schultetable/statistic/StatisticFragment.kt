@@ -27,7 +27,6 @@ class StatisticFragment : BaseScreenFragment(R.layout.fragment_statistics), Stat
 
     @ProvidePresenter
     fun provideStatisticsPresenter(): StatisticsPresenter {
-        val adviceModule = DaggerAdviceComponent.create().getAdviceModel()
         statisticsPresenter = StatisticsPresenter()
         return statisticsPresenter
     }

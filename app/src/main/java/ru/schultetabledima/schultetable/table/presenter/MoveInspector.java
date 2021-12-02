@@ -5,6 +5,8 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import ru.schultetabledima.schultetable.App;
 import ru.schultetabledima.schultetable.R;
 import ru.schultetabledima.schultetable.utils.PreferencesReader;
@@ -27,20 +29,22 @@ public class MoveInspector {
     private int nextMove;
 
 
-    public MoveInspector(TablePresenter presenter, DataForMoveInspector data) {
-        this.presenter = presenter;
+    @Inject
+    public MoveInspector(PreferencesReader settings) {
+        this.settings = settings;
+//        init();
+    }
 
+    public void setPresenter(TablePresenter presenter) {
+        this.presenter = presenter;
+    }
+
+    public void setData(DataForMoveInspector data) {
         cellsIdFirstTableForCheck = data.getCellsIdFirstTableForCheck();
         cellsIdSecondTableForCheck = data.getCellsIdSecondTableForCheck();
         nextMoveFirstTable = data.getNextMoveFirstTable();
         nextMoveSecondTableCountdown = data.getNextMoveSecondTableCountdown();
         countdownSecondTable = data.getCountdownSecondTable();
-
-        init();
-    }
-
-    private void init() {
-        settings = new PreferencesReader();
     }
 
 
@@ -108,7 +112,6 @@ public class MoveInspector {
             presenter.endGameDialogue();
         }
     }
-
 
     private boolean isValidTable(int cellId) {
         cellColor = Color.RED;

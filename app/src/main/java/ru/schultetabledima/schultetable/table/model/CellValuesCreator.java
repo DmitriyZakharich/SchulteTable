@@ -19,13 +19,12 @@ public class CellValuesCreator implements TableContract.Model.ValuesCreator {
     private List<DataCell> dataCells;
     private int firstValue;
 
-    public CellValuesCreator() {
+    public CellValuesCreator(PreferencesReader settings) {
+        this.settings = settings;
         main();
     }
 
     private void main() {
-        settings = new PreferencesReader();
-
         calculationFirstValue();
         createValues();
 

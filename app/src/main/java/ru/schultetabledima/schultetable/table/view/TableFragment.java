@@ -27,10 +27,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import moxy.presenter.InjectPresenter;
+import moxy.presenter.ProvidePresenter;
 import ru.schultetabledima.schultetable.R;
 import ru.schultetabledima.schultetable.common.BaseScreenFragment;
 import ru.schultetabledima.schultetable.contracts.TableContract;
 import ru.schultetabledima.schultetable.main.MainActivity;
+import ru.schultetabledima.schultetable.table.DaggerTableComponent;
+import ru.schultetabledima.schultetable.table.TableComponent;
 import ru.schultetabledima.schultetable.table.model.DataCell;
 import ru.schultetabledima.schultetable.table.presenter.TablePresenter;
 import ru.schultetabledima.schultetable.table.view.tablecreation.TableCreator;
@@ -39,8 +42,6 @@ import ru.schultetabledima.schultetable.utils.PreferencesReader;
 public class TableFragment extends BaseScreenFragment implements TableContract.View,
         EndGameDialogueFragment.PassMeLinkOnObject, TableCreator.PassMeLinkOnPresenter {
 
-    @InjectPresenter
-    TablePresenter tablePresenter;
 
     private ImageButton buttonSettings;
     private Chronometer chronometer;
@@ -53,6 +54,19 @@ public class TableFragment extends BaseScreenFragment implements TableContract.V
     private PreferencesReader settings;
     private final int ROTATE_VALUE_ANIMATOR = 3;
     private final int SCALE_VALUE_ANIMATOR = 4;
+
+
+    @InjectPresenter
+    TablePresenter tablePresenter;
+
+    @ProvidePresenter
+    TablePresenter provideTablePresenter() {
+        TableComponent tableComponent = DaggerTableComponent.create();
+        tablePresenter = new TablePresenter(tableComponent.getPreferenceReader(), tableComponent.getCellValuesCreator(),
+                tableComponent.getCellValuesCreator(),tableComponent.getMenuCustomizer(), tableComponent.getMoveInspector(),
+                tableComponent.getMenuButtonsHandler());
+        return tablePresenter;
+    }
 
     public TableFragment() {
         super(R.layout.fragment_table);
@@ -67,7 +81,7 @@ public class TableFragment extends BaseScreenFragment implements TableContract.V
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        if (getActivity() != null){
+        if (getActivity() != null) {
             ((MainActivity) getActivity()).visibilityBottomNavigationView(View.GONE);
             ((MainActivity) getActivity()).setWindowFlags("Add_Flag_KEEP_SCREEN_ON");
         }
