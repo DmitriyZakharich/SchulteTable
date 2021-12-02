@@ -27,7 +27,7 @@ class StatisticFragment : BaseScreenFragment(R.layout.fragment_statistics), Stat
 
     @ProvidePresenter
     fun provideStatisticsPresenter(): StatisticsPresenter {
-        statisticsPresenter = StatisticsPresenter()
+        statisticsPresenter = StatisticsPresenter(DaggerStatisticsComponent.create().getDeletePopupMenuCreator())
         return statisticsPresenter
     }
 
