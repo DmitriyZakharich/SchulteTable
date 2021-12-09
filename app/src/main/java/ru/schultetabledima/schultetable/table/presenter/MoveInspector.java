@@ -32,7 +32,6 @@ public class MoveInspector {
     @Inject
     public MoveInspector(PreferencesReader settings) {
         this.settings = settings;
-//        init();
     }
 
     public void setPresenter(TablePresenter presenter) {
@@ -68,7 +67,7 @@ public class MoveInspector {
                 }
             }
         } catch (IndexOutOfBoundsException e) {
-            presenter.getViewState().showToast(R.string.internalError, Toast.LENGTH_LONG);
+            presenter.getViewState().showErrorDialogueFragment(true);
         }
     }
 

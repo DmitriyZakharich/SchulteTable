@@ -35,12 +35,13 @@ import ru.schultetabledima.schultetable.main.MainActivity;
 import ru.schultetabledima.schultetable.table.DaggerTableComponent;
 import ru.schultetabledima.schultetable.table.TableComponent;
 import ru.schultetabledima.schultetable.table.model.DataCell;
+import ru.schultetabledima.schultetable.table.presenter.ErrorDialogueFragment;
 import ru.schultetabledima.schultetable.table.presenter.TablePresenter;
 import ru.schultetabledima.schultetable.table.view.tablecreation.TableCreator;
 import ru.schultetabledima.schultetable.utils.PreferencesReader;
 
 public class TableFragment extends BaseScreenFragment implements TableContract.View,
-        EndGameDialogueFragment.PassMeLinkOnObject, TableCreator.PassMeLinkOnPresenter {
+        PassMeLinkOnObject, TableCreator.PassMeLinkOnPresenter {
 
 
     private ImageButton buttonSettings;
@@ -202,9 +203,12 @@ public class TableFragment extends BaseScreenFragment implements TableContract.V
     }
 
     @Override
-    public void showToast(int wrongTable, int lengthToast) {
-        Toast toast = Toast.makeText(getActivity(), wrongTable, lengthToast);
+    public void showToast(int errorMessage, int lengthToast) {
+        Toast toast = Toast.makeText(getActivity(), errorMessage, lengthToast);
         toast.show();
+
+        if (errorMessage == R.string.wrongTable)
+            new Handler().postDelayed(toast::cancel, 500);
     }
 
 
@@ -253,6 +257,19 @@ public class TableFragment extends BaseScreenFragment implements TableContract.V
             if (endGameDialogueFragment == null) {
                 endGameDialogueFragment = EndGameDialogueFragment.newInstance();
                 endGameDialogueFragment.show(fragmentManager, "dialogueFragment");
+            }
+        }
+    }
+
+    @Override
+    public void showErrorDialogueFragment(boolean needToShow) {
+        if (needToShow) {
+            FragmentManager fragmentManager = getChildFragmentManager();
+            ErrorDialogueFragment errorDialogueFragment = (ErrorDialogueFragment) fragmentManager.findFragmentByTag("errorDialogueFragment");
+
+            if (errorDialogueFragment == null) {
+                errorDialogueFragment = ErrorDialogueFragment.Companion.newInstance();
+                errorDialogueFragment.show(fragmentManager, "errorDialogueFragment");
             }
         }
     }

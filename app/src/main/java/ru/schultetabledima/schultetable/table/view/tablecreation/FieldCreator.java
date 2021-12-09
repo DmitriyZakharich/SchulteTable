@@ -49,6 +49,7 @@ public class FieldCreator {
         field.setLayoutParams(llLayoutParams);
 
         field.setId(View.generateViewId());
+        field.setMotionEventSplittingEnabled(false);
     }
 
     private void createRows() {
@@ -59,6 +60,7 @@ public class FieldCreator {
                     0, 1);
             tlLayoutParams.setLayoutDirection(LinearLayout.HORIZONTAL);
             rows[i].setLayoutParams(tlLayoutParams);
+            rows[i].setMotionEventSplittingEnabled(false);
             field.addView(rows[i]);
         }
     }

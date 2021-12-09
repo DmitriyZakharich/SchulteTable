@@ -36,7 +36,7 @@ public class EndGameDialogueCreator {
 
     private void createDialogue() {
 
-        builder = new AlertDialog.Builder(dialogFragment.getActivity(), R.style.AlertDialogCustom);
+        builder = new AlertDialog.Builder(dialogFragment.requireActivity(), R.style.AlertDialogCustom);
 
         builder.setOnKeyListener((dialog, keyCode, event) -> {
             if (keyCode == KeyEvent.KEYCODE_BACK &&
@@ -57,7 +57,6 @@ public class EndGameDialogueCreator {
                 .setCancelable(false);
 
         dialogFragment.setCancelable(false);
-
 
         if (!settings.getIsTouchCells()) {
             builder.setCancelable(true);

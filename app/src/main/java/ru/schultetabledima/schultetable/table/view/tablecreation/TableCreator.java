@@ -52,6 +52,7 @@ public class TableCreator {
         containerForTable.setLayoutParams(new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT,
                 ConstraintLayout.LayoutParams.MATCH_PARENT));
         containerForTable.setGravity(Gravity.CENTER);
+        containerForTable.setMotionEventSplittingEnabled(false);
 
 
         if (settings.getIsTwoTables()) {

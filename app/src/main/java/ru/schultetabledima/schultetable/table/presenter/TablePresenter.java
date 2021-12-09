@@ -124,6 +124,10 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
         moveInspector.cellActionUp(cellId);
     }
 
+//    public void errorDialogue() {
+//        isDialogueShow = true;
+//        getViewState().showDialogueFragment(isDialogueShow);
+//    }
 
     public void endGameDialogue() {
         booleanStartChronometer = false;

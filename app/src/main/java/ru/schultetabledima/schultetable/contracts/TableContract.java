@@ -32,13 +32,15 @@ public interface TableContract {
 
         void showDialogueFragment(boolean needToShow);
 
+        void showErrorDialogueFragment(boolean needToShow);
+
         @StateStrategyType(AddToEndStrategy.class)
         void setTableData(List<DataCell> dataCellsFirstTable, List<DataCell> dataCellsSecondTable);
 
         void setTableColor(int backgroundResourcesFirstTable, int backgroundResourcesSecondTable);
 
         @StateStrategyType(OneExecutionStateStrategy.class)
-        void showToast(int wrongTable, int lengthToast);
+        void showToast(int errorMessage, int lengthToast);
 
         void stopStartChronometer(boolean startIt);
 

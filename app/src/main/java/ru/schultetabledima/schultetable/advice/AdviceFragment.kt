@@ -25,8 +25,6 @@ class AdviceFragment : BaseScreenFragment(R.layout.fragment_advice), AdviceContr
 
     private val textViewList: MutableList<AppCompatTextView?> = mutableListOf()
 
-
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         textViewList.add(view.findViewById(R.id.tvAdvice1))
