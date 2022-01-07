@@ -18,7 +18,6 @@ import ru.schultetabledima.schultetable.utils.enterFromRightExitToLeft
 class MenuFragment : Fragment(R.layout.fragment_main_menu), View.OnClickListener {
 
     private lateinit var binding: FragmentMainMenuBinding
-    private var mAdView: AdView? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,

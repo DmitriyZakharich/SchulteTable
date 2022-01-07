@@ -52,6 +52,8 @@ public class MoveInspector {
         if (!settings.getIsTouchCells())
             presenter.endGameDialogue();
 
+
+
         try {
             if (settings.getIsTouchCells()) {
 

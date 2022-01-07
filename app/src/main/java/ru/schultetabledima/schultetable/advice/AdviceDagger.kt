@@ -15,5 +15,4 @@ interface AdviceComponent {
 object AdviceModule{
     @Provides
     fun adviceModel(): AdviceContract.Model = AdviceModel()
-
 }
