@@ -5,26 +5,32 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.PopupMenu
 import androidx.appcompat.view.ContextThemeWrapper
+import ru.schultetabledima.schultetable.App
 import ru.schultetabledima.schultetable.R
 import ru.schultetabledima.schultetable.database.Result
+import javax.inject.Inject
+
 /**
  * Class for deleting records from DB
  * */
-class DeletePopupMenuCreator(
-    val presenter: StatisticsPresenter,
-    val context: Context?,
-    val view: View?,
-    private val result: Result,
-    val position: Int
-) {
+class DeletePopupMenuCreator @Inject constructor() {
     private lateinit var popupMenu: PopupMenu
 
-    init {
+    private var presenter: StatisticsPresenter? = null
+    private var view: View? = null
+    private var result: Result? = null
+    private var position: Int? = null
+
+    fun setData(presenter: StatisticsPresenter,view: View?,result: Result,position: Int) {
+        this.presenter = presenter
+        this.view = view
+        this.result = result
+        this.position = position
         main()
     }
 
     private fun main() {
-        val wrapper: Context = ContextThemeWrapper(context, R.style.PopupMenuStyle)
+        val wrapper: Context = ContextThemeWrapper(App.getContext(), R.style.PopupMenuStyle)
         popupMenu = PopupMenu(wrapper, view!!)
         popupMenu.inflate(R.menu.statistic_menu)
 
@@ -32,7 +38,7 @@ class DeletePopupMenuCreator(
 
             when (item!!.itemId) {
                 R.id.item_delete -> {
-                    presenter.deleteRecordFromDB(result, position)
+                    presenter?.deleteRecordFromDB(result, position!!)
                 }
             }
             true

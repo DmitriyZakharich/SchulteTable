@@ -1,5 +1,7 @@
 package ru.schultetabledima.schultetable.contracts;
 
+import java.util.List;
+
 import moxy.MvpView;
 import moxy.viewstate.strategy.AddToEndStrategy;
 import moxy.viewstate.strategy.StateStrategyType;
@@ -15,6 +17,6 @@ public interface AdviceContract {
     }
 
     interface Model {
-        String getAdvice(int idResource);
+        List<String> getAdvice();
     }
 }

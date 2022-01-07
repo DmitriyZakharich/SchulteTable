@@ -1,69 +1,65 @@
 package ru.schultetabledima.schultetable.settings;
 
-import android.content.Context;
-
 import androidx.fragment.app.Fragment;
 
+import javax.inject.Inject;
+
 import ru.schultetabledima.schultetable.R;
+import ru.schultetabledima.schultetable.contracts.SettingsContract;
 import ru.schultetabledima.schultetable.utils.PreferencesReader;
 
 
-public class SettingsPresenter {
+public class SettingsPresenter implements SettingsContract.Presenter {
 
-    private Context context1;
-    private Fragment context;
-    private transient PreferencesReader preferencesReader;
-    private transient PreferencesWriter preferencesWriter;
+    private final Fragment context;
+    private final SettingsContract.ModelPreferenceReader preferencesReader;
+    private final PreferencesWriter preferencesWriter;
+    private final int itemLetters = 1;
+    private final int itemNumbers = 0;
 
-    public SettingsPresenter(Context context) {
-        this.context1 = context;
-        main();
-    }
 
-    public SettingsPresenter(Fragment view) {
-        this.context = view;
+    @Inject
+    public SettingsPresenter(Fragment context, PreferencesWriter preferencesWriter, SettingsContract.ModelPreferenceReader preferencesReader) {
+        this.context = context;
+        this.preferencesWriter = preferencesWriter;
+        this.preferencesReader = preferencesReader;
         main();
     }
 
     private void main() {
-        init();
         customizationSettingsActivity();
     }
 
 
-    private void init() {
-        preferencesReader = new PreferencesReader();
-        preferencesWriter = new PreferencesWriter();
-    }
-
     private void customizationSettingsActivity() {
-        ((SettingsFragment) context).switchTouchCellsSetChecked(preferencesReader.getIsTouchCells());
-        ((SettingsFragment) context).switchAnimationSetChecked(preferencesReader.getIsAnim());
-        ((SettingsFragment) context).switchTwoTablesSetChecked(preferencesReader.getIsTwoTables());
+        ((SettingsContract.View) context).switchTouchCellsSetChecked(preferencesReader.getIsTouchCells());
+        ((SettingsContract.View) context).switchAnimationSetChecked(preferencesReader.getIsAnim());
+        ((SettingsContract.View) context).switchTwoTablesSetChecked(preferencesReader.getIsTwoTables());
 
         boolean isSwitchMoveHintEnabled = preferencesReader.getIsTouchCells();
-        ((SettingsFragment) context).customizationSwitchMoveHint(isSwitchMoveHintEnabled, preferencesReader.getIsMoveHint());
+        ((SettingsContract.View) context).customizationSwitchMoveHint(isSwitchMoveHintEnabled, preferencesReader.getIsMoveHint());
 
 
         if (preferencesReader.getIsLetters()) {
-
-            ((SettingsFragment) context).setViewPagerCurrentItem(1);
+            ((SettingsContract.View) context).setViewPagerCurrentItem(itemLetters);
         } else {
-            ((SettingsFragment) context).setViewPagerCurrentItem(0);
+            ((SettingsContract.View) context).setViewPagerCurrentItem(itemNumbers);
         }
     }
 
+    @Override
     public void onTabSelectedListener(int position) {
         boolean b = false;
-        if (position == 0) {
+        if (position == itemNumbers) {
             b = false;
-        } else if (position == 1) {
+        } else if (position == itemLetters) {
             b = true;
         }
         preferencesWriter.putBoolean(PreferencesWriter.getKeyIsLetters(), b);
     }
 
 
+    @Override
     public void onClickListenerSwitch(int id, boolean isChecked) {
         String key = "";
         if (id == R.id.switchAnimation) {
@@ -73,7 +69,7 @@ public class SettingsPresenter {
             key = PreferencesWriter.getKeyTouchCells();
 
             boolean isSwitchMoveHintEnabled = isChecked;
-            ((SettingsFragment) context).customizationSwitchMoveHint(isSwitchMoveHintEnabled, preferencesReader.getIsMoveHint());
+            ((SettingsContract.View) context).customizationSwitchMoveHint(isSwitchMoveHintEnabled, preferencesReader.getIsMoveHint());
 
 
         } else if (id == R.id.switchTwoTables) {

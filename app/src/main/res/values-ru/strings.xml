@@ -54,6 +54,8 @@
     <string name="delete">Удалить</string>
     <string name="icons_by">Иконки с сайта <u>icons8.com</u></string>
     <string name="phone_frame_with_screenshots">Скриншоты в Гугл плей с помощью deavvi с сайта <u>pixabay.com</u></string>
-    <string name="internalError">Внутренная ошибка. Пожалуйста, перезагрузите приложение.</string>
+    <string name="internalError">Внутренная ошибка.</string>
+    <string name="restartTable">Пожалуйста, перезагрузите таблицу.</string>
+    <string name="restart">Перезагрузка</string>
 
 </resources>

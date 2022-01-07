@@ -38,6 +38,7 @@ public class StatisticsPresenter extends MvpPresenter<StatisticsContract.View> i
     private SharedPreferences sharedPreferencesStatistics;
     private List<String> valueSpinnerValueType, valueSpinnerQuantityTables;
     private StatisticsPresenter thisStatisticsPresenter = this;
+    private DeletePopupMenuCreator deletePopupMenuCreator;
 
     private final String STATISTICS_PREFERENCES = "Preferences_Statistics1";
     private final String KEY_QUANTITY_TABLES = "key_quantity_tables";
@@ -52,7 +53,8 @@ public class StatisticsPresenter extends MvpPresenter<StatisticsContract.View> i
     private final int SPINNER_VALUE_TYPE_ALL = 3;
     private List<Result> results;
 
-    public StatisticsPresenter() {
+    public StatisticsPresenter(DeletePopupMenuCreator deletePopupMenuCreator) {
+        this.deletePopupMenuCreator = deletePopupMenuCreator;
         main();
     }
 
@@ -135,7 +137,7 @@ public class StatisticsPresenter extends MvpPresenter<StatisticsContract.View> i
 
 
                 StatisticAdapter.OptionsMenuLongClickListener optionsMenuLongClickListener = (result, v, position) -> {
-                    DeletePopupMenuCreator deletePopupMenuCreator = new DeletePopupMenuCreator(thisStatisticsPresenter, context, v, result, position);
+                    deletePopupMenuCreator.setData(thisStatisticsPresenter, v, result, position);
                     deletePopupMenuCreator.getPopupMenu().show();
                 };
 
@@ -161,7 +163,7 @@ public class StatisticsPresenter extends MvpPresenter<StatisticsContract.View> i
     }
 
     public void spinnerItemSelected(int parentId, int position, String itemText) {
-        if(sharedPreferencesStatistics == null)
+        if (sharedPreferencesStatistics == null)
             return;
 
         SharedPreferences.Editor ed = sharedPreferencesStatistics.edit();

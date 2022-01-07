@@ -21,6 +21,7 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
     private TableContract.Model.ValuesCreator cellValuesCreatorFirstTable, cellValuesCreatorSecondTable;
     private List<DataCell> dataCellsFirstTableForFilling, dataCellsSecondTableForFilling;
     private MoveInspector moveInspector;
+    private MenuCustomizer menuCustomizer;
     private DataForMoveInspector dataForMoveInspector;
     private MenuButtonsHandler menuButtonsHandler;
     private DataForMenuButtonsHandler dataForMenuButtonsHandler;
@@ -28,7 +29,15 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
                                         //перехода на другой фрагмент
 
 
-    public TablePresenter() {
+    public TablePresenter(PreferencesReader settings, CellValuesCreator cellValuesCreatorFirstTable,
+                          CellValuesCreator cellValuesCreatorSecondTable, MenuCustomizer menuCustomizer,
+                          MoveInspector moveInspector, MenuButtonsHandler menuButtonsHandler) {
+        this.settings = settings;
+        this.cellValuesCreatorFirstTable = cellValuesCreatorFirstTable;
+        this.cellValuesCreatorSecondTable = cellValuesCreatorSecondTable;
+        this.moveInspector = moveInspector;
+        this.menuCustomizer = menuCustomizer;
+        this.menuButtonsHandler = menuButtonsHandler;
         main();
     }
 
@@ -60,12 +69,10 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
 
 
     private void callValuesCreator() {
-        cellValuesCreatorFirstTable = new CellValuesCreator();
         dataCellsFirstTableForFilling = cellValuesCreatorFirstTable.getDataCells();
         dataForMoveInspector.setCellsIdFirstTableForCheck(cellValuesCreatorFirstTable.getListIdsForCheck());
 
         if (settings.getIsTwoTables()) {
-            cellValuesCreatorSecondTable = new CellValuesCreator();
             dataCellsSecondTableForFilling = cellValuesCreatorSecondTable.getDataCells();
             dataForMoveInspector.setCellsIdSecondTableForCheck(cellValuesCreatorSecondTable.getListIdsForCheck());
         }
@@ -77,7 +84,8 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
 
 
     private void settingForMenu() {
-        MenuCustomizer menuCustomizer = new MenuCustomizer(this);
+        menuCustomizer.setPresenter(this);
+        menuCustomizer.start();
         dataForMenuButtonsHandler = menuCustomizer.getData();
     }
 
@@ -139,8 +147,10 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
     }
 
     private void creatingHandlers() {
-        moveInspector = new MoveInspector(this, dataForMoveInspector);
-        menuButtonsHandler = new MenuButtonsHandler(this, dataForMenuButtonsHandler);
+        moveInspector.setPresenter(this);
+        moveInspector.setData(dataForMoveInspector);
+        menuButtonsHandler.setPresenter(this);
+        menuButtonsHandler.setData(dataForMenuButtonsHandler);
     }
 
     public void onNegativeOrCancelDialogue() {

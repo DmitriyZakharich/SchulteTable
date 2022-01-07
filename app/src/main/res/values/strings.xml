@@ -26,7 +26,8 @@
     <string name="moveHint">Move Hint</string>
     <string name="MoveHint">Next:</string>
     <string name="wrongTable">Wrong table</string>
-    <string name="internalError">"Internal error. Please restart the app. "</string>
+    <string name="internalError">Internal error.</string>
+    <string name="restartTable">Please restart the table.</string>
     <string name="oneTable">One table</string>
     <string name="twoTables">Two tables</string>
     <string name="allOptions">All options</string>
@@ -45,6 +46,7 @@
     <string name="languageRussian">Russian</string>
     <string name="yourTime">"Your time "</string>
     <string name="newGame">New game</string>
+    <string name="restart">Restart</string>
     <string name="continueCurrentGame">Continue current game</string>
     <string name="allSize">All sizes</string>
     <string name="adviceHeadline">Advice</string>

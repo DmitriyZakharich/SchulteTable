@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".main.MainActivity">
+    tools:context=".main.MainActivity"
+    android:splitMotionEvents="false"
+    android:windowEnableSplitTouch= "false">
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/mainContainerView"
@@ -16,7 +18,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/mainBottomNavigationView" />
+        app:layout_constraintBottom_toTopOf="@id/mainBottomNavigationView"
+        android:splitMotionEvents="false"/>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/mainBottomNavigationView"

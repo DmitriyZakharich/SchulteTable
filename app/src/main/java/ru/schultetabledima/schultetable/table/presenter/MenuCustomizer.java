@@ -25,15 +25,20 @@ public class MenuCustomizer {
     private DataForMenuButtonsHandler data;
 
 
-    public MenuCustomizer(TablePresenter presenter) {
+    public MenuCustomizer(PreferencesReader settings) {
+        this.settings = settings;
+    }
 
+    public void setPresenter(TablePresenter presenter) {
         this.presenter = presenter;
+    }
+
+    public void start() {
         main();
     }
 
     private void main() {
         data = new DataForMenuButtonsHandler();
-        settings = new PreferencesReader();
         settingForMenu();
     }
 

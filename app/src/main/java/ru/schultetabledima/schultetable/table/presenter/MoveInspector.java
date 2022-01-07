@@ -1,9 +1,12 @@
 package ru.schultetabledima.schultetable.table.presenter;
 
 import android.graphics.Color;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 import ru.schultetabledima.schultetable.App;
 import ru.schultetabledima.schultetable.R;
@@ -27,25 +30,25 @@ public class MoveInspector {
     private int nextMove;
 
 
-    public MoveInspector(TablePresenter presenter, DataForMoveInspector data) {
-        this.presenter = presenter;
+    @Inject
+    public MoveInspector(PreferencesReader settings) {
+        this.settings = settings;
+    }
 
+    public void setPresenter(TablePresenter presenter) {
+        this.presenter = presenter;
+    }
+
+    public void setData(DataForMoveInspector data) {
         cellsIdFirstTableForCheck = data.getCellsIdFirstTableForCheck();
         cellsIdSecondTableForCheck = data.getCellsIdSecondTableForCheck();
         nextMoveFirstTable = data.getNextMoveFirstTable();
         nextMoveSecondTableCountdown = data.getNextMoveSecondTableCountdown();
         countdownSecondTable = data.getCountdownSecondTable();
-
-        init();
-    }
-
-    private void init() {
-        settings = new PreferencesReader();
     }
 
 
     public void cellActionDown(int cellId) {
-
         if (!settings.getIsTouchCells())
             presenter.endGameDialogue();
 
@@ -64,7 +67,9 @@ public class MoveInspector {
                 }
             }
         } catch (IndexOutOfBoundsException e) {
-            presenter.getViewState().showToast(R.string.internalError, Toast.LENGTH_LONG);
+            //Ошибка возникает, когда игра пройдена,
+            // поэтому можно выводить результат,
+            //а ошибку игнорировать
         }
     }
 
@@ -92,6 +97,7 @@ public class MoveInspector {
     }
 
     private void applyCellSelectionInOneTable(int cellId) {
+
         if (isRightCell) {
             if (settings.getIsLetters())
                 presenter.getViewState().setMoveHint((char) nextMoveFirstTable);
@@ -108,7 +114,6 @@ public class MoveInspector {
             presenter.endGameDialogue();
         }
     }
-
 
     private boolean isValidTable(int cellId) {
         cellColor = Color.RED;

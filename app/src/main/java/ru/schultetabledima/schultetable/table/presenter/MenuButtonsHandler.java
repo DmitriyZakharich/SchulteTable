@@ -18,17 +18,18 @@ public class MenuButtonsHandler {
     private String KEY_MENU_VISIBILITY;
     private SharedPreferences sharedPreferencesMenu;
 
-    public MenuButtonsHandler(TablePresenter tablePresenter, DataForMenuButtonsHandler data) {
-        presenter = tablePresenter;
+    public MenuButtonsHandler(PreferencesReader settings) {
+        this.settings = settings;
+    }
+
+    public void setPresenter(TablePresenter presenter) {
+        this.presenter = presenter;
+    }
+
+    public void setData(DataForMenuButtonsHandler data) {
         isMenuShow = data.getIsMenuShow();
         sharedPreferencesMenu = data.getSharedPreferencesMenu();
         KEY_MENU_VISIBILITY = data.getKEY_MENU_VISIBILITY();
-
-        init();
-    }
-
-    private void init() {
-        settings = new PreferencesReader();
     }
 
     public boolean checkClick(int viewID) {
@@ -84,6 +85,4 @@ public class MenuButtonsHandler {
 
         return true;
     }
-
-
 }

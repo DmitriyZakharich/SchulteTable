@@ -7,7 +7,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".table.view.TableFragment"
-    android:id="@+id/linearLayoutId">
+    android:id="@+id/linearLayoutId"
+    android:splitMotionEvents="false">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/placeForTable"
@@ -16,7 +17,8 @@
         android:orientation="vertical"
         android:layout_weight="1"
         android:animateLayoutChanges="true"
-        android:divider="@drawable/table_separator">
+        android:divider="@drawable/table_separator"
+        android:splitMotionEvents="false">
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

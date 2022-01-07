@@ -38,7 +38,7 @@ public interface TableContract {
         void setTableColor(int backgroundResourcesFirstTable, int backgroundResourcesSecondTable);
 
         @StateStrategyType(OneExecutionStateStrategy.class)
-        void showToast(int wrongTable, int lengthToast);
+        void showToast(int errorMessage, int lengthToast);
 
         void stopStartChronometer(boolean startIt);
 
