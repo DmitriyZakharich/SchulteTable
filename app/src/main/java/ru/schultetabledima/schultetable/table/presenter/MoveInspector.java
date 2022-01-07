@@ -1,6 +1,7 @@
 package ru.schultetabledima.schultetable.table.presenter;
 
 import android.graphics.Color;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.util.List;
@@ -48,11 +49,8 @@ public class MoveInspector {
 
 
     public void cellActionDown(int cellId) {
-
         if (!settings.getIsTouchCells())
             presenter.endGameDialogue();
-
-
 
         try {
             if (settings.getIsTouchCells()) {
@@ -69,7 +67,9 @@ public class MoveInspector {
                 }
             }
         } catch (IndexOutOfBoundsException e) {
-            presenter.getViewState().showErrorDialogueFragment(true);
+            //Ошибка возникает, когда игра пройдена,
+            // поэтому можно выводить результат,
+            //а ошибку игнорировать
         }
     }
 
@@ -97,6 +97,7 @@ public class MoveInspector {
     }
 
     private void applyCellSelectionInOneTable(int cellId) {
+
         if (isRightCell) {
             if (settings.getIsLetters())
                 presenter.getViewState().setMoveHint((char) nextMoveFirstTable);

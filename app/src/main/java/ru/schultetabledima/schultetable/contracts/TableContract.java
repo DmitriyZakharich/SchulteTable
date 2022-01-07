@@ -32,8 +32,6 @@ public interface TableContract {
 
         void showDialogueFragment(boolean needToShow);
 
-        void showErrorDialogueFragment(boolean needToShow);
-
         @StateStrategyType(AddToEndStrategy.class)
         void setTableData(List<DataCell> dataCellsFirstTable, List<DataCell> dataCellsSecondTable);
 

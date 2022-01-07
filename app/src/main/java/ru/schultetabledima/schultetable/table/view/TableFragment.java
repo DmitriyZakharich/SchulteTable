@@ -262,19 +262,6 @@ public class TableFragment extends BaseScreenFragment implements TableContract.V
     }
 
     @Override
-    public void showErrorDialogueFragment(boolean needToShow) {
-        if (needToShow) {
-            FragmentManager fragmentManager = getChildFragmentManager();
-            ErrorDialogueFragment errorDialogueFragment = (ErrorDialogueFragment) fragmentManager.findFragmentByTag("errorDialogueFragment");
-
-            if (errorDialogueFragment == null) {
-                errorDialogueFragment = ErrorDialogueFragment.Companion.newInstance();
-                errorDialogueFragment.show(fragmentManager, "errorDialogueFragment");
-            }
-        }
-    }
-
-    @Override
     public void stopStartChronometer(boolean startIt) {
         if (startIt)
             chronometer.start();
