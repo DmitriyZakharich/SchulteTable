@@ -191,6 +191,7 @@ public class TableFragment extends BaseScreenFragment implements TableContract.V
     public void showToast(int wrongTable, int lengthToast) {
         Toast toast = Toast.makeText(getActivity(), wrongTable, lengthToast);
         toast.show();
+        new Handler().postDelayed(toast::cancel, 500);
     }
 
 

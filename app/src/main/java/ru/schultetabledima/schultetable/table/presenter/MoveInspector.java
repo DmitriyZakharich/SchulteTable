@@ -1,6 +1,7 @@
 package ru.schultetabledima.schultetable.table.presenter;
 
 import android.graphics.Color;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.util.List;
@@ -64,7 +65,9 @@ public class MoveInspector {
                 }
             }
         } catch (IndexOutOfBoundsException e) {
-            presenter.getViewState().showToast(R.string.internalError, Toast.LENGTH_LONG);
+            //Ошибка возникает, когда игра уже пройдена,
+            // поэтому можно выводить результат,
+            //а ошибку игнорировать
         }
     }
 
