@@ -4,6 +4,8 @@ import android.graphics.Color;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
+
 import java.util.List;
 
 import ru.schultetabledima.schultetable.App;
@@ -26,6 +28,7 @@ public class MoveInspector {
     private boolean isRightCell = false;
     private int colorFirstTable, colorSecondTable;
     private int nextMove;
+    private boolean isGameActive = true;
 
 
     public MoveInspector(TablePresenter presenter, DataForMoveInspector data) {
@@ -47,6 +50,9 @@ public class MoveInspector {
 
     public void cellActionDown(int cellId) {
 
+        if (!isGameActive)
+            return;
+
         if (!settings.getIsTouchCells())
             presenter.endGameDialogue();
 
@@ -66,8 +72,11 @@ public class MoveInspector {
             }
         } catch (IndexOutOfBoundsException e) {
             //Ошибка возникает, когда игра уже пройдена,
-            // поэтому можно выводить результат,
+            //поэтому можно выводить результат,
             //а ошибку игнорировать
+
+            FirebaseCrashlytics.getInstance().recordException(e);
+            FirebaseCrashlytics.getInstance().sendUnsentReports();
         }
     }
 
@@ -84,6 +93,9 @@ public class MoveInspector {
     }
 
     public void cellActionUp(int cellId) {
+
+        if (!isGameActive)
+            return;
 
         if (!settings.getIsTouchCells())
             return;
@@ -107,6 +119,7 @@ public class MoveInspector {
         isRightCell = false;
 
         if (countFirstTable == cellsIdFirstTableForCheck.size()) {
+            isGameActive = false;
             presenter.getViewState().setMoveHint('☑');
             presenter.endGameDialogue();
         }
@@ -193,6 +206,7 @@ public class MoveInspector {
             presenter.getViewState().setBackgroundResources(cellId, backgroundCellResources);
 
         if (countdownSecondTable < 0) {
+            isGameActive = false;
             presenter.endGameDialogue();
             presenter.getViewState().setMoveHint('☑');
         }
