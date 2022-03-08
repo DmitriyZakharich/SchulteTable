@@ -44,6 +44,7 @@ public class FieldCreator {
 
     private void createField() {
         field = new TableLayout(context);
+        field.setMotionEventSplittingEnabled(false);
         LinearLayout.LayoutParams llLayoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT, 1);
         field.setLayoutParams(llLayoutParams);
@@ -55,6 +56,7 @@ public class FieldCreator {
         rows = new LinearLayout[settings.getRowsOfTable()];
         for (int i = 0; i < rows.length; i++) {
             rows[i] = new LinearLayout(context);
+            rows[i].setMotionEventSplittingEnabled(false);
             TableLayout.LayoutParams tlLayoutParams = new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT,
                     0, 1);
             tlLayoutParams.setLayoutDirection(LinearLayout.HORIZONTAL);
