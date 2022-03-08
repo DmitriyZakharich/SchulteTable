@@ -4,6 +4,11 @@ import static android.content.Context.MODE_PRIVATE;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
+
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.crash.FirebaseCrash;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
 import ru.schultetabledima.schultetable.App;
 import ru.schultetabledima.schultetable.settings.PreferencesWriter;
@@ -18,7 +23,14 @@ public class PreferencesReader {
     }
 
     private void init() {
-        spCustomization = App.getContext().getSharedPreferences(PreferencesWriter.getAppPreferences(), MODE_PRIVATE);
+        try {
+            spCustomization = App.getContext().getSharedPreferences(PreferencesWriter.getAppPreferences(), MODE_PRIVATE);
+        } catch (NullPointerException e) {
+            FirebaseCrashlytics.getInstance().recordException(e);
+            FirebaseCrashlytics.getInstance().sendUnsentReports();
+        }
+
+
         boolean isLetters = spCustomization.getBoolean(PreferencesWriter.getKeyIsLetters(), false);
 
 

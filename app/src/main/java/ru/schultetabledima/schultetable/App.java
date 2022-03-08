@@ -4,6 +4,9 @@ import android.app.Application;
 
 import androidx.room.Room;
 
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.analytics.FirebaseAnalytics;
+
 import ru.schultetabledima.schultetable.database.AppDatabase;
 
 public class App extends Application {
@@ -15,6 +18,8 @@ public class App extends Application {
 
     @Override
     public void onCreate() {
+        FirebaseApp.initializeApp(this);
+
         super.onCreate();
         context = this;
 
