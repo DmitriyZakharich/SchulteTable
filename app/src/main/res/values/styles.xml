@@ -10,6 +10,14 @@
 
     </style>
 
+    <style name="buttonMainMenu">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">3dp</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/mainTextColor</item>
+    </style>
+
     <style name="TextViewStatistic">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">match_parent</item>
@@ -57,8 +65,8 @@
         <item name="android:textSize">@dimen/headlineTextSize</item>
         <item name="android:textColor">@color/mainTextColor</item>
         <item name="android:gravity">center</item>
-        <item name="android:minHeight">@dimen/customMinHeight</item>
-        <item name="android:background">@color/colorButton</item>
+        <item name="android:minHeight">100dp</item>
+        <item name="android:background">@color/color1</item>
 
     </style>
 
@@ -82,7 +90,7 @@
     </style>
 
     <style name="AlertDialogCustom" parent="Theme.AppCompat.Light.Dialog.Alert">
-        <item name="android:background">#303F9F</item>
+        <item name="android:background">@color/color1</item>
         <item name="android:textColorPrimary">@color/mainTextColor</item>
         <item name="android:colorAccent">#FFFFFF</item>
     </style>

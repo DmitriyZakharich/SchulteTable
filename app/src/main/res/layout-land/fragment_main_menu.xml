@@ -5,7 +5,14 @@
     xmlns:ads="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".main.MainActivity">
+    tools:context=".main.MainActivity"
+    android:background="@color/color1">
+
+    <ImageView
+        android:scaleType="centerCrop"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:src="@drawable/main_menu_background" />
 
     <LinearLayout
         android:id="@+id/linearLayout2"
@@ -19,53 +26,33 @@
 
         <Button
             android:id="@+id/tableButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp"
             android:background="@drawable/background_button"
             android:text="@string/table"
-            android:textColor="@color/mainTextColor"
-            android:padding="18dp"/>
+            style="@style/buttonMainMenu"/>
 
         <Button
             android:id="@+id/statisticsButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp"
             android:background="@drawable/background_button"
-            android:text="@string/statistics"
-            android:textColor="@color/mainTextColor"
-            android:padding="18dp" />
+            style="@style/buttonMainMenu"
+            android:text="@string/statistics" />
 
         <Button
             android:id="@+id/settingsButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp"
             android:background="@drawable/background_button"
-            android:text="@string/settings"
-            android:textColor="@color/mainTextColor"
-            android:padding="18dp" />
+            style="@style/buttonMainMenu"
+            android:text="@string/settings"/>
 
         <Button
             android:id="@+id/adviceButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp"
             android:background="@drawable/background_button"
-            android:text="@string/advice"
-            android:textColor="@color/mainTextColor"
-            android:padding="18dp" />
+            style="@style/buttonMainMenu"
+            android:text="@string/advice"/>
 
         <Button
             android:id="@+id/aboutAppButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp"
             android:background="@drawable/background_button"
-            android:padding="18dp"
-            android:text="@string/about_the_app"
-            android:textColor="@color/mainTextColor" />
+            style="@style/buttonMainMenu"
+            android:text="@string/about_the_app"/>
 
     </LinearLayout>
 
