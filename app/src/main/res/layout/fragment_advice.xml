@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".advice.AdviceFragment"
-    android:background="@color/color1">
+    android:background="@color/mainBackgroundColor">
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView2"

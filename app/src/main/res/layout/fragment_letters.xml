@@ -1,68 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".settings.LettersFragment"
-    android:background="@color/color1">
-
-    <TextView
-        android:id="@+id/tvTableSize"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/TableSize"
-        android:textColor="@color/mainTextColor"
-        android:textSize="@dimen/headerTextSize" />
+    tools:context=".settings.LettersFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/item_background"
         android:orientation="vertical">
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/tvTableSize"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/textView4"
-                android:text="@string/NumberOfRows"
-                style="@style/TextViewSettings"/>
-
-            <Spinner
-                android:id="@+id/spinnerRowsLetters"
-                style="@style/Spinner"/>
-
-        </LinearLayout>
+            android:layout_height="wrap_content"
+            android:text="@string/TableSize"
+            android:textColor="@color/mainTextColor"
+            android:textSize="@dimen/headerTextSize" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/headlineTime"
-                android:text="@string/NumberOfColumns"
-                style="@style/TextViewSettings"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-            <Spinner
-                android:id="@+id/spinnerColumnsLetters"
-                style="@style/Spinner"/>
+                <TextView
+                    android:id="@+id/textView4"
+                    style="@style/TextViewSettings"
+                    android:text="@string/NumberOfRows" />
+
+                <Spinner
+                    android:id="@+id/spinnerRowsLetters"
+                    style="@style/Spinner"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/headlineTime"
+                    style="@style/TextViewSettings"
+                    android:text="@string/NumberOfColumns" />
+
+                <Spinner
+                    android:id="@+id/spinnerColumnsLetters"
+                    style="@style/Spinner" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/switchRussianOrEnglish"
+            style="@style/basicStyleView"
+            android:backgroundTint="@color/black"
+            android:text="@string/choiceOfLetterLanguage"
+            android:textOff="@string/rus"
+            android:textOn="@string/eng"
+            android:textSize="@dimen/commonTextSize"
+            app:showText="true"
+            app:switchMinWidth="@dimen/switchSize" />
+
     </LinearLayout>
 
-    <com.google.android.material.switchmaterial.SwitchMaterial
-        android:id="@+id/switchRussianOrEnglish"
-        android:backgroundTint="@color/black"
-        android:text="@string/choiceOfLetterLanguage"
-        android:textOff="@string/rus"
-        android:textOn="@string/eng"
-        android:textSize="@dimen/commonTextSize"
-        app:showText="true"
-        app:switchMinWidth="@dimen/switchSize"
-        style="@style/basicStyleView"/>
-
-</LinearLayout>
+</FrameLayout>

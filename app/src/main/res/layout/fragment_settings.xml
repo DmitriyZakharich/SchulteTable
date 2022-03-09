@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".settings.SettingsFragment"
-    android:background="@color/color1">
+    android:background="@color/mainBackgroundColor">
 
 
     <ScrollView
@@ -32,31 +32,50 @@
                 android:layout_height="wrap_content"
                 android:text="@string/settings" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/item_background"
+            android:padding="15dp"
+            android:layout_margin="5dp">
+
             <com.google.android.material.switchmaterial.SwitchMaterial
                 android:id="@+id/switchPressButtons"
-                style="@style/Switch"
-                android:layout_height="wrap_content"
-                android:text="@string/TouchFoundCells" />
+                android:theme="@style/FilterSwitchThemeGreen"                android:layout_height="wrap_content"
+                android:text="@string/TouchFoundCells"
+                style="@style/Switch"/>
 
             <com.google.android.material.switchmaterial.SwitchMaterial
                 android:id="@+id/switchMoveHint"
-                style="@style/Switch"
-                android:layout_height="wrap_content"
+                android:theme="@style/FilterSwitchThemeGreen"                android:layout_height="wrap_content"
                 android:text="@string/moveHint"
                 android:textColor="@color/checkable_switch"
-                app:switchMinWidth="@dimen/switchSize" />
+                style="@style/Switch" />
 
             <com.google.android.material.switchmaterial.SwitchMaterial
                 android:id="@+id/switchAnimation"
-                style="@style/Switch"
-                android:layout_height="wrap_content"
-                android:text="@string/Animation" />
+                android:theme="@style/FilterSwitchThemeGreen"                android:layout_height="wrap_content"
+                android:text="@string/Animation"
+                style="@style/Switch" />
 
             <com.google.android.material.switchmaterial.SwitchMaterial
                 android:id="@+id/switchTwoTables"
                 style="@style/Switch"
+                android:theme="@style/FilterSwitchThemeGreen"
                 android:layout_height="wrap_content"
                 android:text="@string/TwoTables" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/item_background"
+            android:padding="15dp"
+            android:layout_margin="5dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -81,7 +100,7 @@
                 android:id="@+id/viewPager"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
-
+        </LinearLayout>
 
         </LinearLayout>
     </ScrollView>

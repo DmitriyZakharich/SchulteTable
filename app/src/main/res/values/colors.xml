@@ -20,15 +20,19 @@
     <color name="activeTable">#00FF00</color>
     <color name="passiveTable">#000000</color>
     <color name="mainTextColor">#FFFFFF</color>
-    <color name="mainBackgroundColor">#1034A1</color>
+    <color name="old_mainBackgroundColor">#1034A1</color>
     <color name="enableTextColor">#33000000</color>
 
 
-    <color name="color1">#698EFF</color>
+    <color name="mainBackgroundColor">#887FFF</color>
     <color name="color2">#64E8BD</color>
     <color name="color3">#75E0FF</color>
     <color name="color4_old">#7E54E8</color>
     <color name="color4">#5954E8</color>
     <color name="color5">#EB87FF</color>
+
+
+    <color name="color_jackson_purple">#1b2c8b</color>
+    <color name="color_pigment_blue">#2b3891</color>
 
 </resources>
