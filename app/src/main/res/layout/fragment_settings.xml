@@ -42,20 +42,23 @@
 
             <com.google.android.material.switchmaterial.SwitchMaterial
                 android:id="@+id/switchPressButtons"
-                android:theme="@style/FilterSwitchThemeGreen"                android:layout_height="wrap_content"
+                android:theme="@style/FilterSwitchThemeGreen"
+                android:layout_height="wrap_content"
                 android:text="@string/TouchFoundCells"
                 style="@style/Switch"/>
 
             <com.google.android.material.switchmaterial.SwitchMaterial
                 android:id="@+id/switchMoveHint"
-                android:theme="@style/FilterSwitchThemeGreen"                android:layout_height="wrap_content"
+                android:theme="@style/FilterSwitchThemeGreen"
+                android:layout_height="wrap_content"
                 android:text="@string/moveHint"
                 android:textColor="@color/checkable_switch"
                 style="@style/Switch" />
 
             <com.google.android.material.switchmaterial.SwitchMaterial
                 android:id="@+id/switchAnimation"
-                android:theme="@style/FilterSwitchThemeGreen"                android:layout_height="wrap_content"
+                android:theme="@style/FilterSwitchThemeGreen"
+                android:layout_height="wrap_content"
                 android:text="@string/Animation"
                 style="@style/Switch" />
 
@@ -92,7 +95,10 @@
                     android:layout_height="wrap_content"
                     app:tabGravity="fill"
                     app:tabMode="scrollable"
-                    app:tabTextColor="@color/mainTextColor"/>
+                    app:tabTextColor="@color/mainTextColor"
+                    app:tabBackground="@drawable/tablayout_background"
+                    app:tabIndicatorHeight="0dp"
+                    />
 
             </LinearLayout>
 

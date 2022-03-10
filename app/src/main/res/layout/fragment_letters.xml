@@ -60,7 +60,8 @@
 
         <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/switchRussianOrEnglish"
-            style="@style/basicStyleView"
+            style="@style/Switch"
+            android:theme="@style/FilterSwitchThemeGreen"
             android:backgroundTint="@color/black"
             android:text="@string/choiceOfLetterLanguage"
             android:textOff="@string/rus"

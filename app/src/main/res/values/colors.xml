@@ -21,7 +21,8 @@
     <color name="passiveTable">#000000</color>
     <color name="mainTextColor">#FFFFFF</color>
     <color name="old_mainBackgroundColor">#1034A1</color>
-    <color name="enableTextColor">#33000000</color>
+    <color name="enableTextColor">#343F68</color>
+    <color name="transparent">#00FFFFFF</color>
 
 
     <color name="mainBackgroundColor">#887FFF</color>

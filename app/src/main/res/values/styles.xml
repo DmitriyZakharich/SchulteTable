@@ -71,6 +71,7 @@
 
     </style>
 
+
     <style name="Switch">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -79,11 +80,11 @@
         <item name="android:minHeight">@dimen/customMinHeight</item>
         <item name="switchMinWidth">@dimen/switchSize</item>
     </style>
-
-
     <style name="FilterSwitchThemeGreen" parent="AppTheme">
         <item name="colorAccent">@color/color5</item>
+        <item name="colorSwitchThumbNormal">@color/enableTextColor</item>
     </style>
+
 
     <style name="ImageButtonNavigationFragment">
         <item name="android:layout_width">0dp</item>
@@ -104,6 +105,12 @@
     <style name="PopupMenuStyle" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:textColor">@color/mainTextColor</item>
         <item name="android:itemBackground">@color/colorPrimary</item>
+    </style>
+
+    <style name="Base.Widget.Design.TabLayout" parent="android:Widget">
+        <item name="tabBackground">@drawable/item_background</item>
+        <item name="tabIndicatorColor">#000000</item>
+        <item name="tabIndicatorHeight">5dp</item>
     </style>
 
 </resources>
