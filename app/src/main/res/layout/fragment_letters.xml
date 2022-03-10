@@ -12,14 +12,6 @@
         android:background="@drawable/item_background"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tvTableSize"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/TableSize"
-            android:textColor="@color/mainTextColor"
-            android:textSize="@dimen/headerTextSize" />
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
