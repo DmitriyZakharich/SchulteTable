@@ -21,16 +21,21 @@
     <color name="passiveTable">#000000</color>
     <color name="mainTextColor">#FFFFFF</color>
     <color name="old_mainBackgroundColor">#1034A1</color>
-    <color name="enableTextColor">#343F68</color>
     <color name="transparent">#00FFFFFF</color>
 
 
-    <color name="mainBackgroundColor">#887FFF</color>
+    <color name="main_background_color">#887FFF</color>
+    <color name="main_item_color">#5954E8</color>
+    <color name="bottom_menu">#7611D4</color>
     <color name="color2">#64E8BD</color>
     <color name="color3">#75E0FF</color>
     <color name="color4_old">#7E54E8</color>
-    <color name="color4">#5954E8</color>
-    <color name="color5">#EB87FF</color>
+    <color name="enable">#EB87FF</color>
+    <color name="disabled">#343F68</color>
+
+    //Запасной варианты для меню навигации
+    <color name="bottom_menu_version_1">#9248E6</color>
+    <color name="bottom_menu_version_2">#8212EB</color>
 
 
     <color name="color_jackson_purple">#1b2c8b</color>

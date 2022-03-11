@@ -7,7 +7,7 @@
     </corners>
 
     <solid android:angle="270"
-        android:color="@color/color4"/>
+        android:color="@color/main_item_color"/>
     <padding
         android:bottom="18dp"
         android:top="18dp"

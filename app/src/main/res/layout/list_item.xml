@@ -19,7 +19,7 @@
         android:layout_weight="1"
         android:gravity="center"
         android:text=""
-        android:background="@color/color4"
+        android:background="@color/main_item_color"
         android:textColor="@color/black"
         android:textSize="25sp" />
 
@@ -30,7 +30,7 @@
         android:layout_weight="1"
         android:gravity="center"
         android:text=""
-        android:background="@color/color4"
+        android:background="@color/main_item_color"
         android:textColor="@color/black"
         android:textSize="25sp" />
 
@@ -41,7 +41,7 @@
         android:layout_weight="1"
         android:gravity="center"
         android:text=""
-        android:background="@color/color4"
+        android:background="@color/main_item_color"
         android:textColor="@color/black"
         android:textSize="25sp" />
 </LinearLayout>

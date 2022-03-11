@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".about_app.AboutAppFragment"
-    android:background="@color/mainBackgroundColor">
+    android:background="@color/main_background_color">
 
     <ImageView
         android:scaleType="centerCrop"

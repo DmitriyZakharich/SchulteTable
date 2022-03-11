@@ -19,7 +19,6 @@ import ru.schultetabledima.schultetable.table.presenter.TablePresenter;
 public class EndGameDialogueFragment extends DialogFragment {
 
     private TablePresenter tablePresenter;
-
     private Dialog dialog;
 
     private PassMeLinkOnObject view;

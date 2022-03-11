@@ -81,8 +81,8 @@
         <item name="switchMinWidth">@dimen/switchSize</item>
     </style>
     <style name="FilterSwitchThemeGreen" parent="AppTheme">
-        <item name="colorAccent">@color/color5</item>
-        <item name="colorSwitchThumbNormal">@color/enableTextColor</item>
+        <item name="colorAccent">@color/enable</item>
+        <item name="colorSwitchThumbNormal">@color/disabled</item>
     </style>
 
 
@@ -97,14 +97,14 @@
     </style>
 
     <style name="AlertDialogCustom" parent="Theme.AppCompat.Light.Dialog.Alert">
-        <item name="android:background">@color/mainBackgroundColor</item>
+        <item name="android:background">@color/main_item_color</item>
         <item name="android:textColorPrimary">@color/mainTextColor</item>
         <item name="android:colorAccent">#FFFFFF</item>
     </style>
 
     <style name="PopupMenuStyle" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:textColor">@color/mainTextColor</item>
-        <item name="android:itemBackground">@color/colorPrimary</item>
+        <item name="android:itemBackground">@color/bottom_menu</item>
     </style>
 
     <style name="Base.Widget.Design.TabLayout" parent="android:Widget">

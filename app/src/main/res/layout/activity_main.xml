@@ -25,7 +25,7 @@
         app:menu="@menu/menu_bottom"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/mainContainerView"
-        android:background="@color/color4"
+        android:background="@color/bottom_menu"
         app:labelVisibilityMode="labeled"
         app:itemIconTint="@drawable/bottom_nav_icon_color_selector"
         app:itemTextColor="@drawable/bottom_nav_icon_color_selector"/>
