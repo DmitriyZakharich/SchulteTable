@@ -30,35 +30,42 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 style="@style/basicStyleView"
-                android:text="Таблица Шульте - это таблица со случайно расположенными в ней буквами или числами. Применяется для улучшения концентрации внимания, а так же для развития периферического зрения."
+                android:id="@+id/tv_definition"
+                android:text=""
                 android:padding="20dp"
                 android:background="@drawable/item_background"
-                android:layout_margin="10dp"/>
+                android:layout_margin="5dp"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="20dp"
-            android:layout_margin="10dp"
-            android:background="@drawable/item_background">
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tvAdvice1"
-                style="@style/basicStyleView"/>
-
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
-                android:background="@color/red"
-                android:scaleType="fitXY"
-                app:srcCompat="@drawable/correct_execution"
-                tools:ignore="ContentDescription"
-                />
+                android:orientation="vertical"
+                android:padding="20dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/item_background">
 
-        </LinearLayout>
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_rules"
+                    android:text="@string/an_rules"
+                    android:textSize="23sp"
+                    style="@style/basicStyleView"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvAdvice1"
+                    style="@style/basicStyleView"/>
+
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:background="@color/red"
+                    android:scaleType="fitXY"
+                    app:srcCompat="@drawable/correct_execution"
+                    tools:ignore="ContentDescription"
+                    />
+
+            </LinearLayout>
 
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -66,14 +73,63 @@
                 style="@style/basicStyleView"
                 android:padding="20dp"
                 android:background="@drawable/item_background"
-                android:layout_margin="10dp"/>
+                android:layout_margin="5dp"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvAdvice3"
+                style="@style/basicStyleView"
+                android:padding="20dp"
+                android:background="@drawable/item_background"
+                android:layout_margin="5dp"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvAdvice4"
+                style="@style/basicStyleView"
+                android:padding="20dp"
+                android:background="@drawable/item_background"
+                android:layout_margin="5dp"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvAdvice5"
+                style="@style/basicStyleView"
+                android:padding="20dp"
+                android:background="@drawable/item_background"
+                android:layout_margin="5dp"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvAdvice6"
+                style="@style/basicStyleView"
+                android:padding="20dp"
+                android:background="@drawable/item_background"
+                android:layout_margin="5dp"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvAdvice7"
+                style="@style/basicStyleView"
+                android:padding="20dp"
+                android:background="@drawable/item_background"
+                android:layout_margin="5dp"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvAdvice8"
+                style="@style/basicStyleView"
+                android:padding="20dp"
+                android:background="@drawable/item_background"
+                android:layout_margin="5dp"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvAdvice9"
+                style="@style/basicStyleView"
+                android:padding="20dp"
+                android:background="@drawable/item_background"
+                android:layout_margin="5dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="20dp"
-            android:layout_margin="10dp"
+            android:layout_margin="5dp"
             android:background="@drawable/item_background">
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -84,7 +140,7 @@
                 android:text="@string/an_important_point" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tvAdvice3"
+                android:id="@+id/tv_important_point"
                 style="@style/basicStyleView" />
 
         </LinearLayout>

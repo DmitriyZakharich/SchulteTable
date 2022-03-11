@@ -55,5 +55,6 @@
     <string name="icons_by">Иконки с сайта <u>icons8.com</u></string>
     <string name="phone_frame_with_screenshots">Скриншоты в Гугл плей с помощью deavvi с сайта <u>pixabay.com</u></string>
     <string name="internalError">Внутренная ошибка. Пожалуйста, перезагрузите приложение.</string>
+    <string name="an_rules"><b><u>Основные правила при работе с таблицей:</u></b></string>
 
 </resources>
