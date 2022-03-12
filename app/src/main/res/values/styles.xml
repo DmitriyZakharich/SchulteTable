@@ -36,7 +36,8 @@
         <item name="android:textColor">@color/mainTextColor</item>
         <item name="android:textAlignment">textEnd</item>
         <item name="android:minHeight">@dimen/customMinHeight</item>
-        <item name="android:backgroundTint">@color/white</item>
+        <item name="android:backgroundTint">@color/mainTextColor</item>
+        <item name="android:popupBackground">@color/main_background_color</item>
     </style>
 
     <style name="TextViewSettings">
@@ -63,7 +64,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">@dimen/headlineTextSize</item>
-        <item name="android:textColor">#f9fafc</item>
+        <item name="android:textColor">@color/mainTextColor</item>
         <item name="android:gravity">center</item>
         <item name="android:minHeight">100dp</item>
         <item name="android:background">@drawable/item_background</item>
@@ -97,7 +98,7 @@
     </style>
 
     <style name="AlertDialogCustom" parent="Theme.AppCompat.Light.Dialog.Alert">
-        <item name="android:background">@color/main_item_color</item>
+        <item name="android:background">@color/main_item_background_color</item>
         <item name="android:textColorPrimary">@color/mainTextColor</item>
         <item name="android:colorAccent">#FFFFFF</item>
     </style>

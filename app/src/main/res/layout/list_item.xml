@@ -6,12 +6,8 @@
     android:divider="@drawable/statistic_separator"
     android:orientation="horizontal"
     android:showDividers="middle|beginning|end"
-    android:background="@color/black"
-    >
-<!--  android:paddingBottom="1dp"
-      android:paddingTop="1dp"     -->
+    android:background="@color/white">
 
-<!--    android:background="@color/white"-->
     <TextView
         android:id="@+id/textViewDate"
         android:layout_width="0dp"
@@ -19,8 +15,8 @@
         android:layout_weight="1"
         android:gravity="center"
         android:text=""
-        android:background="@color/main_item_color"
-        android:textColor="@color/black"
+        android:background="@color/main_item_background_color"
+        android:textColor="@color/mainTextColor"
         android:textSize="25sp" />
 
     <TextView
@@ -30,8 +26,8 @@
         android:layout_weight="1"
         android:gravity="center"
         android:text=""
-        android:background="@color/main_item_color"
-        android:textColor="@color/black"
+        android:background="@color/main_item_background_color"
+        android:textColor="@color/mainTextColor"
         android:textSize="25sp" />
 
     <TextView
@@ -41,7 +37,7 @@
         android:layout_weight="1"
         android:gravity="center"
         android:text=""
-        android:background="@color/main_item_color"
-        android:textColor="@color/black"
+        android:background="@color/main_item_background_color"
+        android:textColor="@color/mainTextColor"
         android:textSize="25sp" />
 </LinearLayout>

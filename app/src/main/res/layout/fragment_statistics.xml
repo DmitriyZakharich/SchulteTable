@@ -9,17 +9,12 @@
     android:orientation="vertical"
     tools:context=".statistic.StatisticFragment">
 
-<!--    android:showDividers="middle|beginning|end"-->
-<!--    android:divider="@drawable/statistic_separator"-->
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView4"
         android:name="ru.schultetabledima.schultetable.AdBannerFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-
-    <!--        android:divider="@drawable/statistic_separator"-->
-    <!--        android:showDividers="middle"-->
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -32,11 +27,6 @@
             <TextView
                 style="@style/TextViewHeadline"
                 android:text="@string/statistics" />
-
-    <!--        android:divider="@drawable/statistic_separator"-->
-<!--        android:showDividers="middle"-->
-
-
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -58,7 +48,7 @@
 
                 <Spinner
                     android:id="@+id/spinnerQuantityTables"
-                    style="@style/Spinner" />
+                    style="@style/Spinner"/>
 
             </LinearLayout>
 
@@ -74,7 +64,7 @@
 
                 <Spinner
                     android:id="@+id/spinnerValueType"
-                    style="@style/Spinner" />
+                    style="@style/Spinner"/>
 
             </LinearLayout>
 
@@ -121,7 +111,7 @@
                     android:layout_weight="1"
                     android:text="@string/headline_data"
                     android:textAlignment="center"
-                    android:textColor="@color/black"
+                    android:textColor="@color/mainTextColor"
                     android:textSize="@dimen/textSizeColumnStatistic" />
 
                 <TextView
@@ -131,7 +121,7 @@
                     android:layout_weight="1"
                     android:text="@string/headline_size"
                     android:textAlignment="center"
-                    android:textColor="@color/black"
+                    android:textColor="@color/mainTextColor"
                     android:textSize="@dimen/textSizeColumnStatistic" />
 
                 <TextView
@@ -141,7 +131,7 @@
                     android:layout_weight="1"
                     android:text="@string/headline_time"
                     android:textAlignment="center"
-                    android:textColor="@color/black"
+                    android:textColor="@color/mainTextColor"
                     android:textSize="@dimen/textSizeColumnStatistic" />
 
             </LinearLayout>

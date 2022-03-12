@@ -4,7 +4,6 @@ import android.util.Log
 import moxy.InjectViewState
 import moxy.MvpPresenter
 import ru.schultetabledima.schultetable.contracts.AdviceContract
-import ru.schultetabledima.schultetable.advice.AdviceModel
 import ru.schultetabledima.schultetable.R
 import java.util.*
 
@@ -17,12 +16,12 @@ class AdvicePresenter : MvpPresenter<AdviceContract.View?>(), AdviceContract.Pre
     private var listAdvice: List<String>? = null
 
     init {
-        init()
+        initialization()
         getAdvice()
         pushAdviceToView()
     }
 
-    private fun init() {
+    private fun initialization() {
         adviceModel = AdviceModel()
         adviceResource = if (Locale.getDefault().language == "ru") R.raw.advice1_ru else R.raw.advice1_en
     }
