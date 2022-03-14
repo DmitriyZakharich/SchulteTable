@@ -56,5 +56,6 @@
     <string name="phone_frame_with_screenshots">Скриншоты в Гугл плей с помощью deavvi с сайта <u>pixabay.com</u></string>
     <string name="internalError">Внутренная ошибка. Пожалуйста, перезагрузите приложение.</string>
     <string name="an_rules"><b><u>Основные правила при работе с таблицей:</u></b></string>
+    <string name="background_by">Фон разработан 588ku с сайта Pngtree.com</string>
 
 </resources>
