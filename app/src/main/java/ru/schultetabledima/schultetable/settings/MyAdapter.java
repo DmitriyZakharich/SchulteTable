@@ -1,4 +1,4 @@
-package ru.schultetabledima.schultetable.statistic;
+package ru.schultetabledima.schultetable.settings;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;

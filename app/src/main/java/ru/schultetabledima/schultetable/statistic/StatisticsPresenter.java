@@ -170,6 +170,8 @@ public class StatisticsPresenter extends MvpPresenter<StatisticsContract.View> i
             quantityTables = position + 1;
 
             ed.putInt(KEY_QUANTITY_TABLES, position);
+            getViewState().setSelectionQuantityTables(position);
+
 
         } else if (parentId == R.id.spinnerValueType) {
             switch (position) {
@@ -187,14 +189,17 @@ public class StatisticsPresenter extends MvpPresenter<StatisticsContract.View> i
                     break;
             }
             ed.putInt(KEY_VALUE_TYPE, position);
+            getViewState().setSelectionSpinnerValueType(position);
 
         }
         if (parentId == R.id.spinnerPlayedSizes) {
             playedSizes = itemText;
             ed.putInt(KEY_PLAYED_SIZES, position);
+            getViewState().setSelectionPlayedSizes(position);
         }
 
         ed.apply();
+
 
         loadResultsFromDB();
     }
