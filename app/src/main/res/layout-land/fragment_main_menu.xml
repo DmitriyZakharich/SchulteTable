@@ -12,8 +12,8 @@
         android:scaleType="centerCrop"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:src="@drawable/main_menu_background" />
-
+        android:id="@+id/background_image_view"/>
+<!--    android:src="@drawable/main_menu_background"-->
     <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="wrap_content"
