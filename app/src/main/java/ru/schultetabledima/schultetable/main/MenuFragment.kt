@@ -29,9 +29,6 @@ class MenuFragment : Fragment(R.layout.fragment_main_menu), View.OnClickListener
         binding.statisticsButton.setOnClickListener(this)
         binding.settingsButton.setOnClickListener(this)
         binding.aboutAppButton.setOnClickListener(this)
-
-//        binding.backgroundImageView.setImageDrawable(
-//            ContextCompat.getDrawable(requireContext(), R.drawable.main_menu_background))
     }
 
     override fun onClick(v: View?) {
