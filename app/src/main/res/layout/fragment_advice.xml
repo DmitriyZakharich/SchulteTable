@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".advice.AdviceFragment"
-    android:background="@color/mainBackgroundColor">
+    android:background="@color/main_background_color">
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView2"
@@ -29,38 +29,122 @@
                 style="@style/TextViewHeadline" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tvAdvice1"
                 style="@style/basicStyleView"
-                android:padding="10dp"/>
+                android:id="@+id/tv_definition"
+                android:text=""
+                android:padding="20dp"
+                android:background="@drawable/item_background"
+                android:layout_margin="5dp"/>
 
-
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
-                android:background="@color/red"
-                android:scaleType="fitXY"
-                app:srcCompat="@drawable/correct_execution"
-                tools:ignore="ContentDescription" />
+                android:orientation="vertical"
+                android:padding="20dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/item_background">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_rules"
+                    android:text="@string/an_rules"
+                    android:textSize="23sp"
+                    style="@style/basicStyleView"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvAdvice1"
+                    style="@style/basicStyleView"/>
+
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:background="@color/red"
+                    android:scaleType="fitXY"
+                    app:srcCompat="@drawable/correct_execution"
+                    tools:ignore="ContentDescription"
+                    />
+
+            </LinearLayout>
+
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvAdvice2"
                 style="@style/basicStyleView"
-                android:padding="10dp"/>
+                android:padding="20dp"
+                android:background="@drawable/item_background"
+                android:layout_margin="5dp"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvAdvice3"
+                style="@style/basicStyleView"
+                android:padding="20dp"
+                android:background="@drawable/item_background"
+                android:layout_margin="5dp"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvAdvice4"
+                style="@style/basicStyleView"
+                android:padding="20dp"
+                android:background="@drawable/item_background"
+                android:layout_margin="5dp"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvAdvice5"
+                style="@style/basicStyleView"
+                android:padding="20dp"
+                android:background="@drawable/item_background"
+                android:layout_margin="5dp"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvAdvice6"
+                style="@style/basicStyleView"
+                android:padding="20dp"
+                android:background="@drawable/item_background"
+                android:layout_margin="5dp"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvAdvice7"
+                style="@style/basicStyleView"
+                android:padding="20dp"
+                android:background="@drawable/item_background"
+                android:layout_margin="5dp"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvAdvice8"
+                style="@style/basicStyleView"
+                android:padding="20dp"
+                android:background="@drawable/item_background"
+                android:layout_margin="5dp"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvAdvice9"
+                style="@style/basicStyleView"
+                android:padding="20dp"
+                android:background="@drawable/item_background"
+                android:layout_margin="5dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/item_background">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
                 android:textSize="23sp"
-                android:text="@string/an_important_point"
-                android:padding="10dp"/>
+                android:text="@string/an_important_point" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tvAdvice3"
-                style="@style/basicStyleView"
-                android:padding="10dp"/>
+                android:id="@+id/tv_important_point"
+                style="@style/basicStyleView" />
+
+        </LinearLayout>
+
 
         </LinearLayout>
     </ScrollView>

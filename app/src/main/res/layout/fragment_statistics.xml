@@ -5,11 +5,10 @@
     android:id="@+id/linearLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/main_background_color"
     android:orientation="vertical"
-    android:showDividers="middle|beginning|end"
-    android:divider="@drawable/statistic_separator"
     tools:context=".statistic.StatisticFragment">
+
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView4"
@@ -22,24 +21,24 @@
         android:layout_height="0dp"
         android:orientation="vertical"
         android:divider="@drawable/statistic_separator"
-        android:showDividers="middle"
+        android:showDividers="end"
         android:layout_weight="1">
 
-        <TextView
-            style="@style/TextViewHeadline"
-            android:text="@string/statistics" />
+            <TextView
+                style="@style/TextViewHeadline"
+                android:text="@string/statistics" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/mainBackgroundColor"
-            android:divider="@drawable/statistic_separator"
             android:orientation="vertical"
-            android:showDividers="middle">
+            android:background="@drawable/item_background"
+            android:layout_margin="5dp"
+            android:padding="10dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <TextView
@@ -49,13 +48,13 @@
 
                 <Spinner
                     android:id="@+id/spinnerQuantityTables"
-                    style="@style/Spinner" />
+                    style="@style/Spinner"/>
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <TextView
@@ -65,7 +64,7 @@
 
                 <Spinner
                     android:id="@+id/spinnerValueType"
-                    style="@style/Spinner" />
+                    style="@style/Spinner"/>
 
             </LinearLayout>
 
@@ -90,58 +89,66 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/black"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@drawable/item_background"
+            android:padding="15dp"
+            android:layout_margin="5dp"
             android:divider="@drawable/statistic_separator"
-            android:orientation="horizontal"
-            android:showDividers="middle">
+            android:showDividers="middle|beginning|end">
 
-            <TextView
-                android:id="@+id/headlineData"
-                android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@color/white"
-                android:text="@string/headline_data"
-                android:textAlignment="center"
-                android:textColor="@color/black"
-                android:textSize="@dimen/textSizeColumnStatistic" />
+                android:orientation="horizontal"
+                android:divider="@drawable/statistic_separator"
+                android:showDividers="middle|beginning|end">
 
-            <TextView
-                android:id="@+id/headlineSize"
-                android:layout_width="0dp"
+                <TextView
+                    android:id="@+id/headlineData"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/headline_data"
+                    android:textAlignment="center"
+                    android:textColor="@color/mainTextColor"
+                    android:textSize="@dimen/textSizeColumnStatistic" />
+
+                <TextView
+                    android:id="@+id/headlineSize"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/headline_size"
+                    android:textAlignment="center"
+                    android:textColor="@color/mainTextColor"
+                    android:textSize="@dimen/textSizeColumnStatistic" />
+
+                <TextView
+                    android:id="@+id/headlineTime"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/headline_time"
+                    android:textAlignment="center"
+                    android:textColor="@color/mainTextColor"
+                    android:textSize="@dimen/textSizeColumnStatistic" />
+
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerview"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@color/white"
-                android:text="@string/headline_size"
-                android:textAlignment="center"
-                android:textColor="@color/black"
-                android:textSize="@dimen/textSizeColumnStatistic" />
-
-            <TextView
-                android:id="@+id/headlineTime"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@color/white"
-                android:text="@string/headline_time"
-                android:textAlignment="center"
-                android:textColor="@color/black"
-                android:textSize="@dimen/textSizeColumnStatistic" />
-
+                android:nestedScrollingEnabled="false"
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
         </LinearLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:nestedScrollingEnabled="false"
-            android:orientation="vertical"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
     </LinearLayout>
 </LinearLayout>
 

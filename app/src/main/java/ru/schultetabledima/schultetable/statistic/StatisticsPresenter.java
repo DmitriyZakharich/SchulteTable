@@ -77,10 +77,10 @@ public class StatisticsPresenter extends MvpPresenter<StatisticsContract.View> i
 
         ArrayAdapter<String> adapterQuantityTables = new ArrayAdapter(context, R.layout.custom_spinner_style,
                 valueSpinnerQuantityTables);
-        adapterQuantityTables.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapterQuantityTables.setDropDownViewResource(R.layout.spin_item);
 
         ArrayAdapter<String> adapterValueType = new ArrayAdapter(context, R.layout.custom_spinner_style, valueSpinnerValueType);
-        adapterValueType.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapterValueType.setDropDownViewResource(R.layout.spin_item);
 
         getViewState().setQuantityTablesAdapter(adapterQuantityTables);
         getViewState().setValueTypeAdapter(adapterValueType);
@@ -116,7 +116,7 @@ public class StatisticsPresenter extends MvpPresenter<StatisticsContract.View> i
         tableSize.add(0, context.getString(R.string.allSize));
 
         ArrayAdapter<String> adapterPlayedSizes = new ArrayAdapter<>(context, R.layout.custom_spinner_style, tableSize);
-        adapterPlayedSizes.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapterPlayedSizes.setDropDownViewResource(R.layout.spin_item);
 
         getViewState().setPlayedSizesAdapter(adapterPlayedSizes);
 
@@ -172,6 +172,8 @@ public class StatisticsPresenter extends MvpPresenter<StatisticsContract.View> i
             quantityTables = position + 1;
 
             ed.putInt(KEY_QUANTITY_TABLES, position);
+            getViewState().setSelectionQuantityTables(position);
+
 
         } else if (parentId == R.id.spinnerValueType) {
             switch (position) {
@@ -189,14 +191,17 @@ public class StatisticsPresenter extends MvpPresenter<StatisticsContract.View> i
                     break;
             }
             ed.putInt(KEY_VALUE_TYPE, position);
+            getViewState().setSelectionSpinnerValueType(position);
 
         }
         if (parentId == R.id.spinnerPlayedSizes) {
             playedSizes = itemText;
             ed.putInt(KEY_PLAYED_SIZES, position);
+            getViewState().setSelectionPlayedSizes(position);
         }
 
         ed.apply();
+
 
         loadResultsFromDB();
     }

@@ -1,12 +1,14 @@
 package ru.schultetabledima.schultetable.about_app
 
+import android.os.Bundle
 import android.view.View
+import android.widget.ImageView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import ru.schultetabledima.schultetable.R
 import ru.schultetabledima.schultetable.main.MainActivity
 
 class AboutAppFragment : Fragment(R.layout.fragment_about_app) {
-
     companion object {
         @JvmStatic
         fun newInstance(): AboutAppFragment {

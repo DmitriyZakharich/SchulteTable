@@ -206,9 +206,13 @@ public class TableFragment extends BaseScreenFragment implements TableContract.V
     public void showToast(int errorMessage, int lengthToast) {
         Toast toast = Toast.makeText(getActivity(), errorMessage, lengthToast);
         toast.show();
+<<<<<<< HEAD
 
         if (errorMessage == R.string.wrongTable)
             new Handler().postDelayed(toast::cancel, 500);
+=======
+        new Handler().postDelayed(toast::cancel, 500);
+>>>>>>> devdesign
     }
 
 

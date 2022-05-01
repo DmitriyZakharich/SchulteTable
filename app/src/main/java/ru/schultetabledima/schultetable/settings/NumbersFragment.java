@@ -40,7 +40,7 @@ public class NumbersFragment extends BaseValueFragment implements AdapterView.On
         final String[] valueSpinner = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.custom_spinner_style, valueSpinner);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapter.setDropDownViewResource(R.layout.spin_item);
 
         spinnerRows.setAdapter(adapter);
         spinnerColumns.setAdapter(adapter);

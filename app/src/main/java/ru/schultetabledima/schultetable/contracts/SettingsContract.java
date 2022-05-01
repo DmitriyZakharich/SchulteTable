@@ -1,7 +1,7 @@
 package ru.schultetabledima.schultetable.contracts;
 
 import moxy.MvpView;
-import ru.schultetabledima.schultetable.statistic.MyAdapter;
+import ru.schultetabledima.schultetable.settings.MyAdapter;
 
 public interface SettingsContract {
 

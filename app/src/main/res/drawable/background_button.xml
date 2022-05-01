@@ -7,12 +7,10 @@
     </corners>
 
     <solid android:angle="270"
-        android:color="@color/colorButton"/>
-
-<!--    <gradient-->
-<!--        android:startColor="#6060FF"-->
-<!--        android:centerColor="#4A4AFD"-->
-<!--        android:endColor="#0D0DFB"-->
-<!--        android:angle="90" />-->
-
+        android:color="@color/main_item_background_color"/>
+    <padding
+        android:bottom="18dp"
+        android:top="18dp"
+        android:right="65dp"
+        android:left="65dp"/>
 </shape>

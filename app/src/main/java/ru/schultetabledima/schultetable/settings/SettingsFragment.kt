@@ -13,7 +13,6 @@ import ru.schultetabledima.schultetable.R
 import ru.schultetabledima.schultetable.common.BaseScreenFragment
 import ru.schultetabledima.schultetable.contracts.SettingsContract
 import ru.schultetabledima.schultetable.main.MainActivity
-import ru.schultetabledima.schultetable.statistic.MyAdapter
 
 class SettingsFragment : BaseScreenFragment(R.layout.fragment_settings), SettingsContract.View, View.OnClickListener {
 
@@ -77,7 +76,8 @@ class SettingsFragment : BaseScreenFragment(R.layout.fragment_settings), Setting
         val indexOfNumbers = fragments.indexOf(numbersFragment)
         val indexOfLetters = fragments.indexOf(lettersFragment)
 
-        val pageAdapter = MyAdapter(requireActivity())
+        val pageAdapter =
+            MyAdapter(requireActivity())
 
         pageAdapter.setListFragments(fragments)
         viewPager?.adapter = pageAdapter

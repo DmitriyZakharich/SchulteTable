@@ -27,9 +27,18 @@ class AdviceFragment : BaseScreenFragment(R.layout.fragment_advice), AdviceContr
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        textViewList.add(view.findViewById(R.id.tv_definition))
         textViewList.add(view.findViewById(R.id.tvAdvice1))
         textViewList.add(view.findViewById(R.id.tvAdvice2))
         textViewList.add(view.findViewById(R.id.tvAdvice3))
+        textViewList.add(view.findViewById(R.id.tvAdvice4))
+        textViewList.add(view.findViewById(R.id.tvAdvice5))
+        textViewList.add(view.findViewById(R.id.tvAdvice6))
+        textViewList.add(view.findViewById(R.id.tvAdvice7))
+        textViewList.add(view.findViewById(R.id.tvAdvice8))
+        textViewList.add(view.findViewById(R.id.tvAdvice9))
+        textViewList.add(view.findViewById(R.id.tv_important_point))
     }
 
     override fun onResume() {
@@ -39,7 +48,7 @@ class AdviceFragment : BaseScreenFragment(R.layout.fragment_advice), AdviceContr
 
     @Override
     override fun showAdvice(index: Int, advice: String?) {
-        textViewList[index]?.text = advice
+        textViewList[index]?.text = textViewList[index]?.text.toString().plus(advice)
     }
 
     override fun onDestroyView() {

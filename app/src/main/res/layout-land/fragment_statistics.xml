@@ -5,10 +5,8 @@
     android:id="@+id/linearLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/main_background_color"
     android:orientation="vertical"
-    android:showDividers="middle|beginning|end"
-    android:divider="@drawable/statistic_separator"
     tools:context=".statistic.StatisticFragment">
 
     <androidx.core.widget.NestedScrollView
@@ -24,15 +22,15 @@
 
             <TextView
                 style="@style/TextViewHeadline"
-                android:text="@string/headline_results" />
+                android:text="@string/statistics" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/mainBackgroundColor"
-                android:divider="@drawable/statistic_separator"
                 android:orientation="vertical"
-                android:showDividers="middle">
+                android:background="@drawable/item_background"
+                android:layout_margin="5dp"
+                android:padding="10dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -57,8 +55,8 @@
 
                     <TextView
                         android:id="@+id/textView3"
-                        style="@style/TextViewStatistic"
-                        android:text="@string/dataType" />
+                        android:text="@string/dataType"
+                        style="@style/TextViewStatistic"/>
 
                     <Spinner
                         android:id="@+id/spinnerValueType"
@@ -84,24 +82,31 @@
 
 
             </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/item_background"
+            android:padding="15dp"
+            android:layout_margin="5dp"
+            android:divider="@drawable/statistic_separator"
+            android:showDividers="middle|beginning|end">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/black"
-                android:divider="@drawable/statistic_separator"
+                android:layout_height="match_parent"
                 android:orientation="horizontal"
-                android:showDividers="middle">
+                android:divider="@drawable/statistic_separator"
+                android:showDividers="middle|beginning|end">
 
                 <TextView
                     android:id="@+id/headlineData"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:background="@color/white"
                     android:text="@string/headline_data"
                     android:textAlignment="center"
-                    android:textColor="@color/black"
+                    android:textColor="@color/mainTextColor"
                     android:textSize="@dimen/textSizeColumnStatistic" />
 
                 <TextView
@@ -109,10 +114,9 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:background="@color/white"
                     android:text="@string/headline_size"
                     android:textAlignment="center"
-                    android:textColor="@color/black"
+                    android:textColor="@color/mainTextColor"
                     android:textSize="@dimen/textSizeColumnStatistic" />
 
                 <TextView
@@ -120,13 +124,13 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:background="@color/white"
                     android:text="@string/headline_time"
                     android:textAlignment="center"
-                    android:textColor="@color/black"
+                    android:textColor="@color/mainTextColor"
                     android:textSize="@dimen/textSizeColumnStatistic" />
 
             </LinearLayout>
+
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerview"
@@ -139,6 +143,9 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            </LinearLayout>
+
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </LinearLayout>

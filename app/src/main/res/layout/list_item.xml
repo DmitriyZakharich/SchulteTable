@@ -2,22 +2,21 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/black"
+    android:paddingTop="1dp"
     android:divider="@drawable/statistic_separator"
     android:orientation="horizontal"
     android:showDividers="middle|beginning|end"
-    android:paddingBottom="1dp"
-    android:paddingTop="1dp">
+    android:background="@color/white">
 
     <TextView
         android:id="@+id/textViewDate"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:background="@color/white"
         android:gravity="center"
         android:text=""
-        android:textColor="@color/black"
+        android:background="@color/main_item_background_color"
+        android:textColor="@color/mainTextColor"
         android:textSize="25sp" />
 
     <TextView
@@ -25,10 +24,10 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:background="@color/white"
         android:gravity="center"
         android:text=""
-        android:textColor="@color/black"
+        android:background="@color/main_item_background_color"
+        android:textColor="@color/mainTextColor"
         android:textSize="25sp" />
 
     <TextView
@@ -36,9 +35,9 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:background="@color/white"
         android:gravity="center"
         android:text=""
-        android:textColor="@color/black"
+        android:background="@color/main_item_background_color"
+        android:textColor="@color/mainTextColor"
         android:textSize="25sp" />
 </LinearLayout>
