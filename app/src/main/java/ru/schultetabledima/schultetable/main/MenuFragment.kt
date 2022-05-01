@@ -1,6 +1,5 @@
 package ru.schultetabledima.schultetable.main
 
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -18,11 +17,8 @@ class MenuFragment : Fragment(R.layout.fragment_main_menu), View.OnClickListener
     private lateinit var binding: FragmentMainMenuBinding
     private var mAdView: AdView? = null
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?): View {
         binding = FragmentMainMenuBinding.inflate(inflater, container, false);
         return binding.root
     }
@@ -35,52 +31,27 @@ class MenuFragment : Fragment(R.layout.fragment_main_menu), View.OnClickListener
         binding.settingsButton.setOnClickListener(this)
         binding.aboutAppButton.setOnClickListener(this)
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-            binding.backgroundImageView.setImageDrawable(
-                ContextCompat.getDrawable(
-                    requireContext(),
-                    R.drawable.main_menu_background
-                )
-            )
+//        binding.backgroundImageView.setImageDrawable(
+//            ContextCompat.getDrawable(requireContext(), R.drawable.main_menu_background))
     }
 
     override fun onClick(v: View?) {
         when (v?.id) {
 
-            R.id.tableButton ->
-                findNavController().navigate(
-                    R.id.action_menuFragment_to_tableFragment,
-                    null,
-                    enterFromRightExitToLeft()
-                )
+            R.id.tableButton -> findNavController().navigate(
+                R.id.action_menuFragment_to_tableFragment, null, enterFromRightExitToLeft())
 
-            R.id.adviceButton ->
-                findNavController().navigate(
-                    R.id.action_menuFragment_to_adviceFragment,
-                    null,
-                    enterFromRightExitToLeft()
-                )
+            R.id.adviceButton -> findNavController().navigate(
+                R.id.action_menuFragment_to_adviceFragment, null, enterFromRightExitToLeft())
 
-            R.id.statisticsButton ->
-                findNavController().navigate(
-                    R.id.action_menuFragment_to_statisticFragment,
-                    null,
-                    enterFromRightExitToLeft()
-                )
+            R.id.statisticsButton -> findNavController().navigate(
+                R.id.action_menuFragment_to_statisticFragment, null, enterFromRightExitToLeft())
 
-            R.id.settingsButton ->
-                findNavController().navigate(
-                    R.id.action_menuFragment_to_settingsFragment,
-                    null,
-                    enterFromRightExitToLeft()
-                )
+            R.id.settingsButton -> findNavController().navigate(
+                R.id.action_menuFragment_to_settingsFragment, null, enterFromRightExitToLeft())
 
-            R.id.aboutAppButton ->
-                findNavController().navigate(
-                    R.id.action_menuFragment_to_aboutAppFragment,
-                    null,
-                    enterFromRightExitToLeft()
-                )
+            R.id.aboutAppButton -> findNavController().navigate(
+                R.id.action_menuFragment_to_aboutAppFragment, null, enterFromRightExitToLeft())
         }
     }
 

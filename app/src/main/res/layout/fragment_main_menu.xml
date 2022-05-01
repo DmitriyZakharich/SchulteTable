@@ -13,7 +13,7 @@
         android:layout_height="match_parent"
         android:layout_width="match_parent"
         android:id="@+id/background_image_view"
-         />
+        android:src="@drawable/main_menu_background"/>
 
     <LinearLayout
         android:id="@+id/linearLayout2"
