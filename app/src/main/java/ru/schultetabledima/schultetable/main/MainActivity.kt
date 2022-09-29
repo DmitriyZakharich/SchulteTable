@@ -3,6 +3,7 @@ package ru.schultetabledima.schultetable.main
 import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.WindowInsets
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
@@ -11,6 +12,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.yandex.mobile.ads.common.MobileAds
 import ru.schultetabledima.schultetable.R
 import ru.schultetabledima.schultetable.advice.AdviceFragment
 import ru.schultetabledima.schultetable.settings.SettingsFragment
@@ -24,6 +26,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var bottomNavigationView: BottomNavigationView
     private lateinit var navHostFragment: NavHostFragment
     private lateinit var navController: NavController
+    private companion object {
+        const val YANDEX_MOBILE_ADS_TAG = "YandexMobileAds"
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,6 +42,10 @@ class MainActivity : AppCompatActivity() {
         NavigationUI.setupWithNavController(bottomNavigationView, navController)
 
         screenSettings()
+
+        MobileAds.initialize(this){
+            Log.d(YANDEX_MOBILE_ADS_TAG, "SDK initialized")
+        }
     }
 
     private fun screenSettings() {

@@ -9,4 +9,7 @@
     <dimen name="textSizeColumnStatistic">25sp</dimen>
     <dimen name="customMinHeight">48dp</dimen>
     <dimen name="customSpinnerTextSize">16sp</dimen>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="fragment_horizontal_margin">16dp</dimen>
+    <dimen name="fragment_vertical_margin">16dp</dimen>
 </resources>

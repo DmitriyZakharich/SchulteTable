@@ -59,7 +59,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView4"
-        android:name="ru.schultetabledima.schultetable.AdBannerFragment"
+        android:name="ru.schultetabledima.schultetable.AdBannerYandexFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
