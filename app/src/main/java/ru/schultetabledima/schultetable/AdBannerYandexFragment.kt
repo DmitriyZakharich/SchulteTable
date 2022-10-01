@@ -35,7 +35,7 @@ class AdBannerYandexFragment : Fragment() {
             override fun onImpression(p0: ImpressionData?) {}
         })
         mBannerAdView.loadAd(adRequest)
-        mBannerAdView.setAdSize(AdSize.BANNER_320x50)
+        mBannerAdView.setAdSize(AdSize.stickySize(AdSize.FULL_SCREEN.width))
     }
 
     companion object {fun newInstance() = AdBannerYandexFragment()}

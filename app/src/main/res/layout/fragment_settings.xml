@@ -21,10 +21,10 @@
             android:orientation="vertical">
 
             <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/fragmentContainerView3"
-                android:name="ru.schultetabledima.schultetable.AdBannerFragment"
+                android:id="@+id/fragmentContainerView2"
+                android:name="ru.schultetabledima.schultetable.AdBannerYandexFragment"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"/>
 
             <TextView
                 android:id="@+id/headlineResults"

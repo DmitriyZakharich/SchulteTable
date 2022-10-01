@@ -26,10 +26,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var bottomNavigationView: BottomNavigationView
     private lateinit var navHostFragment: NavHostFragment
     private lateinit var navController: NavController
-    private companion object {
-        const val YANDEX_MOBILE_ADS_TAG = "YandexMobileAds"
-    }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,10 +38,6 @@ class MainActivity : AppCompatActivity() {
         NavigationUI.setupWithNavController(bottomNavigationView, navController)
 
         screenSettings()
-
-        MobileAds.initialize(this){
-            Log.d(YANDEX_MOBILE_ADS_TAG, "SDK initialized")
-        }
     }
 
     private fun screenSettings() {
