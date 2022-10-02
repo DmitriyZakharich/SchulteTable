@@ -1,4 +1,4 @@
-package ru.schultetabledima.schultetable
+package ru.schultetabledima.schultetable.ads
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -11,6 +11,7 @@ import com.yandex.mobile.ads.banner.BannerAdView
 import com.yandex.mobile.ads.common.AdRequest
 import com.yandex.mobile.ads.common.AdRequestError
 import com.yandex.mobile.ads.common.ImpressionData
+import ru.schultetabledima.schultetable.R
 
 
 class AdBannerYandexFragment : Fragment() {
@@ -23,7 +24,7 @@ class AdBannerYandexFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val mBannerAdView = view.findViewById<BannerAdView>(R.id.banner_view)
-        mBannerAdView.setAdUnitId("R-M-DEMO-300x250")
+        mBannerAdView.setAdUnitId("R-M-DEMO-300x250")   //тестовый id
 
         val adRequest = AdRequest.Builder().build()
         mBannerAdView.setBannerAdEventListener(object : BannerAdEventListener{
@@ -38,5 +39,5 @@ class AdBannerYandexFragment : Fragment() {
         mBannerAdView.setAdSize(AdSize.stickySize(AdSize.FULL_SCREEN.width))
     }
 
-    companion object {fun newInstance() = AdBannerYandexFragment()}
+    companion object {fun newInstance() = AdBannerYandexFragment() }
 }

@@ -1,7 +1,6 @@
-package ru.schultetabledima.schultetable;
+package ru.schultetabledima.schultetable.ads;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +10,10 @@ import androidx.fragment.app.Fragment;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
+import ru.schultetabledima.schultetable.R;
+
+//ADs Admob
+//Class not used
 public class AdBannerFragment extends Fragment {
 
     private AdView mAdView;

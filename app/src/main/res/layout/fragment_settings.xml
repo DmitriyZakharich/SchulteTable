@@ -22,7 +22,7 @@
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/fragmentContainerView2"
-                android:name="ru.schultetabledima.schultetable.AdBannerYandexFragment"
+                android:name="ru.schultetabledima.schultetable.ads.AdBannerYandexFragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
