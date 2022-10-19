@@ -1,11 +1,26 @@
 package ru.schultetabledima.schultetable.table.model;
 
 import android.app.Dialog;
+import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Button;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.fragment.app.DialogFragment;
 
+import com.yandex.mobile.ads.banner.AdSize;
+import com.yandex.mobile.ads.banner.BannerAdEventListener;
+import com.yandex.mobile.ads.banner.BannerAdView;
+import com.yandex.mobile.ads.common.AdRequest;
+import com.yandex.mobile.ads.common.AdRequestError;
+import com.yandex.mobile.ads.common.ImpressionData;
+
+import ru.schultetabledima.schultetable.App;
 import ru.schultetabledima.schultetable.R;
 import ru.schultetabledima.schultetable.table.presenter.EndGameDialoguePresenter;
 import ru.schultetabledima.schultetable.utils.PreferencesReader;
@@ -25,6 +40,9 @@ public class EndGameDialogueCreator {
         this.endGameDialoguePresenter = endGameDialoguePresenter;
         this.baseChronometer = baseChronometer;
         main();
+
+        Log.d("rrrrrrrrrrrr", "EndGameDialogueCreator конструктор");
+
     }
 
     private void main() {
@@ -35,8 +53,23 @@ public class EndGameDialogueCreator {
 
 
     private void createDialogue() {
+        Log.d("rrrrrrrrrrrr", "EndGameDialogueCreator createDialogue");
 
         builder = new AlertDialog.Builder(dialogFragment.getActivity(), R.style.AlertDialogCustom);
+
+        LayoutInflater inflater = dialogFragment.getActivity().getLayoutInflater();
+        View view = inflater.inflate(R.layout.alertdialog_custom_layout, null);
+        builder.setView(view);
+
+        AppCompatTextView textViewMessage = view.findViewById(R.id.dialog_message);
+        textViewMessage.setText(textViewMessage.getText().toString().concat(time));
+
+
+        view.findViewById(R.id.dialog_positive_button).setOnClickListener(item -> endGameDialoguePresenter.onClickPositiveButtonListener());
+
+        view.findViewById(R.id.dialog_neutral_button).setOnClickListener(item -> endGameDialoguePresenter.onClickNeutralButtonListener());
+
+
 
         builder.setOnKeyListener((dialog, keyCode, event) -> {
             if (keyCode == KeyEvent.KEYCODE_BACK &&
@@ -48,27 +81,61 @@ public class EndGameDialogueCreator {
             return false;
         });
 
-        builder.setTitle(R.string.end_game)
-                .setMessage(dialogFragment.getActivity().getString(R.string.yourTime) + time)
-                .setPositiveButton(R.string.newGame, (dialog, id) -> endGameDialoguePresenter.onClickPositiveButtonListener())
-                .setPositiveButtonIcon(dialogFragment.getActivity().getDrawable(R.drawable.ic_playbutton))
-                .setNeutralButton(R.string.statistics, (dialog, which) -> endGameDialoguePresenter.onClickNeutralButtonListener())
-                .setNeutralButtonIcon(dialogFragment.getActivity().getDrawable(R.drawable.ic_statistic_dialogue))
-                .setCancelable(false);
+//        builder.setTitle(R.string.end_game)
+//                .setMessage(dialogFragment.getActivity().getString(R.string.yourTime) + time)
+//                .setPositiveButton(R.string.newGame, (dialog, id) -> endGameDialoguePresenter.onClickPositiveButtonListener())
+//                .setPositiveButtonIcon(dialogFragment.getActivity().getDrawable(R.drawable.ic_playbutton))
+//                .setNeutralButton(R.string.statistics, (dialog, which) -> endGameDialoguePresenter.onClickNeutralButtonListener())
+//                .setNeutralButtonIcon(dialogFragment.getActivity().getDrawable(R.drawable.ic_statistic_dialogue))
+//                .setCancelable(false);
 
         dialogFragment.setCancelable(false);
 
 
         if (!settings.getIsTouchCells()) {
             builder.setCancelable(true);
-
             dialogFragment.setCancelable(true);
 
             builder.setOnCancelListener(dialog -> endGameDialoguePresenter.onCancelDialogueListener());
-            builder.setNegativeButton(R.string.continueCurrentGame, (dialog, id) -> endGameDialoguePresenter.onNegativeButtonListener());
-            builder.setNegativeButtonIcon(dialogFragment.getActivity().getDrawable(R.drawable.ic_resume));
+
+            Button button = view.findViewById(R.id.dialog_negative_button);
+            button.setOnClickListener(item -> endGameDialoguePresenter.onNegativeButtonListener());
+            button.setVisibility(View.VISIBLE);
+
+
+//            builder.setNegativeButton(R.string.continueCurrentGame, (dialog, id) -> endGameDialoguePresenter.onNegativeButtonListener());
+//            builder.setNegativeButtonIcon(dialogFragment.getActivity().getDrawable(R.drawable.ic_resume));
         }
 
+
+        BannerAdView mBannerAdView = view.findViewById(R.id.banner_view2);
+                mBannerAdView.setAdUnitId("R-M-DEMO-300x250");   //тестовый id
+
+        Log.d("fffffffffffff", "onViewCreated");
+
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mBannerAdView.setBannerAdEventListener(new BannerAdEventListener() {
+            @Override
+            public void onAdLoaded() {}
+
+            @Override
+            public void onAdFailedToLoad(@NonNull AdRequestError adRequestError) {}
+
+            @Override
+            public void onAdClicked() {}
+
+            @Override
+            public void onLeftApplication() {}
+
+            @Override
+            public void onReturnedToApplication() {}
+
+            @Override
+            public void onImpression(@Nullable ImpressionData impressionData) {}
+
+        });
+        mBannerAdView.loadAd(adRequest);
+        mBannerAdView.setAdSize(AdSize.stickySize(AdSize.FULL_SCREEN.getWidth()));
     }
 
     public Dialog getDialog() {

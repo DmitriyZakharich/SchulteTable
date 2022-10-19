@@ -1,5 +1,7 @@
 package ru.schultetabledima.schultetable.table.presenter;
 
+import android.util.Log;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -30,6 +32,7 @@ public class EndGameDialoguePresenter {
     public EndGameDialoguePresenter(EndGameDialogueFragment dialogFragment, TablePresenter tablePresenter) {
         this.dialogFragment = dialogFragment;
         this.tablePresenter = tablePresenter;
+        Log.d("rrrrrrrrrrrr", "EndGameDialoguePresenter конструктор");
 
         init();
     }
