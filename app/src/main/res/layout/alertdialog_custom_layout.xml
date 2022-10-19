@@ -23,12 +23,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-<!--        <androidx.fragment.app.FragmentContainerView-->
-<!--            android:id="@+id/fragmentContainerView4"-->
-<!--            android:name="ru.schultetabledima.schultetable.ads.AdBannerYandexFragment"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content" />-->
-
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/dialog_title"
             android:layout_width="match_parent"
@@ -43,43 +37,68 @@
             android:text="@string/yourTime"
             android:textSize="25sp" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/dialog_positive_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="@string/newGame"
-                app:icon="@drawable/ic_playbutton"
-                style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
-                android:textSize="20sp"
-                android:layout_gravity="end"
-                app:iconTint="@color/white"/>
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-            <Button
-                android:id="@+id/dialog_negative_button"
-                android:layout_width="wrap_content"
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="@string/continueCurrentGame"
-                app:icon="@drawable/ic_resume"
-                style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
-                android:textSize="20sp"
-                android:layout_gravity="end"
-                app:iconTint="@color/white"
-                android:visibility ="gone"/>
+                android:orientation="vertical">
 
-            <Button
-                android:id="@+id/dialog_neutral_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="@string/statistics"
-                app:icon="@drawable/ic_statistic_dialogue"
-                style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
-                android:textSize="20sp"
-                android:layout_gravity="end"
-                app:iconTint="@color/white"/>
+                <Button
+                    android:id="@+id/dialog_positive_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/newGame"
+                    app:textAllCaps="false"
+                    app:icon="@drawable/ic_playbutton"
+                    app:iconSize="23dp"
+                    app:iconPadding="8dp"
+                    style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+                    android:textSize="20sp"
+                    android:textColor="@color/mainTextColor"
+                    android:layout_gravity="end"
+                    app:iconTint="@color/mainTextColor"/>
+
+                <Button
+                    android:id="@+id/dialog_negative_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    app:textAllCaps="false"
+                    android:text="@string/continueCurrentGame"
+                    app:icon="@drawable/ic_resume"
+                    app:iconPadding="8dp"
+                    app:iconSize="23dp"
+                    style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+                    android:textSize="20sp"
+                    android:textColor="@color/mainTextColor"
+                    android:layout_gravity="end"
+                    android:gravity="end"
+                    app:iconTint="@color/mainTextColor"
+                    android:visibility ="visible"/>
+
+                <Button
+                    android:id="@+id/dialog_neutral_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/statistics"
+                    app:textAllCaps="false"
+                    app:icon="@drawable/ic_statistic_dialogue"
+                    app:iconSize="23dp"
+                    app:iconPadding="8dp"
+                    style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+                    android:textSize="20sp"
+                    android:textColor="@color/mainTextColor"
+                    android:layout_gravity="end"
+                    app:iconTint="@color/mainTextColor"/>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </ScrollView>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
-
 </androidx.cardview.widget.CardView>

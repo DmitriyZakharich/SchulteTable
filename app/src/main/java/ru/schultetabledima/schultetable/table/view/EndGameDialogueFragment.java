@@ -14,12 +14,14 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.fragment.app.DialogFragment;
 
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+
 import ru.schultetabledima.schultetable.R;
 import ru.schultetabledima.schultetable.table.presenter.EndGameDialoguePresenter;
 import ru.schultetabledima.schultetable.table.presenter.TablePresenter;
 
 
-public class EndGameDialogueFragment extends DialogFragment {
+public class EndGameDialogueFragment extends BottomSheetDialogFragment {
 
     private TablePresenter tablePresenter;
     private Dialog dialog;
@@ -30,51 +32,28 @@ public class EndGameDialogueFragment extends DialogFragment {
         TablePresenter getTablePresenter();
     }
 
-    public EndGameDialogueFragment() {
-    }
+    public EndGameDialogueFragment() {}
 
     public static EndGameDialogueFragment newInstance() {
         return new EndGameDialogueFragment();
     }
 
-
     @Override
     public void onCancel(@NonNull DialogInterface dialog) {
         super.onCancel(dialog);
         tablePresenter.onNegativeOrCancelDialogue();
-        Log.d("rrrrrrrrrrrr", "EndGameDialogueFragment onCancel");
     }
 
     public void setDialog(Dialog dialog) {
         this.dialog = dialog;
     }
 
-
     @NonNull
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        Log.d("rrrrrrrrrrrr", "EndGameDialogueFragment onCreateDialog");
-
         view = (PassMeLinkOnObject) getParentFragment();
         tablePresenter = view.getTablePresenter();
         new EndGameDialoguePresenter(this, tablePresenter);
 
         return dialog;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        LinearLayoutCompat layout = dialog.findViewById(R.id.linearLayoutCompatId);
-
-//        for (int i = 0; i < layout.getChildCount(); i++) {
-//        ViewGroup container = (ViewGroup)layout.getChildAt(0);
-//        ViewGroup cl = (ViewGroup)container.getChildAt(0);
-//        View ads = cl.getChildAt(0);
-
-//        Log.d("rrrrrrrrrrrr", "class: " + container.getClass());
-//        Log.d("rrrrrrrrrrrr", "class: " + cl.getClass());
-//        Log.d("rrrrrrrrrrrr", "class: " + ads.getClass());
-
-//        }
     }
 }

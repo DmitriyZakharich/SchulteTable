@@ -34,15 +34,11 @@ public class EndGameDialogueCreator {
     private DialogFragment dialogFragment;
     private String time;
 
-
     public EndGameDialogueCreator(DialogFragment dialogFragment, EndGameDialoguePresenter endGameDialoguePresenter, long baseChronometer) {
         this.dialogFragment = dialogFragment;
         this.endGameDialoguePresenter = endGameDialoguePresenter;
         this.baseChronometer = baseChronometer;
         main();
-
-        Log.d("rrrrrrrrrrrr", "EndGameDialogueCreator конструктор");
-
     }
 
     private void main() {
@@ -51,10 +47,7 @@ public class EndGameDialogueCreator {
         createDialogue();
     }
 
-
     private void createDialogue() {
-        Log.d("rrrrrrrrrrrr", "EndGameDialogueCreator createDialogue");
-
         builder = new AlertDialog.Builder(dialogFragment.getActivity(), R.style.AlertDialogCustom);
 
         LayoutInflater inflater = dialogFragment.getActivity().getLayoutInflater();
@@ -64,12 +57,8 @@ public class EndGameDialogueCreator {
         AppCompatTextView textViewMessage = view.findViewById(R.id.dialog_message);
         textViewMessage.setText(textViewMessage.getText().toString().concat(time));
 
-
         view.findViewById(R.id.dialog_positive_button).setOnClickListener(item -> endGameDialoguePresenter.onClickPositiveButtonListener());
-
         view.findViewById(R.id.dialog_neutral_button).setOnClickListener(item -> endGameDialoguePresenter.onClickNeutralButtonListener());
-
-
 
         builder.setOnKeyListener((dialog, keyCode, event) -> {
             if (keyCode == KeyEvent.KEYCODE_BACK &&
@@ -81,16 +70,7 @@ public class EndGameDialogueCreator {
             return false;
         });
 
-//        builder.setTitle(R.string.end_game)
-//                .setMessage(dialogFragment.getActivity().getString(R.string.yourTime) + time)
-//                .setPositiveButton(R.string.newGame, (dialog, id) -> endGameDialoguePresenter.onClickPositiveButtonListener())
-//                .setPositiveButtonIcon(dialogFragment.getActivity().getDrawable(R.drawable.ic_playbutton))
-//                .setNeutralButton(R.string.statistics, (dialog, which) -> endGameDialoguePresenter.onClickNeutralButtonListener())
-//                .setNeutralButtonIcon(dialogFragment.getActivity().getDrawable(R.drawable.ic_statistic_dialogue))
-//                .setCancelable(false);
-
         dialogFragment.setCancelable(false);
-
 
         if (!settings.getIsTouchCells()) {
             builder.setCancelable(true);
@@ -101,17 +81,11 @@ public class EndGameDialogueCreator {
             Button button = view.findViewById(R.id.dialog_negative_button);
             button.setOnClickListener(item -> endGameDialoguePresenter.onNegativeButtonListener());
             button.setVisibility(View.VISIBLE);
-
-
-//            builder.setNegativeButton(R.string.continueCurrentGame, (dialog, id) -> endGameDialoguePresenter.onNegativeButtonListener());
-//            builder.setNegativeButtonIcon(dialogFragment.getActivity().getDrawable(R.drawable.ic_resume));
         }
 
 
         BannerAdView mBannerAdView = view.findViewById(R.id.banner_view2);
-                mBannerAdView.setAdUnitId("R-M-DEMO-300x250");   //тестовый id
-
-        Log.d("fffffffffffff", "onViewCreated");
+                mBannerAdView.setAdUnitId("R-M-DEMO-300x250"); //тестовый id R-M-DEMO-300x250
 
         AdRequest adRequest = new AdRequest.Builder().build();
         mBannerAdView.setBannerAdEventListener(new BannerAdEventListener() {

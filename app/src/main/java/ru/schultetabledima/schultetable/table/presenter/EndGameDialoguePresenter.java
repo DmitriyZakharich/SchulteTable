@@ -1,7 +1,5 @@
 package ru.schultetabledima.schultetable.table.presenter;
 
-import android.util.Log;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -32,8 +30,6 @@ public class EndGameDialoguePresenter {
     public EndGameDialoguePresenter(EndGameDialogueFragment dialogFragment, TablePresenter tablePresenter) {
         this.dialogFragment = dialogFragment;
         this.tablePresenter = tablePresenter;
-        Log.d("rrrrrrrrrrrr", "EndGameDialoguePresenter конструктор");
-
         init();
     }
 
@@ -50,9 +46,6 @@ public class EndGameDialoguePresenter {
         databaseInsert();
         tablePresenter.cancelDialogue();
         tablePresenter.getViewState().moveFragment(R.id.action_tableFragment_to_tableFragment, null);
-
-//        NavHostFragment.findNavController(dialogFragment.getParentFragment())
-//                .navigate(R.id.action_tableFragment_to_tableFragment, null, ScreenAnimationKt.enterFromLeftExitToRight());
         dialogFragment.dismiss();
     }
 
@@ -62,9 +55,6 @@ public class EndGameDialoguePresenter {
         tablePresenter.cancelDialogue();
         tablePresenter.setFragmentInFocus(false);
         tablePresenter.getViewState().moveFragment(R.id.action_tableFragment_to_statisticFragment, ScreenAnimationKt.enterFromLeftExitToRight());
-
-//        NavHostFragment.findNavController(dialogFragment.getParentFragment())
-//                .navigate(R.id.action_tableFragment_to_statisticFragment, null, ScreenAnimationKt.enterFromLeftExitToRight());
         dialogFragment.dismiss();
     }
 
