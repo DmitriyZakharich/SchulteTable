@@ -117,19 +117,14 @@ public class EndGameDialogueCreator {
         mBannerAdView.setBannerAdEventListener(new BannerAdEventListener() {
             @Override
             public void onAdLoaded() {}
-
             @Override
             public void onAdFailedToLoad(@NonNull AdRequestError adRequestError) {}
-
             @Override
             public void onAdClicked() {}
-
             @Override
             public void onLeftApplication() {}
-
             @Override
             public void onReturnedToApplication() {}
-
             @Override
             public void onImpression(@Nullable ImpressionData impressionData) {}
 

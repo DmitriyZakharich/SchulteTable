@@ -33,8 +33,6 @@ class SettingsFragment : BaseScreenFragment(R.layout.fragment_settings), View.On
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val view = requireView()
-
         switchAnimation = view.findViewById(R.id.switchAnimation)
         switchTouchCells = view.findViewById(R.id.switchPressButtons)
         switchTwoTables = view.findViewById(R.id.switchTwoTables)
