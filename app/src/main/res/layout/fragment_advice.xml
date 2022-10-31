@@ -51,7 +51,7 @@
                     style="@style/basicStyleView"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tvAdvice1"
+                    android:id="@+id/tv_advice1"
                     style="@style/basicStyleView"/>
 
                 <ImageView
@@ -67,58 +67,57 @@
 
             </LinearLayout>
 
-
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tvAdvice2"
+                android:id="@+id/tv_advice2"
                 style="@style/basicStyleView"
                 android:padding="20dp"
                 android:background="@drawable/item_background"
                 android:layout_margin="5dp"/>
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tvAdvice3"
+                android:id="@+id/tv_advice3"
                 style="@style/basicStyleView"
                 android:padding="20dp"
                 android:background="@drawable/item_background"
                 android:layout_margin="5dp"/>
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tvAdvice4"
+                android:id="@+id/tv_advice4"
                 style="@style/basicStyleView"
                 android:padding="20dp"
                 android:background="@drawable/item_background"
                 android:layout_margin="5dp"/>
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tvAdvice5"
+                android:id="@+id/tv_advice5"
                 style="@style/basicStyleView"
                 android:padding="20dp"
                 android:background="@drawable/item_background"
                 android:layout_margin="5dp"/>
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tvAdvice6"
+                android:id="@+id/tv_advice6"
                 style="@style/basicStyleView"
                 android:padding="20dp"
                 android:background="@drawable/item_background"
                 android:layout_margin="5dp"/>
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tvAdvice7"
+                android:id="@+id/tv_advice7"
                 style="@style/basicStyleView"
                 android:padding="20dp"
                 android:background="@drawable/item_background"
                 android:layout_margin="5dp"/>
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tvAdvice8"
+                android:id="@+id/tv_advice8"
                 style="@style/basicStyleView"
                 android:padding="20dp"
                 android:background="@drawable/item_background"
                 android:layout_margin="5dp"/>
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tvAdvice9"
+                android:id="@+id/tv_advice9"
                 style="@style/basicStyleView"
                 android:padding="20dp"
                 android:background="@drawable/item_background"
@@ -144,7 +143,6 @@
                 style="@style/basicStyleView" />
 
         </LinearLayout>
-
 
         </LinearLayout>
     </ScrollView>

@@ -9,7 +9,6 @@ import java.util.*
 @InjectViewState
 class AdvicePresenter : MvpPresenter<AdviceContract.View?>(), AdviceContract.Presenter {
 
-
     private var adviceModel: AdviceContract.Model? = null
     private var adviceResource: Int? = null
     private var listAdvice: List<String>? = null
