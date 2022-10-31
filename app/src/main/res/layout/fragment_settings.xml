@@ -41,7 +41,7 @@
             android:layout_margin="5dp">
 
             <com.google.android.material.switchmaterial.SwitchMaterial
-                android:id="@+id/switchPressButtons"
+                android:id="@+id/switchTouchCells"
                 android:theme="@style/FilterSwitchThemeGreen"
                 android:layout_height="wrap_content"
                 android:text="@string/TouchFoundCells"

@@ -14,9 +14,9 @@ import ru.schultetabledima.schultetable.App;
 import ru.schultetabledima.schultetable.settings.PreferencesWriter;
 
 public class PreferencesReader {
+
     private SharedPreferences spCustomization;
     private String keyColumns, keyRows;
-
 
     public PreferencesReader() {
         init();
@@ -30,9 +30,7 @@ public class PreferencesReader {
             FirebaseCrashlytics.getInstance().sendUnsentReports();
         }
 
-
         boolean isLetters = spCustomization.getBoolean(PreferencesWriter.getKeyIsLetters(), false);
-
 
         if (isLetters){
             keyColumns = PreferencesWriter.getKeyColumnsLetters();
@@ -42,13 +40,11 @@ public class PreferencesReader {
             keyColumns = PreferencesWriter.getKeyColumnsNumbers();
             keyRows = PreferencesWriter.getKeyRowsNumbers();
         }
-
     }
 
     public void refresh(){
         init();
     }
-
 
     public boolean getIsTouchCells() {
         return spCustomization.getBoolean(PreferencesWriter.getKeyTouchCells(), true);
