@@ -78,7 +78,7 @@
                     android:layout_gravity="end"
                     android:gravity="end"
                     app:iconTint="@color/mainTextColor"
-                    android:visibility ="visible"/>
+                    android:visibility ="gone"/>
 
                 <Button
                     android:id="@+id/dialog_neutral_button"

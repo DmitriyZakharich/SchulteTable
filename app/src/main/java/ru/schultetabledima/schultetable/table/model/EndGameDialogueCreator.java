@@ -80,7 +80,7 @@ public class EndGameDialogueCreator {
 
             Button button = view.findViewById(R.id.dialog_negative_button);
             button.setOnClickListener(item -> endGameDialoguePresenter.onNegativeButtonListener());
-            button.setVisibility(View.VISIBLE);
+            button.setVisibility(View.VISIBLE); //По умолчанию gone в XML
         }
 
 
