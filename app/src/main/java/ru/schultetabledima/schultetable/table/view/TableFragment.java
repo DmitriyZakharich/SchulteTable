@@ -5,7 +5,9 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Chronometer;
@@ -30,6 +32,7 @@ import moxy.presenter.InjectPresenter;
 import ru.schultetabledima.schultetable.R;
 import ru.schultetabledima.schultetable.common.BaseScreenFragment;
 import ru.schultetabledima.schultetable.contracts.TableContract;
+import ru.schultetabledima.schultetable.databinding.FragmentTableBinding;
 import ru.schultetabledima.schultetable.main.MainActivity;
 import ru.schultetabledima.schultetable.table.model.DataCell;
 import ru.schultetabledima.schultetable.table.presenter.TablePresenter;
@@ -42,13 +45,7 @@ public class TableFragment extends BaseScreenFragment implements TableContract.V
     @InjectPresenter
     TablePresenter tablePresenter;
 
-    private ImageButton buttonSettings;
-    private Chronometer chronometer;
-    private ConstraintLayout placeForTable;
-    private ImageButton selectShowHideMenu;
-    private TextView moveHint, textMoveHint;
-    private ImageButton image_menu;
-    private Toolbar toolbar;
+    private FragmentTableBinding binding;
     private AppCompatTextView[][] cells1, cells2;
     private PreferencesReader settings;
     private final int ROTATE_VALUE_ANIMATOR = 3;
@@ -62,6 +59,12 @@ public class TableFragment extends BaseScreenFragment implements TableContract.V
         return new TableFragment();
     }
 
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        binding = FragmentTableBinding.inflate(inflater, container, false);
+        return binding.getRoot();
+    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -71,7 +74,6 @@ public class TableFragment extends BaseScreenFragment implements TableContract.V
             ((MainActivity) getActivity()).visibilityBottomNavigationView(View.GONE);
             ((MainActivity) getActivity()).setWindowFlags("Add_Flag_KEEP_SCREEN_ON");
         }
-
         init();
     }
 
@@ -82,19 +84,9 @@ public class TableFragment extends BaseScreenFragment implements TableContract.V
     }
 
     private void init() {
-        selectShowHideMenu = requireView().findViewById(R.id.image_Button_Show_Hide_Menu);
-        buttonSettings = requireView().findViewById(R.id.image_button_settings);
-        image_menu = requireView().findViewById(R.id.image_menu);
-        placeForTable = requireView().findViewById(R.id.placeForTable);
-        chronometer = requireView().findViewById(R.id.chronometer);
-        moveHint = requireView().findViewById(R.id.moveHint);
-        textMoveHint = requireView().findViewById(R.id.textMoveHint);
-
-        toolbar = requireView().findViewById(R.id.toolbar);
-
-        buttonSettings.setOnClickListener(onClickMenuButtonsListener);
-        selectShowHideMenu.setOnClickListener(onClickMenuButtonsListener);
-        image_menu.setOnClickListener(onClickMenuButtonsListener);
+        binding.imageButtonSettings.setOnClickListener(onClickMenuButtonsListener);
+        binding.imageButtonShowHideMenu.setOnClickListener(onClickMenuButtonsListener);
+        binding.imageMenu.setOnClickListener(onClickMenuButtonsListener);
 
         settings = new PreferencesReader();
     }
@@ -102,7 +94,7 @@ public class TableFragment extends BaseScreenFragment implements TableContract.V
     public void createTable() {
         TableCreator tableCreator = new TableCreator(this, getActivity(), tablePresenter);
         LinearLayout containerWithTables = tableCreator.getContainerForTables();
-        placeForTable.addView(containerWithTables);
+        binding.placeForTable.addView(containerWithTables);
 
         cells1 = tableCreator.getCellsFirstTable();
 
@@ -142,7 +134,6 @@ public class TableFragment extends BaseScreenFragment implements TableContract.V
                 } else {
                     cells[i][j].setText(String.valueOf(dataCells.get(count).getValue()));
                 }
-
                 count++;
             }
         }
@@ -197,7 +188,7 @@ public class TableFragment extends BaseScreenFragment implements TableContract.V
 
     @Override
     public void setAnimationToolbar(LayoutTransition layoutTransition) {
-        toolbar.setLayoutTransition(layoutTransition);
+        binding.toolbar.setLayoutTransition(layoutTransition);
     }
 
     View.OnClickListener onClickMenuButtonsListener = new View.OnClickListener() {
@@ -210,25 +201,25 @@ public class TableFragment extends BaseScreenFragment implements TableContract.V
 
     @Override
     public void showHideMenu(int visibility, int visibilityHint, int imageResource, LinearLayout.LayoutParams layoutParams) {
-        chronometer.setVisibility(visibility);
-        buttonSettings.setVisibility(visibility);
-        image_menu.setVisibility(visibility);
+        binding.chronometer.setVisibility(visibility);
+        binding.imageButtonSettings.setVisibility(visibility);
+        binding.imageMenu.setVisibility(visibility);
 
-        textMoveHint.setVisibility(visibilityHint);
-        moveHint.setVisibility(visibilityHint);
+        binding.textMoveHint.setVisibility(visibilityHint);
+        binding.moveHint.setVisibility(visibilityHint);
 
-        selectShowHideMenu.setImageResource(imageResource);
-        toolbar.setLayoutParams(layoutParams);
+        binding.imageButtonShowHideMenu.setImageResource(imageResource);
+        binding.toolbar.setLayoutParams(layoutParams);
     }
 
     @Override
     public void setMoveHint(int nextMoveFirstTable) {
-        moveHint.setText(String.valueOf(nextMoveFirstTable));
+        binding.moveHint.setText(String.valueOf(nextMoveFirstTable));
     }
 
     @Override
     public void setMoveHint(char nextMoveFirstTable) {
-        moveHint.setText(String.valueOf(nextMoveFirstTable));
+        binding.moveHint.setText(String.valueOf(nextMoveFirstTable));
     }
 
     @Override
@@ -247,28 +238,28 @@ public class TableFragment extends BaseScreenFragment implements TableContract.V
     @Override
     public void stopStartChronometer(boolean startIt) {
         if (startIt)
-            chronometer.start();
+            binding.chronometer.start();
         else
-            chronometer.stop();
+            binding.chronometer.stop();
     }
 
     @Override
     public void showPopupMenu() {
-        PopupMenuCreator popupMenuCreator = new PopupMenuCreator(getActivity(), image_menu, tablePresenter);
+        PopupMenuCreator popupMenuCreator = new PopupMenuCreator(getActivity(), binding.imageMenu, tablePresenter);
         popupMenuCreator.getPopupMenu().show();
     }
 
     @Override
     public long getBaseChronometer() {
-        return chronometer.getBase();
+        return binding.chronometer.getBase();
     }
 
     @Override
     public void setBaseChronometer(long base, boolean isDialogueShow) {
         if (isDialogueShow) {
-            chronometer.setBase(SystemClock.elapsedRealtime() - base);
+            binding.chronometer.setBase(SystemClock.elapsedRealtime() - base);
         } else
-            chronometer.setBase(base);
+            binding.chronometer.setBase(base);
     }
 
     @Override
@@ -291,12 +282,12 @@ public class TableFragment extends BaseScreenFragment implements TableContract.V
     }
 
     @Override
-    public void clearingTheCommandQueue() {
-    }
+    public void clearingTheCommandQueue() {}
 
     @Override
     public void onDestroyView() {
         ((MainActivity) getActivity()).setWindowFlags("");
         super.onDestroyView();
+        binding = null;
     }
 }
