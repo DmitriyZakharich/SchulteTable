@@ -13,30 +13,35 @@ import ru.schultetabledima.schultetable.R;
 public class NumbersFragment extends BaseValueFragment implements AdapterView.OnItemSelectedListener {
 
     private NumbersFragmentPresenter presenter;
-    private View view;
 
     public static NumbersFragment newInstance() {
-
         return new NumbersFragment();
-    }
-
-    public NumbersFragment() {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         View rootView = inflater.inflate(R.layout.fragment_numbers, container, false);
 
+        findView(rootView);
+        setListener();
+        setSpinnerAdapter();
+
+        presenter = new NumbersFragmentPresenter(this);
+        return rootView;
+    }
+
+    private void findView(View rootView) {
         spinnerRows = rootView.findViewById(R.id.spinnerRowsNumbers);
         spinnerColumns = rootView.findViewById(R.id.spinnerColumnsNumbers);
+    }
 
-
+    private void setListener() {
         spinnerRows.setOnItemSelectedListener(this);
         spinnerColumns.setOnItemSelectedListener(this);
+    }
 
-
+    private void setSpinnerAdapter() {
         final String[] valueSpinner = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.custom_spinner_style, valueSpinner);
@@ -44,10 +49,6 @@ public class NumbersFragment extends BaseValueFragment implements AdapterView.On
 
         spinnerRows.setAdapter(adapter);
         spinnerColumns.setAdapter(adapter);
-
-        presenter = new NumbersFragmentPresenter(this);
-
-        return rootView;
     }
 
     @Override
