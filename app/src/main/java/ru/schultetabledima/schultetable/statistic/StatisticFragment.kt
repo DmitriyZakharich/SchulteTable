@@ -2,9 +2,9 @@ package ru.schultetabledima.schultetable.statistic
 
 import android.os.Bundle
 import android.os.Parcelable
-import android.util.Log
-import android.view.MenuItem
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
@@ -14,6 +14,7 @@ import ru.schultetabledima.schultetable.R
 import ru.schultetabledima.schultetable.common.BaseScreenFragment
 import ru.schultetabledima.schultetable.contracts.StatisticsContract
 import ru.schultetabledima.schultetable.database.StatisticAdapter
+import ru.schultetabledima.schultetable.databinding.FragmentStatisticsBinding
 import ru.schultetabledima.schultetable.main.MainActivity
 
 class StatisticFragment : BaseScreenFragment(R.layout.fragment_statistics), StatisticsContract.View,
@@ -22,11 +23,8 @@ class StatisticFragment : BaseScreenFragment(R.layout.fragment_statistics), Stat
     @InjectPresenter
     lateinit var statisticsPresenter: StatisticsPresenter
 
-    private lateinit var recyclerView: RecyclerView
-    private var selectQuantityTables: Spinner? = null
-    private var selectValueType: Spinner? = null
-    private var selectPlayedSizes: Spinner? = null
-    private var recyclerViewState: Parcelable? = null
+    private var _binding: FragmentStatisticsBinding? = null
+    private val binding get() = _binding!!
 
     companion object {
         fun newInstance(): StatisticFragment {
@@ -34,26 +32,28 @@ class StatisticFragment : BaseScreenFragment(R.layout.fragment_statistics), Stat
         }
     }
 
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?): View {
+        _binding = FragmentStatisticsBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        recyclerView = requireView().findViewById(R.id.recyclerview)
-        selectQuantityTables = requireView().findViewById(R.id.spinnerQuantityTables)
-        selectValueType = requireView().findViewById(R.id.spinnerValueType)
-        selectPlayedSizes = requireView().findViewById(R.id.spinnerPlayedSizes)
+        setSpinnersItemSelectedListener()
+        registerForContextMenu(binding.recyclerview)
+    }
 
-
-        selectQuantityTables?.onItemSelectedListener = this
-        selectValueType?.onItemSelectedListener = this
-        selectPlayedSizes?.onItemSelectedListener = this
-
-        registerForContextMenu(recyclerView)
+    private fun setSpinnersItemSelectedListener() {
+        binding.spinnerQuantityTables.onItemSelectedListener = this
+        binding.spinnerValueType.onItemSelectedListener = this
+        binding.spinnerPlayedSizes.onItemSelectedListener = this
     }
 
     override fun onResume() {
         super.onResume()
         (activity as MainActivity).visibilityBottomNavigationView(View.VISIBLE)
     }
-
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         statisticsPresenter.spinnerItemSelected(
@@ -66,30 +66,35 @@ class StatisticFragment : BaseScreenFragment(R.layout.fragment_statistics), Stat
     override fun onNothingSelected(parent: AdapterView<*>?) {}
 
     override fun setRecyclerViewAdapter(statisticAdapter: StatisticAdapter?) {
-        recyclerView.adapter = statisticAdapter
+        binding.recyclerview.adapter = statisticAdapter
     }
 
     override fun setQuantityTablesAdapter(adapterQuantityTables: ArrayAdapter<String>?) {
-        selectQuantityTables?.adapter = adapterQuantityTables
+        binding.spinnerQuantityTables.adapter = adapterQuantityTables
     }
 
     override fun setValueTypeAdapter(adapterValueType: ArrayAdapter<String>?) {
-        selectValueType?.adapter = adapterValueType
+        binding.spinnerValueType.adapter = adapterValueType
     }
 
     override fun setPlayedSizesAdapter(adapterPlayedSizes: ArrayAdapter<String>?) {
-        selectPlayedSizes?.adapter = adapterPlayedSizes
+        binding.spinnerPlayedSizes.adapter = adapterPlayedSizes
     }
 
     override fun setSelectionQuantityTables(position: Int) {
-        selectQuantityTables?.setSelection(position)
+        binding.spinnerQuantityTables.setSelection(position)
     }
 
     override fun setSelectionSpinnerValueType(position: Int) {
-        selectValueType?.setSelection(position)
+        binding.spinnerValueType.setSelection(position)
     }
 
     override fun setSelectionPlayedSizes(position: Int) {
-        selectPlayedSizes?.setSelection(position)
+        binding.spinnerPlayedSizes.setSelection(position)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
