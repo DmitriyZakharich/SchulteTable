@@ -34,7 +34,6 @@ public class SettingsPresenter {
         ((SettingsFragment) context).customizationSwitchMoveHint(isSwitchMoveHintEnabled, preferencesReader.getIsMoveHint());
 
         if (preferencesReader.getIsLetters()) {
-
             ((SettingsFragment) context).setViewPagerCurrentItem(1);
         } else {
             ((SettingsFragment) context).setViewPagerCurrentItem(0);
@@ -43,10 +42,14 @@ public class SettingsPresenter {
 
     public void onTabSelectedListener(int position) {
         boolean b = false;
-        if (position == 0) {
-            b = false;
-        } else if (position == 1) {
-            b = true;
+
+        switch (position) {
+            case 0:
+                b = false;
+                break;
+            case 1:
+                b = true;
+                break;
         }
         preferencesWriter.putBoolean(PreferencesWriter.getKeyIsLetters(), b);
     }
@@ -61,7 +64,6 @@ public class SettingsPresenter {
 
             boolean isSwitchMoveHintEnabled = isChecked;
             ((SettingsFragment) context).customizationSwitchMoveHint(isSwitchMoveHintEnabled, preferencesReader.getIsMoveHint());
-
 
         } else if (id == R.id.switchTwoTables) {
             key = PreferencesWriter.getKeyTwoTables();

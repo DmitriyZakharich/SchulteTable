@@ -11,7 +11,6 @@ public class NumbersFragmentPresenter {
     public NumbersFragmentPresenter(NumbersFragment numbersFragment) {
         this.numbersFragment = numbersFragment;
         main();
-
     }
 
     private void main() {

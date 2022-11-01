@@ -21,7 +21,6 @@ public class LettersFragmentPresenter {
 
     }
 
-
     public void lettersFragmentListener(int id, int position) {
         int amount = position + 1;
 
@@ -34,7 +33,6 @@ public class LettersFragmentPresenter {
     }
 
     public void lettersFragmentListener(int id, boolean isChecked) {
-
         if (id == R.id.switchRussianOrEnglish) {
             preferencesWriter.putBoolean(PreferencesWriter.getKeyRussianOrEnglish(), isChecked);
         }
