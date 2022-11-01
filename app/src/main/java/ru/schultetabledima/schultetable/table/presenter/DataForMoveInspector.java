@@ -4,14 +4,11 @@ import java.util.List;
 
 public class DataForMoveInspector {
 
-
     private List<Integer> cellsIdFirstTableForCheck;
     private List<Integer> cellsIdSecondTableForCheck;
     private int nextMoveFirstTable;
     private int nextMoveSecondTableCountdown;
     private int countdownSecondTable;
-
-
 
     public List<Integer> getCellsIdFirstTableForCheck() {
         return cellsIdFirstTableForCheck;

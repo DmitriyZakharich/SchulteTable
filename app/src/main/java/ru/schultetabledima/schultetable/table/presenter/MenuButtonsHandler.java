@@ -84,6 +84,4 @@ public class MenuButtonsHandler {
 
         return true;
     }
-
-
 }

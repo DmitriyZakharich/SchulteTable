@@ -58,7 +58,6 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
         booleanStartChronometer = true;
     }
 
-
     private void callValuesCreator() {
         cellValuesCreatorFirstTable = new CellValuesCreator();
         dataCellsFirstTableForFilling = cellValuesCreatorFirstTable.getDataCells();
@@ -75,7 +74,6 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
         getViewState().setTableData(dataCellsFirstTableForFilling, dataCellsSecondTableForFilling);
     }
 
-
     private void settingForMenu() {
         MenuCustomizer menuCustomizer = new MenuCustomizer(this);
         dataForMenuButtonsHandler = menuCustomizer.getData();
@@ -84,7 +82,6 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
     public boolean onClickMenuButtonsListener(int viewID) {
         return menuButtonsHandler.checkClick(viewID);
     }
-
 
     private void settingForCheckMove() {
         nextMoveFirstTable = cellValuesCreatorFirstTable.getFirstValue();
@@ -106,7 +103,6 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
         }
     }
 
-
     public void cellActionDown(int cellId, long baseChronometer) {
         saveTime = SystemClock.elapsedRealtime() - baseChronometer;
         moveInspector.cellActionDown(cellId);
@@ -115,7 +111,6 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
     public void cellActionUp(int cellId) {
         moveInspector.cellActionUp(cellId);
     }
-
 
     public void endGameDialogue() {
         booleanStartChronometer = false;
@@ -130,7 +125,6 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
         isDialogueShow = false;
         getViewState().showDialogueFragment(isDialogueShow);
     }
-
 
     private void startChronometer() {
         getViewState().setBaseChronometer(SystemClock.elapsedRealtime() - saveTime, isDialogueShow);

@@ -14,19 +14,15 @@ import ru.schultetabledima.schultetable.utils.PreferencesReader;
 
 public class MenuCustomizer {
 
-
     private TablePresenter presenter;
     private SharedPreferences sharedPreferencesMenu;
     private final String MENU_PREFERENCES = "PreferencesMenu";
     private final String KEY_MENU_VISIBILITY = "Saved Menu Visibility";
     private boolean isMenuShow;
     private PreferencesReader settings;
-
     private DataForMenuButtonsHandler data;
 
-
     public MenuCustomizer(TablePresenter presenter) {
-
         this.presenter = presenter;
         main();
     }

@@ -26,7 +26,6 @@ public class EndGameDialoguePresenter {
     private String dateText, tableSize, valueType, timeResult;
     private int quantityTables;
 
-
     public EndGameDialoguePresenter(EndGameDialogueFragment dialogFragment, TablePresenter tablePresenter) {
         this.dialogFragment = dialogFragment;
         this.tablePresenter = tablePresenter;

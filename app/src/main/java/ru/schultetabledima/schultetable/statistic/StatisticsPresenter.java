@@ -72,7 +72,6 @@ public class StatisticsPresenter extends MvpPresenter<StatisticsContract.View> i
         valueSpinnerQuantityTables = Arrays.asList(context.getResources().getStringArray(R.array.spinnerQuantityTables));
         valueSpinnerValueType = Arrays.asList(context.getResources().getStringArray(R.array.spinnerValueType));
 
-
         ArrayAdapter<String> adapterQuantityTables = new ArrayAdapter(context, R.layout.custom_spinner_style,
                 valueSpinnerQuantityTables);
         adapterQuantityTables.setDropDownViewResource(R.layout.spin_item);
@@ -133,12 +132,10 @@ public class StatisticsPresenter extends MvpPresenter<StatisticsContract.View> i
             public void handleMessage(android.os.Message msg) {
                 results = (ArrayList<Result>) msg.obj;
 
-
                 StatisticAdapter.OptionsMenuLongClickListener optionsMenuLongClickListener = (result, v, position) -> {
                     DeletePopupMenuCreator deletePopupMenuCreator = new DeletePopupMenuCreator(thisStatisticsPresenter, context, v, result, position);
                     deletePopupMenuCreator.getPopupMenu().show();
                 };
-
 
                 statisticAdapter = new StatisticAdapter(context, results, optionsMenuLongClickListener);
                 getViewState().setRecyclerViewAdapter(statisticAdapter);
@@ -172,7 +169,6 @@ public class StatisticsPresenter extends MvpPresenter<StatisticsContract.View> i
             ed.putInt(KEY_QUANTITY_TABLES, position);
             getViewState().setSelectionQuantityTables(position);
 
-
         } else if (parentId == R.id.spinnerValueType) {
             switch (position) {
                 case SPINNER_VALUE_TYPE_NUMBERS:
@@ -199,7 +195,6 @@ public class StatisticsPresenter extends MvpPresenter<StatisticsContract.View> i
         }
 
         ed.apply();
-
 
         loadResultsFromDB();
     }

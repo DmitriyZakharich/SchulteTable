@@ -47,7 +47,6 @@ public class MoveInspector {
         settings = new PreferencesReader();
     }
 
-
     public void cellActionDown(int cellId) {
 
         if (!isGameActive)
