@@ -16,7 +16,6 @@ public interface ResultDao {
     @RawQuery()
     List<Result> getAll(SupportSQLiteQuery query);
 
-
     @Query("SELECT DISTINCT size_field FROM results")
     List<String> getTableSize();
 

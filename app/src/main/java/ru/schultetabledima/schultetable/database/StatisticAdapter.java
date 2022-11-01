@@ -25,7 +25,6 @@ public class StatisticAdapter extends RecyclerView.Adapter<StatisticAdapter.View
         void onOptionsMenuClicked(Result result, View v, int position);
     }
 
-
     private LayoutInflater inflater;
     private final List<Result> results;
     private final OptionsMenuLongClickListener onLongClickListener;
@@ -56,7 +55,6 @@ public class StatisticAdapter extends RecyclerView.Adapter<StatisticAdapter.View
         String newDate = CorrectionTime.getTime(result.getDate());
         holder.date.setText(newDate);
 
-
         holder.tableSize.setOnLongClickListener(v -> {
             onLongClickListener.onOptionsMenuClicked(result, v, position);
             return false;
@@ -70,8 +68,6 @@ public class StatisticAdapter extends RecyclerView.Adapter<StatisticAdapter.View
             onLongClickListener.onOptionsMenuClicked(result, v, position);
             return false;
         });
-
-
     }
 
     @Override

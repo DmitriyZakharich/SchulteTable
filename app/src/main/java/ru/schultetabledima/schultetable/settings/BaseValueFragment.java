@@ -16,9 +16,6 @@ public abstract class BaseValueFragment extends Fragment implements AdapterView.
 
     protected Spinner spinnerRows, spinnerColumns;
 
-    public BaseValueFragment() {
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
