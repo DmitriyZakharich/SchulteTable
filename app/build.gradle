@@ -16,8 +16,8 @@ android {
         applicationId "ru.schultetabledima.schultetable"
         minSdkVersion 21
         targetSdkVersion 33
-        versionCode 11
-        versionName "1.16"
+        versionCode 12
+        versionName "1.17"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

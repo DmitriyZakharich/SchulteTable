@@ -98,7 +98,7 @@
     </style>
 
     <style name="AlertDialogCustom" parent="Theme.AppCompat.Light.Dialog.Alert">
-        <item name="android:background">@color/main_item_background_color</item>
+        <item name="android:windowBackground">@color/transparent</item>
         <item name="android:textColorPrimary">@color/mainTextColor</item>
         <item name="android:colorAccent">#FFFFFF</item>
     </style>
