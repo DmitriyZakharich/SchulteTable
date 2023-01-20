@@ -16,8 +16,8 @@ android {
         applicationId "ru.schultetabledima.schultetable"
         minSdkVersion 21
         targetSdkVersion 33
-        versionCode 12
-        versionName "1.17"
+        versionCode 13
+        versionName "1.18"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -93,9 +93,9 @@ dependencies {
     implementation "com.mapbox.mapboxsdk:mapbox-android-telemetry:6.1.0"
 
     //Yandex ads
-    implementation 'com.yandex.android:mobileads:5.3.0'
-    implementation 'com.yandex.ads.mediation:mobileads-admob:21.1.0.0'
-    implementation 'com.google.android.gms:play-services-ads:21.2.0'
+    implementation 'com.yandex.android:mobileads:5.5.0'
+    implementation 'com.yandex.ads.mediation:mobileads-admob:21.3.0.0'
+    implementation 'com.google.android.gms:play-services-ads:21.4.0'
 }
 
 repositories {
