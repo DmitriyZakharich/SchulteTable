@@ -1,6 +1,7 @@
 package ru.schultetabledima.schultetable.settings;
 import ru.schultetabledima.schultetable.R;
 import ru.schultetabledima.schultetable.utils.PreferencesReader;
+import ru.schultetabledima.schultetable.utils.PreferencesReaderKotlin;
 
 public class LettersFragmentPresenter {
     private PreferencesWriter preferencesWriter;
@@ -13,6 +14,12 @@ public class LettersFragmentPresenter {
 
     private void main() {
         PreferencesReader preferencesReader = new PreferencesReader();
+
+        int i1 = preferencesReader.getColumnsOfTable();
+        int i2 = PreferencesReaderKotlin.INSTANCE.getColumnsOfTable();
+
+
+
         preferencesWriter = new PreferencesWriter();
 
         lettersFragment.setSpinnerRowsSelection(preferencesReader.getRowsOfTableLetters() - 1);
