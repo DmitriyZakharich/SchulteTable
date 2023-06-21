@@ -1,20 +1,17 @@
 package ru.schultetabledima.schultetable.table.presenter;
 
 import android.graphics.Color;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
 import java.util.List;
 
-import ru.schultetabledima.schultetable.App;
 import ru.schultetabledima.schultetable.R;
-import ru.schultetabledima.schultetable.utils.PreferencesReader;
+import ru.schultetabledima.schultetable.utils.PreferencesReaderKotlin;
 
 public class MoveInspector {
 
-    PreferencesReader settings;
     private int cellColor, backgroundCellResources;
     private TablePresenter presenter;
     private List<Integer> cellsIdFirstTableForCheck;
@@ -44,7 +41,7 @@ public class MoveInspector {
     }
 
     private void init() {
-        settings = new PreferencesReader();
+//        settings = new PreferencesReader();
     }
 
     public void cellActionDown(int cellId) {
@@ -52,16 +49,16 @@ public class MoveInspector {
         if (!isGameActive)
             return;
 
-        if (!settings.getIsTouchCells())
+        if (!PreferencesReaderKotlin.INSTANCE.isTouchCells())
             presenter.endGameDialogue();
 
         try {
-            if (settings.getIsTouchCells()) {
+            if (PreferencesReaderKotlin.INSTANCE.isTouchCells()) {
 
-                if (!settings.getIsTwoTables())
+                if (!PreferencesReaderKotlin.INSTANCE.isTwoTables())
                     checkMoveInOneTable(cellId);
 
-                if (settings.getIsTwoTables()) {
+                if (PreferencesReaderKotlin.INSTANCE.isTwoTables()) {
 
                     if (!isValidTable(cellId)) {
                         return;
@@ -96,10 +93,10 @@ public class MoveInspector {
         if (!isGameActive)
             return;
 
-        if (!settings.getIsTouchCells())
+        if (!PreferencesReaderKotlin.INSTANCE.isTouchCells())
             return;
 
-        if (!settings.getIsTwoTables()) {
+        if (!PreferencesReaderKotlin.INSTANCE.isTwoTables()) {
             applyCellSelectionInOneTable(cellId);
         } else
             applyCellSelectionInTwoTables(cellId);
@@ -107,7 +104,7 @@ public class MoveInspector {
 
     private void applyCellSelectionInOneTable(int cellId) {
         if (isRightCell) {
-            if (settings.getIsLetters())
+            if (PreferencesReaderKotlin.INSTANCE.isLetters())
                 presenter.getViewState().setMoveHint((char) nextMoveFirstTable);
 
             else
@@ -194,7 +191,7 @@ public class MoveInspector {
         if (isRightCell) {
             presenter.getViewState().setTableColor(colorFirstTable, colorSecondTable);
 
-            if (settings.getIsLetters())
+            if (PreferencesReaderKotlin.INSTANCE.isLetters())
                 presenter.getViewState().setMoveHint((char) nextMove);
             else
                 presenter.getViewState().setMoveHint(nextMove);

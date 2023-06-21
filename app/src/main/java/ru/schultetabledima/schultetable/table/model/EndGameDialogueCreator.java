@@ -20,17 +20,16 @@ import com.yandex.mobile.ads.common.AdRequest;
 import com.yandex.mobile.ads.common.AdRequestError;
 import com.yandex.mobile.ads.common.ImpressionData;
 
-import ru.schultetabledima.schultetable.App;
 import ru.schultetabledima.schultetable.R;
 import ru.schultetabledima.schultetable.table.presenter.EndGameDialoguePresenter;
-import ru.schultetabledima.schultetable.utils.PreferencesReader;
+import ru.schultetabledima.schultetable.utils.PreferencesReaderKotlin;
 
 public class EndGameDialogueCreator {
 
     private AlertDialog.Builder builder;
     private EndGameDialoguePresenter endGameDialoguePresenter;
     private long baseChronometer;
-    private PreferencesReader settings;
+//    private PreferencesReader settings;
     private DialogFragment dialogFragment;
     private String time;
 
@@ -42,7 +41,6 @@ public class EndGameDialogueCreator {
     }
 
     private void main() {
-        settings = new PreferencesReader();
         time = TimeResultFromBaseChronometer.getTime(baseChronometer);
         createDialogue();
     }
@@ -72,7 +70,7 @@ public class EndGameDialogueCreator {
 
         dialogFragment.setCancelable(false);
 
-        if (!settings.getIsTouchCells()) {
+        if (!PreferencesReaderKotlin.INSTANCE.isTouchCells()) {
             builder.setCancelable(true);
             dialogFragment.setCancelable(true);
 

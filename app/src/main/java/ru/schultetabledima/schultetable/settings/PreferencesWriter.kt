@@ -22,8 +22,8 @@ class PreferencesWriterKotlin {
     }
 
     companion object {
-        private const val appPreferences = "my_settingsd"
-        private var settings: SharedPreferences? = App.getContext().getSharedPreferences(appPreferences, Context.MODE_PRIVATE)
+        const val APP_PREFERENCES = "my_settingsd"
+        private var settings: SharedPreferences? = App.getContext().getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE)
 
         const val keyAnimation = "switchAnimation"
         const val keyTouchCells = "switchTouchCells"

@@ -13,7 +13,7 @@ import ru.schultetabledima.schultetable.database.ResultDao;
 import ru.schultetabledima.schultetable.table.model.EndGameDialogueCreator;
 import ru.schultetabledima.schultetable.table.model.TimeResultFromBaseChronometer;
 import ru.schultetabledima.schultetable.table.view.EndGameDialogueFragment;
-import ru.schultetabledima.schultetable.utils.PreferencesReader;
+import ru.schultetabledima.schultetable.utils.PreferencesReaderKotlin;
 import ru.schultetabledima.schultetable.utils.ScreenAnimationKt;
 
 
@@ -22,7 +22,6 @@ public class EndGameDialoguePresenter {
     private EndGameDialogueFragment dialogFragment;
     private TablePresenter tablePresenter;
     private long saveTime;
-    private PreferencesReader settings;
     private String dateText, tableSize, valueType, timeResult;
     private int quantityTables;
 
@@ -33,7 +32,6 @@ public class EndGameDialoguePresenter {
     }
 
     private void init() {
-        settings = new PreferencesReader();
         saveTime = tablePresenter.getSaveTime();
 
         EndGameDialogueCreator endGameDialogueCreator = new EndGameDialogueCreator(dialogFragment, this, saveTime);
@@ -88,9 +86,9 @@ public class EndGameDialoguePresenter {
         getValueType();
         getTimeResult();
 
-        tableSize = settings.getRowsOfTable() + "x" + settings.getColumnsOfTable();
+        tableSize = PreferencesReaderKotlin.INSTANCE.getRowsOfTable() + "x" + PreferencesReaderKotlin.INSTANCE.getColumnsOfTable();
 
-        quantityTables = settings.getIsTwoTables() ? 2 : 1;
+        quantityTables = PreferencesReaderKotlin.INSTANCE.isTwoTables() ? 2 : 1;
     }
 
 
@@ -101,8 +99,8 @@ public class EndGameDialoguePresenter {
     }
 
     private void getValueType() {
-        if (settings.getIsLetters()) {
-            valueType = settings.getIsEnglish() ?
+        if (PreferencesReaderKotlin.INSTANCE.isLetters()) {
+            valueType = PreferencesReaderKotlin.INSTANCE.isEnglish() ?
                     App.getContext().getString(R.string.languageEnglish) : App.getContext().getString(R.string.languageRussian);
         } else
             valueType = App.getContext().getString(R.string.valueTypeNumbers);

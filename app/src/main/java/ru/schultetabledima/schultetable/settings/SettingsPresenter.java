@@ -9,7 +9,7 @@ public class SettingsPresenter {
 
     private final Fragment context;
     private transient PreferencesReader preferencesReader;
-    private transient PreferencesWriter preferencesWriter;
+    private transient PreferencesWriterKotlin preferencesWriterKotlin;
 
     public SettingsPresenter(Fragment view) {
         this.context = view;
@@ -22,7 +22,8 @@ public class SettingsPresenter {
 
     private void init() {
         preferencesReader = new PreferencesReader();
-        preferencesWriter = new PreferencesWriter();
+        preferencesWriterKotlin = new PreferencesWriterKotlin();
+//        preferencesWriter = new PreferencesWriter();
     }
 
     private void customizationSettingsActivity() {
@@ -51,31 +52,33 @@ public class SettingsPresenter {
                 b = true;
                 break;
         }
-        preferencesWriter.putBoolean(PreferencesWriter.getKeyIsLetters(), b);
+        preferencesWriterKotlin.putBoolean(PreferencesWriterKotlin.keyIsLetters, b);
+//        preferencesWriter.putBoolean(PreferencesWriter.getKeyIsLetters(), b);
     }
 
     public void onClickListenerSwitch(int id, boolean isChecked) {
         String key = "";
         if (id == R.id.switchAnimation) {
-            key = PreferencesWriter.getKeyAnimation();
+            key = PreferencesWriterKotlin.keyAnimation;
 
         } else if (id == R.id.switchTouchCells) {
-            key = PreferencesWriter.getKeyTouchCells();
+            key = PreferencesWriterKotlin.keyTouchCells;
 
             boolean isSwitchMoveHintEnabled = isChecked;
             ((SettingsFragment) context).customizationSwitchMoveHint(isSwitchMoveHintEnabled, preferencesReader.getIsMoveHint());
 
         } else if (id == R.id.switchTwoTables) {
-            key = PreferencesWriter.getKeyTwoTables();
+            key = PreferencesWriterKotlin.keyTwoTables;
 
         } else if (id == R.id.switchRussianOrEnglish) {
-            key = PreferencesWriter.getKeyRussianOrEnglish();
+            key = PreferencesWriterKotlin.keyRussianOrEnglish;
 
         } else if (id == R.id.switchMoveHint) {
-            key = PreferencesWriter.getKeyMoveHint();
+            key = PreferencesWriterKotlin.keyMoveHint;
         }
 
         if (!key.equals(""))
-            preferencesWriter.putBoolean(key, isChecked);
+            preferencesWriterKotlin.putBoolean(key, isChecked);
+//            preferencesWriter.putBoolean(key, isChecked);
     }
 }

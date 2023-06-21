@@ -1,10 +1,9 @@
 package ru.schultetabledima.schultetable.settings;
 import ru.schultetabledima.schultetable.R;
-import ru.schultetabledima.schultetable.utils.PreferencesReader;
 import ru.schultetabledima.schultetable.utils.PreferencesReaderKotlin;
 
 public class LettersFragmentPresenter {
-    private PreferencesWriter preferencesWriter;
+    private PreferencesWriterKotlin preferencesWriterKotlin;
     private LettersFragment lettersFragment;
 
     public LettersFragmentPresenter(LettersFragment lettersFragment) {
@@ -13,18 +12,15 @@ public class LettersFragmentPresenter {
     }
 
     private void main() {
-        PreferencesReader preferencesReader = new PreferencesReader();
 
-        int i1 = preferencesReader.getColumnsOfTable();
+        int i1 = PreferencesReaderKotlin.INSTANCE.getColumnsOfTable();
         int i2 = PreferencesReaderKotlin.INSTANCE.getColumnsOfTable();
 
+        preferencesWriterKotlin = new PreferencesWriterKotlin();
 
-
-        preferencesWriter = new PreferencesWriter();
-
-        lettersFragment.setSpinnerRowsSelection(preferencesReader.getRowsOfTableLetters() - 1);
-        lettersFragment.setSpinnerColumnsSelection(preferencesReader.getColumnsOfTableLetters() - 1);
-        lettersFragment.setSwitchRussianOrEnglish(preferencesReader.getIsEnglish());
+        lettersFragment.setSpinnerRowsSelection(PreferencesReaderKotlin.INSTANCE.getRowsOfTableLetters() - 1);
+        lettersFragment.setSpinnerColumnsSelection(PreferencesReaderKotlin.INSTANCE.getColumnsOfTableLetters() - 1);
+        lettersFragment.setSwitchRussianOrEnglish(PreferencesReaderKotlin.INSTANCE.isEnglish());
 
     }
 
@@ -32,16 +28,16 @@ public class LettersFragmentPresenter {
         int amount = position + 1;
 
         if (id == R.id.spinnerColumnsLetters) {
-            preferencesWriter.putInt(PreferencesWriter.getKeyColumnsLetters(), amount);
+            preferencesWriterKotlin.putInt(PreferencesWriterKotlin.keyColumnsLetters, amount);
 
         } else if (id == R.id.spinnerRowsLetters) {
-            preferencesWriter.putInt(PreferencesWriter.getKeyRowsLetters(), amount);
+            preferencesWriterKotlin.putInt(PreferencesWriterKotlin.keyRowsLetters, amount);
         }
     }
 
     public void lettersFragmentListener(int id, boolean isChecked) {
         if (id == R.id.switchRussianOrEnglish) {
-            preferencesWriter.putBoolean(PreferencesWriter.getKeyRussianOrEnglish(), isChecked);
+            preferencesWriterKotlin.putBoolean(PreferencesWriterKotlin.keyRussianOrEnglish, isChecked);
         }
     }
 }

@@ -7,13 +7,14 @@ import android.widget.LinearLayout;
 import ru.schultetabledima.schultetable.App;
 import ru.schultetabledima.schultetable.R;
 import ru.schultetabledima.schultetable.utils.Converter;
-import ru.schultetabledima.schultetable.utils.PreferencesReader;
+//import ru.schultetabledima.schultetable.utils.PreferencesReader;
+import ru.schultetabledima.schultetable.utils.PreferencesReaderKotlin;
 import ru.schultetabledima.schultetable.utils.ScreenAnimationKt;
 
 public class MenuButtonsHandler {
 
     private TablePresenter presenter;
-    private PreferencesReader settings;
+//    private PreferencesReader settings;
     private boolean isMenuShow;
     private String KEY_MENU_VISIBILITY;
     private SharedPreferences sharedPreferencesMenu;
@@ -28,7 +29,7 @@ public class MenuButtonsHandler {
     }
 
     private void init() {
-        settings = new PreferencesReader();
+//        settings = new PreferencesReader();
     }
 
     public boolean checkClick(int viewID) {
@@ -60,7 +61,7 @@ public class MenuButtonsHandler {
                 isMenuShow = true;
             }
 
-            if (settings.getIsMoveHint() && isMenuShow && settings.getIsTouchCells()) {
+            if (PreferencesReaderKotlin.INSTANCE.isMoveHint() && isMenuShow && PreferencesReaderKotlin.INSTANCE.isTouchCells()) {
                 visibilityHint = View.VISIBLE;
 
             } else {

@@ -1,11 +1,11 @@
 package ru.schultetabledima.schultetable.settings;
 
 import ru.schultetabledima.schultetable.R;
-import ru.schultetabledima.schultetable.utils.PreferencesReader;
+import ru.schultetabledima.schultetable.utils.PreferencesReaderKotlin;
 
 public class NumbersFragmentPresenter {
 
-    private PreferencesWriter preferencesWriter;
+    private PreferencesWriterKotlin preferencesWriterKotlin;
     private NumbersFragment numbersFragment;
 
     public NumbersFragmentPresenter(NumbersFragment numbersFragment) {
@@ -14,21 +14,20 @@ public class NumbersFragmentPresenter {
     }
 
     private void main() {
-        PreferencesReader preferencesReader = new PreferencesReader();
-        preferencesWriter = new PreferencesWriter();
+        preferencesWriterKotlin = new PreferencesWriterKotlin();
 
-        numbersFragment.setSpinnerRowsSelection(preferencesReader.getRowsOfTableNumbers() - 1);
-        numbersFragment.setSpinnerColumnsSelection(preferencesReader.getColumnsOfTableNumbers() - 1);
+        numbersFragment.setSpinnerRowsSelection(PreferencesReaderKotlin.INSTANCE.getRowsOfTableNumbers() - 1);
+        numbersFragment.setSpinnerColumnsSelection(PreferencesReaderKotlin.INSTANCE.getColumnsOfTableNumbers() - 1);
     }
 
     public void numbersFragmentListener(int id, int position) {
         int amount = position + 1;
 
         if (id == R.id.spinnerColumnsNumbers) {
-            preferencesWriter.putInt(PreferencesWriter.getKeyColumnsNumbers(), amount);
+            preferencesWriterKotlin.putInt(PreferencesWriterKotlin.keyColumnsNumbers, amount);
 
         } else if (id == R.id.spinnerRowsNumbers) {
-            preferencesWriter.putInt(PreferencesWriter.getKeyRowsNumbers(), amount);
+            preferencesWriterKotlin.putInt(PreferencesWriterKotlin.keyRowsNumbers, amount);
         }
     }
 }
