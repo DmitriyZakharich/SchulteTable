@@ -8,8 +8,7 @@ import ru.schultetabledima.schultetable.utils.PreferencesReader;
 public class SettingsPresenter {
 
     private final Fragment context;
-    private transient PreferencesReader preferencesReader;
-    private transient PreferencesWriterKotlin preferencesWriterKotlin;
+    private transient PreferencesWriter preferencesWriter;
 
     public SettingsPresenter(Fragment view) {
         this.context = view;
@@ -21,20 +20,18 @@ public class SettingsPresenter {
     }
 
     private void init() {
-        preferencesReader = new PreferencesReader();
-        preferencesWriterKotlin = new PreferencesWriterKotlin();
-//        preferencesWriter = new PreferencesWriter();
+        preferencesWriter = new PreferencesWriter();
     }
 
     private void customizationSettingsActivity() {
-        ((SettingsFragment) context).switchTouchCellsSetChecked(preferencesReader.getIsTouchCells());
-        ((SettingsFragment) context).switchAnimationSetChecked(preferencesReader.getIsAnim());
-        ((SettingsFragment) context).switchTwoTablesSetChecked(preferencesReader.getIsTwoTables());
+        ((SettingsFragment) context).switchTouchCellsSetChecked(PreferencesReader.INSTANCE.isTouchCells());
+        ((SettingsFragment) context).switchAnimationSetChecked(PreferencesReader.INSTANCE.isAnim());
+        ((SettingsFragment) context).switchTwoTablesSetChecked(PreferencesReader.INSTANCE.isTwoTables());
 
-        boolean isSwitchMoveHintEnabled = preferencesReader.getIsTouchCells();
-        ((SettingsFragment) context).customizationSwitchMoveHint(isSwitchMoveHintEnabled, preferencesReader.getIsMoveHint());
+        boolean isSwitchMoveHintEnabled = PreferencesReader.INSTANCE.isTouchCells();
+        ((SettingsFragment) context).customizationSwitchMoveHint(isSwitchMoveHintEnabled, PreferencesReader.INSTANCE.isMoveHint());
 
-        if (preferencesReader.getIsLetters()) {
+        if (PreferencesReader.INSTANCE.isLetters()) {
             ((SettingsFragment) context).setViewPagerCurrentItem(1);
         } else {
             ((SettingsFragment) context).setViewPagerCurrentItem(0);
@@ -52,33 +49,31 @@ public class SettingsPresenter {
                 b = true;
                 break;
         }
-        preferencesWriterKotlin.putBoolean(PreferencesWriterKotlin.keyIsLetters, b);
-//        preferencesWriter.putBoolean(PreferencesWriter.getKeyIsLetters(), b);
+        preferencesWriter.putBoolean(PreferencesWriter.keyIsLetters, b);
     }
 
     public void onClickListenerSwitch(int id, boolean isChecked) {
         String key = "";
         if (id == R.id.switchAnimation) {
-            key = PreferencesWriterKotlin.keyAnimation;
+            key = PreferencesWriter.keyAnimation;
 
         } else if (id == R.id.switchTouchCells) {
-            key = PreferencesWriterKotlin.keyTouchCells;
+            key = PreferencesWriter.keyTouchCells;
 
             boolean isSwitchMoveHintEnabled = isChecked;
-            ((SettingsFragment) context).customizationSwitchMoveHint(isSwitchMoveHintEnabled, preferencesReader.getIsMoveHint());
+            ((SettingsFragment) context).customizationSwitchMoveHint(isSwitchMoveHintEnabled, PreferencesReader.INSTANCE.isMoveHint());
 
         } else if (id == R.id.switchTwoTables) {
-            key = PreferencesWriterKotlin.keyTwoTables;
+            key = PreferencesWriter.keyTwoTables;
 
         } else if (id == R.id.switchRussianOrEnglish) {
-            key = PreferencesWriterKotlin.keyRussianOrEnglish;
+            key = PreferencesWriter.keyRussianOrEnglish;
 
         } else if (id == R.id.switchMoveHint) {
-            key = PreferencesWriterKotlin.keyMoveHint;
+            key = PreferencesWriter.keyMoveHint;
         }
 
         if (!key.equals(""))
-            preferencesWriterKotlin.putBoolean(key, isChecked);
-//            preferencesWriter.putBoolean(key, isChecked);
+            preferencesWriter.putBoolean(key, isChecked);
     }
 }

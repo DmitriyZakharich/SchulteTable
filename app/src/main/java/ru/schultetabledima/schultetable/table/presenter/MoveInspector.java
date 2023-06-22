@@ -8,7 +8,7 @@ import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import java.util.List;
 
 import ru.schultetabledima.schultetable.R;
-import ru.schultetabledima.schultetable.utils.PreferencesReaderKotlin;
+import ru.schultetabledima.schultetable.utils.PreferencesReader;
 
 public class MoveInspector {
 
@@ -49,16 +49,16 @@ public class MoveInspector {
         if (!isGameActive)
             return;
 
-        if (!PreferencesReaderKotlin.INSTANCE.isTouchCells())
+        if (!PreferencesReader.INSTANCE.isTouchCells())
             presenter.endGameDialogue();
 
         try {
-            if (PreferencesReaderKotlin.INSTANCE.isTouchCells()) {
+            if (PreferencesReader.INSTANCE.isTouchCells()) {
 
-                if (!PreferencesReaderKotlin.INSTANCE.isTwoTables())
+                if (!PreferencesReader.INSTANCE.isTwoTables())
                     checkMoveInOneTable(cellId);
 
-                if (PreferencesReaderKotlin.INSTANCE.isTwoTables()) {
+                if (PreferencesReader.INSTANCE.isTwoTables()) {
 
                     if (!isValidTable(cellId)) {
                         return;
@@ -93,10 +93,10 @@ public class MoveInspector {
         if (!isGameActive)
             return;
 
-        if (!PreferencesReaderKotlin.INSTANCE.isTouchCells())
+        if (!PreferencesReader.INSTANCE.isTouchCells())
             return;
 
-        if (!PreferencesReaderKotlin.INSTANCE.isTwoTables()) {
+        if (!PreferencesReader.INSTANCE.isTwoTables()) {
             applyCellSelectionInOneTable(cellId);
         } else
             applyCellSelectionInTwoTables(cellId);
@@ -104,7 +104,7 @@ public class MoveInspector {
 
     private void applyCellSelectionInOneTable(int cellId) {
         if (isRightCell) {
-            if (PreferencesReaderKotlin.INSTANCE.isLetters())
+            if (PreferencesReader.INSTANCE.isLetters())
                 presenter.getViewState().setMoveHint((char) nextMoveFirstTable);
 
             else
@@ -191,7 +191,7 @@ public class MoveInspector {
         if (isRightCell) {
             presenter.getViewState().setTableColor(colorFirstTable, colorSecondTable);
 
-            if (PreferencesReaderKotlin.INSTANCE.isLetters())
+            if (PreferencesReader.INSTANCE.isLetters())
                 presenter.getViewState().setMoveHint((char) nextMove);
             else
                 presenter.getViewState().setMoveHint(nextMove);

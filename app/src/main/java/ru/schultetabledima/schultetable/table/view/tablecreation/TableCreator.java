@@ -14,7 +14,7 @@ import ru.schultetabledima.schultetable.App;
 import ru.schultetabledima.schultetable.R;
 import ru.schultetabledima.schultetable.table.presenter.TablePresenter;
 import ru.schultetabledima.schultetable.utils.Converter;
-import ru.schultetabledima.schultetable.utils.PreferencesReaderKotlin;
+import ru.schultetabledima.schultetable.utils.PreferencesReader;
 
 public class TableCreator {
     private LinearLayout containerForTable;
@@ -53,7 +53,7 @@ public class TableCreator {
         containerForTable.setMotionEventSplittingEnabled(false);
 
 
-        if (PreferencesReaderKotlin.INSTANCE.isTwoTables()) {
+        if (PreferencesReader.INSTANCE.isTwoTables()) {
 
             viewDivider = new View(context);
             viewDivider.setBackground(AppCompatResources.getDrawable(App.getContext(), R.drawable.table_separator));
@@ -84,7 +84,7 @@ public class TableCreator {
         fieldCreator1 = new FieldCreator(container, context, R.drawable.border_cell_active_color, tablePresenter);
         containerForTable.addView(fieldCreator1.getField());
 
-        if (PreferencesReaderKotlin.INSTANCE.isTwoTables()) {
+        if (PreferencesReader.INSTANCE.isTwoTables()) {
 
             containerForTable.addView(viewDivider);
 

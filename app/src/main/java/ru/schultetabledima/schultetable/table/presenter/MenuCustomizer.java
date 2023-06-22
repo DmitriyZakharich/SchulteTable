@@ -10,7 +10,7 @@ import ru.schultetabledima.schultetable.App;
 import ru.schultetabledima.schultetable.R;
 import ru.schultetabledima.schultetable.table.view.tablecreation.AnimationTransition;
 import ru.schultetabledima.schultetable.utils.Converter;
-import ru.schultetabledima.schultetable.utils.PreferencesReaderKotlin;
+import ru.schultetabledima.schultetable.utils.PreferencesReader;
 //import ru.schultetabledima.schultetable.utils.PreferencesReader;
 
 public class MenuCustomizer {
@@ -57,10 +57,10 @@ public class MenuCustomizer {
             layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Converter.getPxFromDP(App.getContext(), 20));
         }
 
-        if (!PreferencesReaderKotlin.INSTANCE.isMoveHint() || !PreferencesReaderKotlin.INSTANCE.isTouchCells() || !isMenuShow) {
+        if (!PreferencesReader.INSTANCE.isMoveHint() || !PreferencesReader.INSTANCE.isTouchCells() || !isMenuShow) {
             visibilityHint = View.INVISIBLE;
 
-        } else if (PreferencesReaderKotlin.INSTANCE.isMoveHint()) {
+        } else if (PreferencesReader.INSTANCE.isMoveHint()) {
             visibilityHint = View.VISIBLE;
         }
         presenter.getViewState().showHideMenu(visibility, visibilityHint, imageResource, layoutParams);

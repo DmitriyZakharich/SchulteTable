@@ -17,7 +17,6 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
     private long saveTime = 0;
     private int nextMoveFirstTable, nextMoveSecondTableCountdown;
     private boolean isDialogueShow = false, booleanStartChronometer = true;
-    private transient PreferencesReader settings;
     private TableContract.Model.ValuesCreator cellValuesCreatorFirstTable, cellValuesCreatorSecondTable;
     private List<DataCell> dataCellsFirstTableForFilling, dataCellsSecondTableForFilling;
     private MoveInspector moveInspector;
@@ -33,8 +32,6 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
     }
 
     private void main() {
-        settings = new PreferencesReader();
-
         getViewState().createTable();
 
         dataForMoveInspector = new DataForMoveInspector();
@@ -63,7 +60,7 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
         dataCellsFirstTableForFilling = cellValuesCreatorFirstTable.getDataCells();
         dataForMoveInspector.setCellsIdFirstTableForCheck(cellValuesCreatorFirstTable.getListIdsForCheck());
 
-        if (settings.getIsTwoTables()) {
+        if (PreferencesReader.INSTANCE.isTwoTables()) {
             cellValuesCreatorSecondTable = new CellValuesCreator();
             dataCellsSecondTableForFilling = cellValuesCreatorSecondTable.getDataCells();
             dataForMoveInspector.setCellsIdSecondTableForCheck(cellValuesCreatorSecondTable.getListIdsForCheck());
@@ -87,7 +84,7 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
         nextMoveFirstTable = cellValuesCreatorFirstTable.getFirstValue();
         dataForMoveInspector.setNextMoveFirstTable(nextMoveFirstTable);
 
-        if (settings.getIsTwoTables()) {
+        if (PreferencesReader.INSTANCE.isTwoTables()) {
             int countdownSecondTable = dataCellsSecondTableForFilling.size() - 1;
             nextMoveSecondTableCountdown = cellValuesCreatorSecondTable.getFirstValue() + countdownSecondTable;
 
@@ -95,7 +92,7 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
             dataForMoveInspector.setNextMoveSecondTableCountdown(nextMoveSecondTableCountdown);
         }
 
-        if (settings.getIsLetters()) {
+        if (PreferencesReader.INSTANCE.isLetters()) {
             getViewState().setMoveHint((char) nextMoveFirstTable);
 
         } else {

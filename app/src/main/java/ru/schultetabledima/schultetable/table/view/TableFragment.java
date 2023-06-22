@@ -33,7 +33,6 @@ import ru.schultetabledima.schultetable.table.model.DataCell;
 import ru.schultetabledima.schultetable.table.presenter.TablePresenter;
 import ru.schultetabledima.schultetable.table.view.tablecreation.TableCreator;
 import ru.schultetabledima.schultetable.utils.PreferencesReader;
-import ru.schultetabledima.schultetable.utils.PreferencesReaderKotlin;
 
 public class TableFragment extends BaseScreenFragment implements TableContract.View,
         EndGameDialogueFragment.PassMeLinkOnObject, TableCreator.PassMeLinkOnPresenter {
@@ -91,7 +90,7 @@ public class TableFragment extends BaseScreenFragment implements TableContract.V
 
         cells1 = tableCreator.getCellsFirstTable();
 
-        if (PreferencesReaderKotlin.INSTANCE.isTwoTables()) {
+        if (PreferencesReader.INSTANCE.isTwoTables()) {
             cells2 = tableCreator.getCellsSecondTable();
         }
     }
@@ -101,13 +100,13 @@ public class TableFragment extends BaseScreenFragment implements TableContract.V
 
         fillingTable(cells1, dataCellsFirstTable);
 
-        if (PreferencesReaderKotlin.INSTANCE.isTwoTables()) {
+        if (PreferencesReader.INSTANCE.isTwoTables()) {
             fillingTable(cells2, dataCellsSecondTable);
         }
 
-        if (PreferencesReaderKotlin.INSTANCE.isAnim()) {
+        if (PreferencesReader.INSTANCE.isAnim()) {
             addAnimationGame(dataCellsFirstTable);
-            if (PreferencesReaderKotlin.INSTANCE.isTwoTables()) {
+            if (PreferencesReader.INSTANCE.isTwoTables()) {
                 addAnimationGame(dataCellsSecondTable);
             }
         }
@@ -116,12 +115,12 @@ public class TableFragment extends BaseScreenFragment implements TableContract.V
     private void fillingTable(AppCompatTextView[][] cells, List<DataCell> dataCells) {
         int count = 0;
 
-        for (int i = 0; i < PreferencesReaderKotlin.INSTANCE.getRowsOfTable(); i++) {
-            for (int j = 0; j < PreferencesReaderKotlin.INSTANCE.getColumnsOfTable(); j++) {
+        for (int i = 0; i < PreferencesReader.INSTANCE.getRowsOfTable(); i++) {
+            for (int j = 0; j < PreferencesReader.INSTANCE.getColumnsOfTable(); j++) {
 
                 cells[i][j].setId(dataCells.get(count).getId());
 
-                if (PreferencesReaderKotlin.INSTANCE.isLetters()) {
+                if (PreferencesReader.INSTANCE.isLetters()) {
                     cells[i][j].setText(String.valueOf((char) (dataCells.get(count).getValue())));
 
                 } else {
@@ -163,8 +162,8 @@ public class TableFragment extends BaseScreenFragment implements TableContract.V
     @Override
     public void setTableColor(int backgroundResourcesFirstTable, int backgroundResourcesSecondTable) {
 
-        for (int i = 0; i < PreferencesReaderKotlin.INSTANCE.getRowsOfTable(); i++) {
-            for (int j = 0; j < PreferencesReaderKotlin.INSTANCE.getColumnsOfTable(); j++) {
+        for (int i = 0; i < PreferencesReader.INSTANCE.getRowsOfTable(); i++) {
+            for (int j = 0; j < PreferencesReader.INSTANCE.getColumnsOfTable(); j++) {
                 cells1[i][j].setBackground(this.getResources().getDrawable(backgroundResourcesFirstTable));
                 cells2[i][j].setBackground(this.getResources().getDrawable(backgroundResourcesSecondTable));
             }

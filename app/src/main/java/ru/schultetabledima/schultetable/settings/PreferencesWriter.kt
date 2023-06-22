@@ -4,10 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import ru.schultetabledima.schultetable.App
 
-class PreferencesWriterKotlin {
-    init {
-//        settings = App.getContext().getSharedPreferences(appPreferences, Context.MODE_PRIVATE)
-}
+class PreferencesWriter {
 
     fun putBoolean(key: String?, isChecked: Boolean) {
         val ed = settings!!.edit()

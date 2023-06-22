@@ -1,7 +1,6 @@
 package ru.schultetabledima.schultetable.table.model;
 
 import android.app.Dialog;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,7 +21,7 @@ import com.yandex.mobile.ads.common.ImpressionData;
 
 import ru.schultetabledima.schultetable.R;
 import ru.schultetabledima.schultetable.table.presenter.EndGameDialoguePresenter;
-import ru.schultetabledima.schultetable.utils.PreferencesReaderKotlin;
+import ru.schultetabledima.schultetable.utils.PreferencesReader;
 
 public class EndGameDialogueCreator {
 
@@ -70,7 +69,7 @@ public class EndGameDialogueCreator {
 
         dialogFragment.setCancelable(false);
 
-        if (!PreferencesReaderKotlin.INSTANCE.isTouchCells()) {
+        if (!PreferencesReader.INSTANCE.isTouchCells()) {
             builder.setCancelable(true);
             dialogFragment.setCancelable(true);
 

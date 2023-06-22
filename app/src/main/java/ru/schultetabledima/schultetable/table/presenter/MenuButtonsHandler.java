@@ -8,7 +8,7 @@ import ru.schultetabledima.schultetable.App;
 import ru.schultetabledima.schultetable.R;
 import ru.schultetabledima.schultetable.utils.Converter;
 //import ru.schultetabledima.schultetable.utils.PreferencesReader;
-import ru.schultetabledima.schultetable.utils.PreferencesReaderKotlin;
+import ru.schultetabledima.schultetable.utils.PreferencesReader;
 import ru.schultetabledima.schultetable.utils.ScreenAnimationKt;
 
 public class MenuButtonsHandler {
@@ -61,7 +61,7 @@ public class MenuButtonsHandler {
                 isMenuShow = true;
             }
 
-            if (PreferencesReaderKotlin.INSTANCE.isMoveHint() && isMenuShow && PreferencesReaderKotlin.INSTANCE.isTouchCells()) {
+            if (PreferencesReader.INSTANCE.isMoveHint() && isMenuShow && PreferencesReader.INSTANCE.isTouchCells()) {
                 visibilityHint = View.VISIBLE;
 
             } else {

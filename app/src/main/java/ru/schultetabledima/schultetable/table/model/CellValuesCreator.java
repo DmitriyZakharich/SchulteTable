@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 import ru.schultetabledima.schultetable.contracts.TableContract;
-import ru.schultetabledima.schultetable.utils.PreferencesReaderKotlin;
+import ru.schultetabledima.schultetable.utils.PreferencesReader;
 
 
 public class CellValuesCreator implements TableContract.Model.ValuesCreator {
@@ -26,14 +26,14 @@ public class CellValuesCreator implements TableContract.Model.ValuesCreator {
         calculationFirstValue();
         createValues();
 
-        if (PreferencesReaderKotlin.INSTANCE.isAnim()) {
+        if (PreferencesReader.INSTANCE.isAnim()) {
             addAnimation();
         }
     }
 
     private void calculationFirstValue() {
-        if (PreferencesReaderKotlin.INSTANCE.isLetters()) {
-            firstValue = (PreferencesReaderKotlin.INSTANCE.isEnglish()) ? (int) 'A' : (int) 'А'; // eng/rus
+        if (PreferencesReader.INSTANCE.isLetters()) {
+            firstValue = (PreferencesReader.INSTANCE.isEnglish()) ? (int) 'A' : (int) 'А'; // eng/rus
 
         } else {
             firstValue = 1;
@@ -46,7 +46,7 @@ public class CellValuesCreator implements TableContract.Model.ValuesCreator {
 
         int nextValue = firstValue;
 
-        for (int i = 0; i < PreferencesReaderKotlin.INSTANCE.getColumnsOfTable() * PreferencesReaderKotlin.INSTANCE.getRowsOfTable(); i++) {
+        for (int i = 0; i < PreferencesReader.INSTANCE.getColumnsOfTable() * PreferencesReader.INSTANCE.getRowsOfTable(); i++) {
 
             int id = View.generateViewId();
             dataCells.add(new DataCell(id, nextValue));

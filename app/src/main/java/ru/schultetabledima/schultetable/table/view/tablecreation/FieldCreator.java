@@ -13,7 +13,7 @@ import androidx.appcompat.widget.AppCompatTextView;
 
 import ru.schultetabledima.schultetable.table.presenter.TablePresenter;
 import ru.schultetabledima.schultetable.utils.Converter;
-import ru.schultetabledima.schultetable.utils.PreferencesReaderKotlin;
+import ru.schultetabledima.schultetable.utils.PreferencesReader;
 
 public class FieldCreator {
     private TableLayout field;
@@ -51,7 +51,7 @@ public class FieldCreator {
     }
 
     private void createRows() {
-        rows = new LinearLayout[PreferencesReaderKotlin.INSTANCE.getRowsOfTable()];
+        rows = new LinearLayout[PreferencesReader.INSTANCE.getRowsOfTable()];
         for (int i = 0; i < rows.length; i++) {
             rows[i] = new LinearLayout(context);
             rows[i].setMotionEventSplittingEnabled(false);
@@ -65,10 +65,10 @@ public class FieldCreator {
 
     private void createCells() {
 
-        cells = new CustomCell[PreferencesReaderKotlin.INSTANCE.getRowsOfTable()][PreferencesReaderKotlin.INSTANCE.getColumnsOfTable()];
-        for (int i = 0; i < PreferencesReaderKotlin.INSTANCE.getRowsOfTable(); i++) {
-            for (int j = 0; j < PreferencesReaderKotlin.INSTANCE.getColumnsOfTable(); j++) {
-                cells[i][j] = new CustomCell(context, PreferencesReaderKotlin.INSTANCE.isLetters());
+        cells = new CustomCell[PreferencesReader.INSTANCE.getRowsOfTable()][PreferencesReader.INSTANCE.getColumnsOfTable()];
+        for (int i = 0; i < PreferencesReader.INSTANCE.getRowsOfTable(); i++) {
+            for (int j = 0; j < PreferencesReader.INSTANCE.getColumnsOfTable(); j++) {
+                cells[i][j] = new CustomCell(context, PreferencesReader.INSTANCE.isLetters());
                 cells[i][j].setTextColor(Color.BLACK);
                 cells[i][j].setBackgroundColor(Color.WHITE);
                 cells[i][j].setMaxLines(1);
