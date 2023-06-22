@@ -2,14 +2,11 @@ package ru.schultetabledima.schultetable.statistic;
 
 import static android.content.Context.MODE_PRIVATE;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.util.Log;
-import android.view.View;
 import android.widget.ArrayAdapter;
 
 import java.util.ArrayList;

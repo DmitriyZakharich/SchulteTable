@@ -33,9 +33,7 @@ class DeletePopupMenuCreator(
         }
     }
 
-    fun getPopupMenu(): PopupMenu {
-        return popupMenu
-    }
+    fun getPopupMenu(): PopupMenu = popupMenu
 }
 
 
