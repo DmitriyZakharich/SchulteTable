@@ -12,12 +12,11 @@ public class LettersFragmentPresenter {
     }
 
     private void main() {
-        PreferencesReader preferencesReader = new PreferencesReader();
         preferencesWriter = new PreferencesWriter();
 
-        lettersFragment.setSpinnerRowsSelection(preferencesReader.getRowsOfTableLetters() - 1);
-        lettersFragment.setSpinnerColumnsSelection(preferencesReader.getColumnsOfTableLetters() - 1);
-        lettersFragment.setSwitchRussianOrEnglish(preferencesReader.getIsEnglish());
+        lettersFragment.setSpinnerRowsSelection(PreferencesReader.INSTANCE.getRowsOfTableLetters() - 1);
+        lettersFragment.setSpinnerColumnsSelection(PreferencesReader.INSTANCE.getColumnsOfTableLetters() - 1);
+        lettersFragment.setSwitchRussianOrEnglish(PreferencesReader.INSTANCE.isEnglish());
 
     }
 
@@ -25,16 +24,16 @@ public class LettersFragmentPresenter {
         int amount = position + 1;
 
         if (id == R.id.spinnerColumnsLetters) {
-            preferencesWriter.putInt(PreferencesWriter.getKeyColumnsLetters(), amount);
+            preferencesWriter.putInt(PreferencesWriter.keyColumnsLetters, amount);
 
         } else if (id == R.id.spinnerRowsLetters) {
-            preferencesWriter.putInt(PreferencesWriter.getKeyRowsLetters(), amount);
+            preferencesWriter.putInt(PreferencesWriter.keyRowsLetters, amount);
         }
     }
 
     public void lettersFragmentListener(int id, boolean isChecked) {
         if (id == R.id.switchRussianOrEnglish) {
-            preferencesWriter.putBoolean(PreferencesWriter.getKeyRussianOrEnglish(), isChecked);
+            preferencesWriter.putBoolean(PreferencesWriter.keyRussianOrEnglish, isChecked);
         }
     }
 }

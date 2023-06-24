@@ -23,7 +23,6 @@ public class TableCreator {
     private TablePresenter tablePresenter;
     private FieldCreator fieldCreator1;
     private FieldCreator fieldCreator2;
-    private PreferencesReader settings;
     private View viewDivider;
 
     public interface PassMeLinkOnPresenter{
@@ -39,7 +38,6 @@ public class TableCreator {
     }
 
     void main() {
-        settings = new PreferencesReader();
         creatingContainerForTable();
         creatingField();
         addAnimationTransition();
@@ -55,7 +53,7 @@ public class TableCreator {
         containerForTable.setMotionEventSplittingEnabled(false);
 
 
-        if (settings.getIsTwoTables()) {
+        if (PreferencesReader.INSTANCE.isTwoTables()) {
 
             viewDivider = new View(context);
             viewDivider.setBackground(AppCompatResources.getDrawable(App.getContext(), R.drawable.table_separator));
@@ -86,7 +84,7 @@ public class TableCreator {
         fieldCreator1 = new FieldCreator(container, context, R.drawable.border_cell_active_color, tablePresenter);
         containerForTable.addView(fieldCreator1.getField());
 
-        if (settings.getIsTwoTables()) {
+        if (PreferencesReader.INSTANCE.isTwoTables()) {
 
             containerForTable.addView(viewDivider);
 

@@ -14,21 +14,20 @@ public class NumbersFragmentPresenter {
     }
 
     private void main() {
-        PreferencesReader preferencesReader = new PreferencesReader();
         preferencesWriter = new PreferencesWriter();
 
-        numbersFragment.setSpinnerRowsSelection(preferencesReader.getRowsOfTableNumbers() - 1);
-        numbersFragment.setSpinnerColumnsSelection(preferencesReader.getColumnsOfTableNumbers() - 1);
+        numbersFragment.setSpinnerRowsSelection(PreferencesReader.INSTANCE.getRowsOfTableNumbers() - 1);
+        numbersFragment.setSpinnerColumnsSelection(PreferencesReader.INSTANCE.getColumnsOfTableNumbers() - 1);
     }
 
     public void numbersFragmentListener(int id, int position) {
         int amount = position + 1;
 
         if (id == R.id.spinnerColumnsNumbers) {
-            preferencesWriter.putInt(PreferencesWriter.getKeyColumnsNumbers(), amount);
+            preferencesWriter.putInt(PreferencesWriter.keyColumnsNumbers, amount);
 
         } else if (id == R.id.spinnerRowsNumbers) {
-            preferencesWriter.putInt(PreferencesWriter.getKeyRowsNumbers(), amount);
+            preferencesWriter.putInt(PreferencesWriter.keyRowsNumbers, amount);
         }
     }
 }

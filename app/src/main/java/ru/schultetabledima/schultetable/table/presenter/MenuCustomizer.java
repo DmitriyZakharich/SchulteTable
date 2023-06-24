@@ -11,6 +11,7 @@ import ru.schultetabledima.schultetable.R;
 import ru.schultetabledima.schultetable.table.view.tablecreation.AnimationTransition;
 import ru.schultetabledima.schultetable.utils.Converter;
 import ru.schultetabledima.schultetable.utils.PreferencesReader;
+//import ru.schultetabledima.schultetable.utils.PreferencesReader;
 
 public class MenuCustomizer {
 
@@ -19,7 +20,7 @@ public class MenuCustomizer {
     private final String MENU_PREFERENCES = "PreferencesMenu";
     private final String KEY_MENU_VISIBILITY = "Saved Menu Visibility";
     private boolean isMenuShow;
-    private PreferencesReader settings;
+//    private PreferencesReader settings;
     private DataForMenuButtonsHandler data;
 
     public MenuCustomizer(TablePresenter presenter) {
@@ -29,7 +30,7 @@ public class MenuCustomizer {
 
     private void main() {
         data = new DataForMenuButtonsHandler();
-        settings = new PreferencesReader();
+//        settings = new PreferencesReader();
         settingForMenu();
     }
 
@@ -56,10 +57,10 @@ public class MenuCustomizer {
             layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Converter.getPxFromDP(App.getContext(), 20));
         }
 
-        if (!settings.getIsMoveHint() || !settings.getIsTouchCells() || !isMenuShow) {
+        if (!PreferencesReader.INSTANCE.isMoveHint() || !PreferencesReader.INSTANCE.isTouchCells() || !isMenuShow) {
             visibilityHint = View.INVISIBLE;
 
-        } else if (settings.getIsMoveHint()) {
+        } else if (PreferencesReader.INSTANCE.isMoveHint()) {
             visibilityHint = View.VISIBLE;
         }
         presenter.getViewState().showHideMenu(visibility, visibilityHint, imageResource, layoutParams);

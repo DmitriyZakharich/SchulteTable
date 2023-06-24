@@ -1,20 +1,17 @@
 package ru.schultetabledima.schultetable.table.model;
 
 import android.view.View;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
-
 import ru.schultetabledima.schultetable.contracts.TableContract;
 import ru.schultetabledima.schultetable.utils.PreferencesReader;
 
 
 public class CellValuesCreator implements TableContract.Model.ValuesCreator {
-    private PreferencesReader settings;
     private List<Integer> listIdsForCheck;
     private List<DataCell> dataCells;
     private int firstValue;
@@ -24,19 +21,17 @@ public class CellValuesCreator implements TableContract.Model.ValuesCreator {
     }
 
     private void main() {
-        settings = new PreferencesReader();
-
         calculationFirstValue();
         createValues();
 
-        if (settings.getIsAnim()) {
+        if (PreferencesReader.INSTANCE.isAnim()) {
             addAnimation();
         }
     }
 
     private void calculationFirstValue() {
-        if (settings.getIsLetters()) {
-            firstValue = (settings.getIsEnglish()) ? (int) 'A' : (int) 'А'; // eng/rus
+        if (PreferencesReader.INSTANCE.isLetters()) {
+            firstValue = (PreferencesReader.INSTANCE.isEnglish()) ? (int) 'A' : (int) 'А'; // eng/rus
 
         } else {
             firstValue = 1;
@@ -49,7 +44,7 @@ public class CellValuesCreator implements TableContract.Model.ValuesCreator {
 
         int nextValue = firstValue;
 
-        for (int i = 0; i < settings.getColumnsOfTable() * settings.getRowsOfTable(); i++) {
+        for (int i = 0; i < PreferencesReader.INSTANCE.getColumnsOfTable() * PreferencesReader.INSTANCE.getRowsOfTable(); i++) {
 
             int id = View.generateViewId();
             dataCells.add(new DataCell(id, nextValue));

@@ -1,20 +1,17 @@
 package ru.schultetabledima.schultetable.table.presenter;
 
 import android.graphics.Color;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
 import java.util.List;
 
-import ru.schultetabledima.schultetable.App;
 import ru.schultetabledima.schultetable.R;
 import ru.schultetabledima.schultetable.utils.PreferencesReader;
 
 public class MoveInspector {
 
-    PreferencesReader settings;
     private int cellColor, backgroundCellResources;
     private TablePresenter presenter;
     private List<Integer> cellsIdFirstTableForCheck;
@@ -30,7 +27,6 @@ public class MoveInspector {
     private int nextMove;
     private boolean isGameActive = true;
 
-
     public MoveInspector(TablePresenter presenter, DataForMoveInspector data) {
         this.presenter = presenter;
 
@@ -39,29 +35,22 @@ public class MoveInspector {
         nextMoveFirstTable = data.getNextMoveFirstTable();
         nextMoveSecondTableCountdown = data.getNextMoveSecondTableCountdown();
         countdownSecondTable = data.getCountdownSecondTable();
-
-        init();
-    }
-
-    private void init() {
-        settings = new PreferencesReader();
     }
 
     public void cellActionDown(int cellId) {
-
         if (!isGameActive)
             return;
 
-        if (!settings.getIsTouchCells())
+        if (!PreferencesReader.INSTANCE.isTouchCells())
             presenter.endGameDialogue();
 
         try {
-            if (settings.getIsTouchCells()) {
+            if (PreferencesReader.INSTANCE.isTouchCells()) {
 
-                if (!settings.getIsTwoTables())
+                if (!PreferencesReader.INSTANCE.isTwoTables())
                     checkMoveInOneTable(cellId);
 
-                if (settings.getIsTwoTables()) {
+                if (PreferencesReader.INSTANCE.isTwoTables()) {
 
                     if (!isValidTable(cellId)) {
                         return;
@@ -79,7 +68,6 @@ public class MoveInspector {
         }
     }
 
-
     private void checkMoveInOneTable(int cellId) throws IndexOutOfBoundsException {
         cellColor = Color.RED;
         if (cellId == cellsIdFirstTableForCheck.get(countFirstTable)) {
@@ -92,14 +80,13 @@ public class MoveInspector {
     }
 
     public void cellActionUp(int cellId) {
-
         if (!isGameActive)
             return;
 
-        if (!settings.getIsTouchCells())
+        if (!PreferencesReader.INSTANCE.isTouchCells())
             return;
 
-        if (!settings.getIsTwoTables()) {
+        if (!PreferencesReader.INSTANCE.isTwoTables()) {
             applyCellSelectionInOneTable(cellId);
         } else
             applyCellSelectionInTwoTables(cellId);
@@ -107,7 +94,7 @@ public class MoveInspector {
 
     private void applyCellSelectionInOneTable(int cellId) {
         if (isRightCell) {
-            if (settings.getIsLetters())
+            if (PreferencesReader.INSTANCE.isLetters())
                 presenter.getViewState().setMoveHint((char) nextMoveFirstTable);
 
             else
@@ -123,7 +110,6 @@ public class MoveInspector {
             presenter.endGameDialogue();
         }
     }
-
 
     private boolean isValidTable(int cellId) {
         cellColor = Color.RED;
@@ -194,7 +180,7 @@ public class MoveInspector {
         if (isRightCell) {
             presenter.getViewState().setTableColor(colorFirstTable, colorSecondTable);
 
-            if (settings.getIsLetters())
+            if (PreferencesReader.INSTANCE.isLetters())
                 presenter.getViewState().setMoveHint((char) nextMove);
             else
                 presenter.getViewState().setMoveHint(nextMove);

@@ -23,7 +23,6 @@ public class FieldCreator {
     private LinearLayout[] rows;
     private int backgroundResources;
     private TablePresenter tablePresenter;
-    private PreferencesReader settings;
 
 
     public FieldCreator(TableCreator.PassMeLinkOnPresenter container, Context context, int backgroundResources, TablePresenter tablePresenter) {
@@ -35,7 +34,6 @@ public class FieldCreator {
     }
 
     private void main() {
-        settings = new PreferencesReader();
         createField();
         createRows();
         createCells();
@@ -53,7 +51,7 @@ public class FieldCreator {
     }
 
     private void createRows() {
-        rows = new LinearLayout[settings.getRowsOfTable()];
+        rows = new LinearLayout[PreferencesReader.INSTANCE.getRowsOfTable()];
         for (int i = 0; i < rows.length; i++) {
             rows[i] = new LinearLayout(context);
             rows[i].setMotionEventSplittingEnabled(false);
@@ -67,10 +65,10 @@ public class FieldCreator {
 
     private void createCells() {
 
-        cells = new CustomCell[settings.getRowsOfTable()][settings.getColumnsOfTable()];
-        for (int i = 0; i < settings.getRowsOfTable(); i++) {
-            for (int j = 0; j < settings.getColumnsOfTable(); j++) {
-                cells[i][j] = new CustomCell(context, settings.getIsLetters());
+        cells = new CustomCell[PreferencesReader.INSTANCE.getRowsOfTable()][PreferencesReader.INSTANCE.getColumnsOfTable()];
+        for (int i = 0; i < PreferencesReader.INSTANCE.getRowsOfTable(); i++) {
+            for (int j = 0; j < PreferencesReader.INSTANCE.getColumnsOfTable(); j++) {
+                cells[i][j] = new CustomCell(context, PreferencesReader.INSTANCE.isLetters());
                 cells[i][j].setTextColor(Color.BLACK);
                 cells[i][j].setBackgroundColor(Color.WHITE);
                 cells[i][j].setMaxLines(1);
