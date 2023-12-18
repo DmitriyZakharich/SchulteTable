@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import ru.schultetabledima.schultetable.App
-import ru.schultetabledima.schultetable.settings.PreferencesWriter
+import ru.schultetabledima.schultetable.screens.settings.PreferencesWriter
 
 object PreferencesReader {
 

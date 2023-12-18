@@ -14,7 +14,7 @@ import moxy.viewstate.strategy.OneExecutionStateStrategy;
 import moxy.viewstate.strategy.SingleStateStrategy;
 import moxy.viewstate.strategy.SkipStrategy;
 import moxy.viewstate.strategy.StateStrategyType;
-import ru.schultetabledima.schultetable.table.model.DataCell;
+import ru.schultetabledima.schultetable.screens.game.model.DataCell;
 
 public interface TableContract {
     @StateStrategyType(AddToEndSingleStrategy.class)

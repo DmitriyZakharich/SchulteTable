@@ -7,21 +7,21 @@
 
     <fragment
         android:id="@+id/adviceFragment"
-        android:name="ru.schultetabledima.schultetable.advice.AdviceFragment"
+        android:name="ru.schultetabledima.schultetable.screens.advice.AdviceFragment"
         android:label="AdviceFragment"
         android:tag="adviceFragment"/>
     <fragment
         android:id="@+id/statisticFragment"
-        android:name="ru.schultetabledima.schultetable.statistic.StatisticFragment"
+        android:name="ru.schultetabledima.schultetable.screens.statistic.StatisticFragment"
         android:label="StatisticFragment"/>
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="ru.schultetabledima.schultetable.settings.SettingsFragment"
+        android:name="ru.schultetabledima.schultetable.screens.settings.SettingsFragment"
         android:label="SettingsFragment"/>
 
     <fragment
         android:id="@+id/menuFragment"
-        android:name="ru.schultetabledima.schultetable.main.MenuFragment"
+        android:name="ru.schultetabledima.schultetable.screens.main.MenuFragment"
         android:label="MenuFragment">
         <action
             android:id="@+id/action_menuFragment_to_adviceFragment"
@@ -51,7 +51,7 @@
     </fragment>
     <fragment
         android:id="@+id/tableFragment"
-        android:name="ru.schultetabledima.schultetable.table.view.TableFragment"
+        android:name="ru.schultetabledima.schultetable.screens.game.view.TableFragment"
         android:label="TableFragment">
         <action
             android:id="@+id/action_tableFragment_to_statisticFragment"
@@ -81,7 +81,7 @@
     </fragment>
     <fragment
         android:id="@+id/aboutAppFragment"
-        android:name="ru.schultetabledima.schultetable.about_app.AboutAppFragment"
+        android:name="ru.schultetabledima.schultetable.screens.about_app.AboutAppFragment"
         android:label="fragment_about_app"
         tools:layout="@layout/fragment_about_app" />
 </navigation>

@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/main_background_color"
     android:orientation="vertical"
-    tools:context=".statistic.StatisticFragment">
+    tools:context=".screens.statistic.StatisticFragment">
 
 
     <androidx.fragment.app.FragmentContainerView
