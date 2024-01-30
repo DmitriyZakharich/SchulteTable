@@ -18,7 +18,7 @@ object PreferencesReader {
 
     private fun start() {
         try {
-            spCustomization = App.getContext()
+            spCustomization = App.getAppContext()
                 .getSharedPreferences(PreferencesWriter.APP_PREFERENCES, Context.MODE_PRIVATE)
         } catch (e: NullPointerException) {
             FirebaseCrashlytics.getInstance().recordException(e)

@@ -23,7 +23,7 @@ public class AdviceModel implements AdviceContract.Model {
     private String getStringFromRawRes(int rawRes) {
         InputStream inputStream;
         try {
-            inputStream = App.getContext().getResources().openRawResource(rawRes);
+            inputStream = App.getAppContext().getResources().openRawResource(rawRes);
         } catch (Resources.NotFoundException e) {
             e.printStackTrace();
             return null;

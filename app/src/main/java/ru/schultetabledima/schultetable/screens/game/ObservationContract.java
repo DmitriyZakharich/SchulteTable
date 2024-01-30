@@ -14,6 +14,4 @@ public interface ObservationContract {
         void subscribeSubject();
         void unSubscribeSubject();
     }
-
-
 }

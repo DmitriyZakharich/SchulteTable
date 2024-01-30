@@ -35,7 +35,7 @@ public class MenuCustomizer {
     }
 
     private void settingForMenu() {
-        sharedPreferencesMenu = App.getContext().getSharedPreferences(MENU_PREFERENCES, MODE_PRIVATE);
+        sharedPreferencesMenu = App.getAppContext().getSharedPreferences(MENU_PREFERENCES, MODE_PRIVATE);
         isMenuShow = sharedPreferencesMenu.getBoolean(KEY_MENU_VISIBILITY, true);
 
         data.setMenuShow(isMenuShow);
@@ -49,12 +49,12 @@ public class MenuCustomizer {
         if (isMenuShow) {
             visibility = View.VISIBLE;
             imageResource = R.drawable.ic_arrow_down;
-            layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Converter.getPxFromDP(App.getContext(), 40));
+            layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Converter.getPxFromDP(App.getAppContext(), 40));
 
         } else {
             visibility = View.INVISIBLE;
             imageResource = R.drawable.ic_arrow_up;
-            layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Converter.getPxFromDP(App.getContext(), 20));
+            layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Converter.getPxFromDP(App.getAppContext(), 20));
         }
 
         if (!PreferencesReader.INSTANCE.isMoveHint() || !PreferencesReader.INSTANCE.isTouchCells() || !isMenuShow) {

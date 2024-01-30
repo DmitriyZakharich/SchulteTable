@@ -20,7 +20,7 @@ class PreferencesWriter {
 
     companion object {
         const val APP_PREFERENCES = "my_settingsd"
-        private var settings: SharedPreferences? = App.getContext().getSharedPreferences(
+        private var settings: SharedPreferences? = App.getAppContext().getSharedPreferences(
             APP_PREFERENCES, Context.MODE_PRIVATE)
 
         const val keyAnimation = "switchAnimation"

@@ -59,8 +59,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setBottomNavigationListener() {
-        bottomNavigationView.setOnItemSelectedListener { item ->
 
+        bottomNavigationView.setOnItemSelectedListener { item ->
             val currentFragment = navHostFragment.childFragmentManager.fragments[0]
             var newFragment = 0
             var customNavOptions: NavOptions? = null

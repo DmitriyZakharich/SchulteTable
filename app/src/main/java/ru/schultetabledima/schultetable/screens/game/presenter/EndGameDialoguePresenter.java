@@ -71,7 +71,7 @@ public class EndGameDialoguePresenter {
     private void databaseInsert() {
         dataPreparation();
 
-        AppDatabase db = App.getInstance().getDatabase();
+        AppDatabase db = App.getAppContext().getDatabase();
         ResultDao resultDao = db.resultDao();
         Result result = new Result(dateText, tableSize, timeResult, quantityTables, valueType);
 
@@ -101,9 +101,9 @@ public class EndGameDialoguePresenter {
     private void getValueType() {
         if (PreferencesReader.INSTANCE.isLetters()) {
             valueType = PreferencesReader.INSTANCE.isEnglish() ?
-                    App.getContext().getString(R.string.languageEnglish) : App.getContext().getString(R.string.languageRussian);
+                    App.getAppContext().getString(R.string.languageEnglish) : App.getAppContext().getString(R.string.languageRussian);
         } else
-            valueType = App.getContext().getString(R.string.valueTypeNumbers);
+            valueType = App.getAppContext().getString(R.string.valueTypeNumbers);
     }
 
     private void getTimeResult() {

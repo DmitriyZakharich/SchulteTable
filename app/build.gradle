@@ -9,7 +9,6 @@ apply plugin: 'com.google.firebase.crashlytics'
 
 android {
     compileSdk 33
-//    buildToolsVersion "31"
 
     defaultConfig {
         applicationId "ru.schultetabledima.schultetable"
@@ -46,9 +45,6 @@ android {
         enabled = true
     }
     namespace 'ru.schultetabledima.schultetable'
-//    buildFeatures {
-//        viewBinding true
-//    }
 }
 
 dependencies {

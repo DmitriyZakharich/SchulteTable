@@ -56,7 +56,7 @@ public class TableCreator {
         if (PreferencesReader.INSTANCE.isTwoTables()) {
 
             viewDivider = new View(context);
-            viewDivider.setBackground(AppCompatResources.getDrawable(App.getContext(), R.drawable.table_separator));
+            viewDivider.setBackground(AppCompatResources.getDrawable(App.getAppContext(), R.drawable.table_separator));
 
             int widthViewDivider;
             int heightViewDivider;

@@ -35,17 +35,19 @@ class AdviceFragment : BaseScreenFragment(R.layout.fragment_advice), AdviceContr
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        textViewList.add(binding.tvDefinition)
-        textViewList.add(binding.tvAdvice1)
-        textViewList.add(binding.tvAdvice2)
-        textViewList.add(binding.tvAdvice3)
-        textViewList.add(binding.tvAdvice4)
-        textViewList.add(binding.tvAdvice5)
-        textViewList.add(binding.tvAdvice6)
-        textViewList.add(binding.tvAdvice7)
-        textViewList.add(binding.tvAdvice8)
-        textViewList.add(binding.tvAdvice9)
-        textViewList.add(binding.tvImportantPoint)
+        with(textViewList) {
+            add(binding.tvDefinition)
+            add(binding.tvAdvice1)
+            add(binding.tvAdvice2)
+            add(binding.tvAdvice3)
+            add(binding.tvAdvice4)
+            add(binding.tvAdvice5)
+            add(binding.tvAdvice6)
+            add(binding.tvAdvice7)
+            add(binding.tvAdvice8)
+            add(binding.tvAdvice9)
+            add(binding.tvImportantPoint)
+        }
     }
 
     override fun onResume() {

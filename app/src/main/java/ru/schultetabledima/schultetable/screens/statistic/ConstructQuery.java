@@ -12,8 +12,7 @@ public class ConstructQuery {
 
     public static SimpleSQLiteQuery getQuery(int quantityTables, String valueType, String playedSizes){
         StringBuilder buildQuery = new StringBuilder();
-        List<Object> args = new ArrayList();
-
+        List<Object> args = new ArrayList<>();
         boolean insertAlready = false;
 
         buildQuery.append("SELECT * FROM RESULTS");
@@ -38,7 +37,7 @@ public class ConstructQuery {
             args.add(valueType);
         }
 
-        if (!playedSizes.equals(App.getContext().getString(R.string.allSize))) {
+        if (!playedSizes.equals(App.getAppContext().getString(R.string.allSize))) {
             if (insertAlready) {
                 buildQuery.append(" AND");
             } else {

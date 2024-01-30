@@ -37,7 +37,6 @@ public class CustomRotateValueAnimator {
                 ((CustomCell) tableFragment.requireView().findViewById(id)).setTextColor(Color.TRANSPARENT);
                 ((CustomCell) tableFragment.requireView().findViewById(id)).setAnimation(animatedValue, ROTATE_ANIMATION);
             }
-
         });
         animator.start();
     }

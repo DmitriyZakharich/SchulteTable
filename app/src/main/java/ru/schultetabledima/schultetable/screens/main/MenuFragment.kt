@@ -25,11 +25,13 @@ class MenuFragment : Fragment(R.layout.fragment_main_menu), View.OnClickListener
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.tableButton.setOnClickListener(this)
-        binding.adviceButton.setOnClickListener(this)
-        binding.statisticsButton.setOnClickListener(this)
-        binding.settingsButton.setOnClickListener(this)
-        binding.aboutAppButton.setOnClickListener(this)
+        binding.apply {
+            tableButton.setOnClickListener(this@MenuFragment)
+            adviceButton.setOnClickListener(this@MenuFragment)
+            statisticsButton.setOnClickListener(this@MenuFragment)
+            settingsButton.setOnClickListener(this@MenuFragment)
+            aboutAppButton.setOnClickListener(this@MenuFragment)
+        }
     }
 
     override fun onClick(v: View?) {

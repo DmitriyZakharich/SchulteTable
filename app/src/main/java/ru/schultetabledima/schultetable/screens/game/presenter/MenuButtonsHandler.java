@@ -50,14 +50,14 @@ public class MenuButtonsHandler {
                 visibility = View.INVISIBLE;
                 imageResource = R.drawable.ic_arrow_up;
                 layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                        Converter.getPxFromDP(App.getContext(), 20));
+                        Converter.getPxFromDP(App.getAppContext(), 20));
                 isMenuShow = false;
 
             } else {
                 visibility = View.VISIBLE;
                 imageResource = R.drawable.ic_arrow_down;
                 layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                        (int) App.getContext().getResources().getDimension(R.dimen.customMinHeight));
+                        (int) App.getAppContext().getResources().getDimension(R.dimen.customMinHeight));
                 isMenuShow = true;
             }
 

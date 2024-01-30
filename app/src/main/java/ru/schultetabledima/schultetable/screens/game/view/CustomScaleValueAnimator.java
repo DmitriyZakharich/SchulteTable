@@ -7,9 +7,9 @@ import ru.schultetabledima.schultetable.screens.game.ObservationContract;
 import ru.schultetabledima.schultetable.screens.game.view.tablecreation.CustomCell;
 
 public class CustomScaleValueAnimator implements ObservationContract.CellTextSizeObserver {
+
     private final int id;
     private TableFragment tableFragment;
-
 
     public CustomScaleValueAnimator(TableFragment tableFragment, int id) {
         this.tableFragment = tableFragment;
@@ -41,7 +41,6 @@ public class CustomScaleValueAnimator implements ObservationContract.CellTextSiz
         });
         animator.start();
     }
-
 
     @Override
     public void updateSubject() {

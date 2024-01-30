@@ -27,7 +27,7 @@ import ru.schultetabledima.schultetable.database.StatisticAdapter;
 public class StatisticsPresenter extends MvpPresenter<StatisticsContract.View> implements StatisticsContract.Presenter {
 
     private StatisticAdapter statisticAdapter;
-    private final Context context = App.getContext();
+    private final Context context = App.getAppContext();
     private int quantityTables = 0;
     private String valueType = "";
     private String playedSizes = context.getString(R.string.allSize);
@@ -96,7 +96,7 @@ public class StatisticsPresenter extends MvpPresenter<StatisticsContract.View> i
         new Thread(() -> {
             Message msg = new Message();
 
-            AppDatabase db = App.getInstance().getDatabase();
+            AppDatabase db = App.getAppContext().getDatabase();
             ResultDao resultDao = db.resultDao();
 
             msg.obj = resultDao.getTableSize();
@@ -145,7 +145,7 @@ public class StatisticsPresenter extends MvpPresenter<StatisticsContract.View> i
         new Thread(() -> {
             Message msg = new Message();
 
-            AppDatabase db = App.getInstance().getDatabase();
+            AppDatabase db = App.getAppContext().getDatabase();
             ResultDao resultDao = db.resultDao();
 
             msg.obj = resultDao.getAll(ConstructQuery.getQuery(quantityTables, valueType, playedSizes));
@@ -208,7 +208,7 @@ public class StatisticsPresenter extends MvpPresenter<StatisticsContract.View> i
         new Thread(() -> {
             Message msg = new Message();
 
-            AppDatabase db = App.getInstance().getDatabase();
+            AppDatabase db = App.getAppContext().getDatabase();
             ResultDao resultDao = db.resultDao();
             resultDao.delete(result);
             results.remove(result);
