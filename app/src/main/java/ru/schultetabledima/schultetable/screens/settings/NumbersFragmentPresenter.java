@@ -15,7 +15,6 @@ public class NumbersFragmentPresenter {
 
     private void main() {
         preferencesWriter = new PreferencesWriter();
-
         numbersFragment.setSpinnerRowsSelection(PreferencesReader.INSTANCE.getRowsOfTableNumbers() - 1);
         numbersFragment.setSpinnerColumnsSelection(PreferencesReader.INSTANCE.getColumnsOfTableNumbers() - 1);
     }

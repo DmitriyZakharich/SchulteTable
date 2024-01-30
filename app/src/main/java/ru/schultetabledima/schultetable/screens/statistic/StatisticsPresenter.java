@@ -69,11 +69,11 @@ public class StatisticsPresenter extends MvpPresenter<StatisticsContract.View> i
         valueSpinnerQuantityTables = Arrays.asList(context.getResources().getStringArray(R.array.spinnerQuantityTables));
         valueSpinnerValueType = Arrays.asList(context.getResources().getStringArray(R.array.spinnerValueType));
 
-        ArrayAdapter<String> adapterQuantityTables = new ArrayAdapter(context, R.layout.custom_spinner_style,
+        ArrayAdapter<String> adapterQuantityTables = new ArrayAdapter<>(context, R.layout.custom_spinner_style,
                 valueSpinnerQuantityTables);
         adapterQuantityTables.setDropDownViewResource(R.layout.spin_item);
 
-        ArrayAdapter<String> adapterValueType = new ArrayAdapter(context, R.layout.custom_spinner_style, valueSpinnerValueType);
+        ArrayAdapter<String> adapterValueType = new ArrayAdapter<>(context, R.layout.custom_spinner_style, valueSpinnerValueType);
         adapterValueType.setDropDownViewResource(R.layout.spin_item);
 
         getViewState().setQuantityTablesAdapter(adapterQuantityTables);

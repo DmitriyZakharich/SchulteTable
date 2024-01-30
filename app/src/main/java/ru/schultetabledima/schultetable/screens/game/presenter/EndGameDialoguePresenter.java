@@ -33,7 +33,6 @@ public class EndGameDialoguePresenter {
 
     private void init() {
         saveTime = tablePresenter.getSaveTime();
-
         EndGameDialogueCreator endGameDialogueCreator = new EndGameDialogueCreator(dialogFragment, this, saveTime);
         dialogFragment.setDialog(endGameDialogueCreator.getDialog());
     }
@@ -67,7 +66,6 @@ public class EndGameDialoguePresenter {
         dialogFragment.dismiss();
     }
 
-
     private void databaseInsert() {
         dataPreparation();
 
@@ -80,17 +78,14 @@ public class EndGameDialoguePresenter {
         }).start();
     }
 
-
     private void dataPreparation() {
         getData();
         getValueType();
         getTimeResult();
 
         tableSize = PreferencesReader.INSTANCE.getRowsOfTable() + "x" + PreferencesReader.INSTANCE.getColumnsOfTable();
-
         quantityTables = PreferencesReader.INSTANCE.isTwoTables() ? 2 : 1;
     }
-
 
     private void getData() {
         Date currentDate = new Date();
@@ -102,8 +97,9 @@ public class EndGameDialoguePresenter {
         if (PreferencesReader.INSTANCE.isLetters()) {
             valueType = PreferencesReader.INSTANCE.isEnglish() ?
                     App.getAppContext().getString(R.string.languageEnglish) : App.getAppContext().getString(R.string.languageRussian);
-        } else
+        } else {
             valueType = App.getAppContext().getString(R.string.valueTypeNumbers);
+        }
     }
 
     private void getTimeResult() {

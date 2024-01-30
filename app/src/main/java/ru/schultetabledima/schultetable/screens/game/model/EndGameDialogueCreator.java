@@ -79,7 +79,6 @@ public class EndGameDialogueCreator {
             button.setVisibility(View.VISIBLE); //По умолчанию gone в XML
         }
 
-
         BannerAdView mBannerAdView = view.findViewById(R.id.banner_view2);
                 mBannerAdView.setAdUnitId("R-M-DEMO-300x250"); //тестовый id R-M-DEMO-300x250
 

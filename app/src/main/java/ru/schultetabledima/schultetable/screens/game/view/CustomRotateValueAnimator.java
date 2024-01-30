@@ -10,7 +10,6 @@ public class CustomRotateValueAnimator {
     private int id;
     private TableFragment tableFragment;
 
-
     public CustomRotateValueAnimator(TableFragment tableFragment, int id) {
         this.tableFragment = tableFragment;
         this.id = id;

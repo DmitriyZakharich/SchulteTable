@@ -39,7 +39,6 @@ public class PopupMenuCreator {
         return popupMenu;
     }
 
-
     PopupMenu.OnMenuItemClickListener onMenuItemClickListener = new PopupMenu.OnMenuItemClickListener() {
         @Override
         public boolean onMenuItemClick(MenuItem menuItem) {

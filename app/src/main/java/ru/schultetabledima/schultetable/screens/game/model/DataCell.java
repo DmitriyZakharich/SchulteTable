@@ -4,7 +4,6 @@ public class DataCell {
     private final int id;
     private final int value;
 
-
     private int typeAnimation = -1;
 
     public DataCell(int id, int value) {

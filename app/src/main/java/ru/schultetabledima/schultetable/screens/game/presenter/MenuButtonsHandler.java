@@ -14,7 +14,6 @@ import ru.schultetabledima.schultetable.utils.ScreenAnimationKt;
 public class MenuButtonsHandler {
 
     private TablePresenter presenter;
-//    private PreferencesReader settings;
     private boolean isMenuShow;
     private String KEY_MENU_VISIBILITY;
     private SharedPreferences sharedPreferencesMenu;
@@ -24,12 +23,6 @@ public class MenuButtonsHandler {
         isMenuShow = data.getIsMenuShow();
         sharedPreferencesMenu = data.getSharedPreferencesMenu();
         KEY_MENU_VISIBILITY = data.getKEY_MENU_VISIBILITY();
-
-        init();
-    }
-
-    private void init() {
-//        settings = new PreferencesReader();
     }
 
     public boolean checkClick(int viewID) {

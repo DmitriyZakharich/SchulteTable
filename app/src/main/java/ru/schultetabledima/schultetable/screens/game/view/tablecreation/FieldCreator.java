@@ -39,14 +39,12 @@ public class FieldCreator {
         createCells();
     }
 
-
     private void createField() {
         field = new TableLayout(context);
         field.setMotionEventSplittingEnabled(false);
         LinearLayout.LayoutParams llLayoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT, 1);
         field.setLayoutParams(llLayoutParams);
-
         field.setId(View.generateViewId());
     }
 
@@ -64,8 +62,8 @@ public class FieldCreator {
     }
 
     private void createCells() {
-
         cells = new CustomCell[PreferencesReader.INSTANCE.getRowsOfTable()][PreferencesReader.INSTANCE.getColumnsOfTable()];
+
         for (int i = 0; i < PreferencesReader.INSTANCE.getRowsOfTable(); i++) {
             for (int j = 0; j < PreferencesReader.INSTANCE.getColumnsOfTable(); j++) {
                 cells[i][j] = new CustomCell(context, PreferencesReader.INSTANCE.isLetters());
@@ -104,12 +102,10 @@ public class FieldCreator {
                 case MotionEvent.ACTION_UP:
                     tablePresenter.cellActionUp(view.getId());
                     return true;
-
             }
             return false;
         }
     };
-
 
     public TableLayout getField() {
         return field;

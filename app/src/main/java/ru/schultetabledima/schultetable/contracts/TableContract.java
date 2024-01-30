@@ -61,8 +61,7 @@ public interface TableContract {
         void clearingTheCommandQueue();
     }
 
-    interface Presenter {
-    }
+    interface Presenter {}
 
     interface Model {
         interface ValuesCreator{

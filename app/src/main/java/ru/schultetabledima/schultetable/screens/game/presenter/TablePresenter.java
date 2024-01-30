@@ -26,7 +26,6 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
     private boolean newSession = true; //Обработка BackStack. newSession - обнуление предыдущего сеанса до
                                         //перехода на другой фрагмент
 
-
     public TablePresenter() {
         main();
     }
@@ -47,7 +46,6 @@ public class TablePresenter extends MvpPresenter<TableContract.View> implements 
 
         newSession = false;
     }
-
 
     private void cleaningData() {
         saveTime = 0;

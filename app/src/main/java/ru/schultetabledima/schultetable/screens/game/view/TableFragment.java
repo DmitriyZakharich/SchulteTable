@@ -142,12 +142,10 @@ public class TableFragment extends BaseScreenFragment implements TableContract.V
         for (int i = 0; i < dataCells.size(); i++) {
 
             if (dataCells.get(i).getTypeAnimation() >= 0 && dataCells.get(i).getTypeAnimation() <= 2) {
-
                 Animation anim = animationList.get(dataCells.get(i).getTypeAnimation());
                 requireView().findViewById(dataCells.get(i).getId()).startAnimation(anim);
 
             } else {
-
                 if (dataCells.get(i).getTypeAnimation() == ROTATE_VALUE_ANIMATOR)
                     new CustomRotateValueAnimator(this, dataCells.get(i).getId());
 
@@ -177,7 +175,6 @@ public class TableFragment extends BaseScreenFragment implements TableContract.V
         new Handler().postDelayed(toast::cancel, 500);
     }
 
-
     @Override
     public void setAnimationToolbar(LayoutTransition layoutTransition) {
         binding.toolbar.setLayoutTransition(layoutTransition);
@@ -189,7 +186,6 @@ public class TableFragment extends BaseScreenFragment implements TableContract.V
             tablePresenter.onClickMenuButtonsListener(v.getId());
         }
     };
-
 
     @Override
     public void showHideMenu(int visibility, int visibilityHint, int imageResource, LinearLayout.LayoutParams layoutParams) {

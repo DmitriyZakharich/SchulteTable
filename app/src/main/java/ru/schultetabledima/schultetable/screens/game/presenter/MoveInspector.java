@@ -38,17 +38,20 @@ public class MoveInspector {
     }
 
     public void cellActionDown(int cellId) {
-        if (!isGameActive)
+        if (!isGameActive){
             return;
+        }
 
-        if (!PreferencesReader.INSTANCE.isTouchCells())
+        if (!PreferencesReader.INSTANCE.isTouchCells()) {
             presenter.endGameDialogue();
+        }
 
         try {
             if (PreferencesReader.INSTANCE.isTouchCells()) {
 
-                if (!PreferencesReader.INSTANCE.isTwoTables())
+                if (!PreferencesReader.INSTANCE.isTwoTables()) {
                     checkMoveInOneTable(cellId);
+                }
 
                 if (PreferencesReader.INSTANCE.isTwoTables()) {
 
@@ -62,7 +65,6 @@ public class MoveInspector {
             //Ошибка возникает, когда игра уже пройдена,
             //поэтому можно выводить результат,
             //а ошибку игнорировать
-
             FirebaseCrashlytics.getInstance().recordException(e);
             FirebaseCrashlytics.getInstance().sendUnsentReports();
         }
@@ -133,7 +135,6 @@ public class MoveInspector {
     }
 
     private void checkMoveInTwoTables(int cellId) throws IndexOutOfBoundsException {
-
         cellColor = Color.RED;
 
         if (activeTable == FIRST_TABLE_ID) {

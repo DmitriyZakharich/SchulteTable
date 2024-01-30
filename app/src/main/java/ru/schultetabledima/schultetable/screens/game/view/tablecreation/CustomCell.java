@@ -77,7 +77,6 @@ public class CustomCell extends AppCompatTextView implements ObservationContract
         centerX = width / 2;
         centerY = height / 2;
 
-
         mPaint.setAntiAlias(true);
         mPaint.setTextSize(getTextSize());
 

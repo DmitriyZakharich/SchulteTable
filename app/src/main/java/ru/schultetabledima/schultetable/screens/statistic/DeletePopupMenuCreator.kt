@@ -23,17 +23,14 @@ class DeletePopupMenuCreator(
         val wrapper: Context = ContextThemeWrapper(context, R.style.PopupMenuStyle)
         popupMenu = PopupMenu(wrapper, view!!)
         popupMenu.inflate(R.menu.statistic_menu)
-
         popupMenu.setOnMenuItemClickListener { item: MenuItem? ->
 
-            if  (item!!.itemId == R.id.item_delete)
+            if (item!!.itemId == R.id.item_delete) {
                 presenter.deleteRecordFromDB(result, position)
-
+            }
             true
         }
     }
 
     fun getPopupMenu(): PopupMenu = popupMenu
 }
-
-

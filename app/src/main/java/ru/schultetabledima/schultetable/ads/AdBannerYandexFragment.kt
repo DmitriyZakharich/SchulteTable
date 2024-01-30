@@ -25,8 +25,7 @@ class AdBannerYandexFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val mBannerAdView = view.findViewById<BannerAdView>(R.id.banner_view)
         mBannerAdView.setAdUnitId("R-M-DEMO-300x250")   //тестовый id R-M-DEMO-300x250
-
-
+        
         val adRequest = AdRequest.Builder().build()
         mBannerAdView.setBannerAdEventListener(object : BannerAdEventListener{
             override fun onAdLoaded() {}

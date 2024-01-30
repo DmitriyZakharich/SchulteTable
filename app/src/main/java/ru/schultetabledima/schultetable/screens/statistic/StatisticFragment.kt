@@ -42,9 +42,11 @@ class StatisticFragment : BaseScreenFragment(R.layout.fragment_statistics), Stat
     }
 
     private fun setSpinnersItemSelectedListener() {
-        binding.spinnerQuantityTables.onItemSelectedListener = this
-        binding.spinnerValueType.onItemSelectedListener = this
-        binding.spinnerPlayedSizes.onItemSelectedListener = this
+        with(binding){
+            spinnerQuantityTables.onItemSelectedListener = this@StatisticFragment
+            spinnerValueType.onItemSelectedListener = this@StatisticFragment
+            spinnerPlayedSizes.onItemSelectedListener = this@StatisticFragment
+        }
     }
 
     override fun onResume() {

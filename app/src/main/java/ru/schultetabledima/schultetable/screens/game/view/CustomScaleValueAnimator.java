@@ -37,7 +37,6 @@ public class CustomScaleValueAnimator implements ObservationContract.CellTextSiz
                 ((CustomCell) tableFragment.requireView().findViewById(id)).setAnimation(animatedValue, SCALE_ANIMATION);
                 ((CustomCell) tableFragment.requireView().findViewById(id)).setTextColor(Color.TRANSPARENT);
             }
-
         });
         animator.start();
     }
@@ -59,4 +58,3 @@ public class CustomScaleValueAnimator implements ObservationContract.CellTextSiz
             ((CustomCell) tableFragment.getView().findViewById(id)).unSubscribeObserver(this);
     }
 }
-

@@ -43,7 +43,6 @@ public class TableCreator {
         addAnimationTransition();
     }
 
-
     private void creatingContainerForTable() {
 
         containerForTable = new LinearLayout(context);
@@ -54,7 +53,6 @@ public class TableCreator {
 
 
         if (PreferencesReader.INSTANCE.isTwoTables()) {
-
             viewDivider = new View(context);
             viewDivider.setBackground(AppCompatResources.getDrawable(App.getAppContext(), R.drawable.table_separator));
 
@@ -96,7 +94,6 @@ public class TableCreator {
     private void addAnimationTransition() {
         new AnimationTransition(containerForTable);
     }
-
 
     public LinearLayout getContainerForTables() {
         return containerForTable;

@@ -11,8 +11,7 @@ public interface AdviceContract {
         void showAdvice(int index, String advice);
     }
 
-    interface Presenter {
-    }
+    interface Presenter {}
 
     interface Model {
         String getAdvice(int idResource);

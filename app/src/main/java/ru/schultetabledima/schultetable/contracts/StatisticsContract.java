@@ -29,11 +29,8 @@ public interface StatisticsContract {
     }
 
     interface Presenter {
-
         void spinnerItemSelected(int parentId, int position, String itemText);
     }
 
-    interface Model {
-
-    }
+    interface Model {}
 }

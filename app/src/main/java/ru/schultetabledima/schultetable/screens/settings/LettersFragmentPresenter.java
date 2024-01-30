@@ -17,7 +17,6 @@ public class LettersFragmentPresenter {
         lettersFragment.setSpinnerRowsSelection(PreferencesReader.INSTANCE.getRowsOfTableLetters() - 1);
         lettersFragment.setSpinnerColumnsSelection(PreferencesReader.INSTANCE.getColumnsOfTableLetters() - 1);
         lettersFragment.setSwitchRussianOrEnglish(PreferencesReader.INSTANCE.isEnglish());
-
     }
 
     public void lettersFragmentListener(int id, int position) {

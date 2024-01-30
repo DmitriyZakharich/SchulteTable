@@ -16,7 +16,6 @@ public class EndGameDialogueFragment extends BottomSheetDialogFragment {
 
     private TablePresenter tablePresenter;
     private Dialog dialog;
-
     private PassMeLinkOnObject view;
 
     public interface PassMeLinkOnObject {
@@ -44,7 +43,6 @@ public class EndGameDialogueFragment extends BottomSheetDialogFragment {
         view = (PassMeLinkOnObject) getParentFragment();
         tablePresenter = view.getTablePresenter();
         new EndGameDialoguePresenter(this, tablePresenter);
-
         return dialog;
     }
 }

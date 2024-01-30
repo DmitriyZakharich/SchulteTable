@@ -10,7 +10,6 @@ import java.util.Set;
 import ru.schultetabledima.schultetable.contracts.TableContract;
 import ru.schultetabledima.schultetable.utils.PreferencesReader;
 
-
 public class CellValuesCreator implements TableContract.Model.ValuesCreator {
     private List<Integer> listIdsForCheck;
     private List<DataCell> dataCells;
@@ -23,7 +22,6 @@ public class CellValuesCreator implements TableContract.Model.ValuesCreator {
     private void main() {
         calculationFirstValue();
         createValues();
-
         if (PreferencesReader.INSTANCE.isAnim()) {
             addAnimation();
         }
@@ -32,7 +30,6 @@ public class CellValuesCreator implements TableContract.Model.ValuesCreator {
     private void calculationFirstValue() {
         if (PreferencesReader.INSTANCE.isLetters()) {
             firstValue = (PreferencesReader.INSTANCE.isEnglish()) ? (int) 'A' : (int) 'А'; // eng/rus
-
         } else {
             firstValue = 1;
         }
@@ -41,24 +38,20 @@ public class CellValuesCreator implements TableContract.Model.ValuesCreator {
     private void createValues() {
         dataCells = new ArrayList<>();
         listIdsForCheck = new ArrayList<>();
-
         int nextValue = firstValue;
 
         for (int i = 0; i < PreferencesReader.INSTANCE.getColumnsOfTable() * PreferencesReader.INSTANCE.getRowsOfTable(); i++) {
-
             int id = View.generateViewId();
             dataCells.add(new DataCell(id, nextValue));
             listIdsForCheck.add(id);
             nextValue++;
         }
-
         Collections.shuffle(dataCells);
     }
 
     private void addAnimation() {
         Random random = new Random();
         Set<Integer> hsRandomForCellAnim = new HashSet<>();
-
         int amountCellAnim = dataCells.size();
 
         for (int i = 0; i < amountCellAnim; i++) {

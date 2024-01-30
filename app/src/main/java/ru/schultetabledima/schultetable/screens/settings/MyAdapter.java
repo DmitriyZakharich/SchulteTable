@@ -10,7 +10,6 @@ import java.util.List;
 public class MyAdapter extends FragmentStateAdapter {
     List<Fragment> fragments;
 
-
     public MyAdapter(@NonNull FragmentActivity fragmentActivity) {
         super(fragmentActivity);
     }

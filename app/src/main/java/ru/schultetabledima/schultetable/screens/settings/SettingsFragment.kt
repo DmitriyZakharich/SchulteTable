@@ -17,7 +17,6 @@ import ru.schultetabledima.schultetable.screens.main.MainActivity
 class SettingsFragment : BaseScreenFragment(R.layout.fragment_settings), View.OnClickListener {
 
     private val settingsPresenter = SettingsPresenter(this)
-
     private var _binding: FragmentSettingsBinding? = null
     private val binding get() = _binding!!
 
@@ -45,10 +44,12 @@ class SettingsFragment : BaseScreenFragment(R.layout.fragment_settings), View.On
     }
 
     private fun switchesSetOnClickListener() {
-        binding.switchAnimation.setOnClickListener(this)
-        binding.switchTouchCells.setOnClickListener(this)
-        binding.switchTwoTables.setOnClickListener(this)
-        binding.switchMoveHint.setOnClickListener(this)
+        with(binding) {
+            switchAnimation.setOnClickListener(this@SettingsFragment)
+            switchTouchCells.setOnClickListener(this@SettingsFragment)
+            switchTwoTables.setOnClickListener(this@SettingsFragment)
+            switchMoveHint.setOnClickListener(this@SettingsFragment)
+        }
     }
 
     private fun customizationViewPager() {

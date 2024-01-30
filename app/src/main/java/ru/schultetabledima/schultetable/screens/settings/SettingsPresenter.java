@@ -24,17 +24,18 @@ public class SettingsPresenter {
     }
 
     private void customizationSettingsActivity() {
-        ((SettingsFragment) context).switchTouchCellsSetChecked(PreferencesReader.INSTANCE.isTouchCells());
-        ((SettingsFragment) context).switchAnimationSetChecked(PreferencesReader.INSTANCE.isAnim());
-        ((SettingsFragment) context).switchTwoTablesSetChecked(PreferencesReader.INSTANCE.isTwoTables());
+        SettingsFragment settingsFragment = (SettingsFragment) context;
+        settingsFragment.switchTouchCellsSetChecked(PreferencesReader.INSTANCE.isTouchCells());
+        settingsFragment.switchAnimationSetChecked(PreferencesReader.INSTANCE.isAnim());
+        settingsFragment.switchTwoTablesSetChecked(PreferencesReader.INSTANCE.isTwoTables());
 
         boolean isSwitchMoveHintEnabled = PreferencesReader.INSTANCE.isTouchCells();
-        ((SettingsFragment) context).customizationSwitchMoveHint(isSwitchMoveHintEnabled, PreferencesReader.INSTANCE.isMoveHint());
+        settingsFragment.customizationSwitchMoveHint(isSwitchMoveHintEnabled, PreferencesReader.INSTANCE.isMoveHint());
 
         if (PreferencesReader.INSTANCE.isLetters()) {
-            ((SettingsFragment) context).setViewPagerCurrentItem(1);
+            settingsFragment.setViewPagerCurrentItem(1);
         } else {
-            ((SettingsFragment) context).setViewPagerCurrentItem(0);
+            settingsFragment.setViewPagerCurrentItem(0);
         }
     }
 
